@@ -6,6 +6,7 @@
 namespace core {
     template<typename T>
     class BinaryExpression {
+    public:
         virtual T evalutate(const Expression<T> *left, const Expression<T> *right) const = 0;
     };
 }
