@@ -13,8 +13,8 @@ namespace fuzzy {
     class FuzzyFactory : public ExpressionFactory<T> {
 
     public:
-        Expression<T> *newAnd(const Expression<T> *left, const Expression<T> *right);
         /*
+        Expression<T> *newAnd(const Expression<T> *left, const Expression<T> *right);
         newOr(l: Expression, r:Expression): Expression
         newThen(l: Expression, r:Expression): Expression
         newAgg(l: Expression, r:Expression): Expression
