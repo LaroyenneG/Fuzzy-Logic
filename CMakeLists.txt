@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.13)
 project(LogiqueFloue)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -pedantic -g")
 
-
-set(sources src/core/BinaryExpression.cpp src/core/BinaryExpression.h) # all projet source files
+set(SOURCES src/core/BinaryExpression.h src/core/Expression.h src/core/UnaryExpression.h) # all projet source files
 
 
 # please keep out !
@@ -15,11 +15,11 @@ include_directories(src/fuzzy)
 add_executable(
         LogiqueFloueTest
         test/main.cpp
-        ${sources})
+        ${SOURCES})
 
 add_library(
         LogiqueFloue
-        ${sources}
+        ${SOURCES}
 )
 
 target_link_libraries(LogiqueFloueTest pthread)
