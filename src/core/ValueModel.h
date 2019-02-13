@@ -9,7 +9,8 @@ namespace core {
     private:
         T value;
     public:
-        T evaluate(void) const;
+
+        T evaluate(void) const override;
 
         void setValue(T _v);
 
