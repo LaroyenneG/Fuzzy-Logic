@@ -7,28 +7,28 @@
 
 namespace core {
     template<typename T>
-    class UnaryExpressionModel : public Expression<T> {
+    class UnaryExpressionModel : public Expression<T>, public UnaryExpression<T> {
     private:
         UnaryExpression<T> *m_operator;
         Expression<T> *operand;
     public:
-        T evaluate(void) const override;
+        T evaluate() const override;
 
-        T evaluate(Expression<T> *o) const override;
+        T evaluate(const Expression<T> *o) const override;
     };
 
     template<typename T>
-    T UnaryExpressionModel<T>::evaluate(Expression<T> *o) const {
+    T UnaryExpressionModel<T>::evaluate(const Expression<T> *o) const {
         if (m_operator != nullptr)
             return m_operator->evaluate(o);
-        return nullptr;
+        return 0;
     }
 
     template<typename T>
-    T UnaryExpressionModel<T>::evaluate(void) const {
+    T UnaryExpressionModel<T>::evaluate() const {
         if (operand != nullptr)
             return evaluate(operand);
-        return nullptr;
+        return 0;
     }
 }
 

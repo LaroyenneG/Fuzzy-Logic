@@ -9,16 +9,20 @@ namespace core {
     private:
         T value;
     public:
+        ValueModel(T _value);
 
-        T evaluate(void) const override;
+        T evaluate() const override;
 
         void setValue(T _v);
-
     };
 
     template<typename T>
-    T ValueModel<T>::evaluate(void) const {
-        return nullptr;
+    ValueModel<T>::ValueModel(T _value) : value(_value) {
+    }
+
+    template<typename T>
+    T ValueModel<T>::evaluate() const {
+        return value;
     }
 
     template<typename T>

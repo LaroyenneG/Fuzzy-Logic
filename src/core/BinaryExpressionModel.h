@@ -10,28 +10,36 @@
 
 namespace core {
     template<typename T>
-    class BinaryExpressionModel : public BinaryExpression<T> {
+    class BinaryExpressionModel : public BinaryExpression<T>, public Expression<T> {
     private:
         BinaryExpression<T> *m_operator;
-        Expression<T> *left;
-        Expression<T> *right;
+        const Expression<T> *left;
+        const Expression<T> *right;
     public:
-        T evaluate(void) const override;
+        T evaluate() const override;
 
-        T evaluate(Expression<T> *l, Expression<T> *r) const override;
+        T evaluate(const Expression<T> *left, const Expression<T> *right) const override;
     };
 
+
     template<typename T>
-    T BinaryExpressionModel<T>::evaluate(Expression<T> *l, Expression<T> *r) const {
-        if (m_operator != nullptr)
-            return m_operator->evaluate(l, r);
+    T BinaryExpressionModel<T>::evaluate() const {
+
+        if (left != nullptr && right != nullptr) {
+            return evaluate(left, right);
+        }
+
+        return 0;
     }
 
     template<typename T>
-    T BinaryExpressionModel<T>::evaluate(void) const {
-        if (left != nullptr && right != nullptr)
-            return evaluate(left, right);
-        return nullptr;
+    T BinaryExpressionModel<T>::evaluate(const Expression<T> *left, const Expression<T> *right) const {
+
+        if (m_operator != nullptr) {
+            return m_operator->evaluate(left, right);
+        }
+
+        return 0;
     }
 
 }

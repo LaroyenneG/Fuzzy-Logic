@@ -16,9 +16,9 @@ namespace core {
     template<typename T>
     T BinaryShadowExpression<T>::evaluate(const Expression<T> *left, const Expression<T> *right) const {
         if (target != nullptr) {
-            return target->evaluate(*left, *right);
+            return target->evaluate(left, right);
         }
-        return nullptr;
+        return 0;
     }
 }
 
