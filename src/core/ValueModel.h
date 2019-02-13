@@ -9,7 +9,7 @@ namespace core {
     private:
         T value;
     public:
-        ValueModel(T _value);
+        explicit ValueModel(T _value);
 
         T evaluate() const override;
 
