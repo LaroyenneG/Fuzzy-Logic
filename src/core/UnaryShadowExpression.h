@@ -10,13 +10,13 @@ namespace core {
         T evaluate(const Expression<T> *expression) const override;
 
     private:
-        T *target;
+        UnaryExpression<T> *target;
     };
 
     template<typename T>
     T UnaryShadowExpression<T>::evaluate(const Expression<T> *expression) const {
         if (target != nullptr) {
-            return target.evaluate(*expression);
+            return target->evaluate(*expression);
         }
         return nullptr;
     }
