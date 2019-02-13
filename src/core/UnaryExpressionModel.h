@@ -20,7 +20,7 @@ namespace core {
     template<typename T>
     T UnaryExpressionModel<T>::evaluate(Expression<T> *o) const {
         if (m_operator != nullptr)
-            return m_operator.evaluate(o);
+            return m_operator->evaluate(o);
         return nullptr;
     }
 

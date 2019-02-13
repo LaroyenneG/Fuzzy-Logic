@@ -24,7 +24,7 @@ namespace core {
     template<typename T>
     T BinaryExpressionModel<T>::evaluate(Expression<T> *l, Expression<T> *r) const {
         if (m_operator != nullptr)
-            return m_operator.evaluate(l, r);
+            return m_operator->evaluate(l, r);
     }
 
     template<typename T>
