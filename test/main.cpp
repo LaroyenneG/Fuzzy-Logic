@@ -3,6 +3,9 @@
 #include <cppunit/ui/text/TestRunner.h>
 
 #include "core/ValueModelTest.h"
+#include "core/BinaryExpressionModelTest.h"
+#include "core/UnaryExpressionModelTest.h"
+#include "fuzzy/FuzzyFactoryTest.h"
 
 int main(int argc, char **argv) {
 
@@ -12,6 +15,9 @@ int main(int argc, char **argv) {
     }
 
     CPPUNIT_TEST_SUITE_REGISTRATION(ValueModelTest);
+    CPPUNIT_TEST_SUITE_REGISTRATION(BinaryExpressionModelTest);
+    CPPUNIT_TEST_SUITE_REGISTRATION(UnaryExpressionModelTest);
+    CPPUNIT_TEST_SUITE_REGISTRATION(FuzzyFactoryTest);
 
     CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
 

@@ -12,7 +12,7 @@ include_directories(src/fuzzy)
 
 file(GLOB_RECURSE CORE_SOURCES src/core/*) # all core source files
 file(GLOB_RECURSE FUZZY_SOURCES src/fuzzy/*) # all fuzzy source files
-file(GLOB_RECURSE TEST_SOURCES test/* test/core/* test/fussy/*) # all test source files
+file(GLOB_RECURSE TEST_SOURCES test/* test/core/* test/fuzzy/*) # all test source files
 
 
 add_executable(LogiqueFloueTest ${TEST_SOURCES} ${CORE_SOURCES} ${FUZZY_SOURCES})
