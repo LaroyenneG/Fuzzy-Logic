@@ -1,13 +1,8 @@
 #include <iostream>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
-#include <BinaryExpressionModel.h>
-#include <FuzzyFactory.h>
-#include <BinaryShadowExpression.h>
-#include <UnaryExpressionModel.h>
-#include <ValueModel.h>
 
-using namespace fuzzy;
+#include "core/ValueModelTest.h"
 
 int main(int argc, char **argv) {
 
@@ -16,18 +11,12 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    FuzzyFactory<float> fuzzyFactory;
+    CPPUNIT_TEST_SUITE_REGISTRATION(ValueModelTest);
 
-    BinaryExpressionModel<float> binaryExpressionModel;
-
-    BinaryShadowExpression<float> binaryShadowExpression;
-
-    UnaryExpressionModel<float> expressionModel;
-
-    ValueModel<float> model(0.0);
+    CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
 
     CppUnit::TextTestRunner runner;
-
+    runner.addTest(registry.makeTest());
     runner.run();
 
     return EXIT_SUCCESS;
