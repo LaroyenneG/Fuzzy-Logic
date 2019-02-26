@@ -13,6 +13,8 @@ CPPUNIT_TEST_SUITE(BinaryExpressionModelTest);
 
     CPPUNIT_TEST_SUITE_END();
 
+public:
+
 };
 
 

@@ -12,7 +12,7 @@ class UnaryExpressionModelTest : public CppUnit::TestFixture {
 CPPUNIT_TEST_SUITE(UnaryExpressionModelTest);
 
     CPPUNIT_TEST_SUITE_END();
-
+public:
 
 };
 
