@@ -10,8 +10,8 @@ using namespace core;
 class ValueModelTest : public CppUnit::TestFixture {
 
 CPPUNIT_TEST_SUITE(ValueModelTest);
-            CPPUNIT_TEST(testConstructor);
-            CPPUNIT_TEST(testSetter);
+        CPPUNIT_TEST(testConstructor);
+        CPPUNIT_TEST(testSetter);
     CPPUNIT_TEST_SUITE_END();
 
 public:
