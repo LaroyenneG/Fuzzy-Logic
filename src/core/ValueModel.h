@@ -13,7 +13,7 @@ namespace core {
 
         T evaluate() const override;
 
-        void setValue(T _v);
+        void setValue(const T &_v);
     };
 
     template<typename T>
@@ -26,7 +26,7 @@ namespace core {
     }
 
     template<typename T>
-    void ValueModel<T>::setValue(T _v) {
+    void ValueModel<T>::setValue(const T &_v) {
         value = _v;
     }
 }

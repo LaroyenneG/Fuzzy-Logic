@@ -1,7 +1,3 @@
-//
-// Created by rabougris on 2/12/19.
-//
-
 #ifndef LOGIQUEFLOUE_BINARYEXPRESSIONMODEL_H
 #define LOGIQUEFLOUE_BINARYEXPRESSIONMODEL_H
 
@@ -12,35 +8,52 @@ namespace core {
     template<typename T>
     class BinaryExpressionModel : public BinaryExpression<T>, public Expression<T> {
     private:
-        BinaryExpression<T> *m_operator;
+        const BinaryExpression<T> *bOperator;
         const Expression<T> *left;
         const Expression<T> *right;
     public:
+        explicit BinaryExpressionModel(const BinaryExpression<T> *_bOperator, const Expression<T> *_left,
+                                       const Expression<T> *_right);
+
+        explicit BinaryExpressionModel(const BinaryExpression<T> *_bOperator);
+
         T evaluate() const override;
 
         T evaluate(const Expression<T> *left, const Expression<T> *right) const override;
     };
 
+    template<typename T>
+    BinaryExpressionModel<T>::BinaryExpressionModel(const BinaryExpression<T> *_bOperator, const Expression<T> *_left,
+                                                    const Expression<T> *_right)
+            : bOperator(_bOperator), left(_left), right(_right) {
+
+    }
+
+    template<typename T>
+    BinaryExpressionModel<T>::BinaryExpressionModel(const BinaryExpression<T> *_bOperator)
+            : bOperator(_bOperator), left(nullptr), right(nullptr) {
+
+    }
+
 
     template<typename T>
     T BinaryExpressionModel<T>::evaluate() const {
 
-        if (left != nullptr && right != nullptr) {
-            return evaluate(left, right);
+        if (left == nullptr || right == nullptr) {
+            throw std::exception();
         }
 
-        return 0;
+        return evaluate(left, right);
     }
 
     template<typename T>
     T BinaryExpressionModel<T>::evaluate(const Expression<T> *left, const Expression<T> *right) const {
 
-        if (m_operator != nullptr) {
-            return m_operator->evaluate(left, right);
+        if (bOperator == nullptr) {
+            throw std::string("");
         }
 
-        return 0;
+        return bOperator->evaluate(left, right);
     }
-
 }
 #endif //LOGIQUEFLOUE_BINARYEXPRESSIONMODEL_H
