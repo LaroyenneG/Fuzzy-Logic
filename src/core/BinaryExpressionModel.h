@@ -1,7 +1,3 @@
-//
-// Created by rabougris on 2/12/19.
-//
-
 #ifndef LOGIQUEFLOUE_BINARYEXPRESSIONMODEL_H
 #define LOGIQUEFLOUE_BINARYEXPRESSIONMODEL_H
 
@@ -12,35 +8,44 @@ namespace core {
     template<typename T>
     class BinaryExpressionModel : public BinaryExpression<T>, public Expression<T> {
     private:
-        BinaryExpression<T> *m_operator;
+        const BinaryExpression<T> *mOperator;
         const Expression<T> *left;
         const Expression<T> *right;
     public:
+        explicit BinaryExpressionModel(const BinaryExpression<T> *_mOperator, const Expression<T> *_left,
+                                       const Expression<T> *_right);
+
+        explicit BinaryExpressionModel(const BinaryExpression<T> *_mOperator);
+
         T evaluate() const override;
 
         T evaluate(const Expression<T> *left, const Expression<T> *right) const override;
     };
 
+    template<typename T>
+    BinaryExpressionModel<T>::BinaryExpressionModel(const BinaryExpression<T> *_mOperator, const Expression<T> *_left,
+                                                    const Expression<T> *_right)
+            : mOperator(_mOperator), left(_left), right(_right) {
+
+    }
+
+    template<typename T>
+    BinaryExpressionModel<T>::BinaryExpressionModel(const BinaryExpression<T> *_mOperator)
+            : mOperator(_mOperator), left(nullptr), right(nullptr) {
+
+    }
+
 
     template<typename T>
     T BinaryExpressionModel<T>::evaluate() const {
 
-        if (left != nullptr && right != nullptr) {
-            return evaluate(left, right);
-        }
-
-        return 0;
+        return mOperator->evaluate(left, right);
     }
 
     template<typename T>
     T BinaryExpressionModel<T>::evaluate(const Expression<T> *left, const Expression<T> *right) const {
 
-        if (m_operator != nullptr) {
-            return m_operator->evaluate(left, right);
-        }
-
-        return 0;
+        return mOperator->evaluate(left, right);
     }
-
 }
 #endif //LOGIQUEFLOUE_BINARYEXPRESSIONMODEL_H
