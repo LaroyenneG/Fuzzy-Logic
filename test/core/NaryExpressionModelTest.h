@@ -2,6 +2,7 @@
 #define LOGIQUEFLOUE_NARYEXPRESSIONMODELTEST_H
 
 #include <cppunit/extensions/HelperMacros.h>
+#include <NaryExpressionModel.h>
 
 
 using namespace core;

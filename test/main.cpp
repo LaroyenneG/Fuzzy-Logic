@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
+#include <NaryExpressionModel.h>
 
 #include "core/ValueModelTest.h"
 #include "core/BinaryExpressionModelTest.h"
@@ -14,6 +15,8 @@ int main(int argc, char **argv) {
         std::cerr << "LogiqueFloue" << std::endl;
         exit(EXIT_FAILURE);
     }
+
+    core::NaryExpressionModel<float> model(nullptr);
 
     CPPUNIT_TEST_SUITE_REGISTRATION(ValueModelTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(BinaryExpressionModelTest);

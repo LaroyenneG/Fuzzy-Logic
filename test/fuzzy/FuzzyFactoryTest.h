@@ -8,6 +8,8 @@ class FuzzyFactoryTest : public CppUnit::TestFixture {
 
 CPPUNIT_TEST_SUITE(FuzzyFactoryTest);
     CPPUNIT_TEST_SUITE_END();
+public:
+
 
 };
 
