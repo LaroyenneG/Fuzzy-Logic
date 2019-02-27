@@ -8,7 +8,7 @@ namespace fuzzy {
     template<typename T>
     class AndMult : public And<T> {
     public:
-        T evaluate(const Expression<T> *left, const Expression<T> *right) const;
+        T evaluate(const Expression<T> *left, const Expression<T> *right) const override;
     };
 
     template<typename T>

@@ -7,7 +7,7 @@ namespace fuzzy {
     template<typename T>
     class AndMin : public And<T> {
     public:
-        T evaluate(const Expression<T> *left, const Expression<T> *right) const;
+        T evaluate(const Expression<T> *left, const Expression<T> *right) const override;
 
     };
 
