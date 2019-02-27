@@ -13,7 +13,9 @@ namespace fuzzy {
 
     template<typename T>
     T OrMax<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
-        return (left >= right) ? left : right;
+        T &leftValue = left->evaluate();
+        T &rightValue = right->evaluate();
+        return (leftValue >= rightValue) ? leftValue : rightValue;
     }
 }
 
