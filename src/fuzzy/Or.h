@@ -6,10 +6,7 @@
 namespace fuzzy {
     template<typename T>
     class Or : public core::BinaryExpression<T> {
-    public:
-        virtual T evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const = 0;
     };
-
 }
 
 

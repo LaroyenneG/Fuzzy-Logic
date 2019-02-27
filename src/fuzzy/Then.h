@@ -7,7 +7,6 @@ namespace fuzzy {
 
     template<typename T>
     class Then : public core::BinaryExpression<T> {
-
     };
 }
 
