@@ -13,7 +13,7 @@ file(GLOB_RECURSE FUZZY_SOURCES src/fuzzy/*) # all fuzzy source files
 file(GLOB_RECURSE TEST_SOURCES test/* test/core/* test/fuzzy/*) # all test source files
 
 
-add_executable(LogiqueFloueTest ${TEST_SOURCES} ${CORE_SOURCES} ${FUZZY_SOURCES})
+add_executable(LogiqueFloueTest ${TEST_SOURCES} ${CORE_SOURCES} ${FUZZY_SOURCES} src/fuzzy/And.h src/fuzzy/AndMin.h src/fuzzy/AndMult.h)
 
 target_link_libraries(LogiqueFloueTest pthread)
 target_link_libraries(LogiqueFloueTest cppunit)
