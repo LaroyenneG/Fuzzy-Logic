@@ -3,6 +3,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
+#include "AndMin.h"
 #include "OrMax.h"
 #include "BinaryExpressionModel.h"
 
@@ -13,10 +14,13 @@ class BinaryExpressionModelTest : public CppUnit::TestFixture {
 
 CPPUNIT_TEST_SUITE(BinaryExpressionModelTest);
             CPPUNIT_TEST(testOrMax);
+        CPPUNIT_TEST(testAndMin);
     CPPUNIT_TEST_SUITE_END();
 
 public:
     void testOrMax();
+
+    void testAndMin();
 
 };
 
