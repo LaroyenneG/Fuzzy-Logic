@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -pedantic -g")
 
 
+include_directories(lib/include)
+
 include_directories(src/core)
 include_directories(src/fuzzy)
 include_directories(src/exception)
@@ -17,5 +19,13 @@ file(GLOB_RECURSE TEST_SOURCES test/* test/core/* test/fuzzy/*) # all test sourc
 
 add_executable(LogiqueFloueTest ${TEST_SOURCES} ${CORE_SOURCES} ${FUZZY_SOURCES} ${EXCEPTION_SOURCES})
 
+if (UNIX)
+    set(CPPUNIT libcppunit.a)
+    message(STATUS "OS >>> UNIX")
+elseif (WIN32)
+    set(CPPUNIT libcppunit.ddl)
+    message(STATUS "OS >>> WINDOWS")
+endif ()
+
 target_link_libraries(LogiqueFloueTest pthread)
-target_link_libraries(LogiqueFloueTest cppunit)
+target_link_libraries(LogiqueFloueTest ${CMAKE_SOURCE_DIR}/lib/${CPPUNIT})
