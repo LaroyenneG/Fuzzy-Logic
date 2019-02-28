@@ -19,7 +19,6 @@ namespace core {
 
     template<typename T>
     BinaryShadowExpression<T>::BinaryShadowExpression(const BinaryExpression<T> *_target) : target(_target) {
-
     }
 
     template<typename T>

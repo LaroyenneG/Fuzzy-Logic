@@ -17,10 +17,17 @@ namespace core {
         const Expression<T> *operand;
 
     public:
+        explicit UnaryExpressionModel(const UnaryExpression<T> *_uOperator, const Expression<T> *_operand);
+
         T evaluate() const override;
 
         T evaluate(const Expression<T> *_operand) const override;
     };
+
+    template<typename T>
+    UnaryExpressionModel<T>::UnaryExpressionModel(const UnaryExpression<T> *_uOperator, const Expression<T> *_operand)
+            : uOperator(_uOperator), operand(_operand) {
+    }
 
     template<typename T>
     T UnaryExpressionModel<T>::evaluate(const Expression<T> *_operand) const {

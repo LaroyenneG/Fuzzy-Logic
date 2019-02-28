@@ -19,7 +19,6 @@ namespace core {
 
     template<typename T>
     UnaryShadowExpression<T>::UnaryShadowExpression(const UnaryExpression<T> *_target) : target(_target) {
-
     }
 
     template<typename T>
