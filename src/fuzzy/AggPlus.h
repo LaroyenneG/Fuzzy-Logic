@@ -1,16 +1,18 @@
 #ifndef LOGIQUEFLOUE_AGGPLUS_H
 #define LOGIQUEFLOUE_AGGPLUS_H
 
-namespace fuzzy {
+#include "Agg.h"
+#include "Expression.h"
 
+namespace fuzzy {
     template<typename T>
     class AggPlus : public Agg<T> {
     public :
-        T evaluate(const Expression <T> *left, const Expression <T> *right) const override;
+        T evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const override;
     };
 
     template<typename T>
-    T AggPlus<T>::evaluate(const Expression <T> *left, const Expression <T> *right) const {
+    T AggPlus<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
         return 0;
     }
 }

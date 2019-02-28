@@ -2,18 +2,17 @@
 #define LOGIQUEFLOUE_ANDMIN_H
 
 #include "And.h"
+#include "Expression.h"
 
 namespace fuzzy {
     template<typename T>
     class AndMin : public And<T> {
     public:
-        T evaluate(const Expression<T> *left, const Expression<T> *right) const override;
-
+        T evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const override;
     };
 
     template<typename T>
-    T AndMin<T>::evaluate(const Expression<T> *left, const Expression<T> *right) const {
-
+    T AndMin<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
         T l = left->evaluate();
         T r = right->evaluate();
 

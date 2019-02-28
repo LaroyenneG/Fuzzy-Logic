@@ -2,13 +2,11 @@
 #define LOGIQUEFLOUE_AND_H
 
 #include "BinaryExpression.h"
-#include "Expression.h"
 
-using namespace core;
 
 namespace fuzzy {
     template<typename T>
-    class And : public BinaryExpression<T> {
+    class And : public core::BinaryExpression<T> {
     public:
 
     };
