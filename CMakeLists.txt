@@ -20,10 +20,10 @@ file(GLOB_RECURSE TEST_SOURCES test/* test/core/* test/fuzzy/*) # all test sourc
 add_executable(LogiqueFloueTest ${TEST_SOURCES} ${CORE_SOURCES} ${FUZZY_SOURCES} ${EXCEPTION_SOURCES})
 
 if (UNIX)
-    set(CPPUNIT libcppunit.a)
+    set(CPPUNIT libcppunit-unix-64.a)
     message(STATUS "OS >>> UNIX")
 elseif (WIN32)
-    set(CPPUNIT libcppunit.ddl)
+    set(CPPUNIT libcppunit-win-64.a)
     message(STATUS "OS >>> WINDOWS")
 endif ()
 
