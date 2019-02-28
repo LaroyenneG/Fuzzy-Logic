@@ -1,7 +1,8 @@
 #ifndef LOGIQUEFLOUE_BINARYEXPRESSIONMODEL_H
 #define LOGIQUEFLOUE_BINARYEXPRESSIONMODEL_H
 
-#include <thread_db.h>
+#include "OperandNullException.h"
+#include "OperatorNullException.h"
 #include "BinaryExpression.h"
 
 namespace core {
@@ -40,7 +41,7 @@ namespace core {
     T BinaryExpressionModel<T>::evaluate() const {
 
         if (left == nullptr || right == nullptr) {
-            throw std::exception();
+            throw exception::OperandNullException();
         }
 
         return evaluate(left, right);
@@ -50,7 +51,7 @@ namespace core {
     T BinaryExpressionModel<T>::evaluate(const Expression<T> *left, const Expression<T> *right) const {
 
         if (bOperator == nullptr) {
-            throw std::string("");
+            throw exception::OperatorNullException();
         }
 
         return bOperator->evaluate(left, right);

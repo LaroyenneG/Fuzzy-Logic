@@ -2,7 +2,10 @@
 #define LOGIQUEFLOUE_NARYEXPRESSIONMODEL_H
 
 #include <exception>
-#include <NaryExpression.h>
+
+#include "NaryExpression.h"
+#include "OperatorNullException.h"
+#include "OperandNullException.h"
 
 namespace core {
 
@@ -63,7 +66,7 @@ namespace core {
     T NaryExpressionModel<T>::evaluate(const Expression<T> **_operands) const {
 
         if (nOperator == nullptr) {
-            throw std::invalid_argument("operator cannot be null");
+            throw exception::OperatorNullException();
         }
 
         return nOperator->evaluate(_operands);
@@ -73,7 +76,7 @@ namespace core {
     T NaryExpressionModel<T>::evaluate() const {
 
         if (operands == nullptr) {
-            throw std::invalid_argument("");
+            throw exception::OperandNullException();
         }
 
         return evaluate(operands);

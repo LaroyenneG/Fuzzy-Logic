@@ -1,24 +1,35 @@
 #ifndef LOGIQUEFLOUE_UNARYSHADOWEXPRESSION_H
 #define LOGIQUEFLOUE_UNARYSHADOWEXPRESSION_H
 
+#include "TargetNullException.h"
 #include "UnaryExpression.h"
 
 namespace core {
     template<typename T>
     class UnaryShadowExpression : public UnaryExpression<T> {
-    public:
-        T evaluate(const Expression<T> *expression) const override;
 
     private:
-        UnaryExpression<T> *target;
+        const UnaryExpression<T> *target;
+
+    public:
+        explicit UnaryShadowExpression(const UnaryExpression<T> *_target);
+
+        T evaluate(const Expression<T> *expression) const override;
     };
 
     template<typename T>
+    UnaryShadowExpression<T>::UnaryShadowExpression(const UnaryExpression<T> *_target) : target(_target) {
+
+    }
+
+    template<typename T>
     T UnaryShadowExpression<T>::evaluate(const Expression<T> *expression) const {
+
         if (target != nullptr) {
-            return target->evaluate(expression);
+            throw exception::TargetNullException();
         }
-        return 0;
+
+        return target->evaluate(expression);
     }
 }
 
