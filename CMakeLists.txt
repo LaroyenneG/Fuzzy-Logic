@@ -16,7 +16,6 @@ file(GLOB_RECURSE FUZZY_SOURCES src/fuzzy/*) # all fuzzy source files
 file(GLOB_RECURSE EXCEPTION_SOURCES src/exception/*) # all exception source files
 file(GLOB_RECURSE TEST_SOURCES test/* test/core/* test/fuzzy/*) # all test source files
 
-
 add_executable(LogiqueFloueTest ${TEST_SOURCES} ${CORE_SOURCES} ${FUZZY_SOURCES} ${EXCEPTION_SOURCES})
 
 if (UNIX)

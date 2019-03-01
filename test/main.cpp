@@ -10,6 +10,7 @@
 #include "core/UnaryExpressionModelTest.h"
 #include "core/NaryExpressionModelTest.h"
 #include "fuzzy/FuzzyFactoryTest.h"
+#include "fuzzy/AndTest.h"
 
 int main(int argc, char **argv) {
 
@@ -33,6 +34,7 @@ int main(int argc, char **argv) {
     CPPUNIT_TEST_SUITE_REGISTRATION(UnaryExpressionModelTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(NaryExpressionModelTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(FuzzyFactoryTest);
+    CPPUNIT_TEST_SUITE_REGISTRATION(AndTest);
 
     CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
 

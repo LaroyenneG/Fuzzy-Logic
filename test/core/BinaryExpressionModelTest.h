@@ -14,14 +14,10 @@ class BinaryExpressionModelTest : public CppUnit::TestFixture {
 
 CPPUNIT_TEST_SUITE(BinaryExpressionModelTest);
             CPPUNIT_TEST(testOrMax);
-        CPPUNIT_TEST(testAndMin);
     CPPUNIT_TEST_SUITE_END();
 
 public:
     void testOrMax();
-
-    void testAndMin();
-
 };
 
 
