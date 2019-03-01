@@ -13,7 +13,11 @@ namespace fuzzy {
 
     template<typename T>
     T OrPlus<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
-        return (left + right);
+
+        T leftValue = left->evaluate();
+        T rightValue = left->evaluate();
+
+        return leftValue + rightValue;
     }
 }
 

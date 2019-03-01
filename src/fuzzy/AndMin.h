@@ -13,10 +13,11 @@ namespace fuzzy {
 
     template<typename T>
     T AndMin<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
+
         T l = left->evaluate();
         T r = right->evaluate();
 
-        return ((l <= r) ? l : r);
+        return (l <= r) ? l : r;
     }
 }
 
