@@ -2,6 +2,7 @@
 #define LOGIQUEFLOUE_SHAPE_H
 
 #include <vector>
+#include <exception>
 #include <map>
 
 #include "PointAlreadyAddedShapeException.h"
@@ -17,6 +18,10 @@ namespace fuzzy {
         explicit Shape() = default;
 
         void addPoint(const T &x, const T &y);
+
+        const T &getX(unsigned int n) const;
+
+        const T &getY(unsigned int n) const;
     };
 
     template<typename T>
@@ -30,6 +35,26 @@ namespace fuzzy {
 
         points.first.push_back(x);
         points.second.push_back(y);
+    }
+
+    template<typename T>
+    const T &Shape<T>::getX(unsigned int n) const {
+
+        if (n >= points.first.size()) {
+            throw std::out_of_range("invalid index");
+        }
+
+        return &points.first[n];
+    }
+
+    template<typename T>
+    const T &Shape<T>::getY(unsigned int n) const {
+
+        if (n >= points.second.size()) {
+            throw std::out_of_range("invalid index");
+        }
+
+        return &points.second[n];
     }
 }
 

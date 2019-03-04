@@ -1,13 +1,26 @@
 
-#include <ValueModel.h>
+#include "ValueModel.h"
 #include "BinaryExpressionModelTest.h"
 
-void BinaryExpressionModelTest::testOrMax() {
 
-    ValueModel<double> valueModelA(0.5);
-    ValueModel<double> valueModelB(0.7);
+void BinaryExpressionModelTest::testOperandsNull() {
 
-    OrMax<double> orMax;
+    BinaryExpressionModel<double> binaryExpressionModel(nullptr, nullptr, nullptr);
 
-    CPPUNIT_ASSERT_EQUAL(0.7, orMax.evaluate(&valueModelA, &valueModelB));
+    try {
+        binaryExpressionModel.evaluate();
+        CPPUNIT_FAIL("missing exception");
+    } catch (exception::OperandNullException &e) {
+    }
+}
+
+void BinaryExpressionModelTest::testOperatorNull() {
+
+    BinaryExpressionModel<double> binaryExpressionModel(nullptr, nullptr, nullptr);
+
+    try {
+        binaryExpressionModel.evaluate(nullptr, nullptr);
+        CPPUNIT_FAIL("missing exception");
+    } catch (exception::OperatorNullException &e) {
+    }
 }
