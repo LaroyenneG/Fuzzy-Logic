@@ -2,13 +2,15 @@
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
 #include <BinaryShadowExpression.h>
-#include <NaryShadowExpression.h>
-#include <UnaryShadowExpression.h>
 
 #include "core/ValueModelTest.h"
 #include "core/BinaryExpressionModelTest.h"
 #include "core/UnaryExpressionModelTest.h"
 #include "core/NaryExpressionModelTest.h"
+#include "core/NaryShadowExpressionTest.h"
+#include "core/BinaryShadowExpressionTest.h"
+#include "core/UnaryShadowExpressionTest.h"
+
 #include "fuzzy/FuzzyFactoryTest.h"
 #include "fuzzy/AndTest.h"
 
@@ -19,20 +21,13 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    /**************************************** delete me **************************************************************/
-    NaryExpressionModel<double> naryExpressionModel(nullptr);
-    BinaryExpressionModel<double> binaryExpressionModel(nullptr, nullptr, nullptr);
-    UnaryExpressionModel<double> unaryExpressionModel(nullptr, nullptr);
-
-    BinaryShadowExpression<double> binaryShadowExpression(nullptr);
-    NaryShadowExpression<double> naryShadowExpression(nullptr);
-    UnaryShadowExpression<double> unaryShadowExpression(nullptr);
-    /****************************************************************************************************************/
-
     CPPUNIT_TEST_SUITE_REGISTRATION(ValueModelTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(BinaryExpressionModelTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(UnaryExpressionModelTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(NaryExpressionModelTest);
+    CPPUNIT_TEST_SUITE_REGISTRATION(NaryShadowExpressionTest);
+    CPPUNIT_TEST_SUITE_REGISTRATION(BinaryShadowExpressionTest);
+    CPPUNIT_TEST_SUITE_REGISTRATION(UnaryShadowExpressionTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(FuzzyFactoryTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(AndTest);
 

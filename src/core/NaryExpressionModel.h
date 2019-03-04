@@ -16,9 +16,9 @@ namespace core {
         const Expression<T> **operands;
         const NaryExpression<T> *nOperator;
 
-        static unsigned int elementCounter(const void **elements);
+        static unsigned int elementCounter(const Expression<T> **elements);
 
-        static void **allocate(unsigned int size);
+        static const Expression<T> **allocate(unsigned int size);
 
     public:
         explicit NaryExpressionModel(const NaryExpression<T> *_nOperator, const Expression<T> **_operands);
@@ -86,7 +86,7 @@ namespace core {
      * static functions
      */
     template<typename T>
-    unsigned int NaryExpressionModel<T>::elementCounter(const void **elements) {
+    unsigned int NaryExpressionModel<T>::elementCounter(const Expression<T> **elements) {
 
         unsigned int index = 0;
 
@@ -98,10 +98,10 @@ namespace core {
     }
 
     template<typename T>
-    void **NaryExpressionModel<T>::allocate(unsigned int size) {
+    const Expression<T> **NaryExpressionModel<T>::allocate(unsigned int size) {
 
-        void **table = new void *[size];
-        for (int i = 0; i < size; ++i) {
+        auto **table = new const Expression<T> *[size];
+        for (unsigned int i = 0; i < size; ++i) {
             table[i] = nullptr;
         }
 
