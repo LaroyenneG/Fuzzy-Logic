@@ -14,7 +14,7 @@ class OrTest : public CppUnit::TestFixture {
 CPPUNIT_TEST_SUITE(OrTest);
     CPPUNIT_TEST_SUITE_END();
 public:
-
+    void testOrMax();
 };
 
 
