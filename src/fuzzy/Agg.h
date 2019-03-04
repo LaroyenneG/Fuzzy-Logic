@@ -7,7 +7,6 @@ namespace fuzzy {
 
     template<typename T>
     class Agg : public core::BinaryExpression<T> {
-    public:
     };
 }
 
