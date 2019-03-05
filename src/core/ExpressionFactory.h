@@ -21,9 +21,9 @@ namespace core {
 
         Expression<T> *hold(const Expression<T> *expression);
 
-        static Expression<T> *newUnary(const UnaryExpression<T> *operand, const Expression<T> *expression);
+        Expression<T> *newUnary(const UnaryExpression<T> *operand, const Expression<T> *expression);
 
-        static Expression<T> *
+        Expression<T> *
         newBinary(const BinaryExpression<T> *operand, const Expression<T> *left, const Expression<T> *right);
     };
 
@@ -38,13 +38,13 @@ namespace core {
     template<typename T>
     Expression<T> *ExpressionFactory<T>::newUnary(const UnaryExpression<T> *operand, const Expression<T> *expression) {
 
-        return nullptr;
+        return hold(new UnaryExpression<T>(operand, expression));
     }
 
     template<typename T>
     Expression<T> *ExpressionFactory<T>::newBinary(const BinaryExpression<T> *operand, const Expression<T> *left,
                                                    const Expression<T> *right) {
-        return nullptr;
+        return hold(new BinaryExpression<T>(operand, left, right));
     }
 
     template<typename T>
