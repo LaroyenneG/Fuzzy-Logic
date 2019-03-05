@@ -5,12 +5,14 @@
 #include <exception>
 #include <map>
 
+#include "ShapeSerializationException.h"
 #include "PointAlreadyAddedShapeException.h"
 
 #define INDEX_ERROR_MSG "invalid index"
 
 #define OPEN_TABLE_CHAR '['
 #define CLOSE_TABLE_CHAR ']'
+#define SPACE_TABLE_CHAR ' '
 
 namespace fuzzy {
 
@@ -29,6 +31,8 @@ namespace fuzzy {
 
     public:
         explicit Shape() = default;
+
+        Shape(const Shape<T> &shape);
 
         explicit Shape(std::istream &istream);
 
@@ -54,6 +58,8 @@ namespace fuzzy {
 
         std::istream &operator>>(std::istream &istream);
 
+        Shape<T> &operator=(const Shape<T> &shape);
+
         bool operator==(const Shape<T> &other) const;
 
         template<typename Y>
@@ -63,6 +69,10 @@ namespace fuzzy {
     template<typename T>
     Shape<T>::Shape(std::istream &istream) {
         unSerialize(istream);
+    }
+
+    template<typename T>
+    Shape<T>::Shape(const Shape<T> &shape) : points(shape.points) {
     }
 
     template<typename T>
@@ -136,6 +146,10 @@ namespace fuzzy {
 
     template<typename T>
     void Shape<T>::unSerialize(std::istream &istream) {
+
+        points.first.clear();
+        points.second.clear();
+
         unSerializeVector(points.first, istream);
         unSerializeVector(points.second, istream);
     }
@@ -145,14 +159,14 @@ namespace fuzzy {
 
         ostream << vector.size();
 
-        ostream << ' ' << OPEN_TABLE_CHAR;
+        ostream << SPACE_TABLE_CHAR << OPEN_TABLE_CHAR;
 
         for (unsigned int i = 0; i < vector.size(); ++i) {
 
             ostream << vector[i];
 
             if (i + 1 < vector.size()) {
-                ostream << ' ';
+                ostream << SPACE_TABLE_CHAR;
             }
         }
 
@@ -171,7 +185,7 @@ namespace fuzzy {
         istream >> c;
 
         if (c != OPEN_TABLE_CHAR) {
-            throw std::string("bug");
+            throw exception::ShapeSerializationException();
         }
 
         for (unsigned int i = 0; i < size; ++i) {
@@ -186,7 +200,7 @@ namespace fuzzy {
         istream >> c;
 
         if (c != CLOSE_TABLE_CHAR) {
-            throw std::string("bug");
+            throw exception::ShapeSerializationException();
         }
     }
 
@@ -220,11 +234,18 @@ namespace fuzzy {
     template<typename T>
     bool Shape<T>::operator==(const Shape<T> &other) const {
 
-        if (this == &other) {
-            return true;
+        return this == &other || other.points == points;
+    }
+
+    template<typename T>
+    Shape<T> &Shape<T>::operator=(const Shape<T> &shape) {
+
+        if (this != &shape) {
+            points.first = shape.points.first;
+            points.second = shape.points.second;
         }
 
-        return other.points == points;
+        return *this;
     }
 }
 
