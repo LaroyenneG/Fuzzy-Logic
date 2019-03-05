@@ -13,9 +13,12 @@ using namespace fuzzy;
 class OrTest : public CppUnit::TestFixture {
 CPPUNIT_TEST_SUITE(OrTest);
         CPPUNIT_TEST(testOrMax);
+        CPPUNIT_TEST(testOrPlus);
     CPPUNIT_TEST_SUITE_END();
 public:
     void testOrMax();
+
+    void testOrPlus();
 };
 
 
