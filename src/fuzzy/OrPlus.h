@@ -15,7 +15,7 @@ namespace fuzzy {
     T OrPlus<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
 
         T leftValue = left->evaluate();
-        T rightValue = left->evaluate();
+        T rightValue = right->evaluate();
 
         return leftValue + rightValue;
     }
