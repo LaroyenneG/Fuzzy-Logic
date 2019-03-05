@@ -13,7 +13,7 @@ void FuzzyFactoryTest::andFactoryTest() {
     NotMinus<double> notMinus;
     AggMax<double> aggMax;
 
-    FuzzyFactory<double> FuzzyFact(&notMinus, &andMin, &orPlus, &thenMin, &aggMax);
+    //FuzzyFactory<double> FuzzyFact(&notMinus, &andMin, &orPlus, &thenMin, &aggMax);
 
     //OrPlus<double> OrFuzzy =  FuzzyFact.newOr(&valueModelA,&valueModelB);
     // CPPUNIT_ASSERT_EQUAL(1.3,OrFuzzy.evaluate(&ValueModelA,&ValueModelB));
