@@ -7,8 +7,9 @@
 #include "AndTest.h"
 #include "ValueModel.h"
 
-using namespace core;
 using namespace fuzzy;
+using namespace core;
+
 
 class AndTest : public CppUnit::TestFixture {
 

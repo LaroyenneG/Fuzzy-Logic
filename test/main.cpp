@@ -13,6 +13,8 @@
 
 #include "fuzzy/FuzzyFactoryTest.h"
 #include "fuzzy/AndTest.h"
+#include "fuzzy/OrTest.h"
+#include "fuzzy/NotMinusTest.h"
 
 int main(int argc, char **argv) {
 
@@ -29,7 +31,9 @@ int main(int argc, char **argv) {
     CPPUNIT_TEST_SUITE_REGISTRATION(BinaryShadowExpressionTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(UnaryShadowExpressionTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(FuzzyFactoryTest);
+    CPPUNIT_TEST_SUITE_REGISTRATION(OrTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(AndTest);
+    CPPUNIT_TEST_SUITE_REGISTRATION(NotMinusTest);
 
     CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
 
