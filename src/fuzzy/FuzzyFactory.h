@@ -23,7 +23,7 @@ namespace fuzzy {
         Or<T> *mOr;
         Agg<T> *mAgg;
         // Defuzz<T> m_defuzz; TODO be carefull to Defuzz classeS
-        Then<T> mThen;
+        Then<T> *mThen;
     public:
         // constructeur qui prend en paramettre des pointeurs
         FuzzyFactory<T>(Not<T> *, And<T> *, Or<T> *, Then<T> *, Agg<T> *);
