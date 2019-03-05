@@ -32,6 +32,8 @@ namespace fuzzy {
 
         explicit Shape(std::istream &istream);
 
+        ~Shape() = default;
+
         void addPoint(const T &x, const T &y);
 
         const T &getX(unsigned int n) const;
@@ -46,9 +48,14 @@ namespace fuzzy {
 
         void unSerialize(std::istream &istream);
 
+        unsigned long xSize() const;
+
+        unsigned long ySize() const;
+
         std::istream &operator>>(std::istream &istream);
 
-        friend std::ostream &operator<<(std::ostream &ostream, const Shape<T> &shape);
+        template<typename Y>
+        friend std::ostream &operator<<(std::ostream &ostream, const Shape<Y> &shape);
     };
 
     template<typename T>
@@ -59,7 +66,7 @@ namespace fuzzy {
     template<typename T>
     void Shape<T>::addPoint(const T &x, const T &y) {
 
-        for (int i = 0; i < points.first.size(); ++i) {
+        for (unsigned int i = 0; i < points.first.size(); ++i) {
             if (points.first[i] == x && points.second[i] == y) {
                 throw exception::PointAlreadyAddedShapeException();
             }
@@ -179,6 +186,17 @@ namespace fuzzy {
         if (c != CLOSE_TABLE_CHAR) {
             throw std::string("bug");
         }
+    }
+
+
+    template<typename T>
+    unsigned long Shape<T>::xSize() const {
+        return points.first.size();
+    }
+
+    template<typename T>
+    unsigned long Shape<T>::ySize() const {
+        return points.second.size();
     }
 
     template<typename T>
