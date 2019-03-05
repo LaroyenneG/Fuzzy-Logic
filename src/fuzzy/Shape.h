@@ -54,6 +54,8 @@ namespace fuzzy {
 
         std::istream &operator>>(std::istream &istream);
 
+        bool operator==(const Shape<T> &other) const;
+
         template<typename Y>
         friend std::ostream &operator<<(std::ostream &ostream, const Shape<Y> &shape);
     };
@@ -81,7 +83,7 @@ namespace fuzzy {
 
         safeIndexX(n);
 
-        return &points.first[n];
+        return points.first[n];
     }
 
     template<typename T>
@@ -89,7 +91,7 @@ namespace fuzzy {
 
         safeIndexY(n);
 
-        return &points.second[n];
+        return points.second[n];
     }
 
     template<typename T>
@@ -113,7 +115,7 @@ namespace fuzzy {
 
         safeIndexX(n);
 
-        return &points.first[n];
+        return points.first[n];
     }
 
     template<typename T>
@@ -121,7 +123,7 @@ namespace fuzzy {
 
         safeIndexY(n);
 
-        return &points.second[n];
+        return points.second[n];
     }
 
     template<typename T>
@@ -145,11 +147,11 @@ namespace fuzzy {
 
         ostream << ' ' << OPEN_TABLE_CHAR;
 
-        for (int i = 0; i < vector.size(); ++i) {
+        for (unsigned int i = 0; i < vector.size(); ++i) {
 
             ostream << vector[i];
 
-            if (i + 1 < vector.first.size()) {
+            if (i + 1 < vector.size()) {
                 ostream << ' ';
             }
         }
@@ -160,7 +162,7 @@ namespace fuzzy {
     template<typename T>
     void Shape<T>::unSerializeVector(std::vector<T> &vector, std::istream &istream) {
 
-        unsigned long size;
+        unsigned int size;
 
         istream >> size;
 
@@ -172,7 +174,7 @@ namespace fuzzy {
             throw std::string("bug");
         }
 
-        for (int i = 0; i < size; ++i) {
+        for (unsigned int i = 0; i < size; ++i) {
 
             T value = 0;
 
@@ -213,6 +215,16 @@ namespace fuzzy {
         unSerialize(istream);
 
         return istream;
+    }
+
+    template<typename T>
+    bool Shape<T>::operator==(const Shape<T> &other) const {
+
+        if (this == &other) {
+            return true;
+        }
+
+        return other.points == points;
     }
 }
 
