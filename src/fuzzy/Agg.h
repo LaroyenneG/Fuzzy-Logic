@@ -11,3 +11,4 @@ namespace fuzzy {
 }
 
 #endif //LOGIQUEFLOUE_AGG_H
+//comme un ou mais ca l'est pas
