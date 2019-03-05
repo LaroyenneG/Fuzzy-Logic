@@ -12,9 +12,9 @@
 #include "core/UnaryShadowExpressionTest.h"
 
 #include "fuzzy/FuzzyFactoryTest.h"
-#include "fuzzy/AndTest.h"
 #include "fuzzy/OrTest.h"
 #include "fuzzy/NotMinusTest.h"
+#include "fuzzy/ThenTest.h"
 
 int main(int argc, char **argv) {
 
@@ -34,6 +34,7 @@ int main(int argc, char **argv) {
     CPPUNIT_TEST_SUITE_REGISTRATION(OrTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(AndTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(NotMinusTest);
+    CPPUNIT_TEST_SUITE_REGISTRATION(ThenTest);
 
     CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
 
