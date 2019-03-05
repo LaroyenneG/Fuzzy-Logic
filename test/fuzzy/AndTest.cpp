@@ -9,3 +9,14 @@ void AndTest::testAndMin() {
 
     CPPUNIT_ASSERT_EQUAL(0.5, andMin.evaluate(&valueModelA, &valueModelB));
 }
+
+void AndTest::testAndMult() {
+
+    ValueModel valueModelA(0.5);
+    ValueModel valueModelB(0.7);
+
+    AndMult<double> andMult;
+
+    CPPUNIT_ASSERT_EQUAL(0.35, andMult.evaluate(&valueModelA, &valueModelB));
+
+}
