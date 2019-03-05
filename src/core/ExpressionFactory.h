@@ -1,10 +1,10 @@
 #ifndef LOGIQUEFLOUE_EXPRESSIONFACTORY_H
 #define LOGIQUEFLOUE_EXPRESSIONFACTORY_H
 
-#include <vector>
-#include <Expression.h>
-#include <UnaryExpression.h>
-#include <BinaryExpression.h>
+#include <set>
+#include "Expression.h"
+#include "UnaryExpression.h"
+#include "BinaryExpression.h"
 
 namespace core {
 
@@ -12,12 +12,12 @@ namespace core {
     class ExpressionFactory {
 
     private:
-        std::vector<const Expression<T> *> memory;
+        std::set<const Expression<T> *> memory;
 
     public:
         ExpressionFactory() = default;
 
-        ~ExpressionFactory() = default;
+        ~ExpressionFactory();
 
         Expression<T> *hold(const Expression<T> *expression);
 
@@ -29,7 +29,9 @@ namespace core {
 
     template<typename T>
     Expression<T> *ExpressionFactory<T>::hold(const Expression<T> *expression) {
+
         memory.push_back(expression);
+
         return expression;
     }
 
@@ -43,6 +45,14 @@ namespace core {
     Expression<T> *ExpressionFactory<T>::newBinary(const BinaryExpression<T> *operand, const Expression<T> *left,
                                                    const Expression<T> *right) {
         return nullptr;
+    }
+
+    template<typename T>
+    ExpressionFactory<T>::~ExpressionFactory() {
+
+        for (auto expression : memory) {
+            delete expression;
+        }
     }
 }
 
