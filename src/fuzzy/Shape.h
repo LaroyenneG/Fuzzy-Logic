@@ -56,11 +56,17 @@ namespace fuzzy {
 
         unsigned long ySize() const;
 
+        virtual bool equals(const Shape<T> &shape) const;
+
+        /* operators */
+
         std::istream &operator>>(std::istream &istream);
 
         Shape<T> &operator=(const Shape<T> &shape);
 
         bool operator==(const Shape<T> &other) const;
+
+        bool operator!=(const Shape<T> &other) const;
 
         template<typename Y>
         friend std::ostream &operator<<(std::ostream &ostream, const Shape<Y> &shape);
@@ -138,6 +144,7 @@ namespace fuzzy {
 
     template<typename T>
     void Shape<T>::serialize(std::ostream &ostream) const {
+
         serializeVector(points.first, ostream);
         ostream << std::endl;
         serializeVector(points.second, ostream);
@@ -204,7 +211,6 @@ namespace fuzzy {
         }
     }
 
-
     template<typename T>
     unsigned long Shape<T>::xSize() const {
         return points.first.size();
@@ -213,6 +219,11 @@ namespace fuzzy {
     template<typename T>
     unsigned long Shape<T>::ySize() const {
         return points.second.size();
+    }
+
+    template<typename T>
+    bool Shape<T>::equals(const Shape<T> &shape) const {
+        return this == &shape || shape.points == points;
     }
 
     template<typename T>
@@ -233,8 +244,7 @@ namespace fuzzy {
 
     template<typename T>
     bool Shape<T>::operator==(const Shape<T> &other) const {
-
-        return this == &other || other.points == points;
+        return equals(other);
     }
 
     template<typename T>
@@ -246,6 +256,11 @@ namespace fuzzy {
         }
 
         return *this;
+    }
+
+    template<typename T>
+    bool Shape<T>::operator!=(const Shape<T> &other) const {
+        return !equals(other);
     }
 }
 
