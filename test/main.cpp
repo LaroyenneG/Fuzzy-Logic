@@ -16,6 +16,7 @@
 #include "fuzzy/OrTest.h"
 #include "fuzzy/NotMinusTest.h"
 #include "fuzzy/ThenTest.h"
+#include "fuzzy/IsTest.h"
 #include "fuzzy/AggTest.h"
 
 int main(int argc, char **argv) {
