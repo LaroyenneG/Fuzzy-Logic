@@ -36,7 +36,7 @@ namespace fuzzy {
 
         explicit Shape(std::istream &istream);
 
-        ~Shape() = default;
+        virtual ~Shape() = default;
 
         void addPoint(const T &x, const T &y);
 
