@@ -12,7 +12,7 @@ namespace core {
         UnaryExpression<T> *target;
 
     public:
-        explicit UnaryShadowExpression(const UnaryExpression<T> *_target);
+        explicit UnaryShadowExpression(UnaryExpression <T> *_target);
 
         T evaluate(const Expression<T> *expression) const override;
 
@@ -22,7 +22,7 @@ namespace core {
     };
 
     template<typename T>
-    UnaryShadowExpression<T>::UnaryShadowExpression(const UnaryExpression<T> *_target) : target(_target) {
+    UnaryShadowExpression<T>::UnaryShadowExpression(UnaryExpression <T> *_target) : target(_target) {
     }
 
     template<typename T>

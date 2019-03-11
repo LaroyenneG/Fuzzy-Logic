@@ -12,7 +12,7 @@ namespace core {
         BinaryExpression<T> *target;
 
     public:
-        explicit BinaryShadowExpression(const BinaryExpression<T> *_target);
+        explicit BinaryShadowExpression(BinaryExpression <T> *_target);
 
         T evaluate(const Expression<T> *left, const Expression<T> *right) const override;
 
@@ -22,7 +22,7 @@ namespace core {
     };
 
     template<typename T>
-    BinaryShadowExpression<T>::BinaryShadowExpression(const BinaryExpression<T> *_target) : target(_target) {
+    BinaryShadowExpression<T>::BinaryShadowExpression(BinaryExpression <T> *_target) : target(_target) {
     }
 
     template<typename T>

@@ -1,6 +1,6 @@
 #include "FuzzyFactoryTest.h"
 
-void FuzzyFactoryTest::andFactoryTest() {
+void FuzzyFactoryTest::FactoryTest() {
 
     ValueModel valueModelA(0.5);
     ValueModel valueModelB(0.7);
@@ -32,8 +32,12 @@ void FuzzyFactoryTest::andFactoryTest() {
     ThenMin<double> *thenFuzzy = (ThenMin<double>*)fuzzyFact.newThen(&valueModelA,&valueModelB);
     CPPUNIT_ASSERT_EQUAL(0.5,thenFuzzy->evaluate(&valueModelA,&valueModelB));
 
-    
+    AggMax<double> *aggFuzzy = (AggMax<double> *) fuzzyFact.newAgg(&valueModelA, &valueModelB);
+    CPPUNIT_ASSERT_EQUAL(0.7, aggFuzzy->evaluate(&valueModelA, &valueModelB));
 
-
-
+    /* NotMinus<double> *notFuzzy = (NotMinus<double>*)fuzzyFact.newNot(&valueModelB);
+     double result = notFuzzy->evaluate(&valueModelB);
+    double expected = 0.3;
+     CPPUNIT_ASSERT_EQUAL(round(expected * 1000), round(result * 1000));
+ */
 }

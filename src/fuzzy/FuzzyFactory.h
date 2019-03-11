@@ -80,6 +80,4 @@ namespace fuzzy {
         return newUnary(s, o);
     }
 }
-
-
 #endif //LOGIQUEFLOUE_FUZZYFACTORY_H

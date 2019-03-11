@@ -21,7 +21,7 @@ namespace core {
 
         ~ExpressionFactory();
 
-        Expression<T> *hold(Expression<T> *expression);
+        Expression<T> *hold(Expression <T> *expression);
 
         Expression<T> *newUnary(const UnaryExpression<T> *operand, const Expression<T> *expression);
 
@@ -30,7 +30,7 @@ namespace core {
     };
 
     template<typename T>
-    Expression<T> *ExpressionFactory<T>::hold(Expression<T> *expression) {
+    Expression<T> *ExpressionFactory<T>::hold(Expression <T> *expression) {
 
         memory.insert(expression);
 

@@ -19,10 +19,10 @@
 class FuzzyFactoryTest : public CppUnit::TestFixture {
 
 CPPUNIT_TEST_SUITE(FuzzyFactoryTest);
-        CPPUNIT_TEST(andFactoryTest);
+            CPPUNIT_TEST(FactoryTest);
     CPPUNIT_TEST_SUITE_END();
 public:
-    void andFactoryTest();
+    void FactoryTest();
 
 };
 
