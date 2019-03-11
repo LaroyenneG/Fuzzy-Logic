@@ -4,8 +4,7 @@ void FuzzyFactoryTest::andFactoryTest() {
 
     ValueModel valueModelA(0.5);
     ValueModel valueModelB(0.7);
-    ValueModel valueModelC(0.3);
-    ValueModel valueModelD(0.4);
+
 
     AndMin<double> andMin;
     OrPlus<double> orPlus;
@@ -13,8 +12,28 @@ void FuzzyFactoryTest::andFactoryTest() {
     NotMinus<double> notMinus;
     AggMax<double> aggMax;
 
-    //FuzzyFactory<double> FuzzyFact(&notMinus, &andMin, &orPlus, &thenMin, &aggMax);
+    UnaryShadowExpression<double> shadowNot(&notMinus);
+    BinaryShadowExpression<double> shadowAnd(&andMin);
+    BinaryShadowExpression<double> shadowOr(&orPlus);
+    BinaryShadowExpression<double> shadowThen(&thenMin);
+    BinaryShadowExpression<double> shadowAgg(&aggMax);
 
-    //OrPlus<double> OrFuzzy =  FuzzyFact.newOr(&valueModelA,&valueModelB);
-    // CPPUNIT_ASSERT_EQUAL(1.3,OrFuzzy.evaluate(&ValueModelA,&ValueModelB));
+
+
+    FuzzyFactory<double> fuzzyFact(&shadowNot, &shadowAnd, &shadowOr, &shadowThen, &shadowAgg);
+
+    AndMin<double> *andFuzzy = (AndMin<double> *)fuzzyFact.newAnd(&valueModelA,&valueModelB);
+    CPPUNIT_ASSERT_EQUAL(0.5,andFuzzy->evaluate(&valueModelA,&valueModelB));
+
+
+    OrPlus<double> *orFuzzy = (OrPlus<double> *)fuzzyFact.newOr(&valueModelA,&valueModelB);
+    CPPUNIT_ASSERT_EQUAL(1.2,orFuzzy->evaluate(&valueModelA,&valueModelB));
+
+    ThenMin<double> *thenFuzzy = (ThenMin<double>*)fuzzyFact.newThen(&valueModelA,&valueModelB);
+    CPPUNIT_ASSERT_EQUAL(0.5,thenFuzzy->evaluate(&valueModelA,&valueModelB));
+
+    
+
+
+
 }

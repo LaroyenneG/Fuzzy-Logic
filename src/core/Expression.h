@@ -6,6 +6,7 @@ namespace core {
     class Expression {
     public:
         virtual T evaluate() const = 0;
+        virtual ~Expression() = default;
     };
 }
 

@@ -20,18 +20,6 @@ namespace core {
 
         T evaluate(const Expression <T> *left, const Expression <T> *right) const override;
 
-        Expression <T> *GetLeft();
-
-        Expression <T> *GetRigft();
-
-        BinaryExpression <T> *GetOperator();
-
-        void SetLeft(Expression <T> *);
-
-        void SetRight(Expression <T> *);
-
-        void SetOperator(BinaryExpression <T> *);
-
     };
 
     template<typename T>
@@ -60,37 +48,5 @@ namespace core {
 
         return bOperator->evaluate(left, right);
     }
-
-    template<typename T>
-    Expression <T> *BinaryExpressionModel<T>::GetLeft() {
-        return left;
-    }
-
-    template<typename T>
-    Expression <T> *BinaryExpressionModel<T>::GetRigft() {
-        return right;
-    }
-
-    template<typename T>
-    BinaryExpression <T> *BinaryExpressionModel<T>::GetOperator() {
-        return bOperator;
-    }
-
-    template<typename T>
-    void BinaryExpressionModel<T>::SetLeft(Expression <T> *_left) {
-        left = _left;
-    }
-
-    template<typename T>
-    void BinaryExpressionModel<T>::SetRight(Expression <T> *_right) {
-        right = _right;
-    }
-
-    template<typename T>
-    void BinaryExpressionModel<T>::SetOperator(BinaryExpression <T> *_bOperator) {
-        bOperator = _bOperator;
-    }
-
-
 }
 #endif //LOGIQUEFLOUE_BINARYEXPRESSIONMODEL_H

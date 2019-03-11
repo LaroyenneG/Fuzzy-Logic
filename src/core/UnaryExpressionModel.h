@@ -23,13 +23,6 @@ namespace core {
 
         T evaluate(const Expression<T> *_operand) const override;
 
-        Expression<T> *GetuOperator();
-
-        Expression<T> *GetOperand();
-
-        void SetuOperator(Expression<T> *);
-
-        void SetOperand(Expression<T> *);
 
     };
 
@@ -56,26 +49,6 @@ namespace core {
         }
 
         return evaluate(operand);
-    }
-
-    template<typename T>
-    Expression<T> *UnaryExpressionModel<T>::GetuOperator() {
-        return uOperator;
-    }
-
-    template<typename T>
-    Expression<T> *UnaryExpressionModel<T>::GetOperand() {
-        return operand;
-    }
-
-    template<typename T>
-    void UnaryExpressionModel<T>::SetuOperator(Expression<T> *_uOperator) {
-        uOperator = _uOperator;
-    }
-
-    template<typename T>
-    void UnaryExpressionModel<T>::SetOperand(Expression<T> *_operand) {
-        operand = _operand;
     }
 }
 

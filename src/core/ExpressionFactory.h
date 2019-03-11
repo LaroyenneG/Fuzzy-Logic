@@ -5,6 +5,8 @@
 #include "Expression.h"
 #include "UnaryExpression.h"
 #include "BinaryExpression.h"
+#include "UnaryExpressionModel.h"
+#include "BinaryExpressionModel.h"
 
 namespace core {
 
@@ -19,7 +21,7 @@ namespace core {
 
         ~ExpressionFactory();
 
-        Expression<T> *hold(const Expression<T> *expression);
+        Expression<T> *hold(Expression<T> *expression);
 
         Expression<T> *newUnary(const UnaryExpression<T> *operand, const Expression<T> *expression);
 
@@ -28,9 +30,9 @@ namespace core {
     };
 
     template<typename T>
-    Expression<T> *ExpressionFactory<T>::hold(const Expression<T> *expression) {
+    Expression<T> *ExpressionFactory<T>::hold(Expression<T> *expression) {
 
-        memory.push_back(expression);
+        memory.insert(expression);
 
         return expression;
     }
@@ -38,13 +40,13 @@ namespace core {
     template<typename T>
     Expression<T> *ExpressionFactory<T>::newUnary(const UnaryExpression<T> *operand, const Expression<T> *expression) {
 
-        return hold(new UnaryExpression<T>(operand, expression));
+        return hold(new UnaryExpressionModel<T>(operand, expression));
     }
 
     template<typename T>
     Expression<T> *ExpressionFactory<T>::newBinary(const BinaryExpression<T> *operand, const Expression<T> *left,
                                                    const Expression<T> *right) {
-        return hold(new BinaryExpression<T>(operand, left, right));
+        return hold(new BinaryExpressionModel<T>(operand, left, right));
     }
 
     template<typename T>
