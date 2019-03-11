@@ -15,9 +15,12 @@ using namespace fuzzy;
 class AggTest : public CppUnit::TestFixture {
 CPPUNIT_TEST_SUITE(AggTest);
         CPPUNIT_TEST(testAggMax);
+            CPPUNIT_TEST(testAggPlus);
     CPPUNIT_TEST_SUITE_END();
 public:
     void testAggMax();
+
+    void testAggPlus();
 
 };
 
