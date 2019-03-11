@@ -13,7 +13,11 @@ namespace fuzzy {
 
     template<typename T>
     T AggPlus<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
-        return 0;
+
+        T leftValue = left->evaluate();
+        T rightValue = right->evaluate();
+
+        return leftValue + rightValue;
     }
 }
 #endif //LOGIQUEFLOUE_AGGPLUS_H
