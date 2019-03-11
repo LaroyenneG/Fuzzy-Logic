@@ -17,6 +17,7 @@
 #include "fuzzy/NotMinusTest.h"
 #include "fuzzy/ThenTest.h"
 #include "fuzzy/IsTest.h"
+#include "fuzzy/AggTest.h"
 
 int main(int argc, char **argv) {
 
@@ -35,10 +36,10 @@ int main(int argc, char **argv) {
     CPPUNIT_TEST_SUITE_REGISTRATION(FuzzyFactoryTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(OrTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(AndTest);
+    CPPUNIT_TEST_SUITE_REGISTRATION(AggTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(NotMinusTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(ThenTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(ShapeTest);
-    CPPUNIT_TEST_SUITE_REGISTRATION(IsTest);
 
     CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
 
