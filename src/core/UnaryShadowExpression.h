@@ -9,12 +9,16 @@ namespace core {
     class UnaryShadowExpression : public UnaryExpression<T> {
 
     private:
-        const UnaryExpression<T> *target;
+        UnaryExpression<T> *target;
 
     public:
         explicit UnaryShadowExpression(const UnaryExpression<T> *_target);
 
         T evaluate(const Expression<T> *expression) const override;
+
+        const UnaryExpression<T> *getTarget() const;
+
+        void setTarget(UnaryExpression<T> *_target);
     };
 
     template<typename T>
@@ -29,6 +33,16 @@ namespace core {
         }
 
         return target->evaluate(expression);
+    }
+
+    template<typename T>
+    const UnaryExpression<T> *UnaryShadowExpression<T>::getTarget() const {
+        return target;
+    }
+
+    template<typename T>
+    void UnaryShadowExpression<T>::setTarget(UnaryExpression<T> *_target) {
+        target = _target;
     }
 }
 

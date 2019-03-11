@@ -16,6 +16,10 @@ namespace core {
         explicit NaryShadowExpression(NaryExpression<T> *_target);
 
         T evaluate(const Expression<T> **operands) const;
+
+        const NaryExpression<T> *getTarget() const;
+
+        void setTarget(NaryExpression<T> *_target);
     };
 
     template<typename T>
@@ -30,6 +34,16 @@ namespace core {
         }
 
         return target->evaluate(operands);
+    }
+
+    template<typename T>
+    const NaryExpression<T> *NaryShadowExpression<T>::getTarget() const {
+        return target;
+    }
+
+    template<typename T>
+    void NaryShadowExpression<T>::setTarget(NaryExpression<T> *_target) {
+        target = _target;
     }
 }
 
