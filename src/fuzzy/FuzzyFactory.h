@@ -42,7 +42,18 @@ namespace fuzzy {
 
         core::UnaryExpression<T> *newNot(core::Expression<T> *o);
 
-        // core::Expression<T> *newIs(Is<T> *s, core::Expression<T> *o);
+        core::UnaryExpression<T> *newIs(Is<T> *s, core::Expression<T> *o);
+
+        void changeAnd(fuzzy::And<T> *);
+
+        void changeOr(fuzzy::Or<T> *);
+
+        void changeAgg(fuzzy::Agg<T> *);
+
+        void changeThen(fuzzy::Then<T> *);
+
+        void changeNot(fuzzy::Not<T> *);
+
     };
 
     template<typename T>
@@ -74,11 +85,36 @@ namespace fuzzy {
     core::UnaryExpression<T> *FuzzyFactory<T>::newNot(core::Expression<T> *o) {
         return core::ExpressionFactory<T>::newUnary(mNot, o);
     }
-/*
+
     template<typename T>
-    core::Expression<T> *FuzzyFactory<T>::newIs(Is<T> *s, core::Expression<T> *o) {
-        return newUnary(s, o);
+    core::UnaryExpression<T> *FuzzyFactory<T>::newIs(Is<T> *s, core::Expression<T> *o) {
+        return core::ExpressionFactory<T>::newUnary(s, o);
     }
-    */
+
+    template<typename T>
+    void FuzzyFactory<T>::changeAnd(fuzzy::And<T> *o) {
+        mAnd->setTarget(o);
+    }
+
+    template<typename T>
+    void FuzzyFactory<T>::changeOr(fuzzy::Or<T> *o) {
+        mOr->setTarget(o);
+    }
+
+    template<typename T>
+    void FuzzyFactory<T>::changeAgg(fuzzy::Agg<T> *o) {
+        mAgg->setTarget(o);
+    }
+
+    template<typename T>
+    void FuzzyFactory<T>::changeThen(fuzzy::Then<T> *o) {
+        mThen->setTarget(o);
+    }
+
+    template<typename T>
+    void FuzzyFactory<T>::changeNot(fuzzy::Not<T> *o) {
+        mNot->setTarget(o);
+    }
+
 }
 #endif //LOGIQUEFLOUE_FUZZYFACTORY_H

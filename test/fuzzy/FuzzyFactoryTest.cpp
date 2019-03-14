@@ -39,4 +39,13 @@ void FuzzyFactoryTest::FactoryTest() {
     double result = notFuzzy->evaluate(&valueModelB);
     double expected = 0.3;
     CPPUNIT_ASSERT_EQUAL(round(expected * 1000), round(result * 1000));
+
+
+    AndMult<double> andMult;
+    fuzzyFact.changeAnd(&andMult);
+    AndMult<double> *andMultFuzzy = (AndMult<double> *) fuzzyFact.newAnd(&valueModelA, &valueModelB);
+    CPPUNIT_ASSERT_EQUAL(0.35, andMultFuzzy->evaluate(&valueModelA, &valueModelB));
+
+
+
 }
