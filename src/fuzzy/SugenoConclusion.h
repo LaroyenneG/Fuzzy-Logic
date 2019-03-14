@@ -19,7 +19,7 @@ namespace fuzzy {
     template<typename T>
 
     T SugenoConclusion<T>::evaluate(const core::Expression<T> **operands) const {
-        return nullptr;
+        return 0;
     }
 }
 

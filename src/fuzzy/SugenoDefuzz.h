@@ -16,7 +16,7 @@ namespace fuzzy {
     template<typename T>
 
     T SugenoDefuzz<T>::evaluate(const core::Expression<T> **oprands) const {
-        return nullptr;
+        return 0;
     }
 }
 
