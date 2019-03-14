@@ -28,7 +28,7 @@ namespace core {
     template<typename T>
     T UnaryShadowExpression<T>::evaluate(const Expression<T> *expression) const {
 
-        if (target != nullptr) {
+        if (target == nullptr) {
             throw exception::TargetNullException();
         }
 

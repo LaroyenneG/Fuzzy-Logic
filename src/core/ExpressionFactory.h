@@ -23,9 +23,9 @@ namespace core {
 
         Expression<T> *hold(Expression <T> *expression);
 
-        Expression<T> *newUnary(const UnaryExpression<T> *operand, const Expression<T> *expression);
+        UnaryExpression<T> *newUnary(const UnaryExpression<T> *operand, const Expression<T> *expression);
 
-        Expression<T> *
+        BinaryExpression<T> *
         newBinary(const BinaryExpression<T> *operand, const Expression<T> *left, const Expression<T> *right);
     };
 
@@ -38,15 +38,17 @@ namespace core {
     }
 
     template<typename T>
-    Expression<T> *ExpressionFactory<T>::newUnary(const UnaryExpression<T> *operand, const Expression<T> *expression) {
+    UnaryExpression<T> *
+    ExpressionFactory<T>::newUnary(const UnaryExpression<T> *operand, const Expression<T> *expression) {
 
-        return hold(new UnaryExpressionModel<T>(operand, expression));
+        return dynamic_cast<UnaryExpression<T> *>(hold(new UnaryExpressionModel<T>(operand, expression)));
     }
 
     template<typename T>
-    Expression<T> *ExpressionFactory<T>::newBinary(const BinaryExpression<T> *operand, const Expression<T> *left,
-                                                   const Expression<T> *right) {
-        return hold(new BinaryExpressionModel<T>(operand, left, right));
+    BinaryExpression<T> *ExpressionFactory<T>::newBinary(const BinaryExpression<T> *operand,
+                                                         const Expression<T> *left,
+                                                         const Expression<T> *right) {
+        return dynamic_cast<BinaryExpression<T> *>(hold(new BinaryExpressionModel<T>(operand, left, right)));
     }
 
     template<typename T>

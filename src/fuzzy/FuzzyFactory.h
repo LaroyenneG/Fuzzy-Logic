@@ -42,7 +42,7 @@ namespace fuzzy {
 
         core::UnaryExpression<T> *newNot(core::Expression<T> *o);
 
-        core::Expression<T> *newIs(Is<T> *s, core::Expression<T> *o);
+        // core::Expression<T> *newIs(Is<T> *s, core::Expression<T> *o);
     };
 
     template<typename T>
@@ -52,32 +52,33 @@ namespace fuzzy {
 
     template<typename T>
     core::BinaryExpression<T> *FuzzyFactory<T>::newAnd(core::Expression<T> *left, core::Expression<T> *right) {
-       return  (core::BinaryExpression<T>*)this->newBinary(mAnd, left, right);
+        return core::ExpressionFactory<T>::newBinary(mAnd, left, right);
     }
 
     template<typename T>
     core::BinaryExpression<T> *FuzzyFactory<T>::newOr(core::Expression<T> *left, core::Expression<T> *right) {
-        return (core::BinaryExpression<T>*)this->newBinary(mOr, left, right);
+        return core::ExpressionFactory<T>::newBinary(mOr, left, right);
     }
 
     template<typename T>
     core::BinaryExpression<T> *FuzzyFactory<T>::newThen(core::Expression<T> *left, core::Expression<T> *right) {
-        return (core::BinaryExpression<T>*)this->newBinary(mThen, left, right);
+        return core::ExpressionFactory<T>::newBinary(mThen, left, right);
     }
 
     template<typename T>
     core::BinaryExpression<T> *FuzzyFactory<T>::newAgg(core::Expression<T> *left, core::Expression<T> *right) {
-        return (core::BinaryExpression<T>*)this->newBinary(mAgg, left, right);
+        return core::ExpressionFactory<T>::newBinary(mAgg, left, right);
     }
 
     template<typename T>
     core::UnaryExpression<T> *FuzzyFactory<T>::newNot(core::Expression<T> *o) {
-        return (core::UnaryExpression<T>*)this->newUnary(mNot, o);
+        return core::ExpressionFactory<T>::newUnary(mNot, o);
     }
-
+/*
     template<typename T>
     core::Expression<T> *FuzzyFactory<T>::newIs(Is<T> *s, core::Expression<T> *o) {
         return newUnary(s, o);
     }
+    */
 }
 #endif //LOGIQUEFLOUE_FUZZYFACTORY_H
