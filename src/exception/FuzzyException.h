@@ -5,6 +5,10 @@
 #include <string>
 #include <ctime>
 #include <iomanip>
+#include <iostream>
+
+#define OPEN_FUZZY_SECURE_BLOCK try
+#define CLOSE_FUZZY_SECURE_BLOCK catch(exception::FuzzyException &e) {e.printDebug(); CPPUNIT_FAIL("EXCEPTION");}
 
 namespace exception {
 
@@ -24,6 +28,8 @@ namespace exception {
         std::string getTime() const;
 
         unsigned short getErrorCode() const;
+
+        void printDebug() const;
     };
 }
 

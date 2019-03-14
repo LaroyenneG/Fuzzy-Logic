@@ -26,4 +26,10 @@ namespace exception {
     unsigned short FuzzyException::getErrorCode() const {
         return errorCode;
     }
+
+    void FuzzyException::printDebug() const {
+        std::cerr << getMessage() << std::endl;
+        std::cerr << "At :" << getTime() << std::endl;
+        std::cerr << "Error code : " << getErrorCode() << std::endl;
+    }
 }

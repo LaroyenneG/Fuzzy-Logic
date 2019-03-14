@@ -8,6 +8,5 @@ namespace exception {
     const unsigned short OperandNullException::ERROR_CODE = 2;
 
     OperandNullException::OperandNullException() : InvalidObjectConfigurationException(MESSAGE, ERROR_CODE) {
-
     }
 }

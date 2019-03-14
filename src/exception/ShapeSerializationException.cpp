@@ -7,6 +7,5 @@ namespace exception {
     const unsigned short ShapeSerializationException::ERROR_CODE = 7;
 
     ShapeSerializationException::ShapeSerializationException() : FuzzyException(MESSAGE, ERROR_CODE) {
-
     }
 }

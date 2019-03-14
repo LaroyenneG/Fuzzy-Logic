@@ -40,11 +40,13 @@ int main(int argc, char **argv) {
     CPPUNIT_TEST_SUITE_REGISTRATION(NotMinusTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(ThenTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(ShapeTest);
+    CPPUNIT_TEST_SUITE_REGISTRATION(IsTest);
 
     CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
 
     CppUnit::TextTestRunner runner;
     runner.addTest(registry.makeTest());
+
     runner.run();
 
     return EXIT_SUCCESS;

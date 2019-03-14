@@ -3,49 +3,50 @@
 
 void FuzzyFactoryTest::FactoryTest() {
 
-    ValueModel valueModelA(0.5);
-    ValueModel valueModelB(0.7);
+    OPEN_FUZZY_SECURE_BLOCK {
+
+        ValueModel valueModelA(0.5);
+        ValueModel valueModelB(0.7);
+
+        AndMin<double> andMin;
+        OrPlus<double> orPlus;
+        ThenMin<double> thenMin;
+        NotMinus<double> notMinus;
+        AggMax<double> aggMax;
+
+        UnaryShadowExpression<double> shadowNot(&notMinus);
+        BinaryShadowExpression<double> shadowAnd(&andMin);
+        BinaryShadowExpression<double> shadowOr(&orPlus);
+        BinaryShadowExpression<double> shadowThen(&thenMin);
+        BinaryShadowExpression<double> shadowAgg(&aggMax);
 
 
-    AndMin<double> andMin;
-    OrPlus<double> orPlus;
-    ThenMin<double> thenMin;
-    NotMinus<double> notMinus;
-    AggMax<double> aggMax;
+        FuzzyFactory<double> fuzzyFact(&shadowNot, &shadowAnd, &shadowOr, &shadowThen, &shadowAgg);
 
-    UnaryShadowExpression<double> shadowNot(&notMinus);
-    BinaryShadowExpression<double> shadowAnd(&andMin);
-    BinaryShadowExpression<double> shadowOr(&orPlus);
-    BinaryShadowExpression<double> shadowThen(&thenMin);
-    BinaryShadowExpression<double> shadowAgg(&aggMax);
+        auto *andFuzzy = fuzzyFact.newAnd(&valueModelA, &valueModelB);
+        CPPUNIT_ASSERT_EQUAL(0.5, andFuzzy->evaluate(&valueModelA, &valueModelB));
 
 
-    FuzzyFactory<double> fuzzyFact(&shadowNot, &shadowAnd, &shadowOr, &shadowThen, &shadowAgg);
+        auto *orFuzzy = fuzzyFact.newOr(&valueModelA, &valueModelB);
+        CPPUNIT_ASSERT_EQUAL(1.2, orFuzzy->evaluate(&valueModelA, &valueModelB));
 
-    AndMin<double> *andFuzzy = (AndMin<double> *) fuzzyFact.newAnd(&valueModelA, &valueModelB);
-    CPPUNIT_ASSERT_EQUAL(0.5, andFuzzy->evaluate(&valueModelA, &valueModelB));
+        auto *thenFuzzy = fuzzyFact.newThen(&valueModelA, &valueModelB);
+        CPPUNIT_ASSERT_EQUAL(0.5, thenFuzzy->evaluate(&valueModelA, &valueModelB));
 
+        auto *aggFuzzy = fuzzyFact.newAgg(&valueModelA, &valueModelB);
+        CPPUNIT_ASSERT_EQUAL(0.7, aggFuzzy->evaluate(&valueModelA, &valueModelB));
 
-    OrPlus<double> *orFuzzy = (OrPlus<double> *) fuzzyFact.newOr(&valueModelA, &valueModelB);
-    CPPUNIT_ASSERT_EQUAL(1.2, orFuzzy->evaluate(&valueModelA, &valueModelB));
-
-    ThenMin<double> *thenFuzzy = (ThenMin<double> *) fuzzyFact.newThen(&valueModelA, &valueModelB);
-    CPPUNIT_ASSERT_EQUAL(0.5, thenFuzzy->evaluate(&valueModelA, &valueModelB));
-
-    AggMax<double> *aggFuzzy = (AggMax<double> *) fuzzyFact.newAgg(&valueModelA, &valueModelB);
-    CPPUNIT_ASSERT_EQUAL(0.7, aggFuzzy->evaluate(&valueModelA, &valueModelB));
-
-    NotMinus<double> *notFuzzy = (NotMinus<double> *) fuzzyFact.newNot(&valueModelB);
-    double result = notFuzzy->evaluate(&valueModelB);
-    double expected = 0.3;
-    CPPUNIT_ASSERT_EQUAL(round(expected * 1000), round(result * 1000));
+        auto *notFuzzy = fuzzyFact.newNot(&valueModelB);
+        double result = notFuzzy->evaluate(&valueModelB);
+        double expected = 0.3;
+        CPPUNIT_ASSERT_EQUAL(round(expected * 1000), round(result * 1000));
 
 
-    AndMult<double> andMult;
-    fuzzyFact.changeAnd(&andMult);
-    AndMult<double> *andMultFuzzy = (AndMult<double> *) fuzzyFact.newAnd(&valueModelA, &valueModelB);
-    CPPUNIT_ASSERT_EQUAL(0.35, andMultFuzzy->evaluate(&valueModelA, &valueModelB));
+        AndMult<double> andMult;
+        fuzzyFact.changeAnd(&andMult);
+        auto *andMultFuzzy = fuzzyFact.newAnd(&valueModelA, &valueModelB);
 
+        CPPUNIT_ASSERT_EQUAL(0.35, andMultFuzzy->evaluate(&valueModelA, &valueModelB));
 
-
+    } CLOSE_FUZZY_SECURE_BLOCK;
 }
