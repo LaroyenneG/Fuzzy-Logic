@@ -7,8 +7,6 @@ namespace fuzzy {
 
     template<typename T>
     class Is : public core::UnaryExpression<T> {
-    public:
-
     };
 }
 

@@ -9,7 +9,7 @@ namespace fuzzy {
     class ThenMult : public Then<T> {
 
     public:
-        T evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const override;
+        virtual T evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const override;
     };
 
     template<typename T>

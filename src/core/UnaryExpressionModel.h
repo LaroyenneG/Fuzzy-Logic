@@ -13,21 +13,19 @@ namespace core {
     class UnaryExpressionModel : public Expression<T>, public UnaryExpression<T> {
 
     private:
-        const UnaryExpression<T> *uOperator;
-        const Expression<T> *operand;
+        UnaryExpression <T> *uOperator;
+        Expression <T> *operand;
 
     public:
-        explicit UnaryExpressionModel(const UnaryExpression<T> *_uOperator, const Expression<T> *_operand);
+        explicit UnaryExpressionModel(UnaryExpression <T> *_uOperator, Expression <T> *_operand);
 
         T evaluate() const override;
 
         T evaluate(const Expression<T> *_operand) const override;
-
-
     };
 
     template<typename T>
-    UnaryExpressionModel<T>::UnaryExpressionModel(const UnaryExpression<T> *_uOperator, const Expression<T> *_operand)
+    UnaryExpressionModel<T>::UnaryExpressionModel(UnaryExpression <T> *_uOperator, Expression <T> *_operand)
             : uOperator(_uOperator), operand(_operand) {
     }
 

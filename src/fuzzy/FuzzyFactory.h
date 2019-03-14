@@ -19,17 +19,15 @@ namespace fuzzy {
 
     template<typename T>
     class FuzzyFactory : public core::ExpressionFactory<T> {
-    private:
 
+    private:
         core::BinaryShadowExpression<T> *mAnd;
         core::BinaryShadowExpression<T> *mOr;
         core::BinaryShadowExpression<T> *mThen;
         core::BinaryShadowExpression<T> *mAgg;
         core::UnaryShadowExpression<T> *mNot;
-        // Defuzz<T> m_defuzz; TODO be carefull to Defuzz classeS
 
     public:
-        // constructeur qui prend en paramettre des pointeurs
         FuzzyFactory<T>(core::UnaryShadowExpression<T> *, core::BinaryShadowExpression<T> *, core::BinaryShadowExpression<T> *, core::BinaryShadowExpression<T> *, core::BinaryShadowExpression<T> *);
 
         core::BinaryExpression<T> *newAnd(core::Expression<T> *left, core::Expression<T> *right);
@@ -40,19 +38,19 @@ namespace fuzzy {
 
         core::BinaryExpression<T> *newAgg(core::Expression<T> *left, core::Expression<T> *right);
 
-        core::UnaryExpression<T> *newNot(core::Expression<T> *o);
+        core::UnaryExpression<T> *newNot(core::Expression<T> *operand);
 
-        core::UnaryExpression<T> *newIs(Is<T> *s, core::Expression<T> *o);
+        core::UnaryExpression<T> *newIs(Is<T> *s, core::Expression<T> *operand);
 
-        void changeAnd(fuzzy::And<T> *);
+        void changeAnd(fuzzy::And<T> *_operator);
 
-        void changeOr(fuzzy::Or<T> *);
+        void changeOr(fuzzy::Or<T> *_operator);
 
-        void changeAgg(fuzzy::Agg<T> *);
+        void changeAgg(fuzzy::Agg<T> *_operator);
 
-        void changeThen(fuzzy::Then<T> *);
+        void changeThen(fuzzy::Then<T> *_operator);
 
-        void changeNot(fuzzy::Not<T> *);
+        void changeNot(fuzzy::Not<T> *_operator);
 
     };
 
@@ -82,38 +80,38 @@ namespace fuzzy {
     }
 
     template<typename T>
-    core::UnaryExpression<T> *FuzzyFactory<T>::newNot(core::Expression<T> *o) {
-        return core::ExpressionFactory<T>::newUnary(mNot, o);
+    core::UnaryExpression<T> *FuzzyFactory<T>::newNot(core::Expression<T> *operand) {
+        return core::ExpressionFactory<T>::newUnary(mNot, operand);
     }
 
     template<typename T>
-    core::UnaryExpression<T> *FuzzyFactory<T>::newIs(Is<T> *s, core::Expression<T> *o) {
-        return core::ExpressionFactory<T>::newUnary(s, o);
+    core::UnaryExpression<T> *FuzzyFactory<T>::newIs(Is<T> *s, core::Expression<T> *operand) {
+        return core::ExpressionFactory<T>::newUnary(s, operand);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeAnd(fuzzy::And<T> *o) {
-        mAnd->setTarget(o);
+    void FuzzyFactory<T>::changeAnd(fuzzy::And<T> *_operator) {
+        mAnd->setTarget(_operator);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeOr(fuzzy::Or<T> *o) {
-        mOr->setTarget(o);
+    void FuzzyFactory<T>::changeOr(fuzzy::Or<T> *_operator) {
+        mOr->setTarget(_operator);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeAgg(fuzzy::Agg<T> *o) {
-        mAgg->setTarget(o);
+    void FuzzyFactory<T>::changeAgg(fuzzy::Agg<T> *_operator) {
+        mAgg->setTarget(_operator);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeThen(fuzzy::Then<T> *o) {
-        mThen->setTarget(o);
+    void FuzzyFactory<T>::changeThen(fuzzy::Then<T> *_operator) {
+        mThen->setTarget(_operator);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeNot(fuzzy::Not<T> *o) {
-        mNot->setTarget(o);
+    void FuzzyFactory<T>::changeNot(fuzzy::Not<T> *_operator) {
+        mNot->setTarget(_operator);
     }
 
 }

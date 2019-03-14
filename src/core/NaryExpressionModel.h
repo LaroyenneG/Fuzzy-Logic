@@ -13,57 +13,44 @@ namespace core {
     class NaryExpressionModel : public NaryExpression<T>, public Expression<T> {
 
     private:
-        const Expression<T> **operands;
-        const NaryExpression<T> *nOperator;
-
-        static unsigned int elementCounter(const Expression<T> **elements);
-
-        static const Expression<T> **allocate(unsigned int size);
+        std::vector<Expression<T> *> operands;
+        NaryExpression<T> *nOperator;
 
     public:
-        explicit NaryExpressionModel(const NaryExpression<T> *_nOperator, const Expression<T> **_operands);
+        explicit NaryExpressionModel(NaryExpression<T> *_nOperator, std::vector<Expression<T> *> &_operands);
 
-        explicit NaryExpressionModel(const NaryExpression<T> *_nOperator);
+        explicit NaryExpressionModel(NaryExpression<T> *_nOperator);
 
         ~NaryExpressionModel();
 
-        T evaluate(const Expression<T> **_operands) const override;
+        T evaluate(const std::vector<Expression<T> *> &_operands) const override;
 
         T evaluate() const override;
 
-        unsigned int size() const;
+        unsigned long size() const;
     };
 
 
     template<typename T>
-    NaryExpressionModel<T>::NaryExpressionModel(const NaryExpression<T> *_nOperator, const Expression<T> **_operands)
-            : operands(allocate(elementCounter(_operands))), nOperator(_nOperator) {
-
-        unsigned int index = 0;
-
-        while (_operands[index] != nullptr) {
-            operands[index] = _operands[index];
-            index++;
-        }
+    NaryExpressionModel<T>::NaryExpressionModel(NaryExpression<T> *_nOperator, std::vector<Expression<T> *> &_operands)
+            : operands(_operands), nOperator(_nOperator) {
     }
 
     template<typename T>
-    NaryExpressionModel<T>::NaryExpressionModel(const NaryExpression<T> *_nOperator)
-            : operands(nullptr), nOperator(_nOperator) {
+    NaryExpressionModel<T>::NaryExpressionModel(NaryExpression<T> *_nOperator)
+            : operands(0), nOperator(_nOperator) {
     }
 
     template<typename T>
-    NaryExpressionModel<T>::~NaryExpressionModel() {
-        delete[] operands;
+    NaryExpressionModel<T>::~NaryExpressionModel() = default;
+
+    template<typename T>
+    unsigned long NaryExpressionModel<T>::size() const {
+        return operands.size();
     }
 
     template<typename T>
-    unsigned int NaryExpressionModel<T>::size() const {
-        return elementCounter(operands);
-    }
-
-    template<typename T>
-    T NaryExpressionModel<T>::evaluate(const Expression<T> **_operands) const {
+    T NaryExpressionModel<T>::evaluate(const std::vector<Expression<T> *> &_operands) const {
 
         if (nOperator == nullptr) {
             throw exception::OperatorNullException();
@@ -75,37 +62,13 @@ namespace core {
     template<typename T>
     T NaryExpressionModel<T>::evaluate() const {
 
-        if (operands == nullptr) {
-            throw exception::OperandNullException();
+        for (auto operand : operands) {
+            if (operand == nullptr) {
+                throw exception::OperandNullException();
+            }
         }
 
         return evaluate(operands);
-    }
-
-    /*
-     * static functions
-     */
-    template<typename T>
-    unsigned int NaryExpressionModel<T>::elementCounter(const Expression<T> **elements) {
-
-        unsigned int index = 0;
-
-        while (elements[index] != nullptr) {
-            index++;
-        }
-
-        return index;
-    }
-
-    template<typename T>
-    const Expression<T> **NaryExpressionModel<T>::allocate(unsigned int size) {
-
-        auto **table = new const Expression<T> *[size];
-        for (unsigned int i = 0; i < size; ++i) {
-            table[i] = nullptr;
-        }
-
-        return table;
     }
 }
 

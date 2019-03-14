@@ -8,16 +8,18 @@ namespace fuzzy {
 
     template<typename T>
     class NotMinus : public Not<T> {
+
     private:
         constexpr static T ONE = 1;
+
     public:
-        T evaluate(const core::Expression<T> *o) const override;
+        T evaluate(const core::Expression<T> *operand) const override;
     };
 
     template<typename T>
-    T NotMinus<T>::evaluate(const core::Expression<T> *o) const {
+    T NotMinus<T>::evaluate(const core::Expression<T> *operand) const {
 
-        T op = o->evaluate();
+        T op = operand->evaluate();
 
         return ONE - op;
     }

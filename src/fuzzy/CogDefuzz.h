@@ -8,6 +8,7 @@ namespace fuzzy {
     template<typename T>
     class CogDefuzz : public MamdaniDefuzz<T> {
 
+    public:
         virtual T defuzz(const Shape<T> *shape) const;
     };
 

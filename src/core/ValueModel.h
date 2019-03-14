@@ -6,6 +6,7 @@
 namespace core {
     template<typename T>
     class ValueModel : public Expression<T> {
+
     private:
         T value;
     public:

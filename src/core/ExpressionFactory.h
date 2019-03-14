@@ -14,19 +14,19 @@ namespace core {
     class ExpressionFactory {
 
     private:
-        std::set<const Expression<T> *> memory;
+        std::set<Expression<T> *> memory;
 
     public:
         ExpressionFactory() = default;
 
-        ~ExpressionFactory();
+        virtual ~ExpressionFactory();
 
         Expression<T> *hold(Expression <T> *expression);
 
-        UnaryExpression<T> *newUnary(const UnaryExpression<T> *operand, const Expression<T> *expression);
+        UnaryExpression<T> *newUnary(UnaryExpression<T> *operand, Expression<T> *expression);
 
         BinaryExpression<T> *
-        newBinary(const BinaryExpression<T> *operand, const Expression<T> *left, const Expression<T> *right);
+        newBinary(BinaryExpression <T> *operand, Expression <T> *left, Expression <T> *right);
     };
 
     template<typename T>
@@ -39,15 +39,16 @@ namespace core {
 
     template<typename T>
     UnaryExpression<T> *
-    ExpressionFactory<T>::newUnary(const UnaryExpression<T> *operand, const Expression<T> *expression) {
+    ExpressionFactory<T>::newUnary(UnaryExpression<T> *operand, Expression<T> *expression) {
 
         return dynamic_cast<UnaryExpression<T> *>(hold(new UnaryExpressionModel<T>(operand, expression)));
     }
 
     template<typename T>
-    BinaryExpression<T> *ExpressionFactory<T>::newBinary(const BinaryExpression<T> *operand,
-                                                         const Expression<T> *left,
-                                                         const Expression<T> *right) {
+    BinaryExpression<T> *ExpressionFactory<T>::newBinary(BinaryExpression <T> *operand,
+                                                         Expression <T> *left,
+                                                         Expression <T> *right) {
+
         return dynamic_cast<BinaryExpression<T> *>(hold(new BinaryExpressionModel<T>(operand, left, right)));
     }
 

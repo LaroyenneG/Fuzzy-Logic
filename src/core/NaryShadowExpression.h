@@ -10,7 +10,7 @@ namespace core {
     class NaryShadowExpression : public NaryExpression<T> {
 
     private:
-        const NaryExpression<T> *target;
+        NaryExpression<T> *target;
 
     public:
         explicit NaryShadowExpression(NaryExpression<T> *_target);

@@ -9,7 +9,7 @@ namespace core {
     class NaryExpression {
 
     public:
-        virtual T evaluate(const Expression<T> **operands) const = 0;
+        virtual T evaluate(const std::vector<Expression<T> *> &operands) const = 0;
     };
 }
 

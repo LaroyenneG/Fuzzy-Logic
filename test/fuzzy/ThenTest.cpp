@@ -27,7 +27,7 @@ void ThenTest::testSugenoThen() {
 
     SugenoThen<double> sugenoThen = SugenoThen(0.5);
 
-    CPPUNIT_ASSERT_EQUAL(0.5, sugenoThen.getPermiseValue());
+    CPPUNIT_ASSERT_EQUAL(0.5, sugenoThen.getPermitValue());
     CPPUNIT_ASSERT_EQUAL(0.12, sugenoThen.evaluate(&valueModelA, &valueModelB));
 
 }

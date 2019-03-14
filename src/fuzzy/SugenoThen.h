@@ -6,36 +6,31 @@
 namespace fuzzy {
 
     template<typename T>
-    class SugenoThen : public Then<T> {
+    class SugenoThen : public ThenMult<T> {
 
     private:
-        const T permiseValue;
+        const T permitValue;
 
     public:
-        const T &getPermiseValue() const;
+        const T &getPermitValue() const;
 
-        explicit SugenoThen(const T &_permiseValue);
+        explicit SugenoThen(const T &_permitValue);
 
         T evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const override;
     };
 
     template<typename T>
-    SugenoThen<T>::SugenoThen(const T &_permiseValue) : permiseValue(_permiseValue) {
+    SugenoThen<T>::SugenoThen(const T &_permitValue) : permitValue(_permitValue) {
+    }
 
+    template<typename T>
+    const T &SugenoThen<T>::getPermitValue() const {
+        return permitValue;
     }
 
     template<typename T>
     T SugenoThen<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
-
-        T leftValue = left->evaluate();
-        T rightValue = right->evaluate();
-
-        return leftValue * rightValue;
-    }
-
-    template<typename T>
-    const T &SugenoThen<T>::getPermiseValue() const {
-        return permiseValue;
+        return ThenMult<T>::evaluate(left, right);
     }
 }
 
