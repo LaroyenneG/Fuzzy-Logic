@@ -19,3 +19,15 @@ void ThenTest::testThenMult() {
     ThenMult<double> thenMult;
     CPPUNIT_ASSERT_EQUAL(0.24, thenMult.evaluate(&valueModelA, &valueModdelB));
 }
+
+void ThenTest::testSugenoThen() {
+
+    ValueModel valueModelA(0.4);
+    ValueModel valueModelB(0.3);
+
+    SugenoThen<double> sugenoThen = SugenoThen(0.5);
+
+    CPPUNIT_ASSERT_EQUAL(0.5, sugenoThen.getPermiseValue());
+    CPPUNIT_ASSERT_EQUAL(0.12, sugenoThen.evaluate(&valueModelA, &valueModelB));
+
+}

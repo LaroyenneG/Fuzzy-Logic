@@ -6,6 +6,7 @@
 #include "ThenMin.h"
 #include "ThenMult.h"
 #include "ValueModel.h"
+#include "SugenoThen.h"
 
 using namespace core;
 using namespace fuzzy;
@@ -15,11 +16,14 @@ class ThenTest : public CppUnit::TestFixture {
 CPPUNIT_TEST_SUITE(ThenTest);
         CPPUNIT_TEST(testThenMin);
         CPPUNIT_TEST(testThenMult);
+            CPPUNIT_TEST(testSugenoThen);
     CPPUNIT_TEST_SUITE_END();
 public:
     void testThenMin();
 
     void testThenMult();
+
+    void testSugenoThen();
 
 };
 
