@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
-#include <BinaryShadowExpression.h>
 
 #include "core/ValueModelTest.h"
 #include "core/BinaryExpressionModelTest.h"
@@ -18,6 +17,7 @@
 #include "fuzzy/ThenTest.h"
 #include "fuzzy/IsTest.h"
 #include "fuzzy/AggTest.h"
+
 
 int main(int argc, char **argv) {
 
