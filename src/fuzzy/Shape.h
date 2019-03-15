@@ -8,26 +8,22 @@
 #include "ShapeSerializationException.h"
 #include "PointAlreadyAddedShapeException.h"
 
-#define INDEX_ERROR_MSG "invalid index"
-
-#define OPEN_TABLE_CHAR '['
-#define CLOSE_TABLE_CHAR ']'
-#define SPACE_TABLE_CHAR ' '
+#define OPEN_SET_CHAR '['
+#define CLOSE_SET_CHAR ']'
+#define SPACE_CHAR ' '
+#define OPEN_POINT_CHAR '('
+#define CLOSE_POINT_CHAR ')'
 
 namespace fuzzy {
 
     template<typename T>
     class Shape {
     private:
-        std::pair<std::vector<T>, std::vector<T>> points;
+        std::map<T, std::set<T>> points;
 
-        void safeIndexX(unsigned int n) const;
+        static void serializeMap(const std::map<T, std::set<T>> &map, std::ostream &ostream);
 
-        void safeIndexY(unsigned int n) const;
-
-        static void serializeVector(const std::vector<T> &vector, std::ostream &ostream);
-
-        static void unSerializeVector(std::vector<T> &vector, std::istream &istream);
+        static void unSerializeMap(std::map<T, std::set<T>> &map, std::istream &istream);
 
     public:
         explicit Shape() = default;
@@ -40,21 +36,9 @@ namespace fuzzy {
 
         void addPoint(const T &x, const T &y);
 
-        const T &getX(unsigned int n) const;
-
-        T &getX(unsigned int n);
-
-        const T &getY(unsigned int n) const;
-
-        T &getY(unsigned int n);
-
         void serialize(std::ostream &ostream) const;
 
         void unSerialize(std::istream &istream);
-
-        unsigned long xSize() const;
-
-        unsigned long ySize() const;
 
         virtual bool equals(const Shape<T> &shape) const;
 
@@ -84,141 +68,99 @@ namespace fuzzy {
     template<typename T>
     void Shape<T>::addPoint(const T &x, const T &y) {
 
-        for (unsigned int i = 0; i < points.first.size(); ++i) {
-            if (points.first[i] == x && points.second[i] == y) {
-                throw exception::PointAlreadyAddedShapeException();
-            }
+        auto &set = points[x];
+
+        auto it = set.find(y);
+        if (it != set.end()) {
+            throw exception::PointAlreadyAddedShapeException();
         }
 
-        points.first.push_back(x);
-        points.second.push_back(y);
-    }
-
-    template<typename T>
-    const T &Shape<T>::getX(unsigned int n) const {
-
-        safeIndexX(n);
-
-        return points.first[n];
-    }
-
-    template<typename T>
-    const T &Shape<T>::getY(unsigned int n) const {
-
-        safeIndexY(n);
-
-        return points.second[n];
-    }
-
-    template<typename T>
-    void Shape<T>::safeIndexX(unsigned int n) const {
-
-        if (n >= points.first.size()) {
-            throw std::out_of_range(INDEX_ERROR_MSG);
-        }
-    }
-
-    template<typename T>
-    void Shape<T>::safeIndexY(unsigned int n) const {
-
-        if (n >= points.second.size()) {
-            throw std::out_of_range(INDEX_ERROR_MSG);
-        }
-    }
-
-    template<typename T>
-    T &Shape<T>::getX(unsigned int n) {
-
-        safeIndexX(n);
-
-        return points.first[n];
-    }
-
-    template<typename T>
-    T &Shape<T>::getY(unsigned int n) {
-
-        safeIndexY(n);
-
-        return points.second[n];
+        points[x].insert(y);
     }
 
     template<typename T>
     void Shape<T>::serialize(std::ostream &ostream) const {
-
-        serializeVector(points.first, ostream);
-        ostream << std::endl;
-        serializeVector(points.second, ostream);
+        serializeMap(points, ostream);
         ostream << std::endl;
     }
 
     template<typename T>
     void Shape<T>::unSerialize(std::istream &istream) {
-
-        points.first.clear();
-        points.second.clear();
-
-        unSerializeVector(points.first, istream);
-        unSerializeVector(points.second, istream);
+        unSerializeMap(points, istream);
     }
 
     template<typename T>
-    void Shape<T>::serializeVector(const std::vector<T> &vector, std::ostream &ostream) {
+    void Shape<T>::serializeMap(const std::map<T, std::set<T>> &map, std::ostream &ostream) {
 
-        ostream << vector.size();
+        ostream << OPEN_SET_CHAR;
 
-        ostream << SPACE_TABLE_CHAR << OPEN_TABLE_CHAR;
-
-        for (unsigned int i = 0; i < vector.size(); ++i) {
-
-            ostream << vector[i];
-
-            if (i + 1 < vector.size()) {
-                ostream << SPACE_TABLE_CHAR;
+        for (auto &pair : map) {
+            for (auto &y : pair.second) {
+                ostream << OPEN_POINT_CHAR;
+                ostream << pair.first;
+                ostream << SPACE_CHAR;
+                ostream << y;
+                ostream << CLOSE_POINT_CHAR;
             }
         }
 
-        ostream << CLOSE_TABLE_CHAR;
+        ostream << CLOSE_SET_CHAR;
     }
 
     template<typename T>
-    void Shape<T>::unSerializeVector(std::vector<T> &vector, std::istream &istream) {
+    void Shape<T>::unSerializeMap(std::map<T, std::set<T>> &map, std::istream &istream) {
 
-        unsigned int size;
-
-        istream >> size;
+        map.clear();
 
         char c;
 
         istream >> c;
 
-        if (c != OPEN_TABLE_CHAR) {
-            throw exception::ShapeSerializationException();
+        bool stopReader = c != OPEN_POINT_CHAR;
+
+        T x;
+        T y;
+
+        bool pairLoaded = false;
+
+        while (!stopReader) {
+
+            istream >> c;
+
+            switch (c) {
+
+                case SPACE_CHAR:
+                    if (pairLoaded) {
+                        throw exception::ShapeSerializationException();
+                    }
+                    break;
+
+                case OPEN_POINT_CHAR:
+                    istream >> x;
+                    istream >> y;
+                    pairLoaded = true;
+                    break;
+
+                case CLOSE_POINT_CHAR:
+
+                    if (pairLoaded) {
+                        pairLoaded = false;
+                    } else {
+                        throw exception::ShapeSerializationException();
+                    }
+
+                    map[x].insert(y);
+
+                    break;
+
+                case CLOSE_SET_CHAR:
+                    stopReader = true;
+                    break;
+
+                default:
+                    throw exception::ShapeSerializationException();
+            }
         }
-
-        for (unsigned int i = 0; i < size; ++i) {
-
-            T value = 0;
-
-            istream >> value;
-
-            vector.push_back(value);
-        }
-
-        istream >> c;
-
-        if (c != CLOSE_TABLE_CHAR) {
-            throw exception::ShapeSerializationException();
-        }
-    }
-
-    template<typename T>
-    unsigned long Shape<T>::xSize() const {
-        return points.first.size();
-    }
-
-    template<typename T>
-    unsigned long Shape<T>::ySize() const {
-        return points.second.size();
     }
 
     template<typename T>
@@ -251,8 +193,7 @@ namespace fuzzy {
     Shape<T> &Shape<T>::operator=(const Shape<T> &shape) {
 
         if (this != &shape) {
-            points.first = shape.points.first;
-            points.second = shape.points.second;
+            points = shape.points;
         }
 
         return *this;

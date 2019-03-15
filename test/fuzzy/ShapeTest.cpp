@@ -6,13 +6,7 @@ void ShapeTest::testAddPoint() {
 
     Shape<double> shape;
 
-    CPPUNIT_ASSERT(shape.xSize() == 0);
-    CPPUNIT_ASSERT(shape.xSize() == 0);
-
     shape.addPoint(6.0, 0.5);
-
-    CPPUNIT_ASSERT_EQUAL(1, static_cast<int>(shape.xSize()));
-    CPPUNIT_ASSERT_EQUAL(1, static_cast<int>(shape.ySize()));
 
     try {
         shape.addPoint(6.0, 0.5);
@@ -29,12 +23,6 @@ void ShapeTest::testReadFile() {
     std::ifstream ifstream(FILE_PATH);
 
     Shape<double> shape(ifstream);
-
-    CPPUNIT_ASSERT_EQUAL(4, static_cast<int>(shape.xSize()));
-    CPPUNIT_ASSERT_EQUAL(4, static_cast<int>(shape.ySize()));
-
-    CPPUNIT_ASSERT_EQUAL(1.5, shape.getX(0));
-    CPPUNIT_ASSERT_EQUAL(3.5, shape.getY(0));
 }
 
 void ShapeTest::testWriteFile() {
