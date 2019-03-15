@@ -8,15 +8,11 @@ void ShapeTest::testAddPoint() {
 
     shape.addPoint(6.0, 0.5);
 
-    try {
-        shape.addPoint(6.0, 0.5);
-        CPPUNIT_FAIL("throw");
-    } catch (exception::PointAlreadyAddedShapeException &e) {
-    }
+    CPPUNIT_ASSERT_THROW(shape.addPoint(6.0, 0.5), exception::PointAlreadyAddedShapeException);
 
-    for (auto it = shape.begin(); it != shape.end(); it++) {
-        CPPUNIT_ASSERT_EQUAL(6.0, (*it).first);
-        CPPUNIT_ASSERT_EQUAL(0.5, (*it).second);
+    for (auto point : shape) {
+        CPPUNIT_ASSERT_EQUAL(6.0, point.first);
+        CPPUNIT_ASSERT_EQUAL(0.5, point.second);
     }
 
     shape.addPoint(-4.6, 8.6);
@@ -27,6 +23,8 @@ void ShapeTest::testReadFile() {
     std::ifstream ifstream(FILE_PATH);
 
     Shape<double> shape(ifstream);
+
+    CPPUNIT_ASSERT_EQUAL(4, static_cast<int>(shape.size()));
 }
 
 void ShapeTest::testWriteFile() {
@@ -51,8 +49,7 @@ void ShapeTest::testWriteAndRead() {
 
     Shape<double> clone(data);
 
-
-    CPPUNIT_ASSERT(origin == clone);
+    CPPUNIT_ASSERT_EQUAL(origin, clone);
 }
 
 

@@ -5,11 +5,11 @@
 namespace exception {
 
     exception::FuzzyException::FuzzyException(const std::string &_message, unsigned short _errorCode)
-            : message(_message), time(0), errorCode(_errorCode) {
+            : std::runtime_error(_message), time(0), errorCode(_errorCode) {
     }
 
-    const std::string &FuzzyException::getMessage() const {
-        return message;
+    const std::string FuzzyException::getMessage() const {
+        return std::string(what());
     }
 
     std::string FuzzyException::getTime() const {

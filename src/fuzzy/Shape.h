@@ -14,6 +14,8 @@
 #define OPEN_POINT_CHAR '('
 #define CLOSE_POINT_CHAR ')'
 
+#define OUT_OF_BOUND "iterator out of bound"
+
 namespace fuzzy {
 
     template<typename T>
@@ -25,6 +27,7 @@ namespace fuzzy {
         private:
             typename std::map<T, std::set<T>>::const_iterator xIterator;
             typename std::map<T, std::set<T>>::const_iterator xEnd;
+
             typename std::set<T>::iterator yIterator;
             typename std::set<T>::iterator yEnd;
 
@@ -40,8 +43,6 @@ namespace fuzzy {
             void operator++();
 
             bool equals(const iterator &it) const;
-
-            bool operator<(const iterator &it) const;
 
             bool operator==(const iterator &it) const;
 
@@ -80,6 +81,8 @@ namespace fuzzy {
 
         iterator end() const;
 
+        unsigned long size() const;
+
         /* operators */
 
         std::istream &operator>>(std::istream &istream);
@@ -95,16 +98,19 @@ namespace fuzzy {
     };
 
     template<typename T>
-    Shape<T>::iterator::iterator(const Shape<T> &target, bool type)
-            : xIterator(target.points.begin()), xEnd(target.points.end()) {
+    Shape<T>::iterator::iterator(const Shape<T> &target, bool type) {
+
+        xIterator = target.points.begin();
+        xEnd = target.points.end();
 
         if (type) {
-            if (xIterator != target.points.end()) {
+
+            if (xIterator != xEnd) {
                 yIterator = (*xIterator).second.begin();
                 yEnd = (*xIterator).second.end();
             }
         } else {
-            xIterator = target.points.end();
+            xIterator = xEnd;
         }
     }
 
@@ -116,11 +122,13 @@ namespace fuzzy {
     template<typename T>
     void Shape<T>::iterator::next() {
 
-        if (xIterator != xEnd) {
-            if (yIterator != yEnd) {
-                yIterator++;
-            } else {
-                xIterator++;
+        yIterator++;
+
+        if (yIterator == yEnd) {
+
+            xIterator++;
+
+            if (xIterator != xEnd) {
                 yIterator = (*xIterator).second.begin();
                 yEnd = (*xIterator).second.end();
             }
@@ -128,12 +136,14 @@ namespace fuzzy {
     }
 
     template<typename T>
-    Shape<T>::Shape(std::istream &istream) {
+    Shape<T>::Shape(std::istream
+                    &istream) {
         unSerialize(istream);
     }
 
     template<typename T>
-    Shape<T>::Shape(const Shape<T> &shape) : points(shape.points) {
+    Shape<T>::Shape(
+            const Shape<T> &shape) : points(shape.points) {
     }
 
     template<typename T>
@@ -187,7 +197,7 @@ namespace fuzzy {
 
         istream >> c;
 
-        bool stopReader = c != OPEN_POINT_CHAR;
+        bool stopReader = c != OPEN_SET_CHAR;
 
         T x;
         T y;
@@ -213,7 +223,6 @@ namespace fuzzy {
                     break;
 
                 case CLOSE_POINT_CHAR:
-
                     if (pairLoaded) {
                         pairLoaded = false;
                     } else {
@@ -221,7 +230,6 @@ namespace fuzzy {
                     }
 
                     map[x].insert(y);
-
                     break;
 
                 case CLOSE_SET_CHAR:
@@ -286,10 +294,22 @@ namespace fuzzy {
     }
 
     template<typename T>
+    unsigned long Shape<T>::size() const {
+
+        unsigned long count = 0;
+
+        for (auto &pair : points) {
+            count += pair.second.size();
+        }
+
+        return count;
+    }
+
+    template<typename T>
     std::pair<const T &, const T &> Shape<T>::iterator::operator*() const {
 
         if (xIterator == xEnd || yIterator == yEnd) {
-            throw std::out_of_range("iterator out of bounds");
+            throw std::out_of_range(OUT_OF_BOUND);
         }
 
         return std::pair<const T &, const T &>((*xIterator).first, *yIterator);
@@ -316,20 +336,6 @@ namespace fuzzy {
         }
 
         return *this;
-    }
-
-    template<typename T>
-    bool Shape<T>::iterator::operator<(const Shape::iterator &it) const {
-
-        bool inf = false;
-
-        if (xIterator < it.xIterator) {
-            inf = true;
-        } else if (xIterator == it.xIterator) {
-            inf = yIterator < it.yIterator;
-        }
-
-        return inf;
     }
 
     template<typename T>

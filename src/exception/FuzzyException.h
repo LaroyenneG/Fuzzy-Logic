@@ -8,14 +8,13 @@
 #include <iostream>
 
 #define OPEN_FUZZY_SECURE_BLOCK try
-#define CLOSE_FUZZY_SECURE_BLOCK catch(exception::FuzzyException &e) {e.printDebug(); CPPUNIT_FAIL("EXCEPTION");}
+#define CLOSE_FUZZY_SECURE_BLOCK catch(exception::FuzzyException &e) {e.printDebug(); CPPUNIT_FAIL("Fuzzy exception throw");}
 
 namespace exception {
 
-    class FuzzyException : std::exception {
+    class FuzzyException : std::runtime_error {
 
     private:
-        const std::string &message;
         const std::time_t time;
         const unsigned short errorCode;
 
@@ -23,7 +22,7 @@ namespace exception {
         explicit FuzzyException(const std::string &_message, unsigned short _errorCode);
 
     public:
-        const std::string &getMessage() const;
+        const std::string getMessage() const;
 
         std::string getTime() const;
 
