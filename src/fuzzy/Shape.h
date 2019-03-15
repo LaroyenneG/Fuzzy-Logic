@@ -20,20 +20,28 @@ namespace fuzzy {
     class Shape {
 
     public :
-        class JavaIterator {
+        class iterator {
 
         private:
-            const Shape<T> &target;
-
             typename std::map<T, std::set<T>>::iterator xIterator;
+            typename std::map<T, std::set<T>>::iterator xEnd;
             typename std::set<T>::iterator yIterator;
+            typename std::set<T>::iterator yEnd;
 
         public:
-            explicit JavaIterator(const Shape<T> &target);
+            explicit iterator(const Shape<T> &target, bool type);
 
-            bool hasNext() const;
+            iterator(const iterator &iterator);
 
-            std::pair<T &, T &> next();
+            std::pair<T &, T &> operator*() const;
+
+            void operator++(int);
+
+            void operator++();
+
+            void next();
+
+            iterator &operator=(const iterator &iterator);
         };
 
     private:
@@ -60,7 +68,9 @@ namespace fuzzy {
 
         virtual bool equals(const Shape<T> &shape) const;
 
-        JavaIterator getIterator() const;
+        iterator begin() const;
+
+        iterator end() const;
 
         /* operators */
 
@@ -77,35 +87,36 @@ namespace fuzzy {
     };
 
     template<typename T>
-    Shape<T>::JavaIterator::JavaIterator(const Shape<T> &target) : xIterator(target.points.begin()), yIterator() {
+    Shape<T>::iterator::iterator(const Shape<T> &target, bool type)
+            : xIterator(target.points.begin()), xEnd(target.points.end()), yIterator(), yEnd() {
 
-        if (xIterator != target.points.end()) {
-            yIterator = (*xIterator).second.begin();
-        }
-    }
-
-    template<typename T>
-    bool Shape<T>::JavaIterator::hasNext() const {
-        return xIterator != target.points.end() && yIterator != *xIterator.second.end();
-    }
-
-    template<typename T>
-    std::pair<T &, T &> Shape<T>::JavaIterator::next() {
-
-        if (xIterator == target.points.end()) {
-            throw std::out_of_range("iterator out of bounds");
-        }
-
-        std::pair<T &, T &> pair(*xIterator, *yIterator);
-
-        if (yIterator != (*xIterator).second.end()) {
-            yIterator++;
+        if (type) {
+            if (xIterator != target.points.end()) {
+                yIterator = (*xIterator).second.begin();
+                yEnd = (*xIterator).second.end();
+            }
         } else {
-            xIterator++;
-            yIterator = (*xIterator).second.begin();
+            xIterator = target.points.end();
         }
+    }
 
-        return pair;
+    template<typename T>
+    Shape<T>::iterator::iterator(const Shape::iterator &iterator)
+            : xIterator(iterator.xIterator), yIterator(iterator.yIterator), xEnd(iterator.xEnd), yEnd(iterator.yEnd) {
+    }
+
+    template<typename T>
+    void Shape<T>::iterator::next() {
+
+        if (xIterator != xEnd) {
+            if (yIterator != yEnd) {
+                yIterator++;
+            } else {
+                xIterator++;
+                yIterator = (*xIterator).second.begin();
+                yEnd = (*xIterator).second.end();
+            }
+        }
     }
 
     template<typename T>
@@ -257,8 +268,46 @@ namespace fuzzy {
     }
 
     template<typename T>
-    typename Shape<T>::JavaIterator Shape<T>::getIterator() const {
-        return Shape::JavaIterator(*this);
+    typename Shape<T>::iterator Shape<T>::begin() const {
+        return Shape::iterator(*this, true);
+    }
+
+    template<typename T>
+    typename Shape<T>::iterator Shape<T>::end() const {
+        return Shape::iterator(*this, false);
+    }
+
+    template<typename T>
+    std::pair<T &, T &> Shape<T>::iterator::operator*() const {
+
+        if (xIterator == xEnd) {
+            throw std::out_of_range("iterator out of bounds");
+        }
+
+        return pair(*xIterator, *yIterator);
+    }
+
+    template<typename T>
+    void Shape<T>::iterator::operator++(int) {
+        next();
+    }
+
+    template<typename T>
+    void Shape<T>::iterator::operator++() {
+        next();
+    }
+
+    template<typename T>
+    typename Shape<T>::iterator &Shape<T>::iterator::operator=(const Shape::iterator &iterator) {
+
+        if (&iterator != this) {
+            yEnd = iterator.yEnd;
+            xEnd = iterator.xEnd;
+            xIterator = iterator.xIterator;
+            yIterator = iterator.yIterator;
+        }
+
+        return *this;
     }
 }
 
