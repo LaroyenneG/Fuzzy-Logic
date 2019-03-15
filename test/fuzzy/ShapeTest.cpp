@@ -12,7 +12,11 @@ void ShapeTest::testAddPoint() {
         shape.addPoint(6.0, 0.5);
         CPPUNIT_FAIL("throw");
     } catch (exception::PointAlreadyAddedShapeException &e) {
+    }
 
+    for (auto it = shape.begin(); it != shape.end(); it++) {
+        CPPUNIT_ASSERT_EQUAL(6.0, (*it).first);
+        CPPUNIT_ASSERT_EQUAL(0.5, (*it).second);
     }
 
     shape.addPoint(-4.6, 8.6);

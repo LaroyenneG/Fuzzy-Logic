@@ -23,21 +23,29 @@ namespace fuzzy {
         class iterator {
 
         private:
-            typename std::map<T, std::set<T>>::iterator xIterator;
-            typename std::map<T, std::set<T>>::iterator xEnd;
+            typename std::map<T, std::set<T>>::const_iterator xIterator;
+            typename std::map<T, std::set<T>>::const_iterator xEnd;
             typename std::set<T>::iterator yIterator;
             typename std::set<T>::iterator yEnd;
 
         public:
             explicit iterator(const Shape<T> &target, bool type);
 
-            iterator(const iterator &iterator);
+            iterator(const iterator &it);
 
-            std::pair<T &, T &> operator*() const;
+            std::pair<const T &, const T &> operator*() const;
 
             void operator++(int);
 
             void operator++();
+
+            bool equals(const iterator &it) const;
+
+            bool operator<(const iterator &it) const;
+
+            bool operator==(const iterator &it) const;
+
+            bool operator!=(const iterator &it) const;
 
             void next();
 
@@ -88,7 +96,7 @@ namespace fuzzy {
 
     template<typename T>
     Shape<T>::iterator::iterator(const Shape<T> &target, bool type)
-            : xIterator(target.points.begin()), xEnd(target.points.end()), yIterator(), yEnd() {
+            : xIterator(target.points.begin()), xEnd(target.points.end()) {
 
         if (type) {
             if (xIterator != target.points.end()) {
@@ -101,8 +109,8 @@ namespace fuzzy {
     }
 
     template<typename T>
-    Shape<T>::iterator::iterator(const Shape::iterator &iterator)
-            : xIterator(iterator.xIterator), yIterator(iterator.yIterator), xEnd(iterator.xEnd), yEnd(iterator.yEnd) {
+    Shape<T>::iterator::iterator(const Shape::iterator &it)
+            : xIterator(it.xIterator), yIterator(it.yIterator), xEnd(it.xEnd), yEnd(it.yEnd) {
     }
 
     template<typename T>
@@ -278,13 +286,13 @@ namespace fuzzy {
     }
 
     template<typename T>
-    std::pair<T &, T &> Shape<T>::iterator::operator*() const {
+    std::pair<const T &, const T &> Shape<T>::iterator::operator*() const {
 
-        if (xIterator == xEnd) {
+        if (xIterator == xEnd || yIterator == yEnd) {
             throw std::out_of_range("iterator out of bounds");
         }
 
-        return pair(*xIterator, *yIterator);
+        return std::pair<const T &, const T &>((*xIterator).first, *yIterator);
     }
 
     template<typename T>
@@ -308,6 +316,40 @@ namespace fuzzy {
         }
 
         return *this;
+    }
+
+    template<typename T>
+    bool Shape<T>::iterator::operator<(const Shape::iterator &it) const {
+
+        bool inf = false;
+
+        if (xIterator < it.xIterator) {
+            inf = true;
+        } else if (xIterator == it.xIterator) {
+            inf = yIterator < it.yIterator;
+        }
+
+        return inf;
+    }
+
+    template<typename T>
+    bool Shape<T>::iterator::equals(const Shape::iterator &it) const {
+
+        if (xIterator == xEnd && it.xIterator == it.xEnd) {
+            return true;
+        }
+
+        return xIterator == it.xIterator && yIterator == it.yIterator;
+    }
+
+    template<typename T>
+    bool Shape<T>::iterator::operator==(const Shape::iterator &it) const {
+        return equals(it);
+    }
+
+    template<typename T>
+    bool Shape<T>::iterator::operator!=(const Shape::iterator &it) const {
+        return !equals(it);
     }
 }
 
