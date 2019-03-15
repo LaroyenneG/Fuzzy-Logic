@@ -18,6 +18,24 @@ namespace fuzzy {
 
     template<typename T>
     class Shape {
+
+    public :
+        class JavaIterator {
+
+        private:
+            const Shape<T> &target;
+
+            typename std::map<T, std::set<T>>::iterator xIterator;
+            typename std::set<T>::iterator yIterator;
+
+        public:
+            explicit JavaIterator(const Shape<T> &target);
+
+            bool hasNext() const;
+
+            std::pair<T &, T &> next();
+        };
+
     private:
         std::map<T, std::set<T>> points;
 
@@ -42,6 +60,8 @@ namespace fuzzy {
 
         virtual bool equals(const Shape<T> &shape) const;
 
+        JavaIterator getIterator() const;
+
         /* operators */
 
         std::istream &operator>>(std::istream &istream);
@@ -55,6 +75,38 @@ namespace fuzzy {
         template<typename Y>
         friend std::ostream &operator<<(std::ostream &ostream, const Shape<Y> &shape);
     };
+
+    template<typename T>
+    Shape<T>::JavaIterator::JavaIterator(const Shape<T> &target) : xIterator(target.points.begin()), yIterator() {
+
+        if (xIterator != target.points.end()) {
+            yIterator = (*xIterator).second.begin();
+        }
+    }
+
+    template<typename T>
+    bool Shape<T>::JavaIterator::hasNext() const {
+        return xIterator != target.points.end() && yIterator != *xIterator.second.end();
+    }
+
+    template<typename T>
+    std::pair<T &, T &> Shape<T>::JavaIterator::next() {
+
+        if (xIterator == target.points.end()) {
+            throw std::out_of_range("iterator out of bounds");
+        }
+
+        std::pair<T &, T &> pair(*xIterator, *yIterator);
+
+        if (yIterator != (*xIterator).second.end()) {
+            yIterator++;
+        } else {
+            xIterator++;
+            yIterator = (*xIterator).second.begin();
+        }
+
+        return pair;
+    }
 
     template<typename T>
     Shape<T>::Shape(std::istream &istream) {
@@ -202,6 +254,11 @@ namespace fuzzy {
     template<typename T>
     bool Shape<T>::operator!=(const Shape<T> &other) const {
         return !equals(other);
+    }
+
+    template<typename T>
+    typename Shape<T>::JavaIterator Shape<T>::getIterator() const {
+        return Shape::JavaIterator(*this);
     }
 }
 
