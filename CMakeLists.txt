@@ -4,6 +4,13 @@ project(LogiqueFloue)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -pedantic -g")
 
+if (UNIX)
+    set(CPPUNIT libcppunit-unix-64.a)
+elseif (WIN32)
+    set(CMAKE_PREFIX_PATH "C:\\Qt\\5.12.2\\mingw73_64")
+    set(CPPUNIT libcppunit-win-64.a)
+endif ()
+
 message(STATUS "Find Qt5")
 find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5Core CONFIG REQUIRED)
@@ -32,14 +39,6 @@ set(FUZZY_LIBRARY ${CORE_SOURCES} ${FUZZY_SOURCES} ${EXCEPTION_SOURCES} ${GUI_SO
 add_library(fuzzy ${FUZZY_LIBRARY})
 add_executable(FuzzyTest ${TEST_SOURCES} ${FUZZY_LIBRARY})
 add_executable(Titanic ${TITANIC_SOURCES} ${FUZZY_LIBRARY})
-
-if (UNIX)
-    set(CPPUNIT libcppunit-unix-64.a)
-    message(STATUS "OS >>> UNIX")
-elseif (WIN32)
-    set(CPPUNIT libcppunit-win-64.a)
-    message(STATUS "OS >>> WINDOWS")
-endif ()
 
 set(QT_MODULES Qt5::Widgets Qt5::Core)
 
