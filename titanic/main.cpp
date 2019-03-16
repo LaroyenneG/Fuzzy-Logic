@@ -1,11 +1,17 @@
-#include <iostream>
+
+
+#include <QApplication>
+
+#include "View.h"
+
 
 int main(int argc, char **argv) {
 
-    if (argc != 1) {
-        std::cerr << "Titanic" << std::endl;
-        exit(EXIT_FAILURE);
-    }
+    QApplication app(argc, argv);
 
-    return EXIT_SUCCESS;
+    View view;
+
+    view.show();
+
+    return QApplication::exec();
 }

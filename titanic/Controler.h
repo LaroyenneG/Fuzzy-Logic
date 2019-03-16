@@ -1,0 +1,10 @@
+#ifndef LOGIQUEFLOUE_CONTROLER_H
+#define LOGIQUEFLOUE_CONTROLER_H
+
+
+class Controler {
+
+};
+
+
+#endif //LOGIQUEFLOUE_CONTROLER_H
