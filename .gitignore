@@ -37,3 +37,12 @@ cmake-build-debug/*
 *.iml
 
 out/*
+
+# Latex
+*.toc
+*.gz
+*.pdf
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
