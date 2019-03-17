@@ -4,9 +4,11 @@
 
 #include "AbstractController.h"
 
-class AutomaticPilotController : public AbstractController {
+namespace controller {
 
-};
+    class AutomaticPilotController : public AbstractController {
 
+    };
+}
 
 #endif //LOGIQUEFLOUE_AUTOMATICPILOTCONTROLLER_H

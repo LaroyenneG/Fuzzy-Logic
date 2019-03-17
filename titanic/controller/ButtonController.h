@@ -4,9 +4,11 @@
 
 #include "AbstractController.h"
 
-class ButtonController : public AbstractController {
+namespace controller {
 
-};
+    class ButtonController : public AbstractController {
 
+    };
+}
 
 #endif //LOGIQUEFLOUE_CONTROLER_H

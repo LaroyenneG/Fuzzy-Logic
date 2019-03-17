@@ -3,6 +3,7 @@
 
 #include "View.h"
 
+using namespace view;
 
 int main(int argc, char **argv) {
 
