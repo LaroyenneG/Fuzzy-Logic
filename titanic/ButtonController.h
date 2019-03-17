@@ -2,7 +2,9 @@
 #define LOGIQUEFLOUE_CONTROLER_H
 
 
-class Controler {
+#include "AbstractController.h"
+
+class ButtonController : public AbstractController {
 
 };
 
