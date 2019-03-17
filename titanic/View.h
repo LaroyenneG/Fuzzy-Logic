@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QGridLayout>
+#include <QGraphicsScene>
 
 #define WINDOWS_TITLE "Save the Titanic"
 
@@ -13,7 +14,7 @@ class View : public QWidget {
 
 private:
     QBoxLayout *parent;
-    QPainter *titanicViewer;
+    QGraphicsScene *titanicViewer;
     QGridLayout *dashboard;
 
 public:
