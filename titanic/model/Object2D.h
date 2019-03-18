@@ -15,7 +15,7 @@
 
 #define DEFAULT_WEIGHT 0.0
 
-#define DEFAULT_DIRECTION 0.0
+#define SPACE_DIMENSION 2
 
 namespace model {
 
@@ -24,18 +24,15 @@ namespace model {
     private:
         std::set<std::pair<double, double >> points; // m
 
-        double position[2];                          // m
-        double speed[2];                             // m / s
-        double acceleration[2];                      // m / s²
+        double position[SPACE_DIMENSION];            // m
+        double speed[SPACE_DIMENSION];               // m / s
+        double acceleration[SPACE_DIMENSION];        // m / s²
 
-        double direction;                            // radian
         double weight;                               // kg
 
     public:
         explicit Object2D(const std::set<std::pair<double, double >> &_points, double _xPosition, double _yPosition,
-                          double _xSpeed,
-                          double _ySpeed, double _xAcceleration, double _yAcceleration, double _direction,
-                          double _weight);
+                          double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration, double _weight);
 
         explicit Object2D(const std::set<std::pair<double, double >> &_points);
 
@@ -71,13 +68,11 @@ namespace model {
 
         void setAccelerationY(double value);
 
-        double getDirection() const;
-
-        void setDirection(double value);
-
         void nextPosition(double time);
 
         void nextSpeed(double time);
+
+        void nextTime(double time);
 
         const std::set<std::pair<double, double >> &getPoints() const;
 
