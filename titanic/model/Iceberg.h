@@ -8,6 +8,8 @@ namespace model {
 
     class Iceberg : public Object2D {
 
+    public:
+        Iceberg() : Object2D(Object2D(std::set<std::pair<double, double >>())) {}
     };
 }
 
