@@ -22,7 +22,7 @@ namespace model {
     class Object2D {
 
     private:
-        std::set<std::pair<double, double >> points; // m
+        std::set<std::array<double, SPACE_DIMENSION>> points; // m
 
         double position[SPACE_DIMENSION];            // m
         double speed[SPACE_DIMENSION];               // m / s
@@ -31,10 +31,11 @@ namespace model {
         double weight;                               // kg
 
     public:
-        explicit Object2D(const std::set<std::pair<double, double >> &_points, double _xPosition, double _yPosition,
+        explicit Object2D(const std::set<std::array<double, SPACE_DIMENSION>> &_points, double _xPosition,
+                          double _yPosition,
                           double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration, double _weight);
 
-        explicit Object2D(const std::set<std::pair<double, double >> &_points, double _weight);
+        explicit Object2D(const std::set<std::array<double, SPACE_DIMENSION>> &_points, double _weight);
 
         Object2D(const Object2D &object);
 
@@ -74,7 +75,7 @@ namespace model {
 
         void nextTime(double time);
 
-        const std::set<std::pair<double, double >> &getPoints() const;
+        const std::set<std::array<double, SPACE_DIMENSION>> &getPoints() const;
 
         virtual ~Object2D() = default;
     };

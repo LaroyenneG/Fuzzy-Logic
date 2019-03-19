@@ -4,14 +4,15 @@
 
 namespace model {
 
-    Object2D::Object2D(const std::set<std::pair<double, double >> &_points, double _xPosition, double _yPosition,
+    Object2D::Object2D(const std::set<std::array<double, SPACE_DIMENSION>> &_points, double _xPosition,
+                       double _yPosition,
                        double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration, double _weight)
             : points(_points), position{_xPosition, _yPosition}, speed{_xSpeed, _ySpeed},
               acceleration{_xAcceleration, _yAcceleration},
               weight(_weight) {
     }
 
-    Object2D::Object2D(const std::set<std::pair<double, double >> &_points, double _weight)
+    Object2D::Object2D(const std::set<std::array<double, SPACE_DIMENSION>> &_points, double _weight)
             : Object2D(_points,
                        DEFAULT_POSITION_X,
                        DEFAULT_POSITION_Y,
@@ -28,25 +29,27 @@ namespace model {
 
             points = object.points;
 
-            position[0] = object.position[0];
-            position[1] = object.position[1];
+            for (int i = 0; i < SPACE_DIMENSION; ++i) {
 
-            speed[0] = object.speed[0];
-            speed[1] = object.speed[1];
+                position[i] = object.position[i];
+                position[i] = object.position[i];
 
-            acceleration[0] = object.acceleration[0];
-            acceleration[1] = object.acceleration[1];
+                speed[i] = object.speed[i];
+                speed[i] = object.speed[i];
+
+                acceleration[i] = object.acceleration[i];
+                acceleration[i] = object.acceleration[i];
+            }
 
             weight = object.weight;
         }
     }
 
     bool model::Object2D::touch(const Object2D &object) {
+/*
+        auto e1 = object.getPoints();
+        for (auto p1 : e1) {
 
-        std::set<std::pair<double, double >> e1 = object.getPoints();
-        for (std::pair<double, double> p1 : e1) {
-            p1.first += object.getPositionX();
-            p1.second += object.getPositionY();
         }
 
         std::set<std::pair<double, double >> e2 = getPoints();
@@ -62,7 +65,7 @@ namespace model {
                 }
             }
         }
-
+*/
         return false;
     }
 
@@ -130,7 +133,7 @@ namespace model {
 
     }
 
-    const std::set<std::pair<double, double >> &Object2D::getPoints() const {
+    const std::set<std::array<double, SPACE_DIMENSION>> &Object2D::getPoints() const {
         return points;
     }
 

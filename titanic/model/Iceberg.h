@@ -8,8 +8,11 @@ namespace model {
 
     class Iceberg : public Object2D {
 
+    private:
+
+
     public:
-        explicit Iceberg(double x, double y, double rayon);
+        explicit Iceberg(const Object2D &object, double x, double y, double rayon);
     };
 }
 

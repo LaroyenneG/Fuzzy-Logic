@@ -3,7 +3,7 @@
 
 namespace model {
 
-    Iceberg::Iceberg(double x, double y, double rayon) {
+    Iceberg::Iceberg(const Object2D &object, double x, double y, double rayon) : Object2D(object) {
 
     }
 }

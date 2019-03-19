@@ -10,7 +10,7 @@ namespace model {
 
     private:
         Titanic titanic;
-        Iceberg iceberg;
+        //  Iceberg iceberg;
 
     public:
         explicit Model();
