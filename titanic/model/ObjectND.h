@@ -29,8 +29,9 @@ namespace model {
         T weight;                              // kg
 
     public:
-        explicit ObjectND(const std::set<std::array<T, D>> &_points, const T *_position, const T *_speed,
-                          const T *_acceleration, const T &_weight);
+        explicit ObjectND(const std::set<std::array<T, D>> &_points, const std::array<T, D> &_position,
+                          const std::array<T, D> &_speed,
+                          const std::array<T, D> &_acceleration, const T &_weight);
 
         ObjectND(const ObjectND &object);
 
@@ -66,8 +67,8 @@ namespace model {
     };
 
     template<typename T, unsigned int D>
-    ObjectND<T, D>::ObjectND(const std::set<std::array<T, D>> &_points, const T *_position, const T *_speed,
-                             const T *_acceleration, const T &_weight)
+    ObjectND<T, D>::ObjectND(const std::set<std::array<T, D>> &_points, const std::array<T, D> &_position,
+                             const std::array<T, D> &_speed, const std::array<T, D> &_acceleration, const T &_weight)
             : DIM(D), points(_points), weight(_weight) {
 
         for (unsigned int i = 0; i < DIM; ++i) {
@@ -189,6 +190,5 @@ namespace model {
 
     }
 }
-
 
 #endif //LOGIQUEFLOUE_OBJECTND_H

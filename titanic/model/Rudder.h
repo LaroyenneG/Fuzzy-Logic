@@ -5,7 +5,7 @@
 #include <utility>
 #include <array>
 
-#include "Object2D.h"
+#include "PhysicObject2D.h"
 
 #define RUDDER_DEFAULT_VALUE 0.0
 #define RUDDER_DEFAULT_W_SPEED_X 0.0
@@ -19,7 +19,7 @@ namespace model {
 
     private:
         double value;                           // radian
-        double waterSpeed[SPACE_DIMENSION];     // m / s
+        double waterSpeed[MODEL_SPACE_DIMENSION];     // m / s
         double size;                            // m
 
     public:
@@ -35,7 +35,7 @@ namespace model {
 
         double getValue() const;
 
-        std::array<double, SPACE_DIMENSION> getVectorStrength() const;
+        std::array<double, MODEL_SPACE_DIMENSION> getVectorStrength() const;
     };
 }
 

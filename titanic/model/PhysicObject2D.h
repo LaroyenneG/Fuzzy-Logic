@@ -14,18 +14,18 @@
 #define DEFAULT_ACCELERATION_X 0.0
 #define DEFAULT_ACCELERATION_Y 0.0
 
-#define SPACE_DIMENSION 2
+#define MODEL_SPACE_DIMENSION 2
 
 namespace model {
 
-    class Object2D : public ObjectND<double, SPACE_DIMENSION> {
+    class PhysicObject2D : public ObjectND<double, MODEL_SPACE_DIMENSION> {
 
     public:
-        explicit Object2D(const std::set<std::array<double, SPACE_DIMENSION>> &_points, double _xPosition,
-                          double _yPosition,
-                          double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration, double _weight);
+        explicit PhysicObject2D(const std::set<std::array<double, MODEL_SPACE_DIMENSION>> &_points, double _xPosition,
+                                double _yPosition,
+                                double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration, double _weight);
 
-        explicit Object2D(const std::set<std::array<double, SPACE_DIMENSION>> &_points, double _weight);
+        explicit PhysicObject2D(const std::set<std::array<double, MODEL_SPACE_DIMENSION>> &_points, double _weight);
 
         double getPositionX() const;
 
@@ -51,7 +51,7 @@ namespace model {
 
         void setAccelerationY(double value);
 
-        ~Object2D() override = default;
+        ~PhysicObject2D() override = default;
     };
 }
 

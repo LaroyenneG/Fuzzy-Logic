@@ -15,7 +15,6 @@ message(STATUS "Find Qt5")
 
 find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5Core CONFIG REQUIRED)
-find_package(Qt5WebKit CONFIG REQUIRED)
 
 message(STATUS "Sources directory :  ${CMAKE_SOURCE_DIR}")
 

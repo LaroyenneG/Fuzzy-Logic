@@ -30,7 +30,7 @@ namespace model {
         waterSpeed[1] = yValue;
     }
 
-    std::array<double, SPACE_DIMENSION> Rudder::getVectorStrength() const {
-        return std::array<double, SPACE_DIMENSION>();
+    std::array<double, MODEL_SPACE_DIMENSION> Rudder::getVectorStrength() const {
+        return std::array<double, MODEL_SPACE_DIMENSION>();
     }
 }
