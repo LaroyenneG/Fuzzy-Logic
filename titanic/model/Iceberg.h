@@ -22,6 +22,8 @@ namespace model {
     public:
         explicit Iceberg(double x, double y, double r, double _weight);
 
+        explicit Iceberg(double x, double y);
+
         explicit Iceberg();
     };
 }

@@ -10,7 +10,7 @@ namespace model {
     }
 
     AlternativeMachine::AlternativeMachine()
-            : AlternativeMachine(ALTERNATIVE_DEFAULT_ENGINE_NAME, ALTERNATIVE_DEFAULT_PROPELLER_DIAMETER,
+            : AlternativeMachine(std::string(ALTERNATIVE_DEFAULT_ENGINE_NAME), ALTERNATIVE_DEFAULT_PROPELLER_DIAMETER,
                                  ALTERNATIVE_DEFAULT_PROPELLER_WEIGHT) {
 
     }

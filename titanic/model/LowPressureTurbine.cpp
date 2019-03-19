@@ -8,7 +8,7 @@ namespace model {
     }
 
     LowPressureTurbine::LowPressureTurbine()
-            : LowPressureTurbine(TURBINE_DEFAULT_ENGINE_NAME, TURBINE_DEFAULT_PROPELLER_DIAMETER,
+            : LowPressureTurbine(std::string(TURBINE_DEFAULT_ENGINE_NAME), TURBINE_DEFAULT_PROPELLER_DIAMETER,
                                  TURBINE_DEFAULT_PROPELLER_WEIGHT) {
     }
 }

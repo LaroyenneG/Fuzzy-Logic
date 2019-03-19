@@ -21,6 +21,7 @@ namespace view {
         parent->addLayout(dashboard);
         parent->setMenuBar(menuBar);
 
+
         setWindowTitle(WINDOWS_TITLE);
         setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
     }
@@ -32,5 +33,9 @@ namespace view {
         delete dashboard;
         delete parent;
         delete menuBar;
+    }
+
+    QGraphicsScene &View::getScene() {
+        return *titanicScene;
     }
 }

@@ -25,6 +25,8 @@ namespace view {
     public:
         explicit View();
 
+        QGraphicsScene &getScene();
+
         ~View() override;
     };
 }

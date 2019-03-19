@@ -8,9 +8,11 @@
 #include "Engine.h"
 #include "Rudder.h"
 
-#define DEFAULT_COURSE 0.0
-#define DEFAULT_RUDDER 0.0
+#define TITANIC_DEFAULT_COURSE 0.0
+#define TITANIC_DEFAULT_RUDDER 0.0
 #define TITANIC_DEFAULT_WEIGHT 52310000.0
+#define TITANIC_DEFAULT_X 0.0
+#define TITANIC_DEFAULT_Y 0.0
 
 #define ENGINES_COUNTER 3
 
@@ -31,6 +33,8 @@ namespace model {
         explicit Titanic(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &points, double _course,
                          double _weight,
                          double _xPosition, double _yPosition);
+
+        explicit Titanic(double x, double y, double course);
 
         explicit Titanic();
 

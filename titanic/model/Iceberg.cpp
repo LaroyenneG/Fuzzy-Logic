@@ -11,7 +11,11 @@ namespace model {
 
     }
 
-    Iceberg::Iceberg() : Iceberg(DEFAULT_ICEBERG_X, DEFAULT_ICEBERG_Y, DEFAULT_ICEBERG_RAYON, DEFAULT_ICEBERG_WEIGHT) {
+    Iceberg::Iceberg(double x, double y) : Iceberg(x, y, DEFAULT_ICEBERG_RAYON, DEFAULT_ICEBERG_WEIGHT) {
+
+    }
+
+    Iceberg::Iceberg() : Iceberg(DEFAULT_ICEBERG_X, DEFAULT_ICEBERG_Y) {
 
     }
 

@@ -9,11 +9,12 @@ namespace model {
     class Model {
 
     private:
-        Titanic titanic;
-        Iceberg iceberg;
+        std::set<PhysicObject2D *> elements;
 
     public:
         explicit Model();
+
+        ~Model();
     };
 }
 
