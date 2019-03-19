@@ -4,6 +4,11 @@
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QBoxLayout>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QSlider>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QProgressBar>
 
 
 #define WINDOWS_TITLE "Save the Titanic"
@@ -21,6 +26,18 @@ namespace view {
         QGraphicsScene *titanicScene;
         QGridLayout *dashboard;
         QMenuBar *menuBar;
+        QFormLayout *commandPost;
+        QFormLayout *statisticalBoard;
+        QSlider *machineSlider;
+        QLabel *rpmMachinesLabel;
+        QLabel *speedLabel;
+        QSlider *helmSlider;
+        QLabel *courseLabel;
+        QCheckBox *automaticPilotCheckBox;
+        QProgressBar *progressBarLazer1;
+        QProgressBar *progressBarLazer2;
+        QProgressBar *progressBarLazer3;
+        QLabel *distanceLabel;
 
     public:
         explicit View();
