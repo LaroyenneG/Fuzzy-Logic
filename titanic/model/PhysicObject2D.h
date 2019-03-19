@@ -21,11 +21,12 @@ namespace model {
     class PhysicObject2D : public ObjectND<double, MODEL_SPACE_DIMENSION> {
 
     public:
-        explicit PhysicObject2D(const std::set<std::array<double, MODEL_SPACE_DIMENSION>> &_points, double _xPosition,
+        explicit PhysicObject2D(const std::vector<std::array<double, 2>> &_points, double _xPosition,
                                 double _yPosition,
-                                double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration, double _weight);
+                                double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration,
+                                double _weight);
 
-        explicit PhysicObject2D(const std::set<std::array<double, MODEL_SPACE_DIMENSION>> &_points, double _xPosition,
+        explicit PhysicObject2D(const std::vector<std::array<double, 2>> &_points, double _xPosition,
                                 double _yPosition, double _weight);
 
         double getPositionX() const;

@@ -15,7 +15,7 @@ namespace model {
     class Iceberg : public PhysicObject2D {
 
     private:
-        std::set<std::array<double, MODEL_SPACE_DIMENSION>> buildPointBounds(double r, unsigned int np);
+        std::vector<std::array<double, 2>> buildPointBounds(double r, unsigned int np);
 
     public:
         explicit Iceberg(double x, double y, double r);

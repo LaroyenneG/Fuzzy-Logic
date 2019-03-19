@@ -4,7 +4,7 @@
 
 
 #include <array>
-#include <set>
+#include <vector>
 
 #define INDEX_ERROR_MSG "out of bounds"
 
@@ -20,7 +20,7 @@ namespace model {
         const unsigned int DIM;
 
     private:
-        std::set<std::array<T, D>> points;     // m
+        std::vector<std::array<T, D>> points;     // m
 
         T position[D];                         // m
         T speed[D];                            // m / s
@@ -29,11 +29,11 @@ namespace model {
         T weight;                              // kg
 
     public:
-        explicit ObjectND(const std::set<std::array<T, D>> &_points, const std::array<T, D> &_position,
+        explicit ObjectND(const std::vector<std::array<T, D>> &_points, const std::array<T, D> &_position,
                           const std::array<T, D> &_speed,
                           const std::array<T, D> &_acceleration, const T &_weight);
 
-        ObjectND(const ObjectND &object);
+        ObjectND(const ObjectND<T, D> &object);
 
         virtual ~ObjectND() = default;
 
@@ -53,7 +53,7 @@ namespace model {
 
         const T &getWeight() const;
 
-        bool touch(const ObjectND &object);
+        bool touch(const ObjectND<T, D> &object) const;
 
         void nextPosition(const T &time);
 
@@ -61,13 +61,13 @@ namespace model {
 
         void nextTime(const T &time);
 
-        const std::set<std::array<T, D>> &getPoints() const;
+        const std::vector<std::array<T, D>> &getPoints() const;
 
         ObjectND &operator=(const ObjectND &object);
     };
 
     template<typename T, unsigned int D>
-    ObjectND<T, D>::ObjectND(const std::set<std::array<T, D>> &_points, const std::array<T, D> &_position,
+    ObjectND<T, D>::ObjectND(const std::vector<std::array<T, D>> &_points, const std::array<T, D> &_position,
                              const std::array<T, D> &_speed, const std::array<T, D> &_acceleration, const T &_weight)
             : DIM(D), points(_points), weight(_weight) {
 
@@ -90,7 +90,7 @@ namespace model {
     }
 
     template<typename T, unsigned int D>
-    const std::set<std::array<T, D>> &ObjectND<T, D>::getPoints() const {
+    const std::vector<std::array<T, D>> &ObjectND<T, D>::getPoints() const {
         return points;
     }
 
@@ -171,7 +171,35 @@ namespace model {
     }
 
     template<typename T, unsigned int D>
-    bool ObjectND<T, D>::touch(const ObjectND &object) {
+    bool ObjectND<T, D>::touch(const ObjectND<T, D> &object) const {
+
+        /********************* Compute absolute points ************************/
+
+        std::vector<std::array<T, D>> e1;
+        for (auto &point : points) {
+
+            std::array<T, D> nPoint = point;
+            for (int i = 0; i < D; ++i) {
+                nPoint[i] += position[i];
+            }
+
+            e1.insert(nPoint);
+        }
+
+        std::vector<std::array<T, D>> e2;
+        for (auto &point : object.points) {
+
+            std::array<T, D> nPoint = point;
+            for (int i = 0; i < D; ++i) {
+                nPoint[i] += object.position[i];
+            }
+
+            e2.insert(nPoint);
+        }
+
+        /********************************************************************/
+
+
         return false;
     }
 

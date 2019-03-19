@@ -11,9 +11,9 @@ namespace model {
 
     }
 
-    std::set<std::array<double, MODEL_SPACE_DIMENSION>> Iceberg::buildPointBounds(double r, unsigned int np) {
+    std::vector<std::array<double, 2>> Iceberg::buildPointBounds(double r, unsigned int np) {
 
-        std::set<std::array<double, MODEL_SPACE_DIMENSION>> points;
+        std::vector<std::array<double, MODEL_SPACE_DIMENSION>> points;
 
         for (unsigned int i = 0; i < np; ++i) {
 
@@ -21,7 +21,7 @@ namespace model {
 
             std::array<double, MODEL_SPACE_DIMENSION> point{cos(a) * r, sin(a) * r};
 
-            points.insert(point);
+            points.push_back(point);
         }
 
         return points;

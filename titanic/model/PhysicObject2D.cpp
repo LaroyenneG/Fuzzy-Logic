@@ -4,7 +4,7 @@
 
 namespace model {
 
-    PhysicObject2D::PhysicObject2D(const std::set<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
+    PhysicObject2D::PhysicObject2D(const std::vector<std::array<double, 2>> &_points,
                                    double _xPosition,
                                    double _yPosition,
                                    double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration,
@@ -14,7 +14,7 @@ namespace model {
                      std::array<double, MODEL_SPACE_DIMENSION>{{_xAcceleration, _yAcceleration}}, _weight) {
     }
 
-    PhysicObject2D::PhysicObject2D(const std::set<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
+    PhysicObject2D::PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
                                    double _xPosition,
                                    double _yPosition, double _weight)
             : PhysicObject2D(_points, _xPosition, _yPosition, DEFAULT_SPEED_X, DEFAULT_SPEED_Y, DEFAULT_ACCELERATION_X,

@@ -19,7 +19,7 @@ namespace model {
     class Titanic : public PhysicObject2D {
 
     private:
-        const static std::set<std::array<double, MODEL_SPACE_DIMENSION>> DEFAULT_POINTS;
+        const static std::vector<std::array<double, MODEL_SPACE_DIMENSION>> DEFAULT_POINTS;
 
         double course;  // radian
 
@@ -28,8 +28,8 @@ namespace model {
         const std::array<Engine *, ENGINES_COUNTER> engines;
 
     public:
-        explicit Titanic(const std::set<std::array<double, MODEL_SPACE_DIMENSION>> &points, double _course,
-                         double _weight);
+        explicit Titanic(const std::vector<std::array<double, 2>> &points, double _course, double _weight,
+                         double _xPosition, double _yPosition);
 
         explicit Titanic();
 
