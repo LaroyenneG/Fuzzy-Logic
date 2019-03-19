@@ -199,6 +199,19 @@ namespace model {
 
         /********************************************************************/
 
+        for (unsigned int i = 0; i < e1.size() - 1; ++i) {
+
+            auto &p11 = e1[i];
+            auto &p12 = e1[i + 1];
+
+            for (unsigned int j = 0; j < e2.size(); ++j) {
+
+                auto &p21 = e2[j];
+                auto &p22 = e2[j + 1];
+
+                /* to do */
+            }
+        }
 
         return false;
     }
@@ -215,7 +228,8 @@ namespace model {
 
     template<typename T, unsigned int D>
     void ObjectND<T, D>::nextTime(const T &time) {
-
+        nextSpeed(time);
+        nextPosition(time);
     }
 }
 
