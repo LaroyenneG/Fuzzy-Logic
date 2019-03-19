@@ -14,4 +14,8 @@ namespace model {
             delete element;
         }
     }
+
+    const std::set<PhysicObject2D *> &Model::getElements() const {
+        return elements;
+    }
 }

@@ -1,4 +1,5 @@
 
+#include <stdexcept>
 #include "Engine.h"
 
 namespace model {
@@ -34,6 +35,11 @@ namespace model {
     }
 
     void Engine::setPower(double value) {
+
+        if (value < -1.0 || value > 1.0) {
+            throw std::out_of_range(ENGINE_VALUE_ERROR_MSG);
+        }
+
         power = value;
     }
 }

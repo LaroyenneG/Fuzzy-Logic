@@ -19,7 +19,7 @@ namespace model {
 
         explicit AlternativeMachine();
 
-        ~AlternativeMachine() = default;
+        ~AlternativeMachine() override = default;
     };
 }
 

@@ -3,10 +3,13 @@
 #define LOGIQUEFLOUE_ENGINE_H
 
 #include <string>
+#include <exception>
 
 #define ENGINE_DEFAULT_POWER 0.0
 #define ENGINE_DEFAULT_ROTATION 0.0
 #define ENGINE_DEFAULT_FRICTION 0.0
+
+#define ENGINE_VALUE_ERROR_MSG "Engine invalid engine power"
 
 namespace model {
 
@@ -16,7 +19,7 @@ namespace model {
         const std::string name;
 
         double rotationSpeed;       // radian / s
-        double power;               // [0 - 1] %
+        double power;               // [-1 - 1] %
 
         const double friction;            // m / s
         const double propellerDiameter;   // m
@@ -38,7 +41,9 @@ namespace model {
 
         double getPower() const;
 
-        void setPower(double value);
+        virtual void setPower(double value);
+
+        virtual ~Engine() = default;
     };
 }
 

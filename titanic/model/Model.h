@@ -14,6 +14,8 @@ namespace model {
     public:
         explicit Model();
 
+        const std::set<PhysicObject2D *> &getElements() const;
+
         ~Model();
     };
 }

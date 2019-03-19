@@ -3,6 +3,7 @@
 
 #include <set>
 #include <map>
+
 #include "ObjectND.h"
 
 #define DEFAULT_SPEED_X 0.0
@@ -16,17 +17,23 @@
 #define X_DIM_VALUE 0
 #define Y_DIM_VALUE 1
 
+namespace view {
+    class Draftsman;
+}
+
 namespace model {
 
     class PhysicObject2D : public ObjectND<double, MODEL_SPACE_DIMENSION> {
 
     public:
-        explicit PhysicObject2D(const std::vector<std::array<double, 2>> &_points, double _xPosition,
+        explicit PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
+                                double _xPosition,
                                 double _yPosition,
                                 double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration,
                                 double _weight);
 
-        explicit PhysicObject2D(const std::vector<std::array<double, 2>> &_points, double _xPosition,
+        explicit PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
+                                double _xPosition,
                                 double _yPosition, double _weight);
 
         double getPositionX() const;
@@ -52,6 +59,8 @@ namespace model {
         void setAccelerationX(double value);
 
         void setAccelerationY(double value);
+
+        virtual void drawMe(view::Draftsman *draftsman);
 
         ~PhysicObject2D() override = default;
     };

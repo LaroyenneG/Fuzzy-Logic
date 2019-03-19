@@ -3,9 +3,8 @@
 #define LOGIQUEFLOUE_DRAFTSMAN_H
 
 #include <QtWidgets/QGraphicsScene>
-#include "Model.h"
 
-using namespace model;
+#include "Model.h"
 
 namespace view {
 
@@ -14,13 +13,15 @@ namespace view {
     private:
         static const QColor SEA_COLOR;
 
-        const Model &model;
-        QGraphicsScene &qGraphicsScene;
+        const model::Model &model;
+        QGraphicsScene &scene;
 
     public:
-        explicit Draftsman(const Model &_model, QGraphicsScene &_qGraphicsScene);
+        explicit Draftsman(const model::Model &_model, QGraphicsScene &_scene);
 
         void draw();
+
+        void drawElement(const model::PhysicObject2D *object);
 
         ~Draftsman() = default;
     };

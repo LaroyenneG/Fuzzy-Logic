@@ -1,6 +1,4 @@
-
-
-#include "PhysicObject2D.h"
+#include "Draftsman.h"
 
 namespace model {
 
@@ -67,5 +65,9 @@ namespace model {
 
     void PhysicObject2D::setAccelerationY(double value) {
         setAcceleration(value, Y_DIM_VALUE);
+    }
+
+    void PhysicObject2D::drawMe(view::Draftsman *draftsman) {
+        draftsman->drawElement(this);
     }
 }

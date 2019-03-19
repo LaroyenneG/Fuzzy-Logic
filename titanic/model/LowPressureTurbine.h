@@ -1,6 +1,8 @@
 #ifndef LOGIQUEFLOUE_LOWPRESSURETURBINE_H
 #define LOGIQUEFLOUE_LOWPRESSURETURBINE_H
 
+#include <exception>
+
 #include "Engine.h"
 
 #define TURBINE_DEFAULT_ENGINE_NAME "Low pressure turbine"
@@ -17,7 +19,9 @@ namespace model {
 
         explicit LowPressureTurbine();
 
-        ~LowPressureTurbine() = default;
+        void setPower(double value) override;
+
+        ~LowPressureTurbine() override = default;
     };
 }
 
