@@ -5,14 +5,14 @@
 
 namespace model {
 
-    const std::set<std::pair<double, double >> Titanic::DEFAULT_POINTS{{0.0,   0.0},
-                                                                       {-14.0, 30},
-                                                                       {14.0,  30.0},
-                                                                       {-14,   218.0},
-                                                                       {14.0,  218.0},
-                                                                       {0.0,   269.0}};
+    const std::set<std::array<double, SPACE_DIMENSION>> Titanic::DEFAULT_POINTS{{0.0,   0.0},
+                                                                                {-14.0, 30},
+                                                                                {14.0,  30.0},
+                                                                                {-14,   218.0},
+                                                                                {14.0,  218.0},
+                                                                                {0.0,   269.0}};
 
-    Titanic::Titanic(const std::set<std::pair<double, double >> &points, double _course, double _weight)
+    Titanic::Titanic(const std::set<std::array<double, SPACE_DIMENSION>> &points, double _course, double _weight)
             : Object2D(points, _weight),
               course(_course),
               rudder(), engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {

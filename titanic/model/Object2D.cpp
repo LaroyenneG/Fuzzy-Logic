@@ -6,10 +6,8 @@ namespace model {
 
     Object2D::Object2D(const std::set<std::array<double, SPACE_DIMENSION>> &_points, double _xPosition,
                        double _yPosition,
-                       double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration, double _weight)
-            : points(_points), position{_xPosition, _yPosition}, speed{_xSpeed, _ySpeed},
-              acceleration{_xAcceleration, _yAcceleration},
-              weight(_weight) {
+                       double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration, double _weight) :
+            ObjectND(_points, nullptr, nullptr, nullptr, _weight) {
     }
 
     Object2D::Object2D(const std::set<std::array<double, SPACE_DIMENSION>> &_points, double _weight)
@@ -23,122 +21,51 @@ namespace model {
                        _weight) {
     }
 
-    Object2D::Object2D(const Object2D &object) {
-
-        if (this != &object) {
-
-            points = object.points;
-
-            for (int i = 0; i < SPACE_DIMENSION; ++i) {
-
-                position[i] = object.position[i];
-                position[i] = object.position[i];
-
-                speed[i] = object.speed[i];
-                speed[i] = object.speed[i];
-
-                acceleration[i] = object.acceleration[i];
-                acceleration[i] = object.acceleration[i];
-            }
-
-            weight = object.weight;
-        }
-    }
-
-    bool model::Object2D::touch(const Object2D &object) {
-/*
-        auto e1 = object.getPoints();
-        for (auto p1 : e1) {
-
-        }
-
-        std::set<std::pair<double, double >> e2 = getPoints();
-        for (std::pair<double, double> p2 : e2) {
-            p2.first += getPositionX();
-            p2.second += getPositionY();
-        }
-
-        for (auto &p1 : e1) {
-            for (auto &p2 : e2) {
-                if (p1 == p2) { // a chager bien evidement
-                    return true;
-                }
-            }
-        }
-*/
-        return false;
-    }
-
     double Object2D::getPositionX() const {
-        return position[0];
+        return getPosition(0);
     }
 
     double Object2D::getPositionY() const {
-        return position[1];
+        return getPosition(1);
     }
 
     void Object2D::setPositionX(double value) {
-        position[0] = value;
+        setPosition(value, 0);
     }
 
     void Object2D::setPositionY(double value) {
-        position[1] = value;
-    }
-
-    double Object2D::getWeight() const {
-        return weight;
-    }
-
-    void Object2D::setWeight(double value) {
-        weight = value;
+        setPosition(value, 1);
     }
 
     void Object2D::setSpeedX(double value) {
-        speed[0] = value;
+        setSpeed(value, 0);
     }
 
     void Object2D::setSpeedY(double value) {
-        speed[1] = value;
+        setSpeed(value, 1);
     }
 
     double Object2D::getSpeedX() const {
-        return speed[0];
+        return getSpeed(0);
     }
 
     double Object2D::getSpeedY() const {
-        return speed[1];
-    }
-
-    void Object2D::nextPosition(double time) {
-
+        return getSpeed(1);
     }
 
     double Object2D::getAccelerationX() const {
-        return acceleration[0];
+        return getAcceleration(0);
     }
 
     double Object2D::getAccelerationY() const {
-        return acceleration[1];
+        return getAcceleration(1);
     }
 
     void Object2D::setAccelerationX(double value) {
-        acceleration[0] = value;
+        setAcceleration(value, 0);
     }
 
     void Object2D::setAccelerationY(double value) {
-        acceleration[1] = value;
-    }
-
-    void Object2D::nextSpeed(double time) {
-
-    }
-
-    const std::set<std::array<double, SPACE_DIMENSION>> &Object2D::getPoints() const {
-        return points;
-    }
-
-    void Object2D::nextTime(double time) {
-        nextSpeed(time);
-        nextPosition(time);
+        setAcceleration(value, 1);
     }
 }

@@ -15,7 +15,7 @@ message(STATUS "Find Qt5")
 
 find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5Core CONFIG REQUIRED)
-#find_package(Qt5WebKit CONFIG REQUIRED)
+find_package(Qt5WebKit CONFIG REQUIRED)
 
 message(STATUS "Sources directory :  ${CMAKE_SOURCE_DIR}")
 
@@ -44,13 +44,13 @@ set(FUZZY_LIBRARY ${CORE_SOURCES} ${FUZZY_SOURCES} ${EXCEPTION_SOURCES} ${INTP_S
 
 add_library(fuzzy ${FUZZY_LIBRARY})
 add_executable(FuzzyTest ${TEST_SOURCES} ${FUZZY_LIBRARY})
-#add_executable(Titanic ${TITANIC_SOURCES} ${FUZZY_LIBRARY})
+add_executable(Titanic ${TITANIC_SOURCES} ${FUZZY_LIBRARY})
 
 set(QT_MODULES Qt5::Widgets Qt5::Core)
 
 message(STATUS "Add libraries...")
 
 target_link_libraries(FuzzyTest ${CMAKE_SOURCE_DIR}/lib/${CPPUNIT})
-#target_link_libraries(Titanic ${QT_MODULES})
+target_link_libraries(Titanic ${QT_MODULES})
 
 message("Cppunit archive file : ${CMAKE_SOURCE_DIR}/lib/${CPPUNIT}")

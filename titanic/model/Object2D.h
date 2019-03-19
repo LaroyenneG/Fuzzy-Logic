@@ -3,6 +3,7 @@
 
 #include <set>
 #include <map>
+#include "ObjectND.h"
 
 #define DEFAULT_POSITION_X 0.0
 #define DEFAULT_POSITION_Y 0.0
@@ -13,22 +14,11 @@
 #define DEFAULT_ACCELERATION_X 0.0
 #define DEFAULT_ACCELERATION_Y 0.0
 
-#define DEFAULT_WEIGHT 0.0
-
 #define SPACE_DIMENSION 2
 
 namespace model {
 
-    class Object2D {
-
-    private:
-        std::set<std::array<double, SPACE_DIMENSION>> points; // m
-
-        double position[SPACE_DIMENSION];            // m
-        double speed[SPACE_DIMENSION];               // m / s
-        double acceleration[SPACE_DIMENSION];        // m / s²
-
-        double weight;                               // kg
+    class Object2D : public ObjectND<double, SPACE_DIMENSION> {
 
     public:
         explicit Object2D(const std::set<std::array<double, SPACE_DIMENSION>> &_points, double _xPosition,
@@ -37,10 +27,6 @@ namespace model {
 
         explicit Object2D(const std::set<std::array<double, SPACE_DIMENSION>> &_points, double _weight);
 
-        Object2D(const Object2D &object);
-
-        bool touch(const Object2D &object);
-
         double getPositionX() const;
 
         double getPositionY() const;
@@ -48,10 +34,6 @@ namespace model {
         void setPositionX(double value);
 
         void setPositionY(double value);
-
-        void setWeight(double value);
-
-        double getWeight() const;
 
         void setSpeedX(double value);
 
@@ -69,15 +51,7 @@ namespace model {
 
         void setAccelerationY(double value);
 
-        void nextPosition(double time);
-
-        void nextSpeed(double time);
-
-        void nextTime(double time);
-
-        const std::set<std::array<double, SPACE_DIMENSION>> &getPoints() const;
-
-        virtual ~Object2D() = default;
+        ~Object2D() override = default;
     };
 }
 
