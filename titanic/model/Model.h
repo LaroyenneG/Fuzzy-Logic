@@ -12,6 +12,8 @@ namespace model {
         Titanic titanic;
         Iceberg iceberg;
 
+    public:
+        explicit Model();
     };
 }
 

@@ -11,7 +11,7 @@ namespace model {
               weight(_weight) {
     }
 
-    Object2D::Object2D(const std::set<std::pair<double, double >> &_points)
+    Object2D::Object2D(const std::set<std::pair<double, double >> &_points, double _weight)
             : Object2D(_points,
                        DEFAULT_POSITION_X,
                        DEFAULT_POSITION_Y,
@@ -19,7 +19,7 @@ namespace model {
                        DEFAULT_SPEED_Y,
                        DEFAULT_ACCELERATION_X,
                        DEFAULT_ACCELERATION_Y,
-                       DEFAULT_WEIGHT) {
+                       _weight) {
     }
 
     Object2D::Object2D(const Object2D &object) {

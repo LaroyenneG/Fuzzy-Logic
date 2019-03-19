@@ -5,25 +5,34 @@
 #include <vector>
 
 #include "Object2D.h"
+#include "Engine.h"
+#include "Rudder.h"
 
 #define DEFAULT_COURSE 0.0
 #define DEFAULT_RUDDER 0.0
-#define DEFAULT_PROPERLER 0.0
-#define DEFAULT_ENGINE_POWER 0.0
+#define TITANIC_DEFAULT_WEIGHT 52310000.0
+
 
 namespace model {
 
     class Titanic : public Object2D {
 
     private:
-        double course;          // radian
-        double rudder;          // radian
-        double propellerSpeed;      // radian / s
-        double propellerAccelerator;    // radian / s²
+        const static std::set<std::pair<double, double >> DEFAULT_POINTS;
+
+        double course;  // radian
+
+        Rudder rudder;
+
+        const std::array<Engine *, 3> engines;
 
     public:
         explicit Titanic(const std::set<std::pair<double, double >> &points, double _course, double _rudder,
-                         double _propellerAccelerator, double _enginePower);
+                         double _weight);
+
+        explicit Titanic();
+
+        ~Titanic() override;
     };
 }
 

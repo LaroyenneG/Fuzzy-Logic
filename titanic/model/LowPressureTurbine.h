@@ -1,0 +1,24 @@
+#ifndef LOGIQUEFLOUE_LOWPRESSURETURBINE_H
+#define LOGIQUEFLOUE_LOWPRESSURETURBINE_H
+
+#include "Engine.h"
+
+#define TURBINE_DEFAULT_ENGINE_NAME "Low pressure turbine"
+
+#define TURBINE_DEFAULT_PROPELLER_DIAMETER 5.20
+#define TURBINE_DEFAULT_PROPELLER_WEIGHT 22000
+
+namespace model {
+
+    class LowPressureTurbine : public Engine {
+    public:
+        explicit LowPressureTurbine(const std::string &_name, double _propellerDiameter, double _propellerWeight);
+
+        explicit LowPressureTurbine();
+
+        ~LowPressureTurbine() = default;
+    };
+}
+
+
+#endif //LOGIQUEFLOUE_LOWPRESSURETURBINE_H

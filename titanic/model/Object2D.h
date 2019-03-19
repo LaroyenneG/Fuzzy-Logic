@@ -34,7 +34,7 @@ namespace model {
         explicit Object2D(const std::set<std::pair<double, double >> &_points, double _xPosition, double _yPosition,
                           double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration, double _weight);
 
-        explicit Object2D(const std::set<std::pair<double, double >> &_points);
+        explicit Object2D(const std::set<std::pair<double, double >> &_points, double _weight);
 
         Object2D(const Object2D &object);
 
