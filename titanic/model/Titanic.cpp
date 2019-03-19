@@ -13,7 +13,7 @@ namespace model {
                                                                                       {0.0,   269.0}};
 
     Titanic::Titanic(const std::set<std::array<double, MODEL_SPACE_DIMENSION>> &points, double _course, double _weight)
-            : PhysicObject2D(points, _weight),
+            : PhysicObject2D(points, 0, 0, _weight),
               course(_course),
               rudder(), engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
 

@@ -5,9 +5,6 @@
 #include <map>
 #include "ObjectND.h"
 
-#define DEFAULT_POSITION_X 0.0
-#define DEFAULT_POSITION_Y 0.0
-
 #define DEFAULT_SPEED_X 0.0
 #define DEFAULT_SPEED_Y 0.0
 
@@ -15,6 +12,9 @@
 #define DEFAULT_ACCELERATION_Y 0.0
 
 #define MODEL_SPACE_DIMENSION 2
+
+#define X_DIM_VALUE 0
+#define Y_DIM_VALUE 1
 
 namespace model {
 
@@ -25,7 +25,8 @@ namespace model {
                                 double _yPosition,
                                 double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration, double _weight);
 
-        explicit PhysicObject2D(const std::set<std::array<double, MODEL_SPACE_DIMENSION>> &_points, double _weight);
+        explicit PhysicObject2D(const std::set<std::array<double, MODEL_SPACE_DIMENSION>> &_points, double _xPosition,
+                                double _yPosition, double _weight);
 
         double getPositionX() const;
 
