@@ -6,12 +6,16 @@
 
 namespace model {
 
-    Iceberg::Iceberg(double x, double y, double r)
-            : PhysicObject2D(buildPointBounds(r, NB_POINTS), x, y, ICEBERG_WEIGHT) {
+    Iceberg::Iceberg(double x, double y, double r, double _weight)
+            : PhysicObject2D(buildPoints(r, NB_POINTS), x, y, _weight) {
 
     }
 
-    std::vector<std::array<double, 2>> Iceberg::buildPointBounds(double r, unsigned int np) {
+    Iceberg::Iceberg() : Iceberg(DEFAULT_ICEBERG_X, DEFAULT_ICEBERG_Y, DEFAULT_ICEBERG_RAYON, DEFAULT_ICEBERG_WEIGHT) {
+
+    }
+
+    std::vector<std::array<double, 2>> Iceberg::buildPoints(double r, unsigned int np) {
 
         std::vector<std::array<double, MODEL_SPACE_DIMENSION>> points;
 

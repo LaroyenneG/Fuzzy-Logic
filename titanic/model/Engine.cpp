@@ -1,28 +1,39 @@
 
 #include "Engine.h"
 
-model::Engine::Engine(const std::string &_name, double _propellerDiameter, double _propellerWeight)
-        : name(_name), rotationSpeed(DEFAULT_ROTATION), power(DEFAULT_POWER), friction(DEFAULT_FRICTION),
-          propellerDiameter(_propellerDiameter), propellerWeight(_propellerWeight) {
+namespace model {
 
-}
+    Engine::Engine(const std::string &_name, double _rotationSpeed, double _power, double _friction,
+                   double _propellerDiameter, double _propellerWeight, double _maxPower)
+            : name(_name), rotationSpeed(_rotationSpeed), power(_power), friction(_friction),
+              propellerDiameter(_propellerDiameter), propellerWeight(_propellerWeight), maxPower(_maxPower) {
 
-double model::Engine::getRotationSpeed() const {
-    return rotationSpeed;
-}
+    }
 
-const std::string &model::Engine::getName() const {
-    return name;
-}
+    Engine::Engine(const std::string &_name, double _propellerDiameter, double _propellerWeight, double _maxPower)
+            : Engine(name, ENGINE_DEFAULT_ROTATION, ENGINE_DEFAULT_POWER, ENGINE_DEFAULT_FRICTION, _propellerDiameter,
+                     _propellerWeight,
+                     _maxPower) {
 
-double model::Engine::getPropulsionStrength() const {
-    return 0;
-}
+    }
 
-double model::Engine::getPower() const {
-    return power;
-}
+    double Engine::getRotationSpeed() const {
+        return rotationSpeed;
+    }
 
-void model::Engine::setPower(double value) {
-    power = value;
+    const std::string &Engine::getName() const {
+        return name;
+    }
+
+    double Engine::getPropulsionStrength() const {
+        return 0;
+    }
+
+    double Engine::getPower() const {
+        return power;
+    }
+
+    void Engine::setPower(double value) {
+        power = value;
+    }
 }

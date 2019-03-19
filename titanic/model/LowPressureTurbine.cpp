@@ -4,7 +4,7 @@
 
 namespace model {
     LowPressureTurbine::LowPressureTurbine(const std::string &_name, double _propellerDiameter, double _propellerWeight)
-            : Engine(_name, _propellerDiameter, _propellerWeight) {
+            : Engine(_name, _propellerDiameter, _propellerWeight, TURBINE_DEFAULT_PROPELLER_MAX_POWER) {
     }
 
     LowPressureTurbine::LowPressureTurbine()

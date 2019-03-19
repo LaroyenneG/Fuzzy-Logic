@@ -5,7 +5,7 @@
 namespace model {
 
     AlternativeMachine::AlternativeMachine(const std::string &_name, double _propellerDiameter, double _propellerWeight)
-            : Engine(_name, _propellerDiameter, _propellerWeight) {
+            : Engine(_name, _propellerDiameter, _propellerWeight, ALTERNATIVE_DEFAULT_MAX_POWER) {
 
     }
 
