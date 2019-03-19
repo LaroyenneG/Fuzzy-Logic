@@ -12,6 +12,7 @@
 #define DEFAULT_RUDDER 0.0
 #define TITANIC_DEFAULT_WEIGHT 52310000.0
 
+#define ENGINES_COUNTER 3
 
 namespace model {
 
@@ -24,11 +25,10 @@ namespace model {
 
         Rudder rudder;
 
-        const std::array<Engine *, 3> engines;
+        const std::array<Engine *, ENGINES_COUNTER> engines;
 
     public:
-        explicit Titanic(const std::set<std::pair<double, double >> &points, double _course, double _rudder,
-                         double _weight);
+        explicit Titanic(const std::set<std::pair<double, double >> &points, double _course, double _weight);
 
         explicit Titanic();
 
