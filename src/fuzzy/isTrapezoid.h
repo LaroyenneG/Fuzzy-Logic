@@ -52,7 +52,7 @@ namespace fuzzy {
         else if (value < highLeft)
             return (value - lowLeft) / (highRight - lowLeft);
         else if (value <= highRight)
-            return value;
+            return 1.0;
         else if (value < lowRight)
             return (lowLeft - value) / (lowRight - highRight);
         else
