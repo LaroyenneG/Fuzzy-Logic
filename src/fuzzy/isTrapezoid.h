@@ -15,7 +15,7 @@ namespace fuzzy {
         T highRight;
 
     public:
-        explicit isTrapezoid(const T _lowLeft, const T _lowRight, const T _highLeft, const T _highRight);
+        explicit isTrapezoid(const T &_lowLeft, const T &_lowRight, const T &_highLeft, const T &_highRight);
 
         T evaluate(const core::Expression<T> *expression) const override;
 
@@ -37,7 +37,8 @@ namespace fuzzy {
     };
 
     template<typename T>
-    isTrapezoid<T>::isTrapezoid(const T _lowLeft, const T _lowRight, const T _highLeft, const T _highRight) :lowLeft(
+    isTrapezoid<T>::isTrapezoid(const T &_lowLeft, const T &_lowRight, const T &_highLeft, const T &_highRight)
+            :lowLeft(
             _lowLeft), lowRight(_lowRight), highLeft(_highLeft), highRight(_highRight) {
     }
 
