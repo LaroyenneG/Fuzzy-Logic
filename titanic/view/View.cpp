@@ -51,7 +51,7 @@ namespace view {
         dashboard->addLayout(statisticalBoard, 0, 1);
 
         commandPost->addRow("Machine (%) : ", machineSlider);
-        commandPost->addRow("Rotation (rmp) : ", rpmMachinesLabel);
+        commandPost->addRow("Rotation (rpm) : ", rpmMachinesLabel);
         commandPost->addRow("Speed (nd) : ", speedLabel);
         commandPost->addRow("Helm (%) : ", helmSlider);
         commandPost->addRow("Course (°) : ", courseLabel);
@@ -63,7 +63,7 @@ namespace view {
         statisticalBoard->addRow("Distance (m) : ", distanceLabel);
 
         setWindowTitle(WINDOWS_TITLE);
-        setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
+        //setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
 
         setMachinesSpeed(75, 75, 120);
     }

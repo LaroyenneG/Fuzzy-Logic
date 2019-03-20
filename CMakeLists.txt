@@ -51,5 +51,6 @@ message(STATUS "Add libraries...")
 
 target_link_libraries(FuzzyTest ${CMAKE_SOURCE_DIR}/lib/${CPPUNIT})
 target_link_libraries(Titanic ${QT_MODULES})
+target_link_libraries(Titanic pthread)
 
 message("Cppunit archive file : ${CMAKE_SOURCE_DIR}/lib/${CPPUNIT}")

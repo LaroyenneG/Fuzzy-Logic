@@ -30,8 +30,6 @@ namespace model {
 
         T weight;                              // kg
 
-        static T vectorNorm(const T *vector, unsigned int n);
-
     public:
         explicit ObjectND(const std::vector<std::array<T, D>> &_points, const std::array<T, D> &_position,
                           const std::array<T, D> &_speed,
@@ -39,6 +37,8 @@ namespace model {
                           const T &_weight);
 
         ObjectND(const ObjectND<T, D> &object);
+
+        static T vectorNorm(const T *vector, unsigned int n);
 
         virtual ~ObjectND() = default;
 
@@ -66,8 +66,6 @@ namespace model {
 
         const T &getWeight() const;
 
-        bool touch(const ObjectND<T, D> &object) const;
-
         void nextPosition(const T &time);
 
         void nextSpeed(const T &time);
@@ -76,7 +74,9 @@ namespace model {
 
         const std::vector<std::array<T, D>> &getPoints() const;
 
-        void writeAbsolutePoints(std::vector<std::array<T, D>> &_points) const;
+        virtual void writeAbsolutePoints(std::vector<std::array<T, D>> &_points) const = 0;
+
+        virtual bool touch(const ObjectND<T, D> &object) const = 0;
 
         ObjectND &operator=(const ObjectND &object);
     };
@@ -188,52 +188,6 @@ namespace model {
     }
 
     template<typename T, unsigned int D>
-    bool ObjectND<T, D>::touch(const ObjectND<T, D> &object) const {
-
-        /********************* Compute absolute points ************************/
-
-        std::vector<std::array<T, D>> e1;
-        for (auto &point : points) {
-
-            std::array<T, D> nPoint = point;
-            for (int i = 0; i < D; ++i) {
-                nPoint[i] += position[i];
-            }
-
-            e1.insert(nPoint);
-        }
-
-        std::vector<std::array<T, D>> e2;
-        for (auto &point : object.points) {
-
-            std::array<T, D> nPoint = point;
-            for (int i = 0; i < D; ++i) {
-                nPoint[i] += object.position[i];
-            }
-
-            e2.insert(nPoint);
-        }
-
-        /********************************************************************/
-
-        for (unsigned int i = 0; i < e1.size() - 1; ++i) {
-
-            auto &p11 = e1[i];
-            auto &p12 = e1[i + 1];
-
-            for (unsigned int j = 0; j < e2.size(); ++j) {
-
-                auto &p21 = e2[j];
-                auto &p22 = e2[j + 1];
-
-                /* to do */
-            }
-        }
-
-        return false;
-    }
-
-    template<typename T, unsigned int D>
     void ObjectND<T, D>::nextPosition(const T &time) {
 
     }
@@ -286,7 +240,7 @@ namespace model {
         T value = static_cast<T>(0);
 
         for (unsigned int i = 0; i < n; i++) {
-            value += vector[i];
+            value += vector[i] * vector[i];
         }
 
         return sqrt(value);

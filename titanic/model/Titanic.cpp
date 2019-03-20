@@ -7,10 +7,10 @@ namespace model {
 
     const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> Titanic::DEFAULT_POINTS{{{{0.0, 0.0}},
                                                                                                  {{-14.0, 30}},
-                                                                                                 {{14.0, 30.0}},
-                                                                                                 {{-14, 218.0}},
-                                                                                                 {{14.0, 218.0}},
+                                                                                                 {{-14.0, 218.0}},
                                                                                                  {{0.0, 269.0}},
+                                                                                                 {{14, 218.0}},
+                                                                                                 {{14.0, 30.0}},
                                                                                                  {{0.0, 0.0}}}};
 
     Titanic::Titanic(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &points, double _course,
@@ -27,6 +27,11 @@ namespace model {
     Titanic::Titanic(double x, double y, double course)
             : Titanic(DEFAULT_POINTS, course, TITANIC_DEFAULT_WEIGHT, x, y) {
 
+    }
+
+    void Titanic::setCourse(double value) {
+        setOrientationX(orientationConverterX(value));
+        setOrientationY(orientationConverterY(value));
     }
 
     Titanic::~Titanic() {

@@ -16,12 +16,15 @@
 #define DEFAULT_ACCELERATION_Y 0.0
 
 #define DEFAULT_ORIENTATION_X 0.0
-#define DEFAULT_ORIENTATION_Y 0.0
+#define DEFAULT_ORIENTATION_Y 1.0
 
 #define MODEL_SPACE_DIMENSION 2
 
 #define X_DIM_VALUE 0
 #define Y_DIM_VALUE 1
+
+#define MIN_VALUE(a, b) ((a<b) ? a : b)
+#define MAX_VALUE(a, b) ((a>b) ? a : b)
 
 namespace view {
     class Draftsman;
@@ -54,6 +57,9 @@ namespace model {
 
         explicit PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points, double _weight);
 
+        bool touch(const ObjectND<double, MODEL_SPACE_DIMENSION> &object) const override;
+
+        void writeAbsolutePoints(std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &points) const override;
 
         double getPositionX() const;
 

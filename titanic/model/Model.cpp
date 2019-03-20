@@ -4,7 +4,7 @@
 
 namespace model {
 
-    Model::Model() : titanic(new Titanic()), iceberg(new Iceberg()) {
+    Model::Model() : titanic(new Titanic()), iceberg(new Iceberg(100, 200)) {
         elements.insert(titanic);
         elements.insert(iceberg);
     }

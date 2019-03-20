@@ -1,6 +1,7 @@
 
 #include "Draftsman.h"
 
+#define SCALE 2.0
 
 namespace view {
 
@@ -44,7 +45,7 @@ namespace view {
 
     QPoint Draftsman::scaleConverter(double x, double y) {
 
-        QPoint point(static_cast<int>(x), static_cast<int>(y));
+        QPoint point(static_cast<int>(x * SCALE), static_cast<int>(y * SCALE));
 
         return point;
     }

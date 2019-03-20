@@ -38,6 +38,8 @@ namespace model {
         explicit Titanic();
 
         ~Titanic() override;
+
+        void setCourse(double value);
     };
 }
 
