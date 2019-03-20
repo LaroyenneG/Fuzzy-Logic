@@ -14,7 +14,7 @@ namespace model {
 
     class AlternativeMachine : public Engine {
     public:
-        explicit AlternativeMachine(const std::string &_name, double _propellerDiameter,
+        explicit AlternativeMachine(double _propellerDiameter,
                                     double _propellerWeight);
 
         explicit AlternativeMachine();

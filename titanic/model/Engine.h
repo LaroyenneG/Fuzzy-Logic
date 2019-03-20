@@ -16,8 +16,6 @@ namespace model {
     class Engine {
 
     private:
-        const std::string name;
-
         double rotationSpeed;       // radian / s
         double power;               // [-1 - 1] %
 
@@ -28,14 +26,12 @@ namespace model {
 
     public:
 
-        explicit Engine(const std::string &_name, double _rotationSpeed, double _power, double _friction,
+        explicit Engine(double _rotationSpeed, double _power, double _friction,
                         double _propellerDiameter, double _propellerWeight, double _maxPower);
 
-        explicit Engine(const std::string &_name, double _propellerDiameter, double _propellerWeight, double _maxPower);
+        explicit Engine(double _propellerDiameter, double _propellerWeight, double _maxPower);
 
         double getRotationSpeed() const;
-
-        const std::string &getName() const;
 
         double getPropulsionStrength() const;
 

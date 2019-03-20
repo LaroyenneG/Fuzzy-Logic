@@ -15,7 +15,7 @@ namespace model {
 
     class LowPressureTurbine : public Engine {
     public:
-        explicit LowPressureTurbine(const std::string &_name, double _propellerDiameter, double _propellerWeight);
+        explicit LowPressureTurbine(double _propellerDiameter, double _propellerWeight);
 
         explicit LowPressureTurbine();
 
