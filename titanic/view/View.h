@@ -1,15 +1,16 @@
 #ifndef LOGIQUEFLOUE_VIEW_H
 #define LOGIQUEFLOUE_VIEW_H
 
-#include <QtWidgets/QGraphicsView>
-#include <QtWidgets/QBoxLayout>
-#include <QtWidgets/QMenuBar>
-#include <QtWidgets/QFormLayout>
-#include <QtWidgets/QSlider>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QCheckBox>
-#include <QtWidgets/QProgressBar>
+#include <QGraphicsView>
+#include <QBoxLayout>
+#include <QMenuBar>
+#include <QFormLayout>
+#include <QSlider>
+#include <QLabel>
+#include <QCheckBox>
+#include <QProgressBar>
 #include <mutex>
+
 
 #define WINDOWS_TITLE "Save the Titanic"
 
@@ -18,10 +19,34 @@
 
 #define MS_TO_NDS 1.944
 #define RDS_TO_TPM 9.54
+/*
+namespace controller {
+    class CheckBoxController;
+}
 
+*/
 namespace view {
 
     class View : public QWidget {
+
+    Q_OBJECT
+
+    public:
+        explicit View();
+
+        QGraphicsScene *getScene();
+
+        void setMachinesSpeed(double alt1, double turbine, double alt2);
+
+        void setShipSpeed(double value);
+
+        void setDistance(double value);
+
+        std::mutex &getMutex();
+
+        // void setCheckBoxController(controller::CheckBoxController* checkBoxController) const;
+
+        ~View() override;
 
     private:
         std::mutex mutex;
@@ -44,20 +69,9 @@ namespace view {
         QProgressBar *progressBarLazer3;
         QLabel *distanceLabel;
 
-    public:
-        explicit View();
+    public slots:
 
-        QGraphicsScene *getScene();
-
-        void setMachinesSpeed(double alt1, double turbine, double alt2);
-
-        void setShipSpeed(double value);
-
-        void setDistance(double value);
-
-        std::mutex &getMutex();
-
-        ~View() override;
+        void automaticPilotStateChange(bool checked);
     };
 }
 

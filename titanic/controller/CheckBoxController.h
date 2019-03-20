@@ -1,7 +1,7 @@
 #ifndef LOGIQUEFLOUE_CONTROLER_H
 #define LOGIQUEFLOUE_CONTROLER_H
 
-
+#include <QObject>
 #include "AbstractController.h"
 
 namespace controller {
@@ -10,6 +10,10 @@ namespace controller {
 
     public:
         explicit CheckBoxController(Model *_model, View *_view, Draftsman *_draftsman);
+
+        void changeState();
+
+        ~CheckBoxController() override = default;
     };
 }
 

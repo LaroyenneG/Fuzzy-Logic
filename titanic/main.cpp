@@ -1,6 +1,6 @@
 
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QWidget>
+#include <QApplication>
+#include <QWidget>
 
 #include "Draftsman.h"
 #include "ControlGroup.h"

@@ -4,17 +4,14 @@ project(LogiqueFloue)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -pedantic -g")
 
-if (UNIX)
-    set(CPPUNIT libcppunit-unix-64.a)
-elseif (WIN32)
-    set(CMAKE_PREFIX_PATH "C:\\Qt\\5.12.2\\mingw73_64")
-    set(CPPUNIT libcppunit-win-64.a)
-endif ()
 
-message(STATUS "Find Qt5")
+set(CPPUNIT libcppunit-unix-64.a)
 
-find_package(Qt5Widgets CONFIG REQUIRED)
-find_package(Qt5Core CONFIG REQUIRED)
+FIND_PACKAGE(Qt4 REQUIRED)
+INCLUDE(${QT_USE_FILE})
+ADD_DEFINITIONS(${QT_DEFINITIONS})
+SET(QT_USE_QTOPENGL TRUE)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
 message(STATUS "Sources directory :  ${CMAKE_SOURCE_DIR}")
 
@@ -38,19 +35,20 @@ file(GLOB_RECURSE TEST_SOURCES test/* test/core/* test/fuzzy/*) # all test sourc
 
 file(GLOB_RECURSE TITANIC_SOURCES titanic/* titanic/model/* titanic/view/* titanic/controller/*) # all titanic source files
 
+set(INTERFACE_FILES titanic/view/View.h) # all slots class'
+
+QT4_WRAP_CPP(INTERFACE_FILES_MOC ${INTERFACE_FILES})
 
 set(FUZZY_LIBRARY ${CORE_SOURCES} ${FUZZY_SOURCES} ${EXCEPTION_SOURCES} ${INTP_SOURCES})
 
 add_library(fuzzy ${FUZZY_LIBRARY})
 add_executable(FuzzyTest ${TEST_SOURCES} ${FUZZY_LIBRARY})
-add_executable(Titanic ${TITANIC_SOURCES} ${FUZZY_LIBRARY})
+add_executable(Titanic ${TITANIC_SOURCES} ${FUZZY_LIBRARY} ${INTERFACE_FILES_MOC})
 
-set(QT_MODULES Qt5::Widgets Qt5::Core)
 
-message(STATUS "Add libraries...")
 
 target_link_libraries(FuzzyTest ${CMAKE_SOURCE_DIR}/lib/${CPPUNIT})
-target_link_libraries(Titanic ${QT_MODULES})
+target_link_libraries(Titanic ${QT_LIBRARIES})
 target_link_libraries(Titanic pthread)
 
 message("Cppunit archive file : ${CMAKE_SOURCE_DIR}/lib/${CPPUNIT}")

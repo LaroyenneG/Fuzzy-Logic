@@ -1,4 +1,6 @@
 #include <sstream>
+#include <iostream>
+
 #include "View.h"
 
 namespace view {
@@ -62,10 +64,11 @@ namespace view {
         statisticalBoard->addRow("Lazer 3 (%) : ", progressBarLazer3);
         statisticalBoard->addRow("Distance (m) : ", distanceLabel);
 
-        setWindowTitle(WINDOWS_TITLE);
-        //setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
+        QObject::connect(automaticPilotCheckBox, SIGNAL(clicked(bool)), this, SLOT(automaticPilotStateChange(bool)));
 
-        setMachinesSpeed(75, 75, 120);
+
+        setWindowTitle(WINDOWS_TITLE);
+        setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
     }
 
     View::~View() {
@@ -132,5 +135,10 @@ namespace view {
         QString qString(string.data());
 
         distanceLabel->setText(qString);
+    }
+
+
+    void View::automaticPilotStateChange(bool checked) {
+        std::cout << "ioçoiohuioh" << '\n';
     }
 }

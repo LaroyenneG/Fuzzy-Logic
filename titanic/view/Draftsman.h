@@ -2,7 +2,7 @@
 #ifndef LOGIQUEFLOUE_DRAFTSMAN_H
 #define LOGIQUEFLOUE_DRAFTSMAN_H
 
-#include <QtWidgets/QGraphicsScene>
+#include <QGraphicsScene>
 
 #include "Model.h"
 
