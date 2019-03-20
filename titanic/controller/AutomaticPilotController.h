@@ -8,6 +8,7 @@ namespace controller {
 
     class AutomaticPilotController : public AbstractController {
 
+        AutomaticPilotController() : AbstractController(nullptr, nullptr, nullptr) {}
     };
 }
 

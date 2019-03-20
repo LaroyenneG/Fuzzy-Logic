@@ -50,22 +50,22 @@ namespace view {
         dashboard->addLayout(commandPost, 0, 0);
         dashboard->addLayout(statisticalBoard, 0, 1);
 
-        commandPost->addRow("Machine : ", machineSlider);
-        commandPost->addRow("RMP : ", rpmMachinesLabel);
-        commandPost->addRow("Speed : ", speedLabel);
-        commandPost->addRow("Helm : ", helmSlider);
-        commandPost->addRow("Course : ", courseLabel);
+        commandPost->addRow("Machine (%) : ", machineSlider);
+        commandPost->addRow("Rotation (rmp) : ", rpmMachinesLabel);
+        commandPost->addRow("Speed (nd) : ", speedLabel);
+        commandPost->addRow("Helm (%) : ", helmSlider);
+        commandPost->addRow("Course (°) : ", courseLabel);
 
         statisticalBoard->addRow("Automatic pilot : ", automaticPilotCheckBox);
-        statisticalBoard->addRow("Lazer 1 : ", progressBarLazer1);
-        statisticalBoard->addRow("Lazer 2 : ", progressBarLazer2);
-        statisticalBoard->addRow("Lazer 3 : ", progressBarLazer3);
-        statisticalBoard->addRow("Distance : ", distanceLabel);
+        statisticalBoard->addRow("Lazer 1 (%) : ", progressBarLazer1);
+        statisticalBoard->addRow("Lazer 2 (%) : ", progressBarLazer2);
+        statisticalBoard->addRow("Lazer 3 (%) : ", progressBarLazer3);
+        statisticalBoard->addRow("Distance (m) : ", distanceLabel);
 
         setWindowTitle(WINDOWS_TITLE);
         setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
 
-        setMachinesRPM(75, 75, 120);
+        setMachinesSpeed(75, 75, 120);
     }
 
     View::~View() {
@@ -93,18 +93,44 @@ namespace view {
         return titanicScene;
     }
 
-    void View::setMachinesRPM(double alt1, double turbine, double alt2) {
+    void View::setMachinesSpeed(double alt1, double turbine, double alt2) {
 
         std::string string =
                 "Alt 1 : " +
-                std::to_string(static_cast<int>(alt1)) + " | " +
+                std::to_string(static_cast<int>(alt1 * RDS_TO_TPM)) + " | " +
                 "Turbine : " +
-                std::to_string(static_cast<int>(turbine)) + " | " +
+                std::to_string(static_cast<int>(turbine * RDS_TO_TPM)) + " | " +
                 "Alt 2 : " +
-                std::to_string(static_cast<int>(alt2));
+                std::to_string(static_cast<int>(alt2 * RDS_TO_TPM));
 
         QString qString(string.data());
 
         rpmMachinesLabel->setText(qString);
+    }
+
+    std::mutex &View::getMutex() {
+        return mutex;
+    }
+
+    void View::setShipSpeed(double value) {
+
+        int nds = static_cast<int>(value * MS_TO_NDS);
+
+        std::string string = std::to_string(nds);
+
+        QString qString(string.data());
+
+        speedLabel->setText(qString);
+    }
+
+    void View::setDistance(double value) {
+
+        int nd = static_cast<int>(value);
+
+        std::string string = std::to_string(nd);
+
+        QString qString(string.data());
+
+        distanceLabel->setText(qString);
     }
 }

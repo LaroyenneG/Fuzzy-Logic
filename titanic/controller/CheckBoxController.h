@@ -6,8 +6,10 @@
 
 namespace controller {
 
-    class ButtonController : public AbstractController {
+    class CheckBoxController : public AbstractController {
 
+    public:
+        explicit CheckBoxController() : AbstractController(nullptr, nullptr, nullptr) {}
     };
 }
 

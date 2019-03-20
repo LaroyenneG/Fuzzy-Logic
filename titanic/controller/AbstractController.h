@@ -2,9 +2,11 @@
 #ifndef LOGIQUEFLOUE_ABSTRACTCONTROLER_H
 #define LOGIQUEFLOUE_ABSTRACTCONTROLER_H
 
+#include <mutex>
 
 #include "Model.h"
 #include "View.h"
+#include "Draftsman.h"
 
 namespace controller {
 
@@ -13,13 +15,20 @@ namespace controller {
 
     class AbstractController {
 
+    private:
+        std::mutex &mutex;
+        Draftsman *draftsman;
+
     protected:
-        Model &model;
-        View &view;
+        Model *model;
+        View *view;
+
+        void updateView();
 
     public:
-        explicit AbstractController(Model &_model, View &_view);
+        explicit AbstractController(Model *_model, View *_view, Draftsman *_draftsman);
 
+        virtual ~AbstractController() = default;
     };
 }
 
