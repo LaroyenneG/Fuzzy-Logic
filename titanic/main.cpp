@@ -16,6 +16,8 @@ int main(int argc, char **argv) {
     auto *view = new View();
     auto *controlGroup = new ControlGroup(model, view);
 
+    view->show();
+
     int applicationState = QApplication::exec();
 
     delete controlGroup;

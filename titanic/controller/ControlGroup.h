@@ -5,7 +5,7 @@
 #include "Model.h"
 #include "View.h"
 #include "Draftsman.h"
-
+#include "CheckBoxController.h"
 
 namespace controller {
 
@@ -15,6 +15,8 @@ namespace controller {
         model::Model *model;
         view::View *view;
         view::Draftsman *draftsman;
+
+        CheckBoxController *checkBoxController;
 
     public:
         explicit ControlGroup(model::Model *_model, view::View *_view);

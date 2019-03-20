@@ -9,7 +9,7 @@ namespace controller {
     class CheckBoxController : public AbstractController {
 
     public:
-        explicit CheckBoxController() : AbstractController(nullptr, nullptr, nullptr) {}
+        explicit CheckBoxController(Model *_model, View *_view, Draftsman *_draftsman);
     };
 }
 

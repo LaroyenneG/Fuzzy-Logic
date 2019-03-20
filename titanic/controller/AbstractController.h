@@ -16,7 +16,6 @@ namespace controller {
     class AbstractController {
 
     private:
-        std::mutex &mutex;
         Draftsman *draftsman;
 
     protected:

@@ -2,6 +2,7 @@
 #ifndef LOGIQUEFLOUE_OBJECTND_H
 #define LOGIQUEFLOUE_OBJECTND_H
 
+#include <cmath>
 
 #include <array>
 #include <vector>
@@ -29,6 +30,8 @@ namespace model {
 
         T weight;                              // kg
 
+        static T vectorNorm(const T *vector, unsigned int n);
+
     public:
         explicit ObjectND(const std::vector<std::array<T, D>> &_points, const std::array<T, D> &_position,
                           const std::array<T, D> &_speed,
@@ -38,6 +41,10 @@ namespace model {
         ObjectND(const ObjectND<T, D> &object);
 
         virtual ~ObjectND() = default;
+
+        T geSpeed() const;
+
+        T geAcceleration() const;
 
         const T &getAcceleration(unsigned int dim) const;
 
@@ -261,6 +268,28 @@ namespace model {
     template<typename T, unsigned int D>
     void ObjectND<T, D>::writeAbsolutePoints(std::vector<std::array<T, D>> &_points) const {
 
+    }
+
+    template<typename T, unsigned int D>
+    T ObjectND<T, D>::geAcceleration() const {
+        return vectorNorm(acceleration, D);
+    }
+
+    template<typename T, unsigned int D>
+    T ObjectND<T, D>::geSpeed() const {
+        return vectorNorm(speed, D);
+    }
+
+    template<typename T, unsigned int D>
+    T ObjectND<T, D>::vectorNorm(const T *vector, unsigned int n) {
+
+        T value = static_cast<T>(0);
+
+        for (unsigned int i = 0; i < n; i++) {
+            value += vector[i];
+        }
+
+        return sqrt(value);
     }
 }
 
