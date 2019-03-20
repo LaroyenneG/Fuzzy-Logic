@@ -10,6 +10,7 @@
 #define ENGINE_DEFAULT_FRICTION 0.0
 
 #define ENGINE_VALUE_ERROR_MSG "Engine invalid engine power"
+#define ENGINE_DEFAULT_NAME "Engine"
 
 namespace model {
 
@@ -36,6 +37,8 @@ namespace model {
         double getPropulsionStrength() const;
 
         double getPower() const;
+
+        virtual std::string getName() const;
 
         virtual void setPower(double value);
 

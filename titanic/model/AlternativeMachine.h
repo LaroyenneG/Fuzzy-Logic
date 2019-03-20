@@ -19,6 +19,8 @@ namespace model {
 
         explicit AlternativeMachine();
 
+        std::string getName() const override;
+
         ~AlternativeMachine() override = default;
     };
 }

@@ -21,6 +21,8 @@ namespace model {
 
         void setPower(double value) override;
 
+        std::string getName() const override;
+
         ~LowPressureTurbine() override = default;
     };
 }

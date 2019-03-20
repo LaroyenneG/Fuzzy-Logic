@@ -14,4 +14,8 @@ namespace model {
                                  ALTERNATIVE_DEFAULT_PROPELLER_WEIGHT) {
 
     }
+
+    std::string AlternativeMachine::getName() const {
+        return std::string(ALTERNATIVE_DEFAULT_ENGINE_NAME);
+    }
 }

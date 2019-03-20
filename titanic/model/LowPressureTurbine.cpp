@@ -21,4 +21,8 @@ namespace model {
 
         Engine::setPower(value);
     }
+
+    std::string LowPressureTurbine::getName() const {
+        return std::string(TURBINE_DEFAULT_ENGINE_NAME);
+    }
 }

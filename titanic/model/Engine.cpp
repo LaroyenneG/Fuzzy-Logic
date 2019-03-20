@@ -38,4 +38,8 @@ namespace model {
 
         power = value;
     }
+
+    std::string Engine::getName() const {
+        return std::string(ENGINE_DEFAULT_NAME);
+    }
 }
