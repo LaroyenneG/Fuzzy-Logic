@@ -25,13 +25,15 @@ namespace model {
         T position[D];                         // m
         T speed[D];                            // m / s
         T acceleration[D];                     // m / s²
+        T orientation[D];                      // no unity
 
         T weight;                              // kg
 
     public:
         explicit ObjectND(const std::vector<std::array<T, D>> &_points, const std::array<T, D> &_position,
                           const std::array<T, D> &_speed,
-                          const std::array<T, D> &_acceleration, const T &_weight);
+                          const std::array<T, D> &_acceleration, const std::array<T, D> &_orientation,
+                          const T &_weight);
 
         ObjectND(const ObjectND<T, D> &object);
 
@@ -43,11 +45,15 @@ namespace model {
 
         const T &getPosition(unsigned int dim) const;
 
+        const T &getOrientation(unsigned int dim) const;
+
         void setAcceleration(const T &value, unsigned int dim);
 
         void setSpeed(const T &value, unsigned int dim);
 
         void setPosition(const T &value, unsigned int dim);
+
+        void setOrientation(const T &value, unsigned int dim);
 
         void setWeight(const T &value);
 
@@ -63,18 +69,22 @@ namespace model {
 
         const std::vector<std::array<T, D>> &getPoints() const;
 
+        void writeAbsolutePoints(std::vector<std::array<T, D>> &_points) const;
+
         ObjectND &operator=(const ObjectND &object);
     };
 
     template<typename T, unsigned int D>
     ObjectND<T, D>::ObjectND(const std::vector<std::array<T, D>> &_points, const std::array<T, D> &_position,
-                             const std::array<T, D> &_speed, const std::array<T, D> &_acceleration, const T &_weight)
+                             const std::array<T, D> &_speed, const std::array<T, D> &_acceleration,
+                             const std::array<T, D> &_orientation, const T &_weight)
             : DIM(D), points(_points), weight(_weight) {
 
         for (unsigned int i = 0; i < DIM; ++i) {
             position[i] = _position[i];
             speed[i] = _speed[i];
             acceleration[i] = _acceleration[i];
+            orientation[i] = _orientation[i];
         }
     }
 
@@ -230,6 +240,27 @@ namespace model {
     void ObjectND<T, D>::nextTime(const T &time) {
         nextSpeed(time);
         nextPosition(time);
+    }
+
+    template<typename T, unsigned int D>
+    void ObjectND<T, D>::setOrientation(const T &value, unsigned int dim) {
+
+        CHECK_DIMENSION(dim);
+
+        orientation[dim] = value;
+    }
+
+    template<typename T, unsigned int D>
+    const T &ObjectND<T, D>::getOrientation(unsigned int dim) const {
+
+        CHECK_DIMENSION(dim);
+
+        return orientation[dim];
+    }
+
+    template<typename T, unsigned int D>
+    void ObjectND<T, D>::writeAbsolutePoints(std::vector<std::array<T, D>> &_points) const {
+
     }
 }
 

@@ -13,11 +13,13 @@ namespace view {
     private:
         static const QColor SEA_COLOR;
 
-        const model::Model &model;
-        QGraphicsScene &scene;
+        const model::Model *model;
+        QGraphicsScene *scene;
+
+        static QPoint scaleConverter(double x, double y);
 
     public:
-        explicit Draftsman(const model::Model &_model, QGraphicsScene &_scene);
+        explicit Draftsman(const model::Model *_model, QGraphicsScene *_scene);
 
         void draw();
 

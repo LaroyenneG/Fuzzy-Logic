@@ -1,23 +1,26 @@
 
 #include <QtWidgets/QApplication>
-#include <Draftsman.h>
 
-#include "View.h"
+#include "Draftsman.h"
+#include "ControlGroup.h"
 
 using namespace view;
 using namespace model;
+using namespace controller;
 
 int main(int argc, char **argv) {
 
     QApplication app(argc, argv);
 
-    Model model;
+    auto *model = new Model();
+    auto *view = new View();
+    auto *controlGroup = new ControlGroup(model, view);
 
-    View view;
-    view.show();
+    int applicationState = QApplication::exec();
 
-    Draftsman draftsman(model, view.getScene());
-    draftsman.draw();
+    delete controlGroup;
+    delete model;
+    delete view;
 
-    return QApplication::exec();
+    return applicationState;
 }

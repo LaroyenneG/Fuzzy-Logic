@@ -16,9 +16,8 @@ namespace model {
     Titanic::Titanic(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &points, double _course,
                      double _weight,
                      double _xPosition, double _yPosition)
-            : PhysicObject2D(points, _xPosition, _yPosition, _weight),
-              course(_course), engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
-
+            : PhysicObject2D(points, _xPosition, _yPosition, _course, _weight),
+              engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
     }
 
     Titanic::Titanic() : Titanic(TITANIC_DEFAULT_X, TITANIC_DEFAULT_Y, TITANIC_DEFAULT_COURSE) {

@@ -42,7 +42,9 @@ namespace view {
     public:
         explicit View();
 
-        QGraphicsScene &getScene();
+        QGraphicsScene *getScene();
+
+        void setMachinesRPM(double alt1, double turbine, double alt2);
 
         ~View() override;
     };

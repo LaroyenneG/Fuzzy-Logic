@@ -1,3 +1,4 @@
+#include <sstream>
 #include "View.h"
 
 namespace view {
@@ -63,6 +64,8 @@ namespace view {
 
         setWindowTitle(WINDOWS_TITLE);
         setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
+
+        setMachinesRPM(75, 75, 120);
     }
 
     View::~View() {
@@ -86,7 +89,22 @@ namespace view {
         delete menuBar;
     }
 
-    QGraphicsScene &View::getScene() {
-        return *titanicScene;
+    QGraphicsScene *View::getScene() {
+        return titanicScene;
+    }
+
+    void View::setMachinesRPM(double alt1, double turbine, double alt2) {
+
+        std::string string =
+                "Alt 1 : " +
+                std::to_string(static_cast<int>(alt1)) + " | " +
+                "Turbine : " +
+                std::to_string(static_cast<int>(turbine)) + " | " +
+                "Alt 2 : " +
+                std::to_string(static_cast<int>(alt2));
+
+        QString qString(string.data());
+
+        rpmMachinesLabel->setText(qString);
     }
 }

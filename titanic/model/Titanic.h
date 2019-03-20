@@ -2,6 +2,7 @@
 #ifndef LOGIQUEFLOUE_TITANIC_H
 #define LOGIQUEFLOUE_TITANIC_H
 
+#include <cmath>
 #include <vector>
 
 #include "PhysicObject2D.h"
@@ -22,8 +23,6 @@ namespace model {
 
     private:
         const static std::vector<std::array<double, MODEL_SPACE_DIMENSION>> DEFAULT_POINTS;
-
-        double course;  // radian
 
         Rudder rudder;
 

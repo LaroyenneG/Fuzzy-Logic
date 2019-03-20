@@ -6,11 +6,17 @@
 
 #include "ObjectND.h"
 
+#define DEFAULT_POSITION_X 0.0
+#define DEFAULT_POSITION_Y 0.0
+
 #define DEFAULT_SPEED_X 0.0
 #define DEFAULT_SPEED_Y 0.0
 
 #define DEFAULT_ACCELERATION_X 0.0
 #define DEFAULT_ACCELERATION_Y 0.0
+
+#define DEFAULT_ORIENTATION_X 0.0
+#define DEFAULT_ORIENTATION_Y 0.0
 
 #define MODEL_SPACE_DIMENSION 2
 
@@ -25,16 +31,29 @@ namespace model {
 
     class PhysicObject2D : public ObjectND<double, MODEL_SPACE_DIMENSION> {
 
+    protected:
+        static double orientationConverterX(double course);
+
+        static double orientationConverterY(double course);
+
     public:
         explicit PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
                                 double _xPosition,
                                 double _yPosition,
                                 double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration,
+                                double _xOrientation, double _yOrientation,
                                 double _weight);
 
         explicit PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
                                 double _xPosition,
-                                double _yPosition, double _weight);
+                                double _yPosition, double _xOrientation, double _yOrientation, double _weight);
+
+        explicit PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
+                                double _xPosition,
+                                double _yPosition, double _course, double _weight);
+
+        explicit PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points, double _weight);
+
 
         double getPositionX() const;
 
@@ -56,9 +75,17 @@ namespace model {
 
         double getAccelerationY() const;
 
+        double getOrientationX() const;
+
+        double getOrientationY() const;
+
         void setAccelerationX(double value);
 
         void setAccelerationY(double value);
+
+        void setOrientationX(double value);
+
+        void setOrientationY(double value);
 
         virtual void drawMe(view::Draftsman *draftsman);
 

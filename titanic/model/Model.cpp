@@ -5,7 +5,8 @@
 namespace model {
 
     Model::Model() {
-
+        elements.insert(new Titanic());
+        elements.insert(new Iceberg());
     }
 
     Model::~Model() {
