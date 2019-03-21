@@ -1,7 +1,6 @@
 
 #include "Draftsman.h"
 
-#define SCALE 2.0
 
 namespace view {
 
@@ -20,8 +19,6 @@ namespace view {
         for (auto element : model->getElements()) {
             element->drawMe(this);
         }
-
-        drawVector();
     }
 
     void Draftsman::drawElement(const model::PhysicObject2D *object) {
@@ -46,12 +43,12 @@ namespace view {
 
     QPoint Draftsman::scaleConverter(double x, double y) {
 
-        QPoint point(static_cast<int>(x * SCALE), static_cast<int>(y * SCALE));
+        QPoint point(static_cast<int>(x * DRAFTSMAN_SCALE), static_cast<int>(y * DRAFTSMAN_SCALE));
 
         return point;
     }
 
-    void Draftsman::drawVector() {
+    void Draftsman::drawVectors() {
 
         auto titanic = model->getTitanic();
 

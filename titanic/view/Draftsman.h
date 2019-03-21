@@ -6,6 +6,9 @@
 
 #include "Model.h"
 
+#define DRAFTSMAN_SCALE 1.5
+
+
 namespace view {
 
     class Draftsman {
@@ -23,7 +26,7 @@ namespace view {
 
         void draw();
 
-        void drawVector();
+        void drawVectors();
 
         void drawElement(const model::PhysicObject2D *object);
 
