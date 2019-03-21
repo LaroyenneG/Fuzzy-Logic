@@ -10,13 +10,12 @@ namespace view {
     Draftsman::Draftsman(const model::Model *_model, QGraphicsScene *_scene)
             : model(_model), scene(_scene) {
 
+        scene->setBackgroundBrush(SEA_COLOR);
     }
 
     void Draftsman::draw() {
 
         scene->clear();
-
-        scene->setBackgroundBrush(SEA_COLOR);
 
         for (auto element : model->getElements()) {
             element->drawMe(this);
