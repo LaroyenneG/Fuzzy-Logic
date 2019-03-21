@@ -14,6 +14,11 @@ namespace controller {
     }
 
     void SliderController::helmSliderValueChanged(int value) {
+
+        model->getTitanic()->setCourse((value * 1.0 / 100) * 3.14);
+
+        updateView();
+
         std::cout << value << '\n';
     }
 }
