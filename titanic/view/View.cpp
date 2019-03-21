@@ -1,7 +1,9 @@
 #include <sstream>
 #include <iostream>
 
-#include "View.h"
+#include "CheckBoxController.h"
+#include "SliderController.h"
+#include "TimeWizardController.h"
 
 namespace view {
 
@@ -22,7 +24,8 @@ namespace view {
               progressBarLazer1(nullptr),
               progressBarLazer2(nullptr),
               progressBarLazer3(nullptr),
-              distanceLabel(nullptr) {
+              distanceLabel(nullptr),
+              timer(nullptr) {
 
 
         menuBar = new QMenuBar();
@@ -42,6 +45,7 @@ namespace view {
         progressBarLazer2 = new QProgressBar();
         progressBarLazer3 = new QProgressBar();
         distanceLabel = new QLabel();
+        timer = new QTimer(this);
 
         setLayout(parent);
 
@@ -64,15 +68,13 @@ namespace view {
         statisticalBoard->addRow("Lazer 3 (%) : ", progressBarLazer3);
         statisticalBoard->addRow("Distance (m) : ", distanceLabel);
 
-        QObject::connect(automaticPilotCheckBox, SIGNAL(clicked(bool)), this, SLOT(automaticPilotStateChange(bool)));
-
-
         setWindowTitle(WINDOWS_TITLE);
         setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
     }
 
     View::~View() {
 
+        delete timer;
         delete distanceLabel;
         delete progressBarLazer3;
         delete progressBarLazer2;
@@ -137,8 +139,22 @@ namespace view {
         distanceLabel->setText(qString);
     }
 
+    void View::setCheckBoxController(controller::CheckBoxController *checkBoxController) const {
 
-    void View::automaticPilotStateChange(bool checked) {
-        std::cout << "ioçoiohuioh" << '\n';
+        QObject::connect(automaticPilotCheckBox, SIGNAL(clicked(bool)), checkBoxController,
+                         SLOT(automaticPilotStateChange(bool)));
+    }
+
+    void View::setSliderController(controller::SliderController *sliderController) const {
+
+        QObject::connect(machineSlider, SIGNAL(valueChanged(int)), sliderController,
+                         SLOT(machinePowerSliderValueChanged(int)));
+
+        QObject::connect(helmSlider, SIGNAL(valueChanged(int)), sliderController, SLOT(helmSliderValueChanged(int)));
+    }
+
+    void View::setTimeWizardController(controller::TimeWizardController *timeWizardController) const {
+
+        QObject::connect(timer, SIGNAL(timeout()), timeWizardController, SLOT(nextTime()));
     }
 }

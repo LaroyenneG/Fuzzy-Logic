@@ -8,12 +8,16 @@ namespace controller {
 
     class CheckBoxController : public AbstractController {
 
+    Q_OBJECT
+
     public:
         explicit CheckBoxController(Model *_model, View *_view, Draftsman *_draftsman);
 
-        void changeState();
-
         ~CheckBoxController() override = default;
+
+    public slots:
+
+        void automaticPilotStateChange(bool checked);
     };
 }
 

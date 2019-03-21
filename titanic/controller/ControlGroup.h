@@ -7,6 +7,8 @@
 #include "Draftsman.h"
 #include "CheckBoxController.h"
 #include "AutomaticPilotController.h"
+#include "SliderController.h"
+#include "TimeWizardController.h"
 
 namespace controller {
 
@@ -19,6 +21,10 @@ namespace controller {
 
         CheckBoxController *checkBoxController;
         AutomaticPilotController *automaticPilotController;
+        SliderController *sliderController;
+        TimeWizardController *timeWizardController;
+
+        void setControllers() const;
 
     public:
         explicit ControlGroup(model::Model *_model, view::View *_view);

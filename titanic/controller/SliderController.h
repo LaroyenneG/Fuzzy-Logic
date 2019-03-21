@@ -7,8 +7,18 @@ namespace controller {
 
     class SliderController : public AbstractController {
 
+    Q_OBJECT
+
     public:
         explicit SliderController(Model *_model, View *_view, Draftsman *_draftsman);
+
+        ~SliderController() override = default;
+
+    public slots:
+
+        void machinePowerSliderValueChanged(int value);
+
+        void helmSliderValueChanged(int value);
     };
 }
 

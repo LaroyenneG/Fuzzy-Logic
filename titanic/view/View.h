@@ -6,6 +6,7 @@
 #include <QMenuBar>
 #include <QFormLayout>
 #include <QSlider>
+#include <QTimer>
 #include <QLabel>
 #include <QCheckBox>
 #include <QProgressBar>
@@ -19,34 +20,18 @@
 
 #define MS_TO_NDS 1.944
 #define RDS_TO_TPM 9.54
-/*
+
 namespace controller {
     class CheckBoxController;
+
+    class TimeWizardController;
+
+    class SliderController;
 }
 
-*/
 namespace view {
 
     class View : public QWidget {
-
-    Q_OBJECT
-
-    public:
-        explicit View();
-
-        QGraphicsScene *getScene();
-
-        void setMachinesSpeed(double alt1, double turbine, double alt2);
-
-        void setShipSpeed(double value);
-
-        void setDistance(double value);
-
-        std::mutex &getMutex();
-
-        // void setCheckBoxController(controller::CheckBoxController* checkBoxController) const;
-
-        ~View() override;
 
     private:
         std::mutex mutex;
@@ -68,10 +53,28 @@ namespace view {
         QProgressBar *progressBarLazer2;
         QProgressBar *progressBarLazer3;
         QLabel *distanceLabel;
+        QTimer *timer;
 
-    public slots:
+    public:
+        explicit View();
 
-        void automaticPilotStateChange(bool checked);
+        QGraphicsScene *getScene();
+
+        void setMachinesSpeed(double alt1, double turbine, double alt2);
+
+        void setShipSpeed(double value);
+
+        void setDistance(double value);
+
+        std::mutex &getMutex();
+
+        void setCheckBoxController(controller::CheckBoxController *checkBoxController) const;
+
+        void setSliderController(controller::SliderController *sliderController) const;
+
+        void setTimeWizardController(controller::TimeWizardController *timeWizardController) const;
+
+        ~View() override;
     };
 }
 

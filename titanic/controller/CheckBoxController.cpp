@@ -8,7 +8,7 @@ namespace controller {
 
     }
 
-    void CheckBoxController::changeState() {
+    void CheckBoxController::automaticPilotStateChange(bool checked) {
         std::cout << "coucou" << '\n';
     }
 }

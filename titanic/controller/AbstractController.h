@@ -2,6 +2,7 @@
 #ifndef LOGIQUEFLOUE_ABSTRACTCONTROLER_H
 #define LOGIQUEFLOUE_ABSTRACTCONTROLER_H
 
+#include <QObject>
 #include <mutex>
 
 #include "Model.h"
@@ -13,7 +14,7 @@ namespace controller {
     using namespace model;
     using namespace view;
 
-    class AbstractController {
+    class AbstractController : public QWidget {
 
     private:
         Draftsman *draftsman;
