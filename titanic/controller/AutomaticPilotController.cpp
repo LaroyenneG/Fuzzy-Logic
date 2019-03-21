@@ -13,6 +13,8 @@ namespace controller {
 
     void AutomaticPilotController::compute() {
 
+        view->setHelmValue(-5.0);
+
         std::cout << "pilot auto beep" << std::endl;
     }
 }

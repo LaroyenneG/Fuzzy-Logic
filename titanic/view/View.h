@@ -25,6 +25,10 @@
 
 #define DEFAULT_AUTOMATIC_PILOT_INTERVAL 1000
 
+#define SLIDER_MINIMUM_VALUE -99
+#define SLIDER_MAXIMUM_VALUE 99
+#define SLIDER_SIZE_VALUE 100
+
 namespace controller {
 
     class CheckBoxController;
@@ -83,6 +87,10 @@ namespace view {
         void setTimeWizardController(controller::TimeWizardController *timeWizardController) const;
 
         void setAutomaticPilotController(controller::AutomaticPilotController *automaticPilotController) const;
+
+        void setHelmValue(double value);
+
+        void setMachinePower(double value);
 
         int getTimeInterval() const;
 

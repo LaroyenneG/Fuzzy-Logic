@@ -7,8 +7,8 @@
 #include "PhysicObject2D.h"
 
 #define NB_POINTS 100
-#define DEFAULT_ICEBERG_X 0.0
-#define DEFAULT_ICEBERG_Y 0.0
+#define DEFAULT_ICEBERG_X 20.0
+#define DEFAULT_ICEBERG_Y 600.0
 #define DEFAULT_ICEBERG_RAYON 60.0          // m
 #define DEFAULT_ICEBERG_WEIGHT 1500000000   // kg
 

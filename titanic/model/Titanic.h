@@ -10,7 +10,6 @@
 #include "Rudder.h"
 
 #define TITANIC_DEFAULT_COURSE 0.0
-#define TITANIC_DEFAULT_RUDDER 0.0
 #define TITANIC_DEFAULT_WEIGHT 52310000.0
 #define TITANIC_DEFAULT_X 0.0
 #define TITANIC_DEFAULT_Y 0.0
@@ -33,7 +32,7 @@ namespace model {
                          double _weight,
                          double _xPosition, double _yPosition);
 
-        explicit Titanic(double x, double y, double course);
+        explicit Titanic(double x, double y, double _orientation);
 
         explicit Titanic();
 

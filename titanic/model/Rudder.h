@@ -18,9 +18,11 @@ namespace model {
     class Rudder {
 
     private:
-        double value;                           // radian
-        double waterSpeed[MODEL_SPACE_DIMENSION];     // m / s
-        double size;                            // m
+        double value;                                   // radian
+
+        std::array<double, MODEL_SPACE_DIMENSION> waterSpeed;     // m / s
+
+        double size;                                                // m
 
     public:
         explicit Rudder(double _value, double _xWaterSpeed, double _yWaterSpeed, double _size);

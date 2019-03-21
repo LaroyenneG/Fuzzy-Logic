@@ -10,7 +10,7 @@ namespace model {
     }
 
     Rudder::Rudder(double _value, double _xWaterSpeed, double _yWaterSpeed, double _size)
-            : value(_value), waterSpeed{_xWaterSpeed, _yWaterSpeed}, size(_size) {
+            : value(_value), waterSpeed{{_xWaterSpeed, _yWaterSpeed}}, size(_size) {
 
     }
 

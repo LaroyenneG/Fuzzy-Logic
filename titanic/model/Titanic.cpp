@@ -24,8 +24,8 @@ namespace model {
 
     }
 
-    Titanic::Titanic(double x, double y, double course)
-            : Titanic(DEFAULT_POINTS, course, TITANIC_DEFAULT_WEIGHT, x, y) {
+    Titanic::Titanic(double x, double y, double _orientation)
+            : Titanic(DEFAULT_POINTS, _orientation, TITANIC_DEFAULT_WEIGHT, x, y) {
 
     }
 

@@ -43,15 +43,11 @@ namespace model {
         std::array<double, MODEL_SPACE_DIMENSION> speed;                     // m / s
         std::array<double, MODEL_SPACE_DIMENSION> acceleration;             // m / s²
 
-        double orientation;
-        double rotationSpeed;
-        double rotationAcceleration;
+        double orientation;                                             // radian
+        double rotationSpeed;                                           // radian / s
+        double rotationAcceleration;                                    // radian / s²
+
         double weight;                                                    // kg
-
-    protected:
-        static double orientationConverterX(double course);
-
-        static double orientationConverterY(double course);
 
     public:
 
@@ -107,6 +103,16 @@ namespace model {
         void setRotationSpeed(double value);
 
         void setRotationAcceleration(double value);
+
+        double getWeight() const;
+
+        void setWeight(double value);
+
+        void nextTime(double time);
+
+        void nextOrientation(double time);
+
+        void nextPosition(double time);
 
         const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &getPoints() const;
 

@@ -6,6 +6,7 @@
 #include "TimeWizardController.h"
 #include "AutomaticPilotController.h"
 
+
 #define COLLISIONS_TITLE "Titanic sank"
 #define COLLISIONS_MESSAGE "The ship touching the iceberg :-("
 
@@ -55,6 +56,9 @@ namespace view {
 
         automaticPilotTimer->setInterval(DEFAULT_AUTOMATIC_PILOT_INTERVAL);
         refreshTimer->setInterval(DEFAULT_VIEW_TIMER_INTERVAL);
+
+        machineSlider->setRange(SLIDER_MINIMUM_VALUE, SLIDER_MAXIMUM_VALUE);
+        helmSlider->setRange(SLIDER_MINIMUM_VALUE, SLIDER_MAXIMUM_VALUE);
 
         setLayout(parent);
 
@@ -213,5 +217,15 @@ namespace view {
 
     void View::disableAutomaticPilot() {
         automaticPilotTimer->stop();
+    }
+
+    void View::setHelmValue(double value) {
+
+        helmSlider->setValue(static_cast<int>(value));
+    }
+
+    void View::setMachinePower(double value) {
+
+        machineSlider->setValue(static_cast<int>(value * (SLIDER_MAXIMUM_VALUE - SLIDER_MINIMUM_VALUE)));
     }
 }

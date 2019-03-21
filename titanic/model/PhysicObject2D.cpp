@@ -1,9 +1,6 @@
 #include "Draftsman.h"
 
 
-#define _USE_MATH_DEFINES
-
-
 namespace model {
 
     PhysicObject2D::PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
@@ -173,14 +170,24 @@ namespace model {
         rotationAcceleration = value;
     }
 
-
-    /* static functions */
-
-    double PhysicObject2D::orientationConverterX(double course) {
-        return cos(M_PI * course);
+    double PhysicObject2D::getWeight() const {
+        return weight;
     }
 
-    double PhysicObject2D::orientationConverterY(double course) {
-        return sin(M_PI * course);
+    void PhysicObject2D::setWeight(double value) {
+        weight = value;
+    }
+
+    void PhysicObject2D::nextTime(double time) {
+        nextPosition(time);
+        nextOrientation(time);
+    }
+
+    void PhysicObject2D::nextOrientation(double time) {
+
+    }
+
+    void PhysicObject2D::nextPosition(double time) {
+
     }
 }
