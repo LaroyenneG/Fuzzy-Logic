@@ -25,5 +25,6 @@ namespace controller {
         double angle = value * 1.0 / SLIDER_MAX_VALUE;
 
         model->getTitanic()->setRudderValue(angle);
+        model->getTitanic()->setOrientation(angle * M_PI);
     }
 }

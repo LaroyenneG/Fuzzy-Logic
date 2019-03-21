@@ -82,7 +82,7 @@ namespace view {
         statisticalBoard->addRow("Distance (m) : ", distanceLabel);
 
         setWindowTitle(WINDOWS_TITLE);
-        setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
+        // setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
     }
 
     View::~View() {

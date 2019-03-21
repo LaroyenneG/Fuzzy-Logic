@@ -12,6 +12,8 @@ namespace controller {
 
         updateView();
 
+        model->getTitanic()->nextTime(DEFAULT_VIEW_TIMER_INTERVAL / 1000.0);
+
         if (model->touching()) {
             view->stopTime();
             view->touching();

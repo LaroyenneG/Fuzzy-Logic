@@ -108,7 +108,7 @@ namespace model {
 
         void setWeight(double value);
 
-        void nextTime(double time);
+        virtual void nextTime(double time);
 
         void nextOrientation(double time);
 

@@ -38,6 +38,7 @@ namespace model {
 
         ~Titanic() override;
 
+        void nextTime(double time) override;
 
         void setMachinePower(double value);
 

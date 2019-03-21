@@ -185,9 +185,17 @@ namespace model {
 
     void PhysicObject2D::nextOrientation(double time) {
 
+        rotationSpeed += rotationAcceleration * time;
+
+        orientation += rotationSpeed * time;
     }
 
     void PhysicObject2D::nextPosition(double time) {
 
+        speed[X_DIM_VALUE] += acceleration[X_DIM_VALUE] * time;
+        speed[Y_DIM_VALUE] += acceleration[Y_DIM_VALUE] * time;
+
+        position[X_DIM_VALUE] += speed[X_DIM_VALUE] * time;
+        position[Y_DIM_VALUE] += speed[Y_DIM_VALUE] * time;
     }
 }

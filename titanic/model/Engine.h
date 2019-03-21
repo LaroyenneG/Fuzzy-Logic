@@ -25,6 +25,7 @@ namespace model {
         const double propellerWeight;     // kg
         const double maxPower;  // cv
 
+
     public:
 
         explicit Engine(double _rotationSpeed, double _power, double _friction,
