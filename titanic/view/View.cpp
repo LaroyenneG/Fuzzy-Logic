@@ -4,7 +4,10 @@
 #include "CheckBoxController.h"
 #include "SliderController.h"
 #include "TimeWizardController.h"
+#include "AutomaticPilotController.h"
 
+#define COLLISIONS_TITLE "Titanic sank"
+#define COLLISIONS_MESSAGE "The ship touching the iceberg :-("
 
 namespace view {
 
@@ -26,7 +29,8 @@ namespace view {
               progressBarLazer2(nullptr),
               progressBarLazer3(nullptr),
               distanceLabel(nullptr),
-              timer(nullptr) {
+              refreshTimer(nullptr),
+              automaticPilotTimer(nullptr) {
 
 
         menuBar = new QMenuBar();
@@ -46,9 +50,11 @@ namespace view {
         progressBarLazer2 = new QProgressBar();
         progressBarLazer3 = new QProgressBar();
         distanceLabel = new QLabel();
-        timer = new QTimer(this);
+        refreshTimer = new QTimer(this);
+        automaticPilotTimer = new QTimer(this);
 
-        timer->setInterval(DEFAULT_TIMER_INTERVAL);
+        automaticPilotTimer->setInterval(DEFAULT_AUTOMATIC_PILOT_INTERVAL);
+        refreshTimer->setInterval(DEFAULT_VIEW_TIMER_INTERVAL);
 
         setLayout(parent);
 
@@ -77,7 +83,7 @@ namespace view {
 
     View::~View() {
 
-        delete timer;
+        delete refreshTimer;
         delete distanceLabel;
         delete progressBarLazer3;
         delete progressBarLazer2;
@@ -158,20 +164,54 @@ namespace view {
 
     void View::setTimeWizardController(controller::TimeWizardController *timeWizardController) const {
 
-        QObject::connect(timer, SIGNAL(timeout()), timeWizardController, SLOT(nextTime()));
+        QObject::connect(refreshTimer, SIGNAL(timeout()), timeWizardController, SLOT(nextTime()));
+    }
+
+    void View::setAutomaticPilotController(controller::AutomaticPilotController *automaticPilotController) const {
+
+        QObject::connect(automaticPilotTimer, SIGNAL(timeout()), automaticPilotController, SLOT(compute()));
     }
 
     int View::getTimeInterval() const {
-        return timer->interval();
+        return refreshTimer->interval();
     }
 
     void View::setTimeInterval(int time) {
-        timer->setInterval(time);
+        refreshTimer->setInterval(time);
     }
 
     void View::display() {
-        timer->stop();
-        timer->start();
+        startTime();
         show();
+    }
+
+    void View::stopTime() {
+        refreshTimer->stop();
+    }
+
+    void View::startTime() {
+
+        if (refreshTimer->isActive()) {
+            refreshTimer->stop();
+        }
+
+        refreshTimer->start();
+    }
+
+    void View::touching() {
+        QMessageBox::information(this, QString(COLLISIONS_TITLE), QString(COLLISIONS_MESSAGE));
+    }
+
+    void View::enableAutomaticPilot() {
+
+        if (automaticPilotTimer->isActive()) {
+            automaticPilotTimer->stop();
+        }
+
+        automaticPilotTimer->start();
+    }
+
+    void View::disableAutomaticPilot() {
+        automaticPilotTimer->stop();
     }
 }

@@ -39,4 +39,8 @@ namespace model {
     const Iceberg *Model::getIceberg() const {
         return iceberg;
     }
+
+    bool Model::touching() const {
+        return titanic->touch(*iceberg);
+    }
 }

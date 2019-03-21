@@ -1,5 +1,4 @@
 
-#include <iostream>
 #include "CheckBoxController.h"
 
 namespace controller {
@@ -9,6 +8,11 @@ namespace controller {
     }
 
     void CheckBoxController::automaticPilotStateChange(bool checked) {
-        std::cout << "coucou" << '\n';
+
+        if (checked) {
+            view->enableAutomaticPilot();
+        } else {
+            view->disableAutomaticPilot();
+        }
     }
 }

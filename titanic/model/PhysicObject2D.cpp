@@ -74,19 +74,8 @@ namespace model {
         acceleration[Y_DIM_VALUE] = value;
     }
 
-
     void PhysicObject2D::drawMe(view::Draftsman *draftsman) {
         draftsman->drawElement(this);
-    }
-
-    /* static functions */
-
-    double PhysicObject2D::orientationConverterX(double course) {
-        return cos(M_PI * course);
-    }
-
-    double PhysicObject2D::orientationConverterY(double course) {
-        return sin(M_PI * course);
     }
 
     bool PhysicObject2D::touch(const PhysicObject2D &object) const {
@@ -101,16 +90,16 @@ namespace model {
 
         for (unsigned int i = 0; i < e1.size() - 1; ++i) {
 
-            auto &p11 = e1[i];
-            auto &p12 = e1[i + 1];
+            std::array<double, MODEL_SPACE_DIMENSION> &p11 = e1[i];
+            std::array<double, MODEL_SPACE_DIMENSION> &p12 = e1[i + 1];
 
             std::array<double, MODEL_SPACE_DIMENSION> v1{{p12[X_DIM_VALUE] - p11[X_DIM_VALUE],
                                                                  p12[Y_DIM_VALUE] - p11[Y_DIM_VALUE]}};
 
-            for (unsigned int j = 0; j < e2.size(); ++j) {
+            for (unsigned int j = 0; j < e2.size() - 1; ++j) {
 
-                auto &p21 = e2[j];
-                auto &p22 = e2[j + 1];
+                std::array<double, MODEL_SPACE_DIMENSION> &p21 = e2[j];
+                std::array<double, MODEL_SPACE_DIMENSION> &p22 = e2[j + 1];
 
                 std::array<double, MODEL_SPACE_DIMENSION> v2{{p22[X_DIM_VALUE] - p21[X_DIM_VALUE],
                                                                      p22[Y_DIM_VALUE] - p21[Y_DIM_VALUE]}};
@@ -125,10 +114,10 @@ namespace model {
 
                     double solution = (c1 - c2) / (a1 - a2);
 
-                    if (MIN_VALUE(p11[X_DIM_VALUE], p12[X_DIM_VALUE]) > solution &&
-                        MAX_VALUE(p11[X_DIM_VALUE], p12[X_DIM_VALUE]) < solution &&
-                        MIN_VALUE(p21[X_DIM_VALUE], p22[X_DIM_VALUE]) > solution &&
-                        MAX_VALUE(p21[X_DIM_VALUE], p22[X_DIM_VALUE]) < solution) {
+                    if (MIN_VALUE(p11[X_DIM_VALUE], p12[X_DIM_VALUE]) < solution &&
+                        MAX_VALUE(p11[X_DIM_VALUE], p12[X_DIM_VALUE]) > solution &&
+                        MIN_VALUE(p21[X_DIM_VALUE], p22[X_DIM_VALUE]) < solution &&
+                        MAX_VALUE(p21[X_DIM_VALUE], p22[X_DIM_VALUE]) > solution) {
 
                         return true;
                     }
@@ -182,5 +171,16 @@ namespace model {
 
     void PhysicObject2D::setRotationAcceleration(double value) {
         rotationAcceleration = value;
+    }
+
+
+    /* static functions */
+
+    double PhysicObject2D::orientationConverterX(double course) {
+        return cos(M_PI * course);
+    }
+
+    double PhysicObject2D::orientationConverterY(double course) {
+        return sin(M_PI * course);
     }
 }

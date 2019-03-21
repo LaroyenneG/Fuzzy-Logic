@@ -1,5 +1,6 @@
 
 
+#include <iostream>
 #include "AutomaticPilotController.h"
 
 namespace controller {
@@ -8,5 +9,10 @@ namespace controller {
             : AbstractController(_model, _view, _draftsman) {
 
 
+    }
+
+    void AutomaticPilotController::compute() {
+
+        std::cout << "pilot auto beep" << std::endl;
     }
 }

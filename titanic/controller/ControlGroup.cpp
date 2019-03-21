@@ -22,6 +22,7 @@ namespace controller {
         view->setSliderController(sliderController);
         view->setCheckBoxController(checkBoxController);
         view->setTimeWizardController(timeWizardController);
+        view->setAutomaticPilotController(automaticPilotController);
     }
 
     ControlGroup::~ControlGroup() {

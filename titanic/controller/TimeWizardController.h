@@ -1,6 +1,8 @@
 #ifndef LOGIQUEFLOUE_TIMEWIZARDCONTROLLER_H
 #define LOGIQUEFLOUE_TIMEWIZARDCONTROLLER_H
 
+#include <QMessageBox>
+
 #include "AbstractController.h"
 
 namespace controller {

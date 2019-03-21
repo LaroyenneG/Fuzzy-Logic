@@ -38,6 +38,10 @@ namespace interpreter {
     template<typename T>
     T AbstractInterpreter<T>::readInMemory(std::string key) const {
 
+        if (freeMemory.find(key) == freeMemory.end()) {
+            throw std::exception();
+        }
+
         return freeMemory[key];
     }
 

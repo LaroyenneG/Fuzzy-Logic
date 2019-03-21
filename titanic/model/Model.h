@@ -28,6 +28,8 @@ namespace model {
 
         const std::set<PhysicObject2D *> &getElements() const;
 
+        bool touching() const;
+
         ~Model();
     };
 }

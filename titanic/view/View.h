@@ -21,7 +21,9 @@
 #define MS_TO_NDS 1.944
 #define RDS_TO_TPM 9.54
 
-#define DEFAULT_TIMER_INTERVAL 1000
+#define DEFAULT_VIEW_TIMER_INTERVAL 100
+
+#define DEFAULT_AUTOMATIC_PILOT_INTERVAL 1000
 
 namespace controller {
 
@@ -30,6 +32,8 @@ namespace controller {
     class TimeWizardController;
 
     class SliderController;
+
+    class AutomaticPilotController;
 }
 
 namespace view {
@@ -56,7 +60,8 @@ namespace view {
         QProgressBar *progressBarLazer2;
         QProgressBar *progressBarLazer3;
         QLabel *distanceLabel;
-        QTimer *timer;
+        QTimer *refreshTimer;
+        QTimer *automaticPilotTimer;
 
     public:
         explicit View();
@@ -77,13 +82,25 @@ namespace view {
 
         void setTimeWizardController(controller::TimeWizardController *timeWizardController) const;
 
+        void setAutomaticPilotController(controller::AutomaticPilotController *automaticPilotController) const;
+
         int getTimeInterval() const;
 
         void setTimeInterval(int time);
 
         void display();
 
+        void stopTime();
+
+        void startTime();
+
+        void enableAutomaticPilot();
+
+        void disableAutomaticPilot();
+
         ~View() override;
+
+        void touching();
     };
 }
 

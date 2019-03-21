@@ -37,7 +37,6 @@ namespace model {
     class PhysicObject2D {
 
     private:
-
         std::vector<std::array<double, MODEL_SPACE_DIMENSION>> points;     // m
 
         std::array<double, MODEL_SPACE_DIMENSION> position;                  // m
@@ -66,7 +65,7 @@ namespace model {
 
         explicit PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
                                 double _xPosition,
-                                double _yPosition, double _course, double _weight);
+                                double _yPosition, double _orientation, double _weight);
 
 
         bool touch(const PhysicObject2D &object) const;
