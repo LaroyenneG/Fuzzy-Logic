@@ -6,9 +6,17 @@
 
 namespace interpreter {
 
-    class FuzzyInterpreter : public AbstractInterpreter {
+    template<typename T>
+    class FuzzyInterpreter : public AbstractInterpreter<T> {
 
+    public:
+        void execute(std::string line) override;
     };
+
+    template<typename T>
+    void FuzzyInterpreter<T>::execute(std::string line) {
+
+    }
 }
 
 
