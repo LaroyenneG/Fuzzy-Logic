@@ -13,10 +13,10 @@ namespace model {
                                                                                                  {{14.0, 30.0}},
                                                                                                  {{0.0, 0.0}}}};
 
-    Titanic::Titanic(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &points, double _course,
+    Titanic::Titanic(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &points, double _orientation,
                      double _weight,
                      double _xPosition, double _yPosition)
-            : PhysicObject2D(points, _xPosition, _yPosition, _course, _weight),
+            : PhysicObject2D(points, _xPosition, _yPosition, _orientation, _weight),
               engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
     }
 
@@ -29,9 +29,14 @@ namespace model {
 
     }
 
-    void Titanic::setCourse(double value) {
-        setOrientationX(orientationConverterX(value));
-        setOrientationY(orientationConverterY(value));
+    void Titanic::setRudderValue(double value) {
+        rudder.setValue(value);
+    }
+
+    void Titanic::setMachinePower(double value) {
+        engines[0]->setPower(value);
+        engines[1]->setPower(value);
+        engines[2]->setPower((value > 0.0) ? value : 0.0);
     }
 
     Titanic::~Titanic() {

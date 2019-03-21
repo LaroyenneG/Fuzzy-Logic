@@ -1,6 +1,5 @@
 
 #include <QApplication>
-#include <QWidget>
 
 #include "Draftsman.h"
 #include "ControlGroup.h"
@@ -17,7 +16,7 @@ int main(int argc, char **argv) {
     auto *view = new View();
     auto *controlGroup = new ControlGroup(model, view);
 
-    view->show();
+    view->display();
 
     int applicationState = QApplication::exec();
 

@@ -7,7 +7,7 @@
 namespace model {
 
     Iceberg::Iceberg(double x, double y, double r, double _weight)
-            : PhysicObject2D(buildPoints(r, NB_POINTS), x, y, DEFAULT_ORIENTATION_X, DEFAULT_ORIENTATION_Y, _weight) {
+            : PhysicObject2D(buildPoints(r, NB_POINTS), x, y, DEFAULT_ORIENTATION, _weight) {
 
     }
 

@@ -2,9 +2,9 @@
 #define LOGIQUEFLOUE_OBJECT2D_H
 
 #include <set>
-#include <map>
-
-#include "ObjectND.h"
+#include <vector>
+#include <array>
+#include <cmath>
 
 #define DEFAULT_POSITION_X 0.0
 #define DEFAULT_POSITION_Y 0.0
@@ -12,11 +12,13 @@
 #define DEFAULT_SPEED_X 0.0
 #define DEFAULT_SPEED_Y 0.0
 
+#define DEFAULT_ORIENTATION 0.0
+
 #define DEFAULT_ACCELERATION_X 0.0
 #define DEFAULT_ACCELERATION_Y 0.0
 
-#define DEFAULT_ORIENTATION_X 0.0
-#define DEFAULT_ORIENTATION_Y 1.0
+#define DEFAULT_ROTATION_SPEED 0.0
+#define DEFAULT_ROTATION_ACCELERATION 0.0
 
 #define MODEL_SPACE_DIMENSION 2
 
@@ -32,7 +34,20 @@ namespace view {
 
 namespace model {
 
-    class PhysicObject2D : public ObjectND<double, MODEL_SPACE_DIMENSION> {
+    class PhysicObject2D {
+
+    private:
+
+        std::vector<std::array<double, MODEL_SPACE_DIMENSION>> points;     // m
+
+        std::array<double, MODEL_SPACE_DIMENSION> position;                  // m
+        std::array<double, MODEL_SPACE_DIMENSION> speed;                     // m / s
+        std::array<double, MODEL_SPACE_DIMENSION> acceleration;             // m / s²
+
+        double orientation;
+        double rotationSpeed;
+        double rotationAcceleration;
+        double weight;                                                    // kg
 
     protected:
         static double orientationConverterX(double course);
@@ -40,26 +55,23 @@ namespace model {
         static double orientationConverterY(double course);
 
     public:
+
         explicit PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
                                 double _xPosition,
                                 double _yPosition,
                                 double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration,
-                                double _xOrientation, double _yOrientation,
+                                double _orientation, double rotationSpeed, double rotationAcceleration,
                                 double _weight);
 
-        explicit PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
-                                double _xPosition,
-                                double _yPosition, double _xOrientation, double _yOrientation, double _weight);
 
         explicit PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
                                 double _xPosition,
                                 double _yPosition, double _course, double _weight);
 
-        explicit PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points, double _weight);
 
-        bool touch(const ObjectND<double, MODEL_SPACE_DIMENSION> &object) const override;
+        bool touch(const PhysicObject2D &object) const;
 
-        void writeAbsolutePoints(std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &points) const override;
+        void writeAbsolutePoints(std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &points) const;
 
         double getPositionX() const;
 
@@ -81,21 +93,27 @@ namespace model {
 
         double getAccelerationY() const;
 
-        double getOrientationX() const;
-
-        double getOrientationY() const;
-
         void setAccelerationX(double value);
 
         void setAccelerationY(double value);
 
-        void setOrientationX(double value);
+        void setOrientation(double value);
 
-        void setOrientationY(double value);
+        double getOrientation() const;
+
+        double getRotationSpeed() const;
+
+        double getRotationAcceleration() const;
+
+        void setRotationSpeed(double value);
+
+        void setRotationAcceleration(double value);
+
+        const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &getPoints() const;
 
         virtual void drawMe(view::Draftsman *draftsman);
 
-        ~PhysicObject2D() override = default;
+        virtual ~PhysicObject2D() = default;
     };
 }
 

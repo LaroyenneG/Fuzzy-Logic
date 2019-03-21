@@ -3,22 +3,26 @@
 #include "SliderController.h"
 
 namespace controller {
+
+
     SliderController::SliderController(Model *_model, View *_view, Draftsman *_draftsman) : AbstractController(_model,
                                                                                                                _view,
                                                                                                                _draftsman) {
     }
 
     void SliderController::machinePowerSliderValueChanged(int value) {
-        updateView();
-        std::cout << value << '\n';
+
+        double power = (value - SLIDER_MAX_VALUE / 2.0) / (SLIDER_MAX_VALUE / 2.0);
+
+        model->getTitanic()->setMachinePower(power);
     }
 
     void SliderController::helmSliderValueChanged(int value) {
 
-        model->getTitanic()->setCourse((value * 1.0 / 100) * 3.14);
+        double angle = (value - SLIDER_MAX_VALUE / 2.0) / (SLIDER_MAX_VALUE / 2.0);
 
-        updateView();
+        model->getTitanic()->setRudderValue(angle);
 
-        std::cout << value << '\n';
+        std::cout << angle << std::endl;
     }
 }

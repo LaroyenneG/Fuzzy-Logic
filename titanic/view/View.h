@@ -21,7 +21,10 @@
 #define MS_TO_NDS 1.944
 #define RDS_TO_TPM 9.54
 
+#define DEFAULT_TIMER_INTERVAL 1000
+
 namespace controller {
+
     class CheckBoxController;
 
     class TimeWizardController;
@@ -73,6 +76,12 @@ namespace view {
         void setSliderController(controller::SliderController *sliderController) const;
 
         void setTimeWizardController(controller::TimeWizardController *timeWizardController) const;
+
+        int getTimeInterval() const;
+
+        void setTimeInterval(int time);
+
+        void display();
 
         ~View() override;
     };

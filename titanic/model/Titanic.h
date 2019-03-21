@@ -29,7 +29,7 @@ namespace model {
         const std::array<Engine *, ENGINES_COUNTER> engines;
 
     public:
-        explicit Titanic(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &points, double _course,
+        explicit Titanic(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &points, double _orientation,
                          double _weight,
                          double _xPosition, double _yPosition);
 
@@ -39,7 +39,10 @@ namespace model {
 
         ~Titanic() override;
 
-        void setCourse(double value);
+
+        void setMachinePower(double value);
+
+        void setRudderValue(double value);
     };
 }
 

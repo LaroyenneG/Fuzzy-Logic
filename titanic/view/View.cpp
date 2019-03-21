@@ -5,6 +5,7 @@
 #include "SliderController.h"
 #include "TimeWizardController.h"
 
+
 namespace view {
 
     View::View()
@@ -46,6 +47,8 @@ namespace view {
         progressBarLazer3 = new QProgressBar();
         distanceLabel = new QLabel();
         timer = new QTimer(this);
+
+        timer->setInterval(DEFAULT_TIMER_INTERVAL);
 
         setLayout(parent);
 
@@ -156,5 +159,19 @@ namespace view {
     void View::setTimeWizardController(controller::TimeWizardController *timeWizardController) const {
 
         QObject::connect(timer, SIGNAL(timeout()), timeWizardController, SLOT(nextTime()));
+    }
+
+    int View::getTimeInterval() const {
+        return timer->interval();
+    }
+
+    void View::setTimeInterval(int time) {
+        timer->setInterval(time);
+    }
+
+    void View::display() {
+        timer->stop();
+        timer->start();
+        show();
     }
 }

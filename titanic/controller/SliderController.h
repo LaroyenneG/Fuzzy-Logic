@@ -3,6 +3,8 @@
 
 #include "AbstractController.h"
 
+#define SLIDER_MAX_VALUE 99.0
+
 namespace controller {
 
     class SliderController : public AbstractController {
