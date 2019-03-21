@@ -9,14 +9,13 @@
 
 #define TURBINE_DEFAULT_PROPELLER_DIAMETER 5.20
 #define TURBINE_DEFAULT_PROPELLER_WEIGHT 22000
-#define TURBINE_DEFAULT_PROPELLER_MAX_POWER 16000
+#define TURBINE_DEFAULT_PROPELLER_MAX_POWER 16000  // CV
+#define TURBINE_DEFAULT_MAX_SPEED 167 * 0.10472
 
 namespace model {
 
     class LowPressureTurbine : public Engine {
     public:
-        explicit LowPressureTurbine(double _propellerDiameter, double _propellerWeight);
-
         explicit LowPressureTurbine();
 
         void setPower(double value) override;

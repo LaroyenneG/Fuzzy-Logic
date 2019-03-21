@@ -4,13 +4,11 @@
 
 
 namespace model {
-    LowPressureTurbine::LowPressureTurbine(double _propellerDiameter, double _propellerWeight)
-            : Engine(_propellerDiameter, _propellerWeight, TURBINE_DEFAULT_PROPELLER_MAX_POWER) {
-    }
+
 
     LowPressureTurbine::LowPressureTurbine()
-            : LowPressureTurbine(TURBINE_DEFAULT_PROPELLER_DIAMETER,
-                                 TURBINE_DEFAULT_PROPELLER_WEIGHT) {
+            : Engine(TURBINE_DEFAULT_PROPELLER_DIAMETER, TURBINE_DEFAULT_PROPELLER_WEIGHT,
+                     TURBINE_DEFAULT_PROPELLER_MAX_POWER, TURBINE_DEFAULT_MAX_SPEED) {
     }
 
     void LowPressureTurbine::setPower(double value) {

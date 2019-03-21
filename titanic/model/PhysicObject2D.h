@@ -80,6 +80,8 @@ namespace model {
 
         void setSpeedY(double value);
 
+        double getSpeed() const;
+
         double getSpeedX() const;
 
         double getSpeedY() const;

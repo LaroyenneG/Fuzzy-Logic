@@ -154,6 +154,11 @@ namespace model {
         return orientation;
     }
 
+    double PhysicObject2D::getSpeed() const {
+        return sqrt(speed[X_DIM_VALUE] * speed[X_DIM_VALUE] + speed[Y_DIM_VALUE] * speed[Y_DIM_VALUE]);
+    }
+
+
     double PhysicObject2D::getRotationSpeed() const {
         return rotationSpeed;
     }

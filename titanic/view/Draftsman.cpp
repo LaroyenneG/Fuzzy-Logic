@@ -20,6 +20,8 @@ namespace view {
         for (auto element : model->getElements()) {
             element->drawMe(this);
         }
+
+        drawVector();
     }
 
     void Draftsman::drawElement(const model::PhysicObject2D *object) {
@@ -47,5 +49,23 @@ namespace view {
         QPoint point(static_cast<int>(x * SCALE), static_cast<int>(y * SCALE));
 
         return point;
+    }
+
+    void Draftsman::drawVector() {
+
+        auto titanic = model->getTitanic();
+
+        QLine accLine(scaleConverter(titanic->getPositionX(), titanic->getPositionY()),
+                      scaleConverter(titanic->getAccelerationX() * 1000.0 + titanic->getPositionX(),
+                                     titanic->getAccelerationY() * 1000.0 + titanic->getPositionY()));
+
+        scene->addLine(accLine);
+
+
+        QLine speedLine(scaleConverter(titanic->getPositionX(), titanic->getPositionY()),
+                        scaleConverter(titanic->getSpeedX() * 10.0 + titanic->getPositionX(),
+                                       titanic->getSpeedY() * 10.0 + titanic->getPositionY()));
+
+        scene->addLine(speedLine);
     }
 }

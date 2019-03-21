@@ -23,6 +23,8 @@ namespace view {
 
         void draw();
 
+        void drawVector();
+
         void drawElement(const model::PhysicObject2D *object);
 
         ~Draftsman() = default;

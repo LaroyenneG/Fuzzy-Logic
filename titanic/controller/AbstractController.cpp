@@ -14,6 +14,12 @@ namespace controller {
 
         draftsman->draw();
 
+        auto rotationSpeed = model->getTitanic()->getMachinesRotationSpeed();
+
+        view->setMachinesSpeed(rotationSpeed[0], rotationSpeed[2], rotationSpeed[1]);
+
+        view->setShipSpeed(model->getTitanic()->getSpeed());
+
         view->getMutex().unlock();
     }
 }

@@ -9,6 +9,11 @@
 #include "Engine.h"
 #include "Rudder.h"
 
+#define SEA_M_VOL 1025.0            // kg/m^3
+#define DRAG_COEFFICIENT -0.0015     // un know
+#define SUBMERGED_SURFACE 26172.0   // m²
+
+
 #define TITANIC_DEFAULT_COURSE 0.0
 #define TITANIC_DEFAULT_WEIGHT 52310000.0
 #define TITANIC_DEFAULT_X 0.0
@@ -43,6 +48,8 @@ namespace model {
         void setMachinePower(double value);
 
         void setRudderValue(double value);
+
+        std::array<double, ENGINES_COUNTER> getMachinesRotationSpeed() const;
     };
 }
 

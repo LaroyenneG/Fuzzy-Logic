@@ -1,20 +1,24 @@
-
+#include <cmath>
 #include <stdexcept>
 #include "Engine.h"
 
 namespace model {
 
-    Engine::Engine(double _rotationSpeed, double _power, double _friction,
-                   double _propellerDiameter, double _propellerWeight, double _maxPower)
-            : rotationSpeed(_rotationSpeed), power(_power), friction(_friction),
-              propellerDiameter(_propellerDiameter), propellerWeight(_propellerWeight), maxPower(_maxPower) {
+    Engine::Engine(double _rotationAcceleration, double _rotationSpeed, double _power, double _friction,
+                   double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed)
+            : rotationAcceleration(_rotationAcceleration), rotationSpeed(_rotationSpeed), power(_power),
+              friction(_friction),
+              propellerDiameter(_propellerDiameter), propellerWeight(_propellerWeight), maxPower(_maxPower),
+              maxRotationSpeed(_maxRotationSpeed) {
 
     }
 
-    Engine::Engine(double _propellerDiameter, double _propellerWeight, double _maxPower)
-            : Engine(ENGINE_DEFAULT_ROTATION, ENGINE_DEFAULT_POWER, ENGINE_DEFAULT_FRICTION, _propellerDiameter,
+    Engine::Engine(double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed)
+            : Engine(ENGINE_DEFAULT_ROTATION_ACCELERATION, ENGINE_DEFAULT_ROTATION_SPEED, ENGINE_DEFAULT_POWER,
+                     ENGINE_DEFAULT_FRICTION,
+                     _propellerDiameter,
                      _propellerWeight,
-                     _maxPower) {
+                     _maxPower, _maxRotationSpeed) {
 
     }
 
@@ -23,7 +27,8 @@ namespace model {
     }
 
     double Engine::getPropulsionStrength() const {
-        return 0;
+
+        return ENGINE_MAGIC_NUMBER * maxPower * rotationSpeed / maxRotationSpeed;
     }
 
     double Engine::getPower() const {
@@ -41,5 +46,24 @@ namespace model {
 
     std::string Engine::getName() const {
         return std::string(ENGINE_DEFAULT_NAME);
+    }
+
+    void Engine::nexTime(double time) {
+
+        rotationAcceleration = power;
+
+        nextRotation(time);
+    }
+
+    void Engine::nextRotation(double time) {
+
+        rotationSpeed += rotationAcceleration * time;
+
+        if (rotationSpeed > maxRotationSpeed) {
+            rotationSpeed = maxRotationSpeed;
+        }
+        if (rotationSpeed < -maxRotationSpeed) {
+            rotationSpeed = -maxRotationSpeed;
+        }
     }
 }

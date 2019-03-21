@@ -6,8 +6,11 @@
 #include <exception>
 
 #define ENGINE_DEFAULT_POWER 0.0
-#define ENGINE_DEFAULT_ROTATION 0.0
+#define ENGINE_DEFAULT_ROTATION_SPEED 0.0
+#define ENGINE_DEFAULT_ROTATION_ACCELERATION 0.0
 #define ENGINE_DEFAULT_FRICTION 0.0
+
+#define ENGINE_MAGIC_NUMBER 735.5
 
 #define ENGINE_VALUE_ERROR_MSG "Engine invalid engine power"
 #define ENGINE_DEFAULT_NAME "Engine"
@@ -17,6 +20,7 @@ namespace model {
     class Engine {
 
     private:
+        double rotationAcceleration; // radian / s²
         double rotationSpeed;       // radian / s
         double power;               // [-1 - 1] %
 
@@ -24,18 +28,23 @@ namespace model {
         const double propellerDiameter;   // m
         const double propellerWeight;     // kg
         const double maxPower;  // cv
+        const double maxRotationSpeed; // radian / s
 
 
     public:
 
-        explicit Engine(double _rotationSpeed, double _power, double _friction,
-                        double _propellerDiameter, double _propellerWeight, double _maxPower);
+        explicit Engine(double _rotationAcceleration, double _rotationSpeed, double _power, double _friction,
+                        double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed);
 
-        explicit Engine(double _propellerDiameter, double _propellerWeight, double _maxPower);
+        explicit Engine(double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed);
 
         double getRotationSpeed() const;
 
-        double getPropulsionStrength() const;
+        double getPropulsionStrength() const; // N / S
+
+        void nextRotation(double time);
+
+        void nexTime(double time);
 
         double getPower() const;
 

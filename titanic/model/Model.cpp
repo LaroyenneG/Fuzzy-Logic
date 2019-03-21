@@ -7,6 +7,8 @@ namespace model {
     Model::Model() : titanic(new Titanic()), iceberg(new Iceberg()) {
         elements.insert(titanic);
         elements.insert(iceberg);
+
+        titanic->setSpeedX(10);
     }
 
     Model::~Model() {

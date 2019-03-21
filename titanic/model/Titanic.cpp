@@ -42,17 +42,44 @@ namespace model {
 
     void Titanic::nextTime(double time) {
 
-
-        double enginePush = 0.0; // N / kg
+        double enginePush = 0.0; // N / S
         for (auto engine : engines) {
-            enginePush += engine->getPower();
+            engine->nexTime(time);
+            enginePush += engine->getPropulsionStrength();
         }
 
-        double acceleration = enginePush; // m / s
+        std::array<double, MODEL_SPACE_DIMENSION> orientation{{cos(getOrientation()), -sin(getOrientation())}};
 
 
-        setAccelerationX(acceleration * cos(getOrientation()));
-        setAccelerationY(-acceleration * sin(getOrientation()));
+        std::array<double, MODEL_SPACE_DIMENSION> propulsion{{enginePush * orientation[X_DIM_VALUE] * time,
+                                                                     enginePush * orientation[Y_DIM_VALUE] *
+                                                                     time}}; // N / s
+
+
+        const double d = (sqrt(getSpeedY() * getSpeedY() + getSpeedX() * getSpeedX()) +
+                          sqrt(orientation[X_DIM_VALUE] * orientation[X_DIM_VALUE] *
+                               orientation[Y_DIM_VALUE] * orientation[Y_DIM_VALUE]));
+
+        const double angle = (d != 0.0) ? acos(
+                fabs(orientation[X_DIM_VALUE] * getSpeedX() + orientation[Y_DIM_VALUE] * getSpeedY()) / d) : 0.0;
+
+        const double dragValue = 0.5 * SEA_M_VOL * DRAG_COEFFICIENT * SUBMERGED_SURFACE * exp(angle * M_PI);
+
+        std::array<double, MODEL_SPACE_DIMENSION> drag{{getSpeedX() * getSpeedX() * dragValue,
+                                                               getSpeedY() * getSpeedY() * dragValue}};
+
+        std::array<double, MODEL_SPACE_DIMENSION> strength{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE],
+                                                                   propulsion[Y_DIM_VALUE] + drag[Y_DIM_VALUE]}};
+
+
+        std::array<double, MODEL_SPACE_DIMENSION> acceleration{{strength[X_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT,
+                                                                       strength[Y_DIM_VALUE] /
+                                                                       TITANIC_DEFAULT_WEIGHT}};
+
+        std::cout << angle << '\n';
+
+        setAccelerationX(acceleration[X_DIM_VALUE]);
+        setAccelerationY(acceleration[Y_DIM_VALUE]);
 
         PhysicObject2D::nextTime(time);
     }
@@ -63,5 +90,9 @@ namespace model {
         for (auto engine : engines) {
             delete engine;
         }
+    }
+
+    std::array<double, ENGINES_COUNTER> Titanic::getMachinesRotationSpeed() const {
+        return std::array<double, ENGINES_COUNTER>{{engines[0]->getRotationSpeed(), engines[1]->getRotationSpeed(), engines[2]->getRotationSpeed()}};
     }
 }
