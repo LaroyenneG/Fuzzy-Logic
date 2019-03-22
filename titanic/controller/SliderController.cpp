@@ -1,7 +1,6 @@
 
 #define _USE_MATH_DEFINES
 
-#include <iostream>
 #include "SliderController.h"
 
 namespace controller {
@@ -15,15 +14,13 @@ namespace controller {
 
         double power = value * 1.0 / SLIDER_MAX_VALUE;
 
-        std::cout << power << " " << value << std::endl;
-
         model->getTitanic()->setMachinePower(power);
     }
 
     void SliderController::helmSliderValueChanged(int value) {
 
-        double angle = value * 1.0 / SLIDER_MAX_VALUE * M_PI;
+        double angle = value * 1.0 / SLIDER_MAX_VALUE * M_PI;// (M_PI/2.0);
 
-        model->getTitanic()->setOrientation(model->getTitanic()->getOrientation() + angle);
+        model->getTitanic()->setOrientation(angle);
     }
 }

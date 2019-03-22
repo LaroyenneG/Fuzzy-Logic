@@ -58,23 +58,23 @@ namespace model {
 
         const double speed = getSpeed();
 
-        const double normMultiply =
+        const double denominator =
                 speed * sqrt(orientation[X_DIM_VALUE] * orientation[X_DIM_VALUE] + orientation[Y_DIM_VALUE] *
                                                                                    orientation[Y_DIM_VALUE]);
 
-        const double angle = (normMultiply != 0.0)
+        const double numerator = fabs(orientation[X_DIM_VALUE] * getSpeedX() + orientation[Y_DIM_VALUE] * getSpeedY());
+
+        const double angle = (denominator != 0.0)
                              ?
-                             acos(fabs(
-                                     orientation[X_DIM_VALUE] * getSpeedX() + orientation[Y_DIM_VALUE] * getSpeedY()) /
-                                  normMultiply)
+                             acos((denominator > numerator) ? numerator / denominator : 1.0)
                              : 0.0;
 
         const double dragValue =
-                0.5 * SEA_M_VOL * DRAG_COEFFICIENT * SUBMERGED_SURFACE * exp(angle * M_PI) * speed * speed;
+                0.5 * SEA_M_VOL * DRAG_COEFFICIENT * SUBMERGED_SURFACE * exp(angle * M_PI) * speed;
 
 
-        std::array<double, MODEL_SPACE_DIMENSION> drag{{-dragValue * getSpeedX() / speed,
-                                                               -dragValue * getSpeedY() / speed}};
+        std::array<double, MODEL_SPACE_DIMENSION> drag{{-dragValue * getSpeedX(),
+                                                               -dragValue * getSpeedY()}};
 
         std::array<double, MODEL_SPACE_DIMENSION> strengths{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE],
                                                                     propulsion[Y_DIM_VALUE] + drag[Y_DIM_VALUE]}};
