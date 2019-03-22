@@ -1,5 +1,6 @@
 
 
+#include <iostream>
 #include "Rudder.h"
 
 namespace model {
@@ -30,7 +31,23 @@ namespace model {
         waterSpeed[1] = yValue;
     }
 
-    std::array<double, MODEL_SPACE_DIMENSION> Rudder::getVectorStrength() const {
-        return std::array<double, MODEL_SPACE_DIMENSION>();
+    double Rudder::getRotationStrength() const {
+
+        std::array<double, MODEL_SPACE_DIMENSION> orientation{{cos(value), -sin(value)}};
+
+
+        const double normMultiply =
+                getWaterSpeed() * sqrt(orientation[X_DIM_VALUE] * orientation[X_DIM_VALUE] + orientation[Y_DIM_VALUE] *
+                                                                                             orientation[Y_DIM_VALUE]);
+
+        const double angle = (normMultiply != 0.0) ? acos(
+                (orientation[X_DIM_VALUE] * waterSpeed[0] + orientation[Y_DIM_VALUE] * waterSpeed[1]) / normMultiply)
+                                                   : 0.0;
+
+        return normMultiply * angle * size * RUDDER_MAGIC_NUMBER;
+    }
+
+    double Rudder::getWaterSpeed() const {
+        return sqrt(waterSpeed[0] * waterSpeed[0] + waterSpeed[1] * waterSpeed[1]);
     }
 }

@@ -56,30 +56,45 @@ namespace model {
                                                                      time}}; // N / s
 
 
-        const double d = (sqrt(getSpeedY() * getSpeedY() + getSpeedX() * getSpeedX()) +
-                          sqrt(orientation[X_DIM_VALUE] * orientation[X_DIM_VALUE] *
-                               orientation[Y_DIM_VALUE] * orientation[Y_DIM_VALUE]));
+        const double speed = getSpeed();
 
-        const double angle = (d != 0.0) ? acos(
-                fabs(orientation[X_DIM_VALUE] * getSpeedX() + orientation[Y_DIM_VALUE] * getSpeedY()) / d) : 0.0;
+        const double normMultiply =
+                speed * sqrt(orientation[X_DIM_VALUE] * orientation[X_DIM_VALUE] + orientation[Y_DIM_VALUE] *
+                                                                                   orientation[Y_DIM_VALUE]);
 
-        const double dragValue = 0.5 * SEA_M_VOL * DRAG_COEFFICIENT * SUBMERGED_SURFACE * exp(angle * M_PI);
+        const double angle = (normMultiply != 0.0)
+                             ?
+                             acos(fabs(
+                                     orientation[X_DIM_VALUE] * getSpeedX() + orientation[Y_DIM_VALUE] * getSpeedY()) /
+                                  normMultiply)
+                             : 0.0;
 
-        std::array<double, MODEL_SPACE_DIMENSION> drag{{getSpeedX() * getSpeedX() * dragValue,
-                                                               getSpeedY() * getSpeedY() * dragValue}};
-
-        std::array<double, MODEL_SPACE_DIMENSION> strength{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE],
-                                                                   propulsion[Y_DIM_VALUE] + drag[Y_DIM_VALUE]}};
+        const double dragValue =
+                0.5 * SEA_M_VOL * DRAG_COEFFICIENT * SUBMERGED_SURFACE * exp(angle * M_PI) * speed * speed;
 
 
-        std::array<double, MODEL_SPACE_DIMENSION> acceleration{{strength[X_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT,
-                                                                       strength[Y_DIM_VALUE] /
+        std::array<double, MODEL_SPACE_DIMENSION> drag{{-dragValue * getSpeedX() / speed,
+                                                               -dragValue * getSpeedY() / speed}};
+
+        std::array<double, MODEL_SPACE_DIMENSION> strengths{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE],
+                                                                    propulsion[Y_DIM_VALUE] + drag[Y_DIM_VALUE]}};
+
+
+        std::array<double, MODEL_SPACE_DIMENSION> acceleration{{strengths[X_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT,
+                                                                       strengths[Y_DIM_VALUE] /
                                                                        TITANIC_DEFAULT_WEIGHT}};
 
-        std::cout << angle << '\n';
 
         setAccelerationX(acceleration[X_DIM_VALUE]);
         setAccelerationY(acceleration[Y_DIM_VALUE]);
+
+
+        rudder.setWaterSpeedX(getSpeedX());
+        rudder.setWaterSpeedY(getSpeedY());
+
+        double rotationAcceleration = rudder.getRotationStrength() * 0.0;
+
+        setRotationAcceleration(rotationAcceleration);
 
         PhysicObject2D::nextTime(time);
     }

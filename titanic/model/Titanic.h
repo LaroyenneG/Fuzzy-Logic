@@ -10,7 +10,7 @@
 #include "Rudder.h"
 
 #define SEA_M_VOL 1025.0            // kg/m^3
-#define DRAG_COEFFICIENT -0.0015     // un know
+#define DRAG_COEFFICIENT 0.0015     // un know
 #define SUBMERGED_SURFACE 26172.0   // m²
 
 
