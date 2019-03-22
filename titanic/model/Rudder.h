@@ -40,7 +40,7 @@ namespace model {
 
         double getValue() const;
 
-        double getRotationStrength() const;
+        Vector computeHydrodynamicStrength() const;
     };
 }
 

@@ -31,13 +31,18 @@ namespace model {
         waterSpeed[Y_DIM_VALUE] = yValue;
     }
 
-    double Rudder::getRotationStrength() const {
+    Vector Rudder::computeHydrodynamicStrength() const {
 
         Vector orientation{{cos(value), sin(value)}};
 
-        const double angle = PhysicObject2D::angleBetweenVector(waterSpeed, orientation);
+        const double incidence = PhysicObject2D::angleBetweenVector(waterSpeed, orientation);
 
-        return angle * size * RUDDER_MAGIC_NUMBER * getWaterSpeed();
+
+        std::cout << incidence << '\n';
+
+        Vector strength{{0.0, 0.0}};
+
+        return strength;
     }
 
     double Rudder::getWaterSpeed() const {

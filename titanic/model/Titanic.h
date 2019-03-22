@@ -10,14 +10,16 @@
 #include "Rudder.h"
 
 #define SEA_M_VOL 1025.0            // kg/m^3
-#define DRAG_COEFFICIENT 0.0015     // un know
-#define SUBMERGED_SURFACE 26172.0   // m²
 
 
-#define TITANIC_DEFAULT_COURSE -3.14/2.0
+#define TITANIC_DEFAULT_COURSE -3.14 / 2.0
 #define TITANIC_DEFAULT_WEIGHT 52310000.0
 #define TITANIC_DEFAULT_X 0.0
 #define TITANIC_DEFAULT_Y 0.0
+
+#define DRAUGHT 10.5 // m
+#define REFERENCE_SURFACE 2824.5 // m²
+
 
 #define ENGINES_COUNTER 3
 
@@ -26,6 +28,10 @@ namespace model {
     class Titanic : public PhysicObject2D {
 
     private:
+        const static std::set<Point> LIFT_COEFFICIENTS;
+
+        const static std::set<Point> DRAG_COEFFICIENTS;
+
         const static std::vector<Point> DEFAULT_POINTS;
 
         Rudder rudder;
@@ -37,7 +43,7 @@ namespace model {
 
         Vector computeDrag(double time) const;
 
-        Vector computeBearing(double time) const;
+        Vector computeLift(double time) const;
 
     public:
         explicit Titanic(const std::vector<Point> &points, double _orientation,
@@ -49,6 +55,10 @@ namespace model {
         explicit Titanic();
 
         ~Titanic() override;
+
+        double approximatedLiftCoefficient(double incidence) const;
+
+        double approximatedDragCoefficient(double incidence) const;
 
         void nextTime(double time) override;
 
