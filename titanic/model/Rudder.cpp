@@ -24,30 +24,23 @@ namespace model {
     }
 
     void Rudder::setWaterSpeedX(double xValue) {
-        waterSpeed[0] = xValue;
+        waterSpeed[X_DIM_VALUE] = xValue;
     }
 
     void Rudder::setWaterSpeedY(double yValue) {
-        waterSpeed[1] = yValue;
+        waterSpeed[Y_DIM_VALUE] = yValue;
     }
 
     double Rudder::getRotationStrength() const {
 
-        std::array<double, MODEL_SPACE_DIMENSION> orientation{{cos(value), -sin(value)}};
+        Vector orientation{{cos(value), sin(value)}};
 
+        const double angle = PhysicObject2D::angleBetweenVector(waterSpeed, orientation);
 
-        const double normMultiply =
-                getWaterSpeed() * sqrt(orientation[X_DIM_VALUE] * orientation[X_DIM_VALUE] + orientation[Y_DIM_VALUE] *
-                                                                                             orientation[Y_DIM_VALUE]);
-
-        const double angle = (normMultiply != 0.0) ? acos(
-                (orientation[X_DIM_VALUE] * waterSpeed[0] + orientation[Y_DIM_VALUE] * waterSpeed[1]) / normMultiply)
-                                                   : 0.0;
-
-        return normMultiply * angle * size * RUDDER_MAGIC_NUMBER;
+        return angle * size * RUDDER_MAGIC_NUMBER * getWaterSpeed();
     }
 
     double Rudder::getWaterSpeed() const {
-        return sqrt(waterSpeed[0] * waterSpeed[0] + waterSpeed[1] * waterSpeed[1]);
+        return PhysicObject2D::normVector(waterSpeed);
     }
 }

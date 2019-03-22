@@ -6,15 +6,15 @@
 
 namespace model {
 
-    const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> Titanic::DEFAULT_POINTS{{{{0.0, 0.0}},
-                                                                                                 {{30.0, -14.0}},
-                                                                                                 {{218.0, -14.0}},
-                                                                                                 {{269.0, 0.0}},
-                                                                                                 {{218.0, 14.0}},
-                                                                                                 {{30.0, 14.0}},
-                                                                                                 {{0.0, 0.0}}}};
+    const std::vector<Point> Titanic::DEFAULT_POINTS{{{{0.0, 0.0}},
+                                                             {{30.0, -14.0}},
+                                                             {{218.0, -14.0}},
+                                                             {{269.0, 0.0}},
+                                                             {{218.0, 14.0}},
+                                                             {{30.0, 14.0}},
+                                                             {{0.0, 0.0}}}};
 
-    Titanic::Titanic(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &points, double _orientation,
+    Titanic::Titanic(const std::vector<Point> &points, double _orientation,
                      double _weight,
                      double _xPosition, double _yPosition)
             : PhysicObject2D(points, _xPosition, _yPosition, _orientation, _weight),
@@ -42,55 +42,30 @@ namespace model {
 
     void Titanic::nextTime(double time) {
 
-        double enginePush = 0.0; // N / S
-        for (auto engine : engines) {
-            engine->nexTime(time);
-            enginePush += engine->getPropulsionStrength();
-        }
 
-        std::array<double, MODEL_SPACE_DIMENSION> orientation{{cos(getOrientation()), -sin(getOrientation())}};
+        Vector propulsion = computePropulsion(time); // N
 
+        Vector drag = computeDrag(time);
 
-        std::array<double, MODEL_SPACE_DIMENSION> propulsion{{enginePush * orientation[X_DIM_VALUE] * time,
-                                                                     enginePush * orientation[Y_DIM_VALUE] *
-                                                                     time}}; // N / s
+        Vector bearing = computeBearing(time);
 
 
-        const double speed = getSpeed();
-
-        const double denominator =
-                speed * sqrt(orientation[X_DIM_VALUE] * orientation[X_DIM_VALUE] + orientation[Y_DIM_VALUE] *
-                                                                                   orientation[Y_DIM_VALUE]);
-
-        const double numerator = fabs(orientation[X_DIM_VALUE] * getSpeedX() + orientation[Y_DIM_VALUE] * getSpeedY());
-
-        const double angle = (denominator != 0.0)
-                             ?
-                             acos((denominator > numerator) ? numerator / denominator : 1.0)
-                             : 0.0;
-
-        const double dragValue =
-                0.5 * SEA_M_VOL * DRAG_COEFFICIENT * SUBMERGED_SURFACE * exp(angle * M_PI) * speed;
+        Vector strengths{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE] + bearing[X_DIM_VALUE],
+                                 propulsion[Y_DIM_VALUE] + drag[Y_DIM_VALUE] + bearing[Y_DIM_VALUE]}};
 
 
-        std::array<double, MODEL_SPACE_DIMENSION> drag{{-dragValue * getSpeedX(),
-                                                               -dragValue * getSpeedY()}};
-
-        std::array<double, MODEL_SPACE_DIMENSION> strengths{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE],
-                                                                    propulsion[Y_DIM_VALUE] + drag[Y_DIM_VALUE]}};
-
-
-        std::array<double, MODEL_SPACE_DIMENSION> acceleration{{strengths[X_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT,
-                                                                       strengths[Y_DIM_VALUE] /
-                                                                       TITANIC_DEFAULT_WEIGHT}};
+        Vector acceleration{{strengths[X_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT,
+                                    strengths[Y_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT}};
 
 
         setAccelerationX(acceleration[X_DIM_VALUE]);
         setAccelerationY(acceleration[Y_DIM_VALUE]);
 
 
-        rudder.setWaterSpeedX(getSpeedX());
-        rudder.setWaterSpeedY(getSpeedY());
+        Vector rudderWaterSpeed = pointRotation(speed, getOrientation());
+
+        rudder.setWaterSpeedX(rudderWaterSpeed[X_DIM_VALUE]);
+        rudder.setWaterSpeedY(rudderWaterSpeed[Y_DIM_VALUE]);
 
         double rotationAcceleration = rudder.getRotationStrength() * 0.0;
 
@@ -109,5 +84,49 @@ namespace model {
 
     std::array<double, ENGINES_COUNTER> Titanic::getMachinesRotationSpeed() const {
         return std::array<double, ENGINES_COUNTER>{{engines[0]->getRotationSpeed(), engines[1]->getRotationSpeed(), engines[2]->getRotationSpeed()}};
+    }
+
+    Vector Titanic::computeDrag(double time) const {
+
+        const double incidence = angleBetweenVector(speed, directionVector());
+
+
+        const double dragValue =
+                0.0 * SEA_M_VOL * DRAG_COEFFICIENT * SUBMERGED_SURFACE * incidence * exp(incidence * M_PI) *
+                normVector(speed);
+
+
+        Vector drag{{-dragValue * getSpeedX(), -dragValue * getSpeedY()}};
+
+        return drag; // N
+    }
+
+    Vector Titanic::computeBearing(double time) const {
+
+        double incidence = angleBetweenVector(inverseVector(speed), directionVector());
+
+        std::cout << incidence << '\n';
+
+        double bearingValue =
+                0.5 * SEA_M_VOL * DRAG_COEFFICIENT * SUBMERGED_SURFACE * exp(incidence * M_PI) * getSpeed();
+
+        Vector bearing{{bearingValue * getSpeedX(), bearingValue * getSpeedY()}};
+
+        double rotation = (true) ? M_PI / 2.0 : M_PI / 2.0;
+
+        return pointRotation(bearing, rotation);
+    }
+
+    Vector Titanic::computePropulsion(double time) const {
+
+        double enginePush = 0.0; // N
+        for (auto &engine : engines) {
+            engine->nexTime(time);
+            enginePush += engine->getPropulsionStrength();
+        }
+
+        Vector direction = inverseVector(directionVector());
+
+        return Vector{{enginePush * direction[X_DIM_VALUE] * time, enginePush * direction[Y_DIM_VALUE] * time}}; // N
     }
 }

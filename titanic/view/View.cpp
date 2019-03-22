@@ -114,11 +114,11 @@ namespace view {
     void View::setMachinesSpeed(double alt1, double turbine, double alt2) {
 
         std::string string =
-                "Alt 1 : " +
+                "Alternative left : " +
                 std::to_string(static_cast<int>(alt1 * RDS_TO_TPM)) + " | " +
                 "Turbine : " +
                 std::to_string(static_cast<int>(turbine * RDS_TO_TPM)) + " | " +
-                "Alt 2 : " +
+                "Alternative right : " +
                 std::to_string(static_cast<int>(alt2 * RDS_TO_TPM));
 
         QString qString(string.data());

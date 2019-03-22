@@ -26,14 +26,21 @@ namespace model {
     class Titanic : public PhysicObject2D {
 
     private:
-        const static std::vector<std::array<double, MODEL_SPACE_DIMENSION>> DEFAULT_POINTS;
+        const static std::vector<Point> DEFAULT_POINTS;
 
         Rudder rudder;
 
         const std::array<Engine *, ENGINES_COUNTER> engines;
 
+
+        Vector computePropulsion(double time) const;
+
+        Vector computeDrag(double time) const;
+
+        Vector computeBearing(double time) const;
+
     public:
-        explicit Titanic(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &points, double _orientation,
+        explicit Titanic(const std::vector<Point> &points, double _orientation,
                          double _weight,
                          double _xPosition, double _yPosition);
 

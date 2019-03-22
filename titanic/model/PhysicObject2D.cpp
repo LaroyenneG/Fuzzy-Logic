@@ -3,7 +3,7 @@
 
 namespace model {
 
-    PhysicObject2D::PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
+    PhysicObject2D::PhysicObject2D(const std::vector<Point> &_points,
                                    double _xPosition,
                                    double _yPosition,
                                    double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration,
@@ -14,7 +14,7 @@ namespace model {
               rotationAcceleration(_rotationAcceleration), weight(_weight) {
     }
 
-    PhysicObject2D::PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
+    PhysicObject2D::PhysicObject2D(const std::vector<Point> &_points,
                                    double _xPosition,
                                    double _yPosition, double _orientation, double _weight) :
             PhysicObject2D(_points, _xPosition, _yPosition, DEFAULT_SPEED_X, DEFAULT_SPEED_Y, DEFAULT_ACCELERATION_X,
@@ -77,29 +77,27 @@ namespace model {
 
     bool PhysicObject2D::touch(const PhysicObject2D &object) const {
 
-        std::vector<std::array<double, MODEL_SPACE_DIMENSION>> e1;
+        std::vector<Point> e1;
         writeAbsolutePoints(e1);
 
-        std::vector<std::array<double, MODEL_SPACE_DIMENSION>> e2;
+        std::vector<Point> e2;
         object.writeAbsolutePoints(e2);
 
         /********************************************************************/
 
         for (unsigned int i = 0; i < e1.size() - 1; ++i) {
 
-            std::array<double, MODEL_SPACE_DIMENSION> &p11 = e1[i];
-            std::array<double, MODEL_SPACE_DIMENSION> &p12 = e1[i + 1];
+            Point &p11 = e1[i];
+            Point &p12 = e1[i + 1];
 
-            std::array<double, MODEL_SPACE_DIMENSION> v1{{p12[X_DIM_VALUE] - p11[X_DIM_VALUE],
-                                                                 p12[Y_DIM_VALUE] - p11[Y_DIM_VALUE]}};
+            Point v1{{p12[X_DIM_VALUE] - p11[X_DIM_VALUE], p12[Y_DIM_VALUE] - p11[Y_DIM_VALUE]}};
 
             for (unsigned int j = 0; j < e2.size() - 1; ++j) {
 
-                std::array<double, MODEL_SPACE_DIMENSION> &p21 = e2[j];
-                std::array<double, MODEL_SPACE_DIMENSION> &p22 = e2[j + 1];
+                Point &p21 = e2[j];
+                Point &p22 = e2[j + 1];
 
-                std::array<double, MODEL_SPACE_DIMENSION> v2{{p22[X_DIM_VALUE] - p21[X_DIM_VALUE],
-                                                                     p22[Y_DIM_VALUE] - p21[Y_DIM_VALUE]}};
+                Vector v2{{p22[X_DIM_VALUE] - p21[X_DIM_VALUE], p22[Y_DIM_VALUE] - p21[Y_DIM_VALUE]}};
 
                 if (v1[X_DIM_VALUE] * v2[Y_DIM_VALUE] != v1[Y_DIM_VALUE] * v2[X_DIM_VALUE]) {
 
@@ -125,24 +123,17 @@ namespace model {
         return false;
     }
 
-    void PhysicObject2D::writeAbsolutePoints(std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &points) const {
-
+    void PhysicObject2D::writeAbsolutePoints(std::vector<Point> &points) const {
 
         for (auto &point : getPoints()) {
 
-            double x = point[X_DIM_VALUE] * cos(orientation) + point[Y_DIM_VALUE] * sin(orientation) +
-                       position[X_DIM_VALUE];
-
-            double y = -point[X_DIM_VALUE] * sin(orientation) + point[Y_DIM_VALUE] * cos(orientation) +
-                       position[Y_DIM_VALUE];
-
-            std::array<double, MODEL_SPACE_DIMENSION> nPoint{{x, y}};
+            Point nPoint = pointTranslation(pointRotation(point, orientation), position);
 
             points.push_back(nPoint);
         }
     }
 
-    const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &PhysicObject2D::getPoints() const {
+    const std::vector<Point> &PhysicObject2D::getPoints() const {
         return points;
     }
 
@@ -155,7 +146,7 @@ namespace model {
     }
 
     double PhysicObject2D::getSpeed() const {
-        return sqrt(speed[X_DIM_VALUE] * speed[X_DIM_VALUE] + speed[Y_DIM_VALUE] * speed[Y_DIM_VALUE]);
+        return normVector(speed);
     }
 
 
@@ -189,9 +180,7 @@ namespace model {
     }
 
     void PhysicObject2D::nextOrientation(double time) {
-
         rotationSpeed += rotationAcceleration * time;
-
         orientation += rotationSpeed * time;
     }
 
@@ -202,5 +191,56 @@ namespace model {
 
         position[X_DIM_VALUE] += speed[X_DIM_VALUE] * time;
         position[Y_DIM_VALUE] += speed[Y_DIM_VALUE] * time;
+    }
+
+    double PhysicObject2D::angleBetweenVector(const Vector &v1, const Vector &v2) {
+
+        const double denominator = normVector(v1) * normVector(v2);
+
+        const double numerator = v1[X_DIM_VALUE] * v2[X_DIM_VALUE] + v1[Y_DIM_VALUE] * v2[Y_DIM_VALUE];
+
+        double relation = (denominator != 0.0) ? numerator / denominator : 0.0;
+
+        if (relation >= 1.0) {
+            relation = 1.0;
+        }
+        if (relation <= -1.0) {
+            relation = -1.0;
+        }
+
+        return acos(relation);
+    }
+
+    double PhysicObject2D::normVector(const Vector &vector) {
+        return sqrt(vector[X_DIM_VALUE] * vector[X_DIM_VALUE] + vector[Y_DIM_VALUE] * vector[Y_DIM_VALUE]);
+    }
+
+    Point PhysicObject2D::pointRotation(const Point &point, double angle) {
+
+        Point nPoint;
+
+        nPoint[X_DIM_VALUE] = point[X_DIM_VALUE] * cos(angle) + point[Y_DIM_VALUE] * sin(angle);
+        nPoint[Y_DIM_VALUE] = -point[X_DIM_VALUE] * sin(angle) + point[Y_DIM_VALUE] * cos(angle);
+
+        return nPoint;
+    }
+
+    Point PhysicObject2D::pointTranslation(const Point &point, const Vector &translation) {
+
+        Point nPoint;
+
+        nPoint[X_DIM_VALUE] = point[X_DIM_VALUE] + translation[X_DIM_VALUE];
+        nPoint[Y_DIM_VALUE] = point[Y_DIM_VALUE] + translation[Y_DIM_VALUE];
+
+        return nPoint;
+    }
+
+    Vector PhysicObject2D::directionVector() const {
+        return Vector{{cos(orientation), sin(orientation)}};
+    }
+
+    Vector PhysicObject2D::inverseVector(const Vector &vector) {
+
+        return Vector{{-vector[X_DIM_VALUE], -vector[Y_DIM_VALUE]}};
     }
 }

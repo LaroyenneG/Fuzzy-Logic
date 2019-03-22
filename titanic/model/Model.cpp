@@ -8,7 +8,7 @@ namespace model {
         elements.insert(titanic);
         elements.insert(iceberg);
 
-        titanic->setMachinePower(0.9);
+        titanic->setMachinePower(0.0);
     }
 
     Model::~Model() {

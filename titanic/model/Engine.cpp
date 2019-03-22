@@ -50,7 +50,7 @@ namespace model {
 
     void Engine::nexTime(double time) {
 
-        rotationAcceleration = power;
+        rotationAcceleration = power - rotationSpeed * 0.1;
 
         nextRotation(time);
     }

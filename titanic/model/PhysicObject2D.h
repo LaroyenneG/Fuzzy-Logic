@@ -34,14 +34,17 @@ namespace view {
 
 namespace model {
 
+    typedef std::array<double, MODEL_SPACE_DIMENSION> Vector;
+    typedef std::array<double, MODEL_SPACE_DIMENSION> Point;
+
     class PhysicObject2D {
 
-    private:
-        std::vector<std::array<double, MODEL_SPACE_DIMENSION>> points;     // m
+    protected:
+        std::vector<Point> points;     // m
 
-        std::array<double, MODEL_SPACE_DIMENSION> position;                  // m
-        std::array<double, MODEL_SPACE_DIMENSION> speed;                     // m / s
-        std::array<double, MODEL_SPACE_DIMENSION> acceleration;             // m / s²
+        Point position;                  // m
+        Vector speed;                     // m / s
+        Vector acceleration;             // m / s²
 
         double orientation;                                             // radian
         double rotationSpeed;                                           // radian / s
@@ -51,7 +54,7 @@ namespace model {
 
     public:
 
-        explicit PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
+        explicit PhysicObject2D(const std::vector<Point> &_points,
                                 double _xPosition,
                                 double _yPosition,
                                 double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration,
@@ -59,14 +62,14 @@ namespace model {
                                 double _weight);
 
 
-        explicit PhysicObject2D(const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &_points,
+        explicit PhysicObject2D(const std::vector<Point> &_points,
                                 double _xPosition,
                                 double _yPosition, double _orientation, double _weight);
 
 
         bool touch(const PhysicObject2D &object) const;
 
-        void writeAbsolutePoints(std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &points) const;
+        void writeAbsolutePoints(std::vector<Point> &points) const;
 
         double getPositionX() const;
 
@@ -116,11 +119,25 @@ namespace model {
 
         void nextPosition(double time);
 
-        const std::vector<std::array<double, MODEL_SPACE_DIMENSION>> &getPoints() const;
+        Vector directionVector() const;
+
+        const std::vector<Point> &getPoints() const;
 
         virtual void drawMe(view::Draftsman *draftsman);
 
         virtual ~PhysicObject2D() = default;
+
+        /* static functions */
+
+        static Vector inverseVector(const Vector &vector);
+
+        static double angleBetweenVector(const Vector &v1, const Vector &v2);
+
+        static double normVector(const Vector &vector);
+
+        static Point pointRotation(const Point &point, double angle);
+
+        static Point pointTranslation(const Point &point, const Vector &translation);
     };
 }
 
