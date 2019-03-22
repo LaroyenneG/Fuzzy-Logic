@@ -23,7 +23,7 @@ namespace view {
 
     void Draftsman::drawElement(const model::PhysicObject2D *object) {
 
-        std::vector<std::array<double, MODEL_SPACE_DIMENSION>> points;
+        std::vector<model::Point> points;
 
         object->writeAbsolutePoints(points);
 
@@ -52,17 +52,34 @@ namespace view {
 
         auto titanic = model->getTitanic();
 
-        QLine accLine(scaleConverter(titanic->getPositionX(), titanic->getPositionY()),
-                      scaleConverter(titanic->getAccelerationX() * 1000.0 + titanic->getPositionX(),
-                                     titanic->getAccelerationY() * 1000.0 + titanic->getPositionY()));
+        QLine accelerationLine(scaleConverter(titanic->getPositionX(), titanic->getPositionY()),
+                               scaleConverter(titanic->getAccelerationX() * 100.0 + titanic->getPositionX(),
+                                              titanic->getAccelerationY() * 100.0 + titanic->getPositionY()));
 
-        scene->addLine(accLine);
+        scene->addLine(accelerationLine, QPen(Qt::green));
 
 
         QLine speedLine(scaleConverter(titanic->getPositionX(), titanic->getPositionY()),
                         scaleConverter(titanic->getSpeedX() * 10.0 + titanic->getPositionX(),
                                        titanic->getSpeedY() * 10.0 + titanic->getPositionY()));
 
-        scene->addLine(speedLine);
+
+        scene->addLine(speedLine, QPen(Qt::black));
+
+        model::Vector lift = titanic->computeLift(0.0);
+
+        QLine liftLine(scaleConverter(titanic->getPositionX(), titanic->getPositionY()),
+                       scaleConverter(lift[0] * 0.001 + titanic->getPositionX(),
+                                      lift[1] * 0.001 + titanic->getPositionY()));
+
+        scene->addLine(liftLine, QPen(Qt::red));
+
+        model::Vector engine = titanic->computePropulsion(0.000001);
+
+        QLine engineLine(scaleConverter(titanic->getPositionX(), titanic->getPositionY()),
+                         scaleConverter(engine[0] + titanic->getPositionX(),
+                                        engine[1] + titanic->getPositionY()));
+
+        scene->addLine(engineLine, QPen(Qt::yellow));
     }
 }

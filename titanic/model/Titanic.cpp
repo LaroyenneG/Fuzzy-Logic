@@ -112,17 +112,25 @@ namespace model {
 
     Vector Titanic::computeLift(double time) const {
 
-        double incidence = angleBetweenVector(inverseVector(speed), directionVector());
+        Vector direction = directionVector();
+
+        double incidence = angleBetweenVector(speed, directionVector());
 
 
         double liftValue =
                 0.5 * SEA_M_VOL * REFERENCE_SURFACE * approximatedLiftCoefficient(incidence) * getSpeed();
 
-        Vector lift{{liftValue * getSpeedX(), liftValue * getSpeedY()}};
 
-        double rotation = M_PI;
+        Vector vector{{liftValue * getSpeedX(), liftValue * getSpeedY()}};
 
-        return pointRotation(lift, rotation); // N
+        const double rotation = M_PI / 2.0;
+
+        Vector larboardLift = pointRotation(vector, rotation);
+
+        Vector starboardLift = pointRotation(vector, -rotation);
+
+        return (angleBetweenVector(direction, larboardLift) < angleBetweenVector(direction, starboardLift)
+                ? larboardLift : starboardLift); // N
     }
 
     Vector Titanic::computePropulsion(double time) const {
@@ -133,17 +141,18 @@ namespace model {
             enginePush += engine->getPropulsionStrength();
         }
 
-        Vector direction = inverseVector(directionVector());
+        Vector direction = directionVector();
 
         return Vector{{enginePush * direction[X_DIM_VALUE] * time, enginePush * direction[Y_DIM_VALUE] * time}}; // N
     }
 
     double Titanic::approximatedDragCoefficient(double incidence) const {
 
-        return 0;
+        return 0.0;
     }
 
     double Titanic::approximatedLiftCoefficient(double incidence) const {
-        return 0;
+
+        return incidence * 0.01;
     }
 }

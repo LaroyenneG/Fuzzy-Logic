@@ -219,8 +219,8 @@ namespace model {
 
         Point nPoint;
 
-        nPoint[X_DIM_VALUE] = point[X_DIM_VALUE] * cos(angle) + point[Y_DIM_VALUE] * sin(angle);
-        nPoint[Y_DIM_VALUE] = -point[X_DIM_VALUE] * sin(angle) + point[Y_DIM_VALUE] * cos(angle);
+        nPoint[X_DIM_VALUE] = point[X_DIM_VALUE] * cos(angle) - point[Y_DIM_VALUE] * sin(angle);
+        nPoint[Y_DIM_VALUE] = point[X_DIM_VALUE] * sin(angle) + point[Y_DIM_VALUE] * cos(angle);
 
         return nPoint;
     }

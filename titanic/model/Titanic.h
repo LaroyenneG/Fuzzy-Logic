@@ -12,7 +12,7 @@
 #define SEA_M_VOL 1025.0            // kg/m^3
 
 
-#define TITANIC_DEFAULT_COURSE -3.14 / 2.0
+#define TITANIC_DEFAULT_COURSE 3.1416 / 2.0
 #define TITANIC_DEFAULT_WEIGHT 52310000.0
 #define TITANIC_DEFAULT_X 0.0
 #define TITANIC_DEFAULT_Y 0.0
@@ -39,12 +39,6 @@ namespace model {
         const std::array<Engine *, ENGINES_COUNTER> engines;
 
 
-        Vector computePropulsion(double time) const;
-
-        Vector computeDrag(double time) const;
-
-        Vector computeLift(double time) const;
-
     public:
         explicit Titanic(const std::vector<Point> &points, double _orientation,
                          double _weight,
@@ -67,6 +61,13 @@ namespace model {
         void setRudderValue(double value);
 
         std::array<double, ENGINES_COUNTER> getMachinesRotationSpeed() const;
+
+
+        Vector computePropulsion(double time) const;
+
+        Vector computeDrag(double time) const;
+
+        Vector computeLift(double time) const;
     };
 }
 
