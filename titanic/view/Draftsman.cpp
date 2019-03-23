@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include "Draftsman.h"
 
 
@@ -27,7 +28,7 @@ namespace view {
 
         object->writeAbsolutePoints(points);
 
-        for (unsigned int i = 0; i < points.size() - 1; ++i) {
+        for (unsigned int i = 0; !points.empty() && i < points.size() - 1; ++i) {
 
             auto &p1 = points[i];
             auto &p2 = points[i + 1];

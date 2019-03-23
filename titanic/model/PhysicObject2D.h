@@ -138,6 +138,8 @@ namespace model {
         static Point pointRotation(const Point &point, double angle);
 
         static Point pointTranslation(const Point &point, const Vector &translation);
+
+        static std::vector<Point> loadShapePoints(std::string filePath);
     };
 }
 

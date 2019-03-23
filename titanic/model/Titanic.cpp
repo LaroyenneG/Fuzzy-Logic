@@ -6,25 +6,6 @@
 
 namespace model {
 
-    const std::set<Point> Titanic::LIFT_COEFFICIENTS{{
-                                                             {{0.0, 0.0}}
-                                                     }};
-
-    const std::set<Point> Titanic::DRAG_COEFFICIENTS{{
-                                                             {{0.0, 0.1}}
-                                                     }};
-
-
-    const std::vector<Point> Titanic::DEFAULT_POINTS{{
-                                                             {{0.0, 0.0}},
-                                                             {{30.0, -14.0}},
-                                                             {{218.0, -14.0}},
-                                                             {{269.0, 0.0}},
-                                                             {{218.0, 14.0}},
-                                                             {{30.0, 14.0}},
-                                                             {{0.0, 0.0}}
-                                                     }};
-
     Titanic::Titanic(const std::vector<Point> &points, double _orientation,
                      double _weight,
                      double _xPosition, double _yPosition)
@@ -37,7 +18,7 @@ namespace model {
     }
 
     Titanic::Titanic(double x, double y, double _orientation)
-            : Titanic(DEFAULT_POINTS, _orientation, TITANIC_DEFAULT_WEIGHT, x, y) {
+            : Titanic(loadShapePoints(TITANIC_DEFAULT_POINTS_FILE_NAME), _orientation, TITANIC_DEFAULT_WEIGHT, x, y) {
 
     }
 
@@ -93,8 +74,8 @@ namespace model {
         }
     }
 
-    std::array<double, ENGINES_COUNTER> Titanic::getMachinesRotationSpeed() const {
-        return std::array<double, ENGINES_COUNTER>{{engines[0]->getRotationSpeed(), engines[1]->getRotationSpeed(), engines[2]->getRotationSpeed()}};
+    std::array<double, TITANIC_ENGINES_COUNTER> Titanic::getMachinesRotationSpeed() const {
+        return std::array<double, TITANIC_ENGINES_COUNTER>{{engines[0]->getRotationSpeed(), engines[1]->getRotationSpeed(), engines[2]->getRotationSpeed()}};
     }
 
     Vector Titanic::computeDrag(double time) const {
@@ -102,7 +83,7 @@ namespace model {
         const double incidence = angleBetweenVector(inverseVector(speed), directionVector());
 
         const double dragValue =
-                0.5 * SEA_M_VOL * REFERENCE_SURFACE * approximatedDragCoefficient(incidence) * getSpeed();
+                0.5 * SEA_M_VOL * TITANIC_REFERENCE_SURFACE * approximatedDragCoefficient(incidence) * getSpeed();
 
 
         Vector drag{{-dragValue * getSpeedX(), -dragValue * getSpeedY()}};
@@ -118,7 +99,7 @@ namespace model {
 
 
         double liftValue =
-                0.5 * SEA_M_VOL * REFERENCE_SURFACE * approximatedLiftCoefficient(incidence) * getSpeed();
+                0.5 * SEA_M_VOL * TITANIC_REFERENCE_SURFACE * approximatedLiftCoefficient(incidence) * getSpeed();
 
 
         Vector vector{{liftValue * getSpeedX(), liftValue * getSpeedY()}};
@@ -148,11 +129,27 @@ namespace model {
 
     double Titanic::approximatedDragCoefficient(double incidence) const {
 
-        return 0.0;
+        return incidence * 0.01;
     }
 
     double Titanic::approximatedLiftCoefficient(double incidence) const {
 
         return incidence * 0.01;
+    }
+
+    void Titanic::loadLiftCoefficients(std::istream &istream) {
+
+    }
+
+    void Titanic::loadDragCoefficients(std::istream &istream) {
+
+    }
+
+    double Titanic::estimateOrdinateValue(double abscissa, const std::map<double, double> &points) {
+
+        std::list<double> abscissas;
+
+
+        return 0;
     }
 }

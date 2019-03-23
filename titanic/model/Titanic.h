@@ -3,7 +3,10 @@
 #define LOGIQUEFLOUE_TITANIC_H
 
 #include <cmath>
+#include <map>
 #include <vector>
+#include <list>
+
 
 #include "PhysicObject2D.h"
 #include "Engine.h"
@@ -17,26 +20,22 @@
 #define TITANIC_DEFAULT_X 0.0
 #define TITANIC_DEFAULT_Y 0.0
 
-#define DRAUGHT 10.5 // m
-#define REFERENCE_SURFACE 2824.5 // m²
-
-
-#define ENGINES_COUNTER 3
+#define TITANIC_DRAUGHT 10.5 // m
+#define TITANIC_REFERENCE_SURFACE 2824.5 // m²
+#define TITANIC_ENGINES_COUNTER 3
+#define TITANIC_DEFAULT_POINTS_FILE_NAME "../assets/titanic_shape_points.txt"
 
 namespace model {
 
     class Titanic : public PhysicObject2D {
 
     private:
-        const static std::set<Point> LIFT_COEFFICIENTS;
-
-        const static std::set<Point> DRAG_COEFFICIENTS;
-
-        const static std::vector<Point> DEFAULT_POINTS;
+        const std::map<double, double> lift_coefficients;
+        const std::map<double, double> drag_coefficients;
 
         Rudder rudder;
 
-        const std::array<Engine *, ENGINES_COUNTER> engines;
+        const std::array<Engine *, TITANIC_ENGINES_COUNTER> engines;
 
 
     public:
@@ -47,6 +46,10 @@ namespace model {
         explicit Titanic(double x, double y, double _orientation);
 
         explicit Titanic();
+
+        void loadLiftCoefficients(std::istream &istream);
+
+        void loadDragCoefficients(std::istream &istream);
 
         ~Titanic() override;
 
@@ -60,14 +63,21 @@ namespace model {
 
         void setRudderValue(double value);
 
-        std::array<double, ENGINES_COUNTER> getMachinesRotationSpeed() const;
+        std::array<double, TITANIC_ENGINES_COUNTER> getMachinesRotationSpeed() const;
 
+
+        /********************* strengths ************************/
 
         Vector computePropulsion(double time) const;
 
         Vector computeDrag(double time) const;
 
         Vector computeLift(double time) const;
+
+
+        /*********************** static functions *********************/
+
+        double estimateOrdinateValue(double abscissa, const std::map<double, double> &points);
     };
 }
 

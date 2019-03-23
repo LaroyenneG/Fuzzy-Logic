@@ -1,3 +1,4 @@
+#include <fstream>
 #include "Draftsman.h"
 
 
@@ -77,42 +78,46 @@ namespace model {
 
     bool PhysicObject2D::touch(const PhysicObject2D &object) const {
 
-        std::vector<Point> e1;
-        writeAbsolutePoints(e1);
+        std::vector<Point> shape1;
+        writeAbsolutePoints(shape1);
 
-        std::vector<Point> e2;
-        object.writeAbsolutePoints(e2);
+        std::vector<Point> shape2;
+        object.writeAbsolutePoints(shape2);
 
         /********************************************************************/
 
-        for (unsigned int i = 0; i < e1.size() - 1; ++i) {
+        for (unsigned int i = 0; !shape1.empty() && i < shape1.size() - 1; ++i) {
 
-            Point &p11 = e1[i];
-            Point &p12 = e1[i + 1];
+            Point &point1Set1 = shape1[i];
+            Point &point2Set1 = shape1[i + 1];
 
-            Point v1{{p12[X_DIM_VALUE] - p11[X_DIM_VALUE], p12[Y_DIM_VALUE] - p11[Y_DIM_VALUE]}};
+            Point v1{{point2Set1[X_DIM_VALUE] - point1Set1[X_DIM_VALUE],
+                             point2Set1[Y_DIM_VALUE] - point1Set1[Y_DIM_VALUE]}};
 
-            for (unsigned int j = 0; j < e2.size() - 1; ++j) {
+            for (unsigned int j = 0; !shape2.empty() && j < shape2.size() - 1; ++j) {
 
-                Point &p21 = e2[j];
-                Point &p22 = e2[j + 1];
+                Point &point1Set2 = shape2[j];
+                Point &point2Set2 = shape2[j + 1];
 
-                Vector v2{{p22[X_DIM_VALUE] - p21[X_DIM_VALUE], p22[Y_DIM_VALUE] - p21[Y_DIM_VALUE]}};
+                Vector v2{{point2Set2[X_DIM_VALUE] - point1Set2[X_DIM_VALUE],
+                                  point2Set2[Y_DIM_VALUE] - point1Set2[Y_DIM_VALUE]}};
 
                 if (v1[X_DIM_VALUE] * v2[Y_DIM_VALUE] != v1[Y_DIM_VALUE] * v2[X_DIM_VALUE]) {
 
-                    double a1 = (p12[Y_DIM_VALUE] - p11[Y_DIM_VALUE]) / (p12[X_DIM_VALUE] - p11[X_DIM_VALUE]);
-                    double c2 = p11[Y_DIM_VALUE] - a1 * p11[X_DIM_VALUE];
+                    double a1 = (point2Set1[Y_DIM_VALUE] - point1Set1[Y_DIM_VALUE]) /
+                                (point2Set1[X_DIM_VALUE] - point1Set1[X_DIM_VALUE]);
+                    double c2 = point1Set1[Y_DIM_VALUE] - a1 * point1Set1[X_DIM_VALUE];
 
-                    double a2 = (p22[Y_DIM_VALUE] - p21[Y_DIM_VALUE]) / (p22[X_DIM_VALUE] - p21[X_DIM_VALUE]);
-                    double c1 = p21[Y_DIM_VALUE] - a2 * p21[X_DIM_VALUE];
+                    double a2 = (point2Set2[Y_DIM_VALUE] - point1Set2[Y_DIM_VALUE]) /
+                                (point2Set2[X_DIM_VALUE] - point1Set2[X_DIM_VALUE]);
+                    double c1 = point1Set2[Y_DIM_VALUE] - a2 * point1Set2[X_DIM_VALUE];
 
                     double solution = (c1 - c2) / (a1 - a2);
 
-                    if (MIN_VALUE(p11[X_DIM_VALUE], p12[X_DIM_VALUE]) < solution &&
-                        MAX_VALUE(p11[X_DIM_VALUE], p12[X_DIM_VALUE]) > solution &&
-                        MIN_VALUE(p21[X_DIM_VALUE], p22[X_DIM_VALUE]) < solution &&
-                        MAX_VALUE(p21[X_DIM_VALUE], p22[X_DIM_VALUE]) > solution) {
+                    if (MIN_VALUE(point1Set1[X_DIM_VALUE], point2Set1[X_DIM_VALUE]) < solution &&
+                        MAX_VALUE(point1Set1[X_DIM_VALUE], point2Set1[X_DIM_VALUE]) > solution &&
+                        MIN_VALUE(point1Set2[X_DIM_VALUE], point2Set2[X_DIM_VALUE]) < solution &&
+                        MAX_VALUE(point1Set2[X_DIM_VALUE], point2Set2[X_DIM_VALUE]) > solution) {
 
                         return true;
                     }
@@ -242,5 +247,29 @@ namespace model {
     Vector PhysicObject2D::inverseVector(const Vector &vector) {
 
         return Vector{{-vector[X_DIM_VALUE], -vector[Y_DIM_VALUE]}};
+    }
+
+    std::vector<Point> PhysicObject2D::loadShapePoints(std::string filePath) {
+
+        std::vector<Point> points;
+
+        std::ifstream ifstream(filePath);
+
+        while (ifstream) {
+
+            double x = 0.0;
+            double y = 0.0;
+
+            ifstream >> x;
+            ifstream >> y;
+
+            Point point{{x, y}};
+
+            points.push_back(point);
+        }
+
+        ifstream.close();
+
+        return points;
     }
 }
