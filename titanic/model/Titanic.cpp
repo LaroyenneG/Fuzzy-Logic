@@ -22,8 +22,8 @@ namespace model {
 
     Titanic::Titanic(double x, double y, double _orientation)
             : Titanic(loadShapePoints(TITANIC_DEFAULT_POINTS_FILE_NAME), _orientation, TITANIC_DEFAULT_WEIGHT, x, y,
-                      loadCoefficients(TITANIC_DEFAULT_LIFT_COEFFICIENTS_FILE_NAME),
-                      loadCoefficients(TITANIC_DEFAULT_DRAG_COEFFICIENTS_FILE_NAME)) {
+                      Helper::loadCoefficients(TITANIC_DEFAULT_LIFT_COEFFICIENTS_FILE_NAME),
+                      Helper::loadCoefficients(TITANIC_DEFAULT_DRAG_COEFFICIENTS_FILE_NAME)) {
 
     }
 
@@ -55,20 +55,22 @@ namespace model {
                                     strengths[Y_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT}};
 
 
+        Vector rudder = computeRudder(time);
+
+        const double coupleDirection = (normVector(rudder) != 0) ? rudder[Y_DIM_VALUE] / fabs(rudder[Y_DIM_VALUE])
+                                                                 : 0.0;
+
+        const double couple = fabs(normVector(rudder) * sin(angleBetweenVector(directionVector(), rudder)) *
+                                   TITANIC_DISTANCE_BETWEEN_RUDDER_AND_GRAVITY_CENTER) * coupleDirection;  // N.m
+
+        const double angleAcceleration =
+                couple / TITANIC_MOMENT_OF_INERTIA + TITANIC_ROTATION_FRICTION * -getRotationSpeed(); // radian / s²
+
+        setRotationAcceleration(angleAcceleration);
+
         setAccelerationX(acceleration[X_DIM_VALUE]);
         setAccelerationY(acceleration[Y_DIM_VALUE]);
 
-
-        Vector rudderWaterSpeed = pointRotation(inverseVector(speed), orientation);
-
-        rudder.setWaterSpeedX(rudderWaterSpeed[X_DIM_VALUE]);
-        rudder.setWaterSpeedY(rudderWaterSpeed[Y_DIM_VALUE]);
-
-        /*
-        double rotationAcceleration = rudder.computeHydrodynamicStrength() * 0.0;
-
-        setRotationAcceleration(rotationAcceleration);
-*/
         PhysicObject2D::nextTime(time);
     }
 
@@ -82,6 +84,17 @@ namespace model {
 
     std::array<double, TITANIC_ENGINES_COUNTER> Titanic::getMachinesRotationSpeed() const {
         return std::array<double, TITANIC_ENGINES_COUNTER>{{engines[0]->getRotationSpeed(), engines[1]->getRotationSpeed(), engines[2]->getRotationSpeed()}};
+    }
+
+
+    Vector Titanic::computeRudder(double time) {
+
+        Vector rudderWaterSpeed = pointRotation(inverseVector(speed), orientation);
+
+        rudder.setWaterSpeedX(rudderWaterSpeed[X_DIM_VALUE]);
+        rudder.setWaterSpeedY(rudderWaterSpeed[Y_DIM_VALUE]);
+
+        return rudder.computeHydrodynamicStrength();
     }
 
     Vector Titanic::computeDrag(double time) const {
@@ -135,79 +148,11 @@ namespace model {
 
     double Titanic::approximatedDragCoefficient(double incidence) const {
 
-        return estimateOrdinateValue(incidence, drag_coefficients);
+        return Helper::estimateOrdinateValue(incidence, drag_coefficients);
     }
 
     double Titanic::approximatedLiftCoefficient(double incidence) const {
 
-        return estimateOrdinateValue(incidence, lift_coefficients);
-    }
-
-
-    double Titanic::estimateOrdinateValue(double abscissa, const std::map<double, double> &points) {
-
-        std::list<std::pair<double, double>> sortedPoints;
-
-        for (auto &point : points) {
-            sortedPoints.emplace_back(point);
-        }
-
-        sortedPoints.sort([](const std::pair<double, double> &p1, const std::pair<double, double> &p2) {
-            return p1.first < p2.first;
-        });
-
-
-        std::pair<double, double> leftPoint;
-        std::pair<double, double> rightPoint;
-
-        bool init = false;
-
-        double value = 0.0;
-
-        for (auto &point : sortedPoints) {
-
-            if (!init) {
-                leftPoint = point;
-                rightPoint = point;
-                init = true;
-            }
-
-            if (leftPoint.first < point.first && point.first <= abscissa) {
-                leftPoint = point;
-            }
-
-            if (rightPoint.first > point.first && point.first >= abscissa) {
-                rightPoint = point;
-            }
-        }
-
-
-        if (init) {
-
-        }
-
-
-        return value;
-    }
-
-    std::map<double, double> Titanic::loadCoefficients(std::string filePath) {
-
-        std::map<double, double> coefficients;
-
-        std::ifstream ifstream(filePath);
-
-        while (ifstream) {
-
-            double x;
-            double y;
-
-            ifstream >> x;
-            ifstream >> y;
-
-            coefficients[x] = y;
-        }
-
-
-        return coefficients;
+        return Helper::estimateOrdinateValue(incidence, lift_coefficients);
     }
 }

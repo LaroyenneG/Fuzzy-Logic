@@ -11,6 +11,7 @@
 #include "PhysicObject2D.h"
 #include "Engine.h"
 #include "Rudder.h"
+#include "Helper.h"
 
 #define SEA_M_VOL 1025.0            // kg/m^3
 
@@ -24,9 +25,14 @@
 #define TITANIC_REFERENCE_SURFACE 2824.5 // m²
 #define TITANIC_ENGINES_COUNTER 3
 
-#define TITANIC_DEFAULT_POINTS_FILE_NAME "../assets/titanic_shape_points.txt"
-#define TITANIC_DEFAULT_LIFT_COEFFICIENTS_FILE_NAME "../assets/titanic_lift_coefficients.txt"
-#define TITANIC_DEFAULT_DRAG_COEFFICIENTS_FILE_NAME "../assets/titanic_drag_coefficients.txt"
+#define TITANIC_DEFAULT_POINTS_FILE_NAME "../assets/titanic_shape_points.point"
+#define TITANIC_DEFAULT_LIFT_COEFFICIENTS_FILE_NAME "../assets/titanic_lift_coefficients.coef"
+#define TITANIC_DEFAULT_DRAG_COEFFICIENTS_FILE_NAME "../assets/titanic_drag_coefficients.coef"
+
+#define TITANIC_DISTANCE_BETWEEN_RUDDER_AND_GRAVITY_CENTER (269.0 / 2.0) // m
+#define TITANIC_MOMENT_OF_INERTIA 272447916732.0 // kg/m²
+
+#define TITANIC_ROTATION_FRICTION 0.3
 
 #define TITANIC_ALTERNATIVE_MACHINE_1_RANK 0
 #define TITANIC_ALTERNATIVE_MACHINE_2_RANK 1
@@ -78,12 +84,7 @@ namespace model {
 
         Vector computeLift(double time) const;
 
-
-        /*********************** static functions *********************/
-
-        static double estimateOrdinateValue(double abscissa, const std::map<double, double> &points);
-
-        static std::map<double, double> loadCoefficients(std::string filePath);
+        Vector computeRudder(double time);
     };
 }
 

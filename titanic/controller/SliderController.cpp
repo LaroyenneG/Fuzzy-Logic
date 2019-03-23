@@ -19,8 +19,8 @@ namespace controller {
 
     void SliderController::helmSliderValueChanged(int value) {
 
-        double angle = value * 1.0 / SLIDER_MAX_VALUE * M_PI;// (M_PI/2.0);
+        double angle = (value * 1.0 / SLIDER_MAX_VALUE) * (M_PI / 2.0);
 
-        model->getTitanic()->setOrientation(angle);
+        model->getTitanic()->setRudderValue(angle);
     }
 }

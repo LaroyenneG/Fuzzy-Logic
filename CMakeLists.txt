@@ -25,6 +25,7 @@ include_directories(src/interpreter)
 include_directories(titanic/model)
 include_directories(titanic/view)
 include_directories(titanic/controller)
+include_directories(titanic/helper)
 
 file(GLOB_RECURSE CORE_SOURCES src/core/*) # all core source files
 file(GLOB_RECURSE INTP_SOURCES src/interpreter/*) # all interpreter source files
@@ -33,7 +34,7 @@ file(GLOB_RECURSE EXCEPTION_SOURCES src/exception/*) # all exception source file
 
 file(GLOB_RECURSE TEST_SOURCES test/* test/core/* test/fuzzy/*) # all test source files
 
-file(GLOB_RECURSE TITANIC_SOURCES titanic/* titanic/model/* titanic/view/* titanic/controller/*) # all titanic source files
+file(GLOB_RECURSE TITANIC_SOURCES titanic/* titanic/model/* titanic/view/* titanic/controller/* titanic/helper/*) # all titanic source files
 
 set(INTERFACE_FILES titanic/controller/CheckBoxController.h titanic/controller/SliderController.h titanic/controller/AutomaticPilotController.h titanic/controller/TimeWizardController.h) # all slots class'
 
