@@ -23,7 +23,14 @@
 #define TITANIC_DRAUGHT 10.5 // m
 #define TITANIC_REFERENCE_SURFACE 2824.5 // m²
 #define TITANIC_ENGINES_COUNTER 3
+
 #define TITANIC_DEFAULT_POINTS_FILE_NAME "../assets/titanic_shape_points.txt"
+#define TITANIC_DEFAULT_LIFT_COEFFICIENTS_FILE_NAME "../assets/titanic_lift_coefficients.txt"
+#define TITANIC_DEFAULT_DRAG_COEFFICIENTS_FILE_NAME "../assets/titanic_drag_coefficients.txt"
+
+#define TITANIC_ALTERNATIVE_MACHINE_1_RANK 0
+#define TITANIC_ALTERNATIVE_MACHINE_2_RANK 1
+#define TITANIC_TURBINE_MACHINE_RANK 2
 
 namespace model {
 
@@ -39,17 +46,14 @@ namespace model {
 
 
     public:
-        explicit Titanic(const std::vector<Point> &points, double _orientation,
-                         double _weight,
-                         double _xPosition, double _yPosition);
+        explicit Titanic(const std::vector<Point> &points, double _orientation, double _weight, double _xPosition,
+                         double _yPosition,
+                         const std::map<double, double> &_lift_coefficients,
+                         const std::map<double, double> &_drag_coefficients);
 
         explicit Titanic(double x, double y, double _orientation);
 
         explicit Titanic();
-
-        void loadLiftCoefficients(std::istream &istream);
-
-        void loadDragCoefficients(std::istream &istream);
 
         ~Titanic() override;
 
@@ -77,7 +81,9 @@ namespace model {
 
         /*********************** static functions *********************/
 
-        double estimateOrdinateValue(double abscissa, const std::map<double, double> &points);
+        static double estimateOrdinateValue(double abscissa, const std::map<double, double> &points);
+
+        static std::map<double, double> loadCoefficients(std::string filePath);
     };
 }
 

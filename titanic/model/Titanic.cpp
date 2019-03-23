@@ -1,15 +1,18 @@
 
 #include <iostream>
+#include <fstream>
 #include "Titanic.h"
 #include "AlternativeMachine.h"
 #include "LowPressureTurbine.h"
 
 namespace model {
 
-    Titanic::Titanic(const std::vector<Point> &points, double _orientation,
-                     double _weight,
-                     double _xPosition, double _yPosition)
+    Titanic::Titanic(const std::vector<Point> &points, double _orientation, double _weight, double _xPosition,
+                     double _yPosition,
+                     const std::map<double, double> &_lift_coefficients,
+                     const std::map<double, double> &_drag_coefficients)
             : PhysicObject2D(points, _xPosition, _yPosition, _orientation, _weight),
+              lift_coefficients(_lift_coefficients), drag_coefficients(_drag_coefficients),
               engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
     }
 
@@ -18,7 +21,9 @@ namespace model {
     }
 
     Titanic::Titanic(double x, double y, double _orientation)
-            : Titanic(loadShapePoints(TITANIC_DEFAULT_POINTS_FILE_NAME), _orientation, TITANIC_DEFAULT_WEIGHT, x, y) {
+            : Titanic(loadShapePoints(TITANIC_DEFAULT_POINTS_FILE_NAME), _orientation, TITANIC_DEFAULT_WEIGHT, x, y,
+                      loadCoefficients(TITANIC_DEFAULT_LIFT_COEFFICIENTS_FILE_NAME),
+                      loadCoefficients(TITANIC_DEFAULT_DRAG_COEFFICIENTS_FILE_NAME)) {
 
     }
 
@@ -27,9 +32,10 @@ namespace model {
     }
 
     void Titanic::setMachinePower(double value) {
-        engines[0]->setPower(value);
-        engines[1]->setPower(value);
-        engines[2]->setPower((value > 0.0) ? value : 0.0);
+
+        engines[TITANIC_ALTERNATIVE_MACHINE_1_RANK]->setPower(value);
+        engines[TITANIC_ALTERNATIVE_MACHINE_2_RANK]->setPower(value);
+        engines[TITANIC_TURBINE_MACHINE_RANK]->setPower((value > 0.0) ? value : 0.0);
     }
 
     void Titanic::nextTime(double time) {
@@ -129,27 +135,79 @@ namespace model {
 
     double Titanic::approximatedDragCoefficient(double incidence) const {
 
-        return incidence * 0.01;
+        return estimateOrdinateValue(incidence, drag_coefficients);
     }
 
     double Titanic::approximatedLiftCoefficient(double incidence) const {
 
-        return incidence * 0.01;
+        return estimateOrdinateValue(incidence, lift_coefficients);
     }
 
-    void Titanic::loadLiftCoefficients(std::istream &istream) {
-
-    }
-
-    void Titanic::loadDragCoefficients(std::istream &istream) {
-
-    }
 
     double Titanic::estimateOrdinateValue(double abscissa, const std::map<double, double> &points) {
 
-        std::list<double> abscissas;
+        std::list<std::pair<double, double>> sortedPoints;
+
+        for (auto &point : points) {
+            sortedPoints.emplace_back(point);
+        }
+
+        sortedPoints.sort([](const std::pair<double, double> &p1, const std::pair<double, double> &p2) {
+            return p1.first < p2.first;
+        });
 
 
-        return 0;
+        std::pair<double, double> leftPoint;
+        std::pair<double, double> rightPoint;
+
+        bool init = false;
+
+        double value = 0.0;
+
+        for (auto &point : sortedPoints) {
+
+            if (!init) {
+                leftPoint = point;
+                rightPoint = point;
+                init = true;
+            }
+
+            if (leftPoint.first < point.first && point.first <= abscissa) {
+                leftPoint = point;
+            }
+
+            if (rightPoint.first > point.first && point.first >= abscissa) {
+                rightPoint = point;
+            }
+        }
+
+
+        if (init) {
+
+        }
+
+
+        return value;
+    }
+
+    std::map<double, double> Titanic::loadCoefficients(std::string filePath) {
+
+        std::map<double, double> coefficients;
+
+        std::ifstream ifstream(filePath);
+
+        while (ifstream) {
+
+            double x;
+            double y;
+
+            ifstream >> x;
+            ifstream >> y;
+
+            coefficients[x] = y;
+        }
+
+
+        return coefficients;
     }
 }
