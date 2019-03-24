@@ -5,6 +5,7 @@
 #include <vector>
 #include <array>
 #include <cmath>
+#include <list>
 
 #define DEFAULT_POSITION_X 0.0
 #define DEFAULT_POSITION_Y 0.0
@@ -27,6 +28,8 @@
 
 #define MIN_VALUE(a, b) ((a<b) ? a : b)
 #define MAX_VALUE(a, b) ((a>b) ? a : b)
+
+#define POINT_QUEUE_SIZE 3
 
 namespace view {
     class Draftsman;
@@ -52,6 +55,8 @@ namespace model {
 
         double weight;                                                    // kg
 
+        std::list<Point> positions;
+
     public:
 
         explicit PhysicObject2D(const std::vector<Point> &_points,
@@ -66,6 +71,8 @@ namespace model {
                                 double _xPosition,
                                 double _yPosition, double _orientation, double _weight);
 
+
+        Vector computeCentrifugalForce() const;
 
         bool touch(const PhysicObject2D &object) const;
 

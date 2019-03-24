@@ -41,14 +41,18 @@ namespace model {
     void Titanic::nextTime(double time) {
 
 
+        Vector centrifugalForce = computeCentrifugalForce();  // N
+
         Vector propulsion = computePropulsion(time); // N
 
         Vector drag = computeDrag(time);  // N
 
         Vector lift = computeLift(time);   // N
 
-        Vector strengths{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE] + lift[X_DIM_VALUE],
-                                 propulsion[Y_DIM_VALUE] + drag[Y_DIM_VALUE] + lift[Y_DIM_VALUE]}};
+        Vector strengths{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE] + lift[X_DIM_VALUE] +
+                          centrifugalForce[X_DIM_VALUE],
+                                 propulsion[Y_DIM_VALUE] + drag[Y_DIM_VALUE] + lift[Y_DIM_VALUE] +
+                                 centrifugalForce[Y_DIM_VALUE]}};
 
 
         Vector acceleration{{strengths[X_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT,

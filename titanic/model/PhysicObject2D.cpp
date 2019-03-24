@@ -4,7 +4,7 @@
 
 namespace model {
 
-    PhysicObject2D::PhysicObject2D(const std::vector<Point> &_points,
+    PhysicObject2D::PhysicObject2D(const std::vector <Point> &_points,
                                    double _xPosition,
                                    double _yPosition,
                                    double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration,
@@ -15,7 +15,7 @@ namespace model {
               rotationAcceleration(_rotationAcceleration), weight(_weight) {
     }
 
-    PhysicObject2D::PhysicObject2D(const std::vector<Point> &_points,
+    PhysicObject2D::PhysicObject2D(const std::vector <Point> &_points,
                                    double _xPosition,
                                    double _yPosition, double _orientation, double _weight) :
             PhysicObject2D(_points, _xPosition, _yPosition, DEFAULT_SPEED_X, DEFAULT_SPEED_Y, DEFAULT_ACCELERATION_X,
@@ -78,10 +78,10 @@ namespace model {
 
     bool PhysicObject2D::touch(const PhysicObject2D &object) const {
 
-        std::vector<Point> shape1;
+        std::vector <Point> shape1;
         writeAbsolutePoints(shape1);
 
-        std::vector<Point> shape2;
+        std::vector <Point> shape2;
         object.writeAbsolutePoints(shape2);
 
         /********************************************************************/
@@ -128,7 +128,23 @@ namespace model {
         return false;
     }
 
-    void PhysicObject2D::writeAbsolutePoints(std::vector<Point> &points) const {
+    Vector PhysicObject2D::computeCentrifugalForce() const {
+
+        Vector strength{{0.0, 0.0}};
+
+        if (positions.size() >= POINT_QUEUE_SIZE) {
+
+            const double rayon = 0.0; // incomplete
+
+            double value = weight * getSpeed() / rayon;
+
+            strength = {{value, value}};
+        }
+
+        return strength;
+    }
+
+    void PhysicObject2D::writeAbsolutePoints(std::vector <Point> &points) const {
 
         for (auto &point : getPoints()) {
 
@@ -138,7 +154,7 @@ namespace model {
         }
     }
 
-    const std::vector<Point> &PhysicObject2D::getPoints() const {
+    const std::vector <Point> &PhysicObject2D::getPoints() const {
         return points;
     }
 
@@ -156,35 +172,43 @@ namespace model {
 
 
     double PhysicObject2D::getRotationSpeed() const {
+
         return rotationSpeed;
     }
 
     double PhysicObject2D::getRotationAcceleration() const {
+
         return rotationAcceleration;
     }
 
     void PhysicObject2D::setRotationSpeed(double value) {
+
         rotationSpeed = value;
     }
 
     void PhysicObject2D::setRotationAcceleration(double value) {
+
         rotationAcceleration = value;
     }
 
     double PhysicObject2D::getWeight() const {
+
         return weight;
     }
 
     void PhysicObject2D::setWeight(double value) {
+
         weight = value;
     }
 
     void PhysicObject2D::nextTime(double time) {
+
         nextPosition(time);
         nextOrientation(time);
     }
 
     void PhysicObject2D::nextOrientation(double time) {
+
         rotationSpeed += rotationAcceleration * time;
         orientation += rotationSpeed * time;
     }
@@ -196,6 +220,11 @@ namespace model {
 
         position[X_DIM_VALUE] += speed[X_DIM_VALUE] * time;
         position[Y_DIM_VALUE] += speed[Y_DIM_VALUE] * time;
+
+        if (positions.size() >= POINT_QUEUE_SIZE) {
+            positions.pop_front();
+        }
+        positions.push_back(position);
     }
 
     double PhysicObject2D::angleBetweenVector(const Vector &v1, const Vector &v2) {
@@ -241,6 +270,7 @@ namespace model {
     }
 
     Vector PhysicObject2D::directionVector() const {
+
         return Vector{{cos(orientation), sin(orientation)}};
     }
 
@@ -249,9 +279,9 @@ namespace model {
         return Vector{{-vector[X_DIM_VALUE], -vector[Y_DIM_VALUE]}};
     }
 
-    std::vector<Point> PhysicObject2D::loadShapePoints(std::string filePath) {
+    std::vector <Point> PhysicObject2D::loadShapePoints(std::string filePath) {
 
-        std::vector<Point> points;
+        std::vector <Point> points;
 
         std::ifstream ifstream(filePath);
 
