@@ -13,9 +13,10 @@ namespace model {
 
     }
 
-    Engine::Engine(double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed)
+    Engine::Engine(double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed,
+                   double _friction)
             : Engine(ENGINE_DEFAULT_ROTATION_ACCELERATION, ENGINE_DEFAULT_ROTATION_SPEED, ENGINE_DEFAULT_POWER,
-                     ENGINE_DEFAULT_FRICTION,
+                     _friction,
                      _propellerDiameter,
                      _propellerWeight,
                      _maxPower, _maxRotationSpeed) {
@@ -28,7 +29,7 @@ namespace model {
 
     double Engine::getPropulsionStrength() const {
 
-        return ENGINE_MAGIC_NUMBER * maxPower * rotationSpeed / maxRotationSpeed;
+        return ENGINE_CV_TO_NEWTON_M_S * maxPower * rotationSpeed / maxRotationSpeed;
     }
 
     double Engine::getPower() const {
@@ -50,7 +51,10 @@ namespace model {
 
     void Engine::nexTime(double time) {
 
-        rotationAcceleration = power - rotationSpeed * 0.1;
+
+        const double inercia = 0.5 * propellerWeight * (propellerDiameter / 2.0) * (propellerDiameter / 2.0);
+
+        rotationAcceleration = (ENGINE_CV_TO_NEWTON_M_S * time * power * maxPower / inercia) - rotationSpeed * friction;
 
         nextRotation(time);
     }
@@ -58,12 +62,5 @@ namespace model {
     void Engine::nextRotation(double time) {
 
         rotationSpeed += rotationAcceleration * time;
-
-        if (rotationSpeed > maxRotationSpeed) {
-            rotationSpeed = maxRotationSpeed;
-        }
-        if (rotationSpeed < -maxRotationSpeed) {
-            rotationSpeed = -maxRotationSpeed;
-        }
     }
 }

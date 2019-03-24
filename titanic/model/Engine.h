@@ -8,9 +8,9 @@
 #define ENGINE_DEFAULT_POWER 0.0
 #define ENGINE_DEFAULT_ROTATION_SPEED 0.0
 #define ENGINE_DEFAULT_ROTATION_ACCELERATION 0.0
-#define ENGINE_DEFAULT_FRICTION 0.0
+#define ENGINE_DEFAULT_FRICTION 0.7
 
-#define ENGINE_MAGIC_NUMBER 735.5
+#define ENGINE_CV_TO_NEWTON_M_S 735.5
 
 #define ENGINE_VALUE_ERROR_MSG "Engine invalid engine power"
 #define ENGINE_DEFAULT_NAME "Engine"
@@ -36,7 +36,8 @@ namespace model {
         explicit Engine(double _rotationAcceleration, double _rotationSpeed, double _power, double _friction,
                         double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed);
 
-        explicit Engine(double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed);
+        explicit Engine(double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed,
+                        double _friction);
 
         double getRotationSpeed() const;
 
