@@ -12,10 +12,16 @@
 #define TURBINE_DEFAULT_PROPELLER_MAX_POWER 16000  // CV
 #define TURBINE_DEFAULT_MAX_SPEED 167 * 0.10472
 #define TURBINE_DEFAULT_BLADE_NUMBER 4
+#define TURBINE_DEFAULT_FRICTION 967
+#define TURBINE_DEFAULT_POWER_STEP 0.1
 
 namespace model {
 
     class LowPressureTurbine : public Engine {
+
+    protected:
+        double powerFunction(double powerStep, double time) const override;
+
     public:
         explicit LowPressureTurbine();
 

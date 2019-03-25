@@ -20,6 +20,8 @@
 
 #define MS_TO_NDS 1.944
 #define RDS_TO_TPM 9.54
+#define M_TO_MILE 0.000621371
+
 
 #define DEFAULT_VIEW_TIMER_INTERVAL 100
 

@@ -8,7 +8,8 @@ namespace model {
 
     LowPressureTurbine::LowPressureTurbine()
             : Engine(TURBINE_DEFAULT_PROPELLER_DIAMETER, TURBINE_DEFAULT_PROPELLER_WEIGHT,
-                     TURBINE_DEFAULT_PROPELLER_MAX_POWER, TURBINE_DEFAULT_MAX_SPEED, ENGINE_DEFAULT_FRICTION,
+                     TURBINE_DEFAULT_PROPELLER_MAX_POWER, TURBINE_DEFAULT_MAX_SPEED, TURBINE_DEFAULT_FRICTION,
+                     TURBINE_DEFAULT_POWER_STEP,
                      TURBINE_DEFAULT_BLADE_NUMBER) {
     }
 
@@ -23,5 +24,9 @@ namespace model {
 
     std::string LowPressureTurbine::getName() const {
         return std::string(TURBINE_DEFAULT_ENGINE_NAME);
+    }
+
+    double LowPressureTurbine::powerFunction(double powerStep, double time) const {
+        return Engine::powerFunction(powerStep, time);
     }
 }

@@ -4,6 +4,7 @@
 
 #include <string>
 #include <exception>
+#include "PhysicObject2D.h"
 
 #define ENGINE_DEFAULT_POWER 0.0
 #define ENGINE_DEFAULT_ROTATION_SPEED 0.0
@@ -22,24 +23,31 @@ namespace model {
     private:
         double rotationAcceleration; // radian / s²
         double rotationSpeed;       // radian / s
-        double power;               // [-1 - 1] %
+        double desiredPower;               // [-1 - 1] %
+        double power; // [-1 - 1] %
 
         const double friction;            // m / s
         const double propellerDiameter;   // m
         const double propellerWeight;     // kg
-        const double maxPower;  // cv
+        const double horsePower;  // hp
         const double maxRotationSpeed; // radian / s
+        const double powerStep;  // % / s
+
         const unsigned short bladeNumber;
 
+    protected:
+        virtual double powerFunction(double powerStep, double time) const;
 
     public:
 
-        explicit Engine(double _rotationAcceleration, double _rotationSpeed, double _power, double _friction,
-                        double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed,
-                        unsigned short _bladeNumber);
+        explicit Engine(double _rotationAcceleration, double _rotationSpeed, double _desiredPower, double _friction,
+                        double _propellerDiameter, double _propellerWeight, double _horsePower,
+                        double _maxRotationSpeed,
+                        double _powerStep, unsigned short _bladeNumber);
 
-        explicit Engine(double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed,
-                        double _friction, unsigned short _bladeNumber);
+        explicit Engine(double _propellerDiameter, double _propellerWeight, double _horsePower,
+                        double _maxRotationSpeed,
+                        double _friction, double _powerStep, unsigned short _bladeNumber);
 
         double getRotationSpeed() const;
 
@@ -48,6 +56,8 @@ namespace model {
         void nextRotation(double time);
 
         void nexTime(double time);
+
+        void nextPower(double time);
 
         double getPower() const;
 

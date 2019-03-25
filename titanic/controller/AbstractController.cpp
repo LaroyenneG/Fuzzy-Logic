@@ -22,6 +22,8 @@ namespace controller {
 
         view->setShipSpeed(model->getTitanic()->getSpeed());
 
+        view->setDistance(model->distance());
+
         view->getMutex().unlock();
     }
 }

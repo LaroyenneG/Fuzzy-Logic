@@ -14,12 +14,31 @@ namespace controller {
 
         double power = value * 1.0 / SLIDER_MAX_VALUE;
 
-        model->getTitanic()->setMachinePower(power);
+        auto machines = model->getTitanic()->getMachinesRotationSpeed();
+
+        bool canSet = true;
+
+        for (auto &machine : machines) {
+
+            double rot = machine;
+
+            if (abs(rot) >= 0.1 && rot * power < 0) {
+                canSet = false;
+                break;
+            }
+        }
+
+        if (canSet) {
+            model->getTitanic()->setMachinePower(power);
+        } else {
+            model->getTitanic()->setMachinePower(0.0);
+            view->setMachinePower(0.0);
+        }
     }
 
     void SliderController::helmSliderValueChanged(int value) {
 
-        double angle = (value * 1.0 / SLIDER_MAX_VALUE) * (M_PI / 2.0);
+        double angle = (value * 1.0 / SLIDER_MAX_VALUE) * (M_PI / 4.0);
 
         model->getTitanic()->setRudderValue(angle);
     }

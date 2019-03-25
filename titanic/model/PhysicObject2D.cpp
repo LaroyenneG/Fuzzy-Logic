@@ -76,6 +76,33 @@ namespace model {
         draftsman->drawElement(this);
     }
 
+    double PhysicObject2D::distance(const PhysicObject2D &object) const {
+
+        std::vector<Point> myPoints;
+        writeAbsolutePoints(myPoints);
+
+        std::vector<Point> objectPoints;
+        object.writeAbsolutePoints(objectPoints);
+
+        bool init = false;
+        double best = 0.0;
+
+        for (auto myPoint : myPoints) {
+
+            for (auto objectPoint : objectPoints) {
+
+                double distance = distanceBetweenPoint(myPoint, objectPoint);
+
+                if (!init || best > distance) {
+                    best = distance;
+                    init = true;
+                }
+            }
+        }
+
+        return best;
+    }
+
     bool PhysicObject2D::touch(const PhysicObject2D &object) const {
 
         std::vector<Point> shape1;
@@ -309,5 +336,16 @@ namespace model {
         ifstream.close();
 
         return points;
+    }
+
+    double PhysicObject2D::distanceBetweenPoint(const Point &p1, const Point &p2) {
+
+        double somme = 0.0;
+
+        for (unsigned int i = 0; i < MODEL_SPACE_DIMENSION; ++i) {
+            somme += (p1[i] - p2[i]) * (p1[i] - p2[i]);
+        }
+
+        return sqrt(somme);
     }
 }

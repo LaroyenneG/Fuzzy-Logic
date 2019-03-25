@@ -76,6 +76,8 @@ namespace model {
 
         bool touch(const PhysicObject2D &object) const;
 
+        double distance(const PhysicObject2D &object) const;
+
         void writeAbsolutePoints(std::vector<Point> &points) const;
 
         double getPositionX() const;
@@ -147,6 +149,8 @@ namespace model {
         static Point pointTranslation(const Point &point, const Vector &translation);
 
         static std::vector<Point> loadShapePoints(std::string filePath);
+
+        static double distanceBetweenPoint(const Point &p1, const Point &p2);
     };
 }
 

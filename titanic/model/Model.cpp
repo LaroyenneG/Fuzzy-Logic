@@ -21,7 +21,7 @@ namespace model {
     }
 
     double Model::distance() const {
-        return 0;
+        return titanic->distance(*iceberg);
     }
 
     const Titanic *Model::getTitanic() const {

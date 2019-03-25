@@ -4,23 +4,24 @@
 
 namespace model {
 
-    Engine::Engine(double _rotationAcceleration, double _rotationSpeed, double _power, double _friction,
-                   double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed,
-                   unsigned short _bladeNumber)
-            : rotationAcceleration(_rotationAcceleration), rotationSpeed(_rotationSpeed), power(_power),
+    Engine::Engine(double _rotationAcceleration, double _rotationSpeed, double _desiredPower, double _friction,
+                   double _propellerDiameter, double _propellerWeight, double _horsePower, double _maxRotationSpeed,
+                   double _powerStep, unsigned short _bladeNumber)
+            : rotationAcceleration(_rotationAcceleration), rotationSpeed(_rotationSpeed), desiredPower(_desiredPower),
+              power(0),
               friction(_friction),
-              propellerDiameter(_propellerDiameter), propellerWeight(_propellerWeight), maxPower(_maxPower),
-              maxRotationSpeed(_maxRotationSpeed), bladeNumber(_bladeNumber) {
+              propellerDiameter(_propellerDiameter), propellerWeight(_propellerWeight), horsePower(_horsePower),
+              maxRotationSpeed(_maxRotationSpeed), powerStep(_powerStep), bladeNumber(_bladeNumber) {
 
     }
 
-    Engine::Engine(double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed,
-                   double _friction, unsigned short _bladeNumber)
+    Engine::Engine(double _propellerDiameter, double _propellerWeight, double _horsePower, double _maxRotationSpeed,
+                   double _friction, double _powerStep, unsigned short _bladeNumber)
             : Engine(ENGINE_DEFAULT_ROTATION_ACCELERATION, ENGINE_DEFAULT_ROTATION_SPEED, ENGINE_DEFAULT_POWER,
                      _friction,
                      _propellerDiameter,
                      _propellerWeight,
-                     _maxPower, _maxRotationSpeed, _bladeNumber) {
+                     _horsePower, _maxRotationSpeed, _powerStep, _bladeNumber) {
 
     }
 
@@ -30,7 +31,7 @@ namespace model {
 
     double Engine::getPropulsionStrength() const {
 
-        return ENGINE_CV_TO_NEWTON_M_S * maxPower * rotationSpeed / maxRotationSpeed;
+        return ENGINE_CV_TO_NEWTON_M_S * horsePower * rotationSpeed / maxRotationSpeed;
     }
 
     double Engine::getPower() const {
@@ -43,7 +44,7 @@ namespace model {
             throw std::out_of_range(ENGINE_VALUE_ERROR_MSG);
         }
 
-        power = value;
+        desiredPower = value;
     }
 
     std::string Engine::getName() const {
@@ -52,9 +53,11 @@ namespace model {
 
     void Engine::nexTime(double time) {
 
+        nextPower(time);
+
         const double momentOfInertia = 0.5 * propellerWeight * (propellerDiameter / 2.0) * (propellerDiameter / 2.0);
 
-        rotationAcceleration = ENGINE_CV_TO_NEWTON_M_S * time * power * maxPower / momentOfInertia
+        rotationAcceleration = ENGINE_CV_TO_NEWTON_M_S * time * getPower() * horsePower / momentOfInertia
                                - rotationSpeed * friction * propellerDiameter * bladeNumber / propellerWeight;
 
         nextRotation(time);
@@ -63,5 +66,21 @@ namespace model {
     void Engine::nextRotation(double time) {
 
         rotationSpeed += rotationAcceleration * time;
+    }
+
+    void Engine::nextPower(double time) {
+
+        double step = powerFunction(powerStep, time);
+
+        if (power < desiredPower) {
+            power = (power + step < desiredPower) ? power + step : desiredPower;
+        }
+        if (power > desiredPower) {
+            power = (power - step > desiredPower) ? power - step : desiredPower;
+        }
+    }
+
+    double Engine::powerFunction(double powerStep, double time) const {
+        return powerStep * time;
     }
 }
