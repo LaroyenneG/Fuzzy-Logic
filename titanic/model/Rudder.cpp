@@ -61,13 +61,10 @@ namespace model {
                        ? larboardLift : starboardLift); // N
 
 
-
         const double dragValue =
                 0.5 * SEA_M_VOL * getReferenceSurface() * approximatedDragCoefficient(incidence) * getWaterSpeed();
 
         Vector drag{{-dragValue * waterSpeed[X_DIM_VALUE], -dragValue * waterSpeed[Y_DIM_VALUE]}};
-
-        //  std::cout << "-> " << approximatedDragCoefficient(incidence)  << "incidence = " << incidence << "\tvector= " << lift[X_DIM_VALUE] << " : " << lift[Y_DIM_VALUE] << std::endl;
 
         return Vector{{lift[X_DIM_VALUE] + drag[X_DIM_VALUE], lift[Y_DIM_VALUE] + drag[Y_DIM_VALUE]}};
     }

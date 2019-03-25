@@ -109,8 +109,6 @@ namespace model {
                 0.5 * SEA_M_VOL * TITANIC_REFERENCE_SURFACE * approximatedDragCoefficient(incidence) * getSpeed();
 
 
-        std::cout << approximatedDragCoefficient(incidence) << '\t' << incidence << '\n';
-
         Vector drag{{-dragValue * getSpeedX(), -dragValue * getSpeedY()}};
 
         return drag; // N

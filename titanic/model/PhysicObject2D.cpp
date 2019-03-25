@@ -4,7 +4,7 @@
 
 namespace model {
 
-    PhysicObject2D::PhysicObject2D(const std::vector <Point> &_points,
+    PhysicObject2D::PhysicObject2D(const std::vector<Point> &_points,
                                    double _xPosition,
                                    double _yPosition,
                                    double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration,
@@ -15,7 +15,7 @@ namespace model {
               rotationAcceleration(_rotationAcceleration), weight(_weight) {
     }
 
-    PhysicObject2D::PhysicObject2D(const std::vector <Point> &_points,
+    PhysicObject2D::PhysicObject2D(const std::vector<Point> &_points,
                                    double _xPosition,
                                    double _yPosition, double _orientation, double _weight) :
             PhysicObject2D(_points, _xPosition, _yPosition, DEFAULT_SPEED_X, DEFAULT_SPEED_Y, DEFAULT_ACCELERATION_X,
@@ -78,10 +78,10 @@ namespace model {
 
     bool PhysicObject2D::touch(const PhysicObject2D &object) const {
 
-        std::vector <Point> shape1;
+        std::vector<Point> shape1;
         writeAbsolutePoints(shape1);
 
-        std::vector <Point> shape2;
+        std::vector<Point> shape2;
         object.writeAbsolutePoints(shape2);
 
         /********************************************************************/
@@ -132,19 +132,27 @@ namespace model {
 
         Vector strength{{0.0, 0.0}};
 
-        if (positions.size() >= POINT_QUEUE_SIZE) {
+        if (positions.size() == POINT_QUEUE_SIZE) {
 
-            const double rayon = 0.0; // incomplete
+            Point points[POINT_QUEUE_SIZE];
+
+            int index = 0;
+            for (auto it = positions.begin(); it != positions.end(); it++, index++) {
+                points[index] = *it;
+            }
+
+
+            const double rayon = 1.0; // incomplete
 
             double value = weight * getSpeed() / rayon;
 
-            strength = {{value, value}};
+            strength = {value, value};
         }
 
         return strength;
     }
 
-    void PhysicObject2D::writeAbsolutePoints(std::vector <Point> &points) const {
+    void PhysicObject2D::writeAbsolutePoints(std::vector<Point> &points) const {
 
         for (auto &point : getPoints()) {
 
@@ -154,7 +162,7 @@ namespace model {
         }
     }
 
-    const std::vector <Point> &PhysicObject2D::getPoints() const {
+    const std::vector<Point> &PhysicObject2D::getPoints() const {
         return points;
     }
 
@@ -279,9 +287,9 @@ namespace model {
         return Vector{{-vector[X_DIM_VALUE], -vector[Y_DIM_VALUE]}};
     }
 
-    std::vector <Point> PhysicObject2D::loadShapePoints(std::string filePath) {
+    std::vector<Point> PhysicObject2D::loadShapePoints(std::string filePath) {
 
-        std::vector <Point> points;
+        std::vector<Point> points;
 
         std::ifstream ifstream(filePath);
 

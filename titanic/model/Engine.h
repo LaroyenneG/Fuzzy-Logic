@@ -8,7 +8,7 @@
 #define ENGINE_DEFAULT_POWER 0.0
 #define ENGINE_DEFAULT_ROTATION_SPEED 0.0
 #define ENGINE_DEFAULT_ROTATION_ACCELERATION 0.0
-#define ENGINE_DEFAULT_FRICTION 0.7
+#define ENGINE_DEFAULT_FRICTION 968
 
 #define ENGINE_CV_TO_NEWTON_M_S 735.5
 
@@ -29,15 +29,17 @@ namespace model {
         const double propellerWeight;     // kg
         const double maxPower;  // cv
         const double maxRotationSpeed; // radian / s
+        const unsigned short bladeNumber;
 
 
     public:
 
         explicit Engine(double _rotationAcceleration, double _rotationSpeed, double _power, double _friction,
-                        double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed);
+                        double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed,
+                        unsigned short _bladeNumber);
 
         explicit Engine(double _propellerDiameter, double _propellerWeight, double _maxPower, double _maxRotationSpeed,
-                        double _friction);
+                        double _friction, unsigned short _bladeNumber);
 
         double getRotationSpeed() const;
 
