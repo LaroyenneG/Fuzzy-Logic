@@ -6,6 +6,7 @@ void IsTest::testIsTriangle() {
 
     IsTriangle<double> isTriangle(0.1, 0.6, 0.7);
     ValueModel<double> valueModelA(0.7);
+    ValueModel<double> valueModelB(0.2);
 
     CPPUNIT_ASSERT_EQUAL(0.1, isTriangle.getMin());
     CPPUNIT_ASSERT_EQUAL(0.6, isTriangle.getMid());
@@ -21,6 +22,12 @@ void IsTest::testIsTriangle() {
 
     double evaluate = isTriangle.evaluate(&valueModelA);
     double expected = -0.444;
+
+    double evaluate1 = isTriangle.evaluate(&valueModelA);
+    double expected1 = -0.444;
+
+
+    CPPUNIT_ASSERT_EQUAL(round(expected1 * 1000), round(evaluate1 * 1000));
     CPPUNIT_ASSERT_EQUAL(round(expected * 1000), round(evaluate * 1000));
 }
 
@@ -46,7 +53,7 @@ void IsTest::testIsTrapezoid() {
     CPPUNIT_ASSERT_EQUAL(0.6, isTrapezoid.getHighLeft());
     CPPUNIT_ASSERT_EQUAL(0.7, isTrapezoid.getHighRight());
 
-    CPPUNIT_ASSERT_EQUAL(0.7, isTrapezoid.evaluate(&valueModelA));
+    CPPUNIT_ASSERT_EQUAL(1.0, isTrapezoid.evaluate(&valueModelA));
     CPPUNIT_ASSERT_EQUAL(0.0, isTrapezoid.evaluate(&valueModelB));
 
     double expected = 0.429;
