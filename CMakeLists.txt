@@ -47,8 +47,8 @@ add_executable(FuzzyTest ${TEST_SOURCES} ${FUZZY_LIBRARY})
 add_executable(Titanic ${TITANIC_SOURCES} ${FUZZY_LIBRARY} ${INTERFACE_FILES_MOC})
 
 
-
-target_link_libraries(FuzzyTest ${CMAKE_SOURCE_DIR}/lib/${CPPUNIT})
+# target_link_libraries(FuzzyTest ${CMAKE_SOURCE_DIR}/lib/${CPPUNIT})
+target_link_libraries(FuzzyTest cppunit)
 target_link_libraries(Titanic ${QT_LIBRARIES})
 target_link_libraries(Titanic pthread)
 

@@ -63,7 +63,7 @@ double Helper::estimateOrdinateValue(double abscissa, const std::map<double, dou
 
             double b = leftPoint.second - a * leftPoint.first;
 
-            value = a * (leftPoint.first - abscissa) + b;
+            value = a * abscissa + b;
         }
     }
 
@@ -83,10 +83,6 @@ std::map<double, double> Helper::loadCoefficients(std::string filePath) {
 
         ifstream >> x;
         ifstream >> y;
-
-        if (!ifstream) {
-            break;
-        }
 
         coefficients[x] = y;
     }

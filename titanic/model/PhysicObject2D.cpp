@@ -159,6 +159,8 @@ namespace model {
 
         Vector strength{{0.0, 0.0}};
 
+        return strength;
+
         if (positions.size() == POINT_QUEUE_SIZE) {
 
             Point points[POINT_QUEUE_SIZE];
@@ -168,12 +170,30 @@ namespace model {
                 points[index] = *it;
             }
 
+            Vector dv1{{points[1][X_DIM_VALUE] - points[0][X_DIM_VALUE],
+                               points[1][Y_DIM_VALUE] - points[0][Y_DIM_VALUE]}};
+            Vector dv2{{points[2][X_DIM_VALUE] - points[0][X_DIM_VALUE],
+                               points[2][Y_DIM_VALUE] - points[0][Y_DIM_VALUE]}};
 
-            const double rayon = 1.0; // incomplete
+            double pointAlign = angleBetweenVector(dv1, dv2);
 
-            double value = weight * getSpeed() / rayon;
+            if (pointAlign != 0.0 && pointAlign != M_PI * 2.0) {
 
-            strength = {value, value};
+                Point circleCenter = circleSolver(points[0], points[1], points[2]);
+
+                double rayon = distanceBetweenPoint(circleCenter, points[0]);
+
+                Vector direction = vectorBetweenPoints(circleCenter, points[0]);
+
+                double directionNorm = normVector(direction);
+
+                direction[X_DIM_VALUE] /= directionNorm;
+                direction[Y_DIM_VALUE] /= directionNorm;
+
+                double value = weight * getSpeed() / rayon;
+
+                strength = {value * direction[X_DIM_VALUE], value * direction[Y_DIM_VALUE]};
+            }
         }
 
         return strength;
@@ -268,7 +288,7 @@ namespace model {
 
         const double numerator = v1[X_DIM_VALUE] * v2[X_DIM_VALUE] + v1[Y_DIM_VALUE] * v2[Y_DIM_VALUE];
 
-        double relation = (denominator != 0.0) ? numerator / denominator : 0.0;
+        double relation = (denominator != 0.0) ? numerator / denominator : M_PI / 2.0;
 
         if (relation >= 1.0) {
             relation = 1.0;
@@ -281,6 +301,7 @@ namespace model {
     }
 
     double PhysicObject2D::normVector(const Vector &vector) {
+
         return sqrt(vector[X_DIM_VALUE] * vector[X_DIM_VALUE] + vector[Y_DIM_VALUE] * vector[Y_DIM_VALUE]);
     }
 
@@ -347,5 +368,76 @@ namespace model {
         }
 
         return sqrt(somme);
+    }
+
+    Point PhysicObject2D::circleSolver(const Point &p1, const Point &p2, const Point &p3) {
+
+        const double MIN_FITNESS = pow(10, -3);
+
+        double a = (p1[X_DIM_VALUE] + p2[X_DIM_VALUE] + p3[X_DIM_VALUE]) / 3.0;
+        double b = (p1[Y_DIM_VALUE] + p2[Y_DIM_VALUE] + p3[Y_DIM_VALUE]) / 3.0;
+
+        double valueStep = fabs(a + b);
+
+        double fitness = INFINITY;
+
+        while ((fitness = circleEquationFitness(p1, p2, p3, a, b)) >= MIN_FITNESS) {
+
+            bool changed = false;
+
+            double steps[] = {-valueStep, valueStep};
+
+            for (auto step : steps) {
+
+                double nA = a + step;
+
+                double nFitness = circleEquationFitness(p1, p2, p3, nA, b);
+
+                if (nFitness < fitness) {
+                    a = nA;
+                    fitness = nFitness;
+                    changed = true;
+                    break;
+                }
+            }
+
+
+            for (auto step : steps) {
+
+                double nB = b + step;
+
+                double nFitness = circleEquationFitness(p1, p2, p3, a, nB);
+
+                if (nFitness < fitness) {
+                    b = nB;
+                    fitness = nFitness;
+                    changed = true;
+                    break;
+                }
+            }
+
+            if (!changed) {
+                valueStep /= 2.0;
+            }
+        }
+
+        return Point{{a, b}};
+    }
+
+    double
+    PhysicObject2D::circleEquationFitness(const Point &p1, const Point &p2, const Point &p3, double a, double b) {
+
+        double e1 = (p1[X_DIM_VALUE] - a) * (p1[X_DIM_VALUE] - a) + (p1[Y_DIM_VALUE] - b) * (p1[Y_DIM_VALUE] - b);
+        double e2 = (p2[X_DIM_VALUE] - a) * (p2[X_DIM_VALUE] - a) + (p2[Y_DIM_VALUE] - b) * (p2[Y_DIM_VALUE] - b);
+        double e3 = (p3[X_DIM_VALUE] - a) * (p3[X_DIM_VALUE] - a) + (p3[Y_DIM_VALUE] - b) * (p3[Y_DIM_VALUE] - b);
+
+        double average = (e1 + e2 + e3) / 3.0;
+
+        return fabs(e1 - average) + fabs(e2 - average) + fabs(e3 - average);
+    }
+
+    Vector PhysicObject2D::vectorBetweenPoints(const Point &p1, const Point &p2) {
+
+        return Vector{{p2[X_DIM_VALUE] - p1[X_DIM_VALUE], p2[Y_DIM_VALUE] - p1[Y_DIM_VALUE]}};
     }
 }
