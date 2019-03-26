@@ -5,6 +5,7 @@
 
 #include "IsTriangle.h"
 #include "isTrapezoid.h"
+#include "IsSingleton.h"
 #include "ValueModel.h"
 
 using namespace fuzzy;
@@ -20,6 +21,8 @@ public:
     void testIsTriangle();
 
     void testIsTrapezoid();
+
+    void testIsSingleton();
 };
 
 

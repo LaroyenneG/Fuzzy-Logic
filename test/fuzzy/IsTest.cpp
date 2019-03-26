@@ -59,6 +59,18 @@ void IsTest::testIsTrapezoid() {
     double expected = 0.429;
     double evaluate = isTrapezoid.evaluate(&valueModelC);
     CPPUNIT_ASSERT_EQUAL(round(expected * 1000), round(evaluate * 1000));
+}
 
+void IsTest::testIsSingleton() {
+    ValueModel<double> valueModelA(0.5);
+    ValueModel<double> valueModelB(0.4);
+    IsSingleton<double> isSingleton(0.5);
+
+    CPPUNIT_ASSERT_EQUAL(0.5, isSingleton.getValue());
+    isSingleton.setValue(0.4);
+    CPPUNIT_ASSERT_EQUAL(0.4, isSingleton.getValue());
+
+    CPPUNIT_ASSERT_EQUAL(1.0, isSingleton.evaluate(&valueModelB));
+    CPPUNIT_ASSERT_EQUAL(0.0, isSingleton.evaluate(&valueModelA));
 
 }
