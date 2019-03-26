@@ -7,6 +7,7 @@
 #include "isTrapezoid.h"
 #include "IsSingleton.h"
 #include "IsRampRight.h"
+#include "IsRampLeft.h"
 #include "ValueModel.h"
 
 using namespace fuzzy;
@@ -17,6 +18,7 @@ class IsTest : public CppUnit::TestFixture {
 CPPUNIT_TEST_SUITE(IsTest);
         CPPUNIT_TEST(testIsTriangle);
             CPPUNIT_TEST(testIsTrapezoid);
+        CPPUNIT_TEST(testIsRampLeft);
     CPPUNIT_TEST_SUITE_END();
 public:
     void testIsTriangle();
@@ -26,6 +28,8 @@ public:
     void testIsSingleton();
 
     void testIsRampRight();
+
+    void testIsRampLeft();
 };
 
 

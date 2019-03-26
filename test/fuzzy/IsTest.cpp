@@ -97,3 +97,26 @@ void IsTest::testIsRampRight() {
 
 
 }
+
+void IsTest::testIsRampLeft() {
+    IsRampLeft<double> IsRampLeft(0.2, 0.7, 0.9);
+
+    ValueModel valueModelA(0.1);
+    ValueModel valueModelB(0.6);
+
+    CPPUNIT_ASSERT_EQUAL(0.2, IsRampLeft.getMin());
+    CPPUNIT_ASSERT_EQUAL(0.7, IsRampLeft.getMid());
+    CPPUNIT_ASSERT_EQUAL(0.9, IsRampLeft.getMax());
+
+    IsRampLeft.setMax(0.8);
+    IsRampLeft.setMid(0.5);
+    IsRampLeft.setMin(0.2);
+
+    CPPUNIT_ASSERT_EQUAL(0.2, IsRampLeft.getMin());
+    CPPUNIT_ASSERT_EQUAL(0.5, IsRampLeft.getMid());
+    CPPUNIT_ASSERT_EQUAL(0.8, IsRampLeft.getMax());
+
+    CPPUNIT_ASSERT_EQUAL(0.0, IsRampLeft.evaluate(&valueModelA));
+    CPPUNIT_ASSERT_EQUAL(1.0, IsRampLeft.evaluate(&valueModelB));
+
+}
