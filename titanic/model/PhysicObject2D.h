@@ -6,6 +6,9 @@
 #include <array>
 #include <cmath>
 #include <list>
+#include <iostream>
+#include <map>
+#include <fstream>
 
 #define DEFAULT_POSITION_X 0.0
 #define DEFAULT_POSITION_Y 0.0
@@ -157,6 +160,10 @@ namespace model {
         static Point circleSolver(const Point &p1, const Point &p2, const Point &p3);
 
         static Vector vectorBetweenPoints(const Point &p1, const Point &p2);
+
+        static double estimateOrdinateValue(double abscissa, const std::map<double, double> &points);
+
+        static std::map<double, double> loadCoefficients(std::__cxx11::string filePath);
     };
 }
 

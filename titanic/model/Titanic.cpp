@@ -14,6 +14,10 @@ namespace model {
             : PhysicObject2D(points, _xPosition, _yPosition, _orientation, _weight),
               lift_coefficients(_lift_coefficients), drag_coefficients(_drag_coefficients),
               engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
+
+        setMachinePower(-1.0);
+
+        setSpeedY(11);
     }
 
     Titanic::Titanic() : Titanic(TITANIC_DEFAULT_X, TITANIC_DEFAULT_Y, TITANIC_DEFAULT_COURSE) {
@@ -22,8 +26,8 @@ namespace model {
 
     Titanic::Titanic(double x, double y, double _orientation)
             : Titanic(loadShapePoints(TITANIC_DEFAULT_POINTS_FILE_NAME), _orientation, TITANIC_DEFAULT_WEIGHT, x, y,
-                      Helper::loadCoefficients(TITANIC_DEFAULT_LIFT_COEFFICIENTS_FILE_NAME),
-                      Helper::loadCoefficients(TITANIC_DEFAULT_DRAG_COEFFICIENTS_FILE_NAME)) {
+                      loadCoefficients(TITANIC_DEFAULT_LIFT_COEFFICIENTS_FILE_NAME),
+                      loadCoefficients(TITANIC_DEFAULT_DRAG_COEFFICIENTS_FILE_NAME)) {
 
     }
 
@@ -152,11 +156,11 @@ namespace model {
 
     double Titanic::approximatedDragCoefficient(double incidence) const {
 
-        return Helper::estimateOrdinateValue(incidence, drag_coefficients);
+        return estimateOrdinateValue(incidence, drag_coefficients);
     }
 
     double Titanic::approximatedLiftCoefficient(double incidence) const {
 
-        return Helper::estimateOrdinateValue(incidence, lift_coefficients);
+        return estimateOrdinateValue(incidence, lift_coefficients);
     }
 }

@@ -70,8 +70,8 @@ namespace view {
         model::Vector lift = titanic->computeLift(0.0);
 
         QLine liftLine(scaleConverter(titanic->getPositionX(), titanic->getPositionY()),
-                       scaleConverter(lift[0] * 0.00001 + titanic->getPositionX(),
-                                      lift[1] * 0.00001 + titanic->getPositionY()));
+                       scaleConverter(lift[0] * 0.0001 + titanic->getPositionX(),
+                                      lift[1] * 0.0001 + titanic->getPositionY()));
 
         scene->addLine(liftLine, QPen(Qt::red));
 

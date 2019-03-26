@@ -1,6 +1,99 @@
-#include <fstream>
+#include "PhysicObject2D.h"
 #include "Draftsman.h"
 
+
+double model::PhysicObject2D::estimateOrdinateValue(double abscissa, const std::map<double, double> &points) {
+
+    std::__cxx11::list<std::pair<double, double>> sortedPoints;
+
+    for (auto &point : points) {
+        sortedPoints.push_front(point);
+    }
+
+    sortedPoints.sort([](const std::pair<double, double> &p1, const std::pair<double, double> &p2) {
+        return p1.first < p2.first;
+    });
+
+    double value = 0.0;
+
+    if (sortedPoints.size() >= 2) {
+
+        std::pair<double, double> leftPoint(0.0, 0.0);
+
+        bool initLeft = false;
+
+        for (auto it = sortedPoints.begin(); it != sortedPoints.end(); it++) {
+
+            std::pair<double, double> point = *it;
+
+            if (!initLeft) {
+                leftPoint = point;
+                initLeft = true;
+            }
+
+            if (leftPoint.first < point.first && point.first <= abscissa) {
+                leftPoint = point;
+            }
+        }
+
+
+        std::pair<double, double> rightPoint(0.0, 0.0);
+
+        bool initRight = false;
+
+        for (auto it = sortedPoints.rbegin(); it != sortedPoints.rend(); it++) {
+
+            std::pair<double, double> point = *it;
+
+            if (!initRight) {
+                rightPoint = point;
+                initRight = true;
+            }
+
+            if (rightPoint.first > point.first && point.first >= abscissa) {
+                rightPoint = point;
+            }
+        }
+
+
+        if (initRight && initLeft && leftPoint.first != rightPoint.first) {
+
+            double a = (rightPoint.second - leftPoint.second) / (rightPoint.first - leftPoint.first);
+
+            double b = leftPoint.second - a * leftPoint.first;
+
+            value = a * abscissa + b;
+        }
+    }
+
+    return value;
+}
+
+std::map<double, double> model::PhysicObject2D::loadCoefficients(std::__cxx11::string filePath) {
+
+    static const double MAX_INCIDENCE_VALUE = 3.5;
+
+    std::map<double, double> coefficients;
+
+    std::ifstream ifstream(filePath);
+
+    while (ifstream) {
+
+        double x = MAX_INCIDENCE_VALUE;
+        double y = MAX_INCIDENCE_VALUE;
+
+        ifstream >> x;
+        ifstream >> y;
+
+        if (x != MAX_INCIDENCE_VALUE && y != MAX_INCIDENCE_VALUE) {
+            coefficients[x] = y;
+        }
+    }
+
+    ifstream.close();
+
+    return coefficients;
+}
 
 namespace model {
 
@@ -337,21 +430,23 @@ namespace model {
 
     std::vector<Point> PhysicObject2D::loadShapePoints(std::string filePath) {
 
+        static const double POINT_MAX_VALUE = INFINITY;
+
         std::vector<Point> points;
 
         std::ifstream ifstream(filePath);
 
         while (ifstream) {
 
-            double x = 0.0;
-            double y = 0.0;
+            double x = INFINITY;
+            double y = INFINITY;
 
             ifstream >> x;
             ifstream >> y;
 
-            Point point{{x, y}};
-
-            points.push_back(point);
+            if (x != POINT_MAX_VALUE && y != POINT_MAX_VALUE) {
+                points.push_back(Point{{x, y}});
+            }
         }
 
         ifstream.close();

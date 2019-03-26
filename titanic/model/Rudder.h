@@ -6,7 +6,6 @@
 #include <array>
 #include <map>
 
-#include "Helper.h"
 #include "PhysicObject2D.h"
 
 #define RUDDER_DEFAULT_VALUE 0.0

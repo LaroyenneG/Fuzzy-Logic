@@ -14,8 +14,6 @@ namespace controller {
 
         draftsman->draw();
 
-        draftsman->drawVectors();
-
         auto rotationSpeed = model->getTitanic()->getMachinesRotationSpeed();
 
         view->setMachinesSpeed(rotationSpeed[0], rotationSpeed[2], rotationSpeed[1]);

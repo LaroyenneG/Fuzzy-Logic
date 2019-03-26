@@ -40,6 +40,8 @@ namespace controller {
     class SliderController;
 
     class AutomaticPilotController;
+
+    class MenuController;
 }
 
 namespace view {
@@ -89,6 +91,8 @@ namespace view {
         void setTimeWizardController(controller::TimeWizardController *timeWizardController) const;
 
         void setAutomaticPilotController(controller::AutomaticPilotController *automaticPilotController) const;
+
+        void setMenuController(controller::MenuController *menuController) const;
 
         void setHelmValue(double value);
 

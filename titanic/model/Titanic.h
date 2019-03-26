@@ -11,12 +11,11 @@
 #include "PhysicObject2D.h"
 #include "Engine.h"
 #include "Rudder.h"
-#include "Helper.h"
 
 #define SEA_M_VOL 1025.0            // kg/m^3
 
 
-#define TITANIC_DEFAULT_COURSE 3.1416 // / 2.0
+#define TITANIC_DEFAULT_COURSE 3.1416 / 2.0
 #define TITANIC_DEFAULT_WEIGHT 52310000.0
 #define TITANIC_DEFAULT_X 0.0
 #define TITANIC_DEFAULT_Y 0.0

@@ -9,6 +9,7 @@
 #include "AutomaticPilotController.h"
 #include "SliderController.h"
 #include "TimeWizardController.h"
+#include "MenuController.h"
 
 namespace controller {
 
@@ -23,6 +24,7 @@ namespace controller {
         AutomaticPilotController *automaticPilotController;
         SliderController *sliderController;
         TimeWizardController *timeWizardController;
+        MenuController *menuController;
 
         void setControllers() const;
 

@@ -34,9 +34,13 @@ file(GLOB_RECURSE EXCEPTION_SOURCES src/exception/*) # all exception source file
 
 file(GLOB_RECURSE TEST_SOURCES test/* test/core/* test/fuzzy/*) # all test source files
 
-file(GLOB_RECURSE TITANIC_SOURCES titanic/* titanic/model/* titanic/view/* titanic/controller/* titanic/helper/*) # all titanic source files
+file(GLOB_RECURSE TITANIC_SOURCES titanic/* titanic/model/* titanic/view/* titanic/controller/*) # all titanic source files
 
-set(INTERFACE_FILES titanic/controller/CheckBoxController.h titanic/controller/SliderController.h titanic/controller/AutomaticPilotController.h titanic/controller/TimeWizardController.h) # all slots class'
+set(INTERFACE_FILES titanic/controller/CheckBoxController.h
+        titanic/controller/SliderController.h
+        titanic/controller/AutomaticPilotController.h
+        titanic/controller/TimeWizardController.h
+        titanic/controller/MenuController.h) # all slots class'
 
 QT4_WRAP_CPP(INTERFACE_FILES_MOC ${INTERFACE_FILES})
 

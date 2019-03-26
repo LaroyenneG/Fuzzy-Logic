@@ -7,7 +7,7 @@
 namespace model {
 
     Rudder::Rudder()
-            : Rudder(Helper::loadCoefficients(RUDDER_DEFAULT_LIFT_COEFFICIENTS_FILE), RUDDER_DEFAULT_VALUE,
+            : Rudder(PhysicObject2D::loadCoefficients(RUDDER_DEFAULT_LIFT_COEFFICIENTS_FILE), RUDDER_DEFAULT_VALUE,
                      RUDDER_DEFAULT_W_SPEED_X, RUDDER_DEFAULT_W_SPEED_Y,
                      RUDDER_DEFAULT_SIZE) {
 
@@ -78,10 +78,10 @@ namespace model {
     }
 
     double Rudder::approximatedLiftCoefficient(double incidence) const {
-        return Helper::estimateOrdinateValue(incidence, lift_coefficients);
+        return PhysicObject2D::estimateOrdinateValue(incidence, lift_coefficients);
     }
 
     double Rudder::approximatedDragCoefficient(double incidence) const {
-        return Helper::estimateOrdinateValue(incidence, lift_coefficients);
+        return PhysicObject2D::estimateOrdinateValue(incidence, lift_coefficients);
     }
 }

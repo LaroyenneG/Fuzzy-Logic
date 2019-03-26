@@ -5,6 +5,7 @@
 #include "SliderController.h"
 #include "TimeWizardController.h"
 #include "AutomaticPilotController.h"
+#include "MenuController.h"
 
 
 #define COLLISIONS_TITLE "Titanic sank"
@@ -82,7 +83,7 @@ namespace view {
         statisticalBoard->addRow("Distance (m) : ", distanceLabel);
 
         setWindowTitle(WINDOWS_TITLE);
-        // setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
+        setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
     }
 
     View::~View() {
@@ -174,6 +175,10 @@ namespace view {
     void View::setAutomaticPilotController(controller::AutomaticPilotController *automaticPilotController) const {
 
         QObject::connect(automaticPilotTimer, SIGNAL(timeout()), automaticPilotController, SLOT(compute()));
+    }
+
+    void View::setMenuController(controller::MenuController *menuController) const {
+
     }
 
     int View::getTimeInterval() const {
