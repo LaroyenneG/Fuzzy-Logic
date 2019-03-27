@@ -19,6 +19,8 @@ CPPUNIT_TEST_SUITE(IsTest);
         CPPUNIT_TEST(testIsTriangle);
             CPPUNIT_TEST(testIsTrapezoid);
         CPPUNIT_TEST(testIsRampLeft);
+        CPPUNIT_TEST(testIsSingleton);
+        CPPUNIT_TEST(testIsRampRight);
     CPPUNIT_TEST_SUITE_END();
 public:
     void testIsTriangle();
