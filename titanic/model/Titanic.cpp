@@ -15,9 +15,6 @@ namespace model {
               lift_coefficients(_lift_coefficients), drag_coefficients(_drag_coefficients),
               engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
 
-        setMachinePower(-1.0);
-
-        setSpeedY(11);
     }
 
     Titanic::Titanic() : Titanic(TITANIC_DEFAULT_X, TITANIC_DEFAULT_Y, TITANIC_DEFAULT_COURSE) {
