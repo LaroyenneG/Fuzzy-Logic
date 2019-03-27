@@ -1,6 +1,5 @@
 
 #include "IsTest.h"
-#include <cmath>
 
 void IsTest::testIsTriangle() {
 
@@ -119,4 +118,24 @@ void IsTest::testIsRampLeft() {
     CPPUNIT_ASSERT_EQUAL(0.0, IsRampLeft.evaluate(&valueModelA));
     CPPUNIT_ASSERT_EQUAL(1.0, IsRampLeft.evaluate(&valueModelB));
 
+}
+
+void IsTest::testIsBell() {
+    IsBell<double> IsBell(0.2, 0.7, 0.9);
+
+    ValueModel valueModelA(0.5);
+
+    CPPUNIT_ASSERT_EQUAL(0.2, IsBell.getMin());
+    CPPUNIT_ASSERT_EQUAL(0.7, IsBell.getMid());
+    CPPUNIT_ASSERT_EQUAL(0.9, IsBell.getMax());
+
+    IsBell.setMin(0.1);
+    IsBell.setMid(0.6);
+    IsBell.setMax(0.8);
+
+    CPPUNIT_ASSERT_EQUAL(0.1, IsBell.getMin());
+    CPPUNIT_ASSERT_EQUAL(0.6, IsBell.getMid());
+    CPPUNIT_ASSERT_EQUAL(0.8, IsBell.getMax());
+
+    CPPUNIT_ASSERT_EQUAL(0.211095, IsBell.evaluate(&valueModelA));
 }
