@@ -1,100 +1,6 @@
 #include "PhysicObject2D.h"
 #include "Draftsman.h"
 
-
-double model::PhysicObject2D::estimateOrdinateValue(double abscissa, const std::map<double, double> &points) {
-
-    std::__cxx11::list<std::pair<double, double>> sortedPoints;
-
-    for (auto &point : points) {
-        sortedPoints.push_front(point);
-    }
-
-    sortedPoints.sort([](const std::pair<double, double> &p1, const std::pair<double, double> &p2) {
-        return p1.first < p2.first;
-    });
-
-    double value = 0.0;
-
-    if (sortedPoints.size() >= 2) {
-
-        std::pair<double, double> leftPoint(0.0, 0.0);
-
-        bool initLeft = false;
-
-        for (auto it = sortedPoints.begin(); it != sortedPoints.end(); it++) {
-
-            std::pair<double, double> point = *it;
-
-            if (!initLeft) {
-                leftPoint = point;
-                initLeft = true;
-            }
-
-            if (leftPoint.first < point.first && point.first <= abscissa) {
-                leftPoint = point;
-            }
-        }
-
-
-        std::pair<double, double> rightPoint(0.0, 0.0);
-
-        bool initRight = false;
-
-        for (auto it = sortedPoints.rbegin(); it != sortedPoints.rend(); it++) {
-
-            std::pair<double, double> point = *it;
-
-            if (!initRight) {
-                rightPoint = point;
-                initRight = true;
-            }
-
-            if (rightPoint.first > point.first && point.first >= abscissa) {
-                rightPoint = point;
-            }
-        }
-
-
-        if (initRight && initLeft && leftPoint.first != rightPoint.first) {
-
-            double a = (rightPoint.second - leftPoint.second) / (rightPoint.first - leftPoint.first);
-
-            double b = leftPoint.second - a * leftPoint.first;
-
-            value = a * abscissa + b;
-        }
-    }
-
-    return value;
-}
-
-std::map<double, double> model::PhysicObject2D::loadCoefficients(std::__cxx11::string filePath) {
-
-    static const double MAX_INCIDENCE_VALUE = 3.5;
-
-    std::map<double, double> coefficients;
-
-    std::ifstream ifstream(filePath);
-
-    while (ifstream) {
-
-        double x = MAX_INCIDENCE_VALUE;
-        double y = MAX_INCIDENCE_VALUE;
-
-        ifstream >> x;
-        ifstream >> y;
-
-        if (x != MAX_INCIDENCE_VALUE && y != MAX_INCIDENCE_VALUE) {
-            coefficients[x] = y;
-        }
-    }
-
-    ifstream.close();
-
-    return coefficients;
-}
-
 namespace model {
 
     PhysicObject2D::PhysicObject2D(const std::vector<Point> &_points,
@@ -250,9 +156,9 @@ namespace model {
 
     Vector PhysicObject2D::computeCentrifugalForce() const {
 
-        Vector strength{{0.0, 0.0}};
+        static const double NEGLIGIBLE = pow(10, -6);
 
-        return strength;
+        Vector strength{{0.0, 0.0}};
 
         if (positions.size() == POINT_QUEUE_SIZE) {
 
@@ -268,9 +174,11 @@ namespace model {
             Vector dv2{{points[2][X_DIM_VALUE] - points[0][X_DIM_VALUE],
                                points[2][Y_DIM_VALUE] - points[0][Y_DIM_VALUE]}};
 
-            double pointAlign = angleBetweenVector(dv1, dv2);
+            double angleAlign = angleBetweenVector(dv1, dv2);
 
-            if (pointAlign != 0.0 && pointAlign != M_PI * 2.0) {
+            std::cout << angleAlign << '\n';
+
+            if (angleAlign >= NEGLIGIBLE) {
 
                 Point circleCenter = circleSolver(points[0], points[1], points[2]);
 
@@ -372,6 +280,7 @@ namespace model {
         if (positions.size() >= POINT_QUEUE_SIZE) {
             positions.pop_front();
         }
+
         positions.push_back(position);
     }
 
@@ -467,72 +376,127 @@ namespace model {
 
     Point PhysicObject2D::circleSolver(const Point &p1, const Point &p2, const Point &p3) {
 
-        const double MIN_FITNESS = pow(10, -3);
+        const double meaning = (p3[Y_DIM_VALUE] - p2[Y_DIM_VALUE] < 0) ? -1.0 : 1.0;
 
-        double a = (p1[X_DIM_VALUE] + p2[X_DIM_VALUE] + p3[X_DIM_VALUE]) / 3.0;
-        double b = (p1[Y_DIM_VALUE] + p2[Y_DIM_VALUE] + p3[Y_DIM_VALUE]) / 3.0;
+        const double rotationAngle =
+                angleBetweenVector(vectorBetweenPoints(p1, p2), vectorBetweenPoints(p2, p3)) * meaning;
 
-        double valueStep = fabs(a + b);
+        const Vector referenceVector = vectorBetweenPoints(p2, p3);
 
-        double fitness = INFINITY;
+        Point lastCursor = p2;
+        Point newCursor = p3;
 
-        while ((fitness = circleEquationFitness(p1, p2, p3, a, b)) >= MIN_FITNESS) {
+        do {
+            Vector transform = pointRotation(vectorBetweenPoints(lastCursor, newCursor), rotationAngle);
 
-            bool changed = false;
+            lastCursor = newCursor;
 
-            double steps[] = {-valueStep, valueStep};
+            newCursor[X_DIM_VALUE] += transform[X_DIM_VALUE];
+            newCursor[Y_DIM_VALUE] += transform[Y_DIM_VALUE];
 
-            for (auto step : steps) {
-
-                double nA = a + step;
-
-                double nFitness = circleEquationFitness(p1, p2, p3, nA, b);
-
-                if (nFitness < fitness) {
-                    a = nA;
-                    fitness = nFitness;
-                    changed = true;
-                    break;
-                }
-            }
+        } while (angleBetweenVector(referenceVector, vectorBetweenPoints(p3, newCursor)) < M_PI / 2.0);
 
 
-            for (auto step : steps) {
-
-                double nB = b + step;
-
-                double nFitness = circleEquationFitness(p1, p2, p3, a, nB);
-
-                if (nFitness < fitness) {
-                    b = nB;
-                    fitness = nFitness;
-                    changed = true;
-                    break;
-                }
-            }
-
-            if (!changed) {
-                valueStep /= 2.0;
-            }
-        }
-
-        return Point{{a, b}};
-    }
-
-    double
-    PhysicObject2D::circleEquationFitness(const Point &p1, const Point &p2, const Point &p3, double a, double b) {
-
-        double e1 = (p1[X_DIM_VALUE] - a) * (p1[X_DIM_VALUE] - a) + (p1[Y_DIM_VALUE] - b) * (p1[Y_DIM_VALUE] - b);
-        double e2 = (p2[X_DIM_VALUE] - a) * (p2[X_DIM_VALUE] - a) + (p2[Y_DIM_VALUE] - b) * (p2[Y_DIM_VALUE] - b);
-        double e3 = (p3[X_DIM_VALUE] - a) * (p3[X_DIM_VALUE] - a) + (p3[Y_DIM_VALUE] - b) * (p3[Y_DIM_VALUE] - b);
-
-        double average = (e1 + e2 + e3) / 3.0;
-
-        return fabs(e1 - average) + fabs(e2 - average) + fabs(e3 - average);
+        return Point{{(p3[X_DIM_VALUE] - newCursor[X_DIM_VALUE]) / 2.0 + newCursor[X_DIM_VALUE],
+                             (p3[Y_DIM_VALUE] - newCursor[Y_DIM_VALUE]) / 2.0 + newCursor[Y_DIM_VALUE]}};
     }
 
     Vector PhysicObject2D::vectorBetweenPoints(const Point &p1, const Point &p2) {
 
         return Vector{{p2[X_DIM_VALUE] - p1[X_DIM_VALUE], p2[Y_DIM_VALUE] - p1[Y_DIM_VALUE]}};
+    }
+
+
+    double PhysicObject2D::estimateOrdinateValue(double abscissa, const std::map<double, double> &points) {
+
+        std::list<std::pair<double, double>> sortedPoints;
+
+        for (auto &point : points) {
+            sortedPoints.push_front(point);
+        }
+
+        sortedPoints.sort([](const std::pair<double, double> &p1, const std::pair<double, double> &p2) {
+            return p1.first < p2.first;
+        });
+
+        double value = 0.0;
+
+        if (sortedPoints.size() >= 2) {
+
+            std::pair<double, double> leftPoint(0.0, 0.0);
+
+            bool initLeft = false;
+
+            for (auto it = sortedPoints.begin(); it != sortedPoints.end(); it++) {
+
+                std::pair<double, double> point = *it;
+
+                if (!initLeft) {
+                    leftPoint = point;
+                    initLeft = true;
+                }
+
+                if (leftPoint.first < point.first && point.first <= abscissa) {
+                    leftPoint = point;
+                }
+            }
+
+
+            std::pair<double, double> rightPoint(0.0, 0.0);
+
+            bool initRight = false;
+
+            for (auto it = sortedPoints.rbegin(); it != sortedPoints.rend(); it++) {
+
+                std::pair<double, double> point = *it;
+
+                if (!initRight) {
+                    rightPoint = point;
+                    initRight = true;
+                }
+
+                if (rightPoint.first > point.first && point.first >= abscissa) {
+                    rightPoint = point;
+                }
+            }
+
+
+            if (initRight && initLeft && leftPoint.first != rightPoint.first) {
+
+                double a = (rightPoint.second - leftPoint.second) / (rightPoint.first - leftPoint.first);
+
+                double b = leftPoint.second - a * leftPoint.first;
+
+                value = a * abscissa + b;
+            }
+        }
+
+        return value;
+    }
+
+    std::map<double, double> PhysicObject2D::loadCoefficients(std::__cxx11::string filePath) {
+
+        static const double MAX_INCIDENCE_VALUE = 3.5;
+
+        std::map<double, double> coefficients;
+
+        std::ifstream ifstream(filePath);
+
+        while (ifstream) {
+
+            double x = MAX_INCIDENCE_VALUE;
+            double y = MAX_INCIDENCE_VALUE;
+
+            ifstream >> x;
+            ifstream >> y;
+
+            if (x != MAX_INCIDENCE_VALUE && y != MAX_INCIDENCE_VALUE) {
+                coefficients[x] = y;
+            }
+        }
+
+        ifstream.close();
+
+        return coefficients;
     }
 }

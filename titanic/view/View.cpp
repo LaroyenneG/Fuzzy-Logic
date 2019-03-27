@@ -6,6 +6,7 @@
 #include "TimeWizardController.h"
 #include "AutomaticPilotController.h"
 #include "MenuController.h"
+#include "View.h"
 
 
 #define COLLISIONS_TITLE "Titanic sank"
@@ -83,7 +84,7 @@ namespace view {
         statisticalBoard->addRow("Distance (m) : ", distanceLabel);
 
         setWindowTitle(WINDOWS_TITLE);
-        setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
+        //  setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
     }
 
     View::~View() {
@@ -232,5 +233,16 @@ namespace view {
     void View::setMachinePower(double value) {
 
         machineSlider->setValue(static_cast<int>(value * (SLIDER_MAXIMUM_VALUE - SLIDER_MINIMUM_VALUE)));
+    }
+
+    void View::setCourse(double value) {
+
+        int course = static_cast<int>(value * COURSE_RDS_TO_DEGREE);
+
+        std::string string = std::to_string(course);
+
+        QString qString(string.data());
+
+        courseLabel->setText(qString);
     }
 }

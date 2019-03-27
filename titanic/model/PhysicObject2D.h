@@ -155,8 +155,6 @@ namespace model {
 
         static double distanceBetweenPoint(const Point &p1, const Point &p2);
 
-        static double circleEquationFitness(const Point &p1, const Point &p2, const Point &p3, double a, double b);
-
         static Point circleSolver(const Point &p1, const Point &p2, const Point &p3);
 
         static Vector vectorBetweenPoints(const Point &p1, const Point &p2);

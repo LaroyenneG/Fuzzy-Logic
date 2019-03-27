@@ -9,7 +9,6 @@ using namespace controller;
 
 int main(int argc, char **argv) {
 
-
     QApplication app(argc, argv);
 
     auto *model = new Model();

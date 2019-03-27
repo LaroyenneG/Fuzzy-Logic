@@ -22,6 +22,8 @@ namespace controller {
 
         view->setDistance(model->distance());
 
+        view->setCourse(model->getTitanic()->getOrientation());
+
         view->getMutex().unlock();
     }
 }

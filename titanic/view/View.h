@@ -31,6 +31,8 @@
 #define SLIDER_MAXIMUM_VALUE 99
 #define SLIDER_SIZE_VALUE 100
 
+#define COURSE_RDS_TO_DEGREE (180.0/3.1416)
+
 namespace controller {
 
     class CheckBoxController;
@@ -97,6 +99,8 @@ namespace view {
         void setHelmValue(double value);
 
         void setMachinePower(double value);
+
+        void setCourse(double value);
 
         int getTimeInterval() const;
 
