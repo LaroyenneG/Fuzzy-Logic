@@ -176,8 +176,6 @@ namespace model {
 
             double angleAlign = angleBetweenVector(dv1, dv2);
 
-            std::cout << angleAlign << '\n';
-
             if (angleAlign >= NEGLIGIBLE) {
 
                 Point circleCenter = circleSolver(points[0], points[1], points[2]);

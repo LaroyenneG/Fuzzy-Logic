@@ -110,13 +110,13 @@ namespace view {
 
 
         const static QImage ICEBERG_IMAGE(ICEBERG_IMAGE_FILE);
-        const static QPoint DIMENSION = scaleConverter(DEFAULT_ICEBERG_RAYON * 2.0, DEFAULT_ICEBERG_RAYON * 2.0);
+        const static QPoint DIMENSION = scaleConverter(ICEBERG_DEFAULT_RAYON * 2.0, ICEBERG_DEFAULT_RAYON * 2.0);
 
         QGraphicsPixmapItem *icebergItem = new QGraphicsPixmapItem(
                 QPixmap::fromImage(ICEBERG_IMAGE).scaled(DIMENSION.x(), DIMENSION.y()));
 
-        QPoint position = scaleConverter(iceberg->getPositionX() - DEFAULT_ICEBERG_RAYON,
-                                         iceberg->getPositionY() - DEFAULT_ICEBERG_RAYON);
+        QPoint position = scaleConverter(iceberg->getPositionX() - ICEBERG_DEFAULT_RAYON,
+                                         iceberg->getPositionY() - ICEBERG_DEFAULT_RAYON);
 
         QTransform translation;
         translation.translate(position.x(), position.y());

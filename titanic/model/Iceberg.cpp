@@ -8,15 +8,15 @@
 namespace model {
 
     Iceberg::Iceberg(double x, double y, double r, double _weight)
-            : PhysicObject2D(buildPoints(r, NB_POINTS), x, y, DEFAULT_ORIENTATION, _weight) {
+            : PhysicObject2D(buildPoints(r, ICEBERG_NB_POINTS), x, y, DEFAULT_ORIENTATION, _weight) {
 
     }
 
-    Iceberg::Iceberg(double x, double y) : Iceberg(x, y, DEFAULT_ICEBERG_RAYON, DEFAULT_ICEBERG_WEIGHT) {
+    Iceberg::Iceberg(double x, double y) : Iceberg(x, y, ICEBERG_DEFAULT_RAYON, ICEBERG_DEFAULT_WEIGHT) {
 
     }
 
-    Iceberg::Iceberg() : Iceberg(DEFAULT_ICEBERG_X, DEFAULT_ICEBERG_Y) {
+    Iceberg::Iceberg() : Iceberg(ICEBERG_DEFAULT_X, ICEBERG_DEFAULT_Y) {
 
     }
 

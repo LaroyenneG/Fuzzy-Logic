@@ -8,7 +8,7 @@
 
 #include "Model.h"
 
-#define DRAFTSMAN_SCALE 1.5
+#define DRAFTSMAN_SCALE 2.0
 
 #define TITANIC_PICTURE_FILE_NAME "../assets/titanic.png"
 

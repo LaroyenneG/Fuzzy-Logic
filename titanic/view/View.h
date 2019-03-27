@@ -77,7 +77,9 @@ namespace view {
     public:
         explicit View();
 
-        QGraphicsScene *getScene();
+        QGraphicsScene *getGraphicsScene();
+
+        QGraphicsView *getGraphicsView();
 
         void setMachinesSpeed(double alt1, double turbine, double alt2);
 

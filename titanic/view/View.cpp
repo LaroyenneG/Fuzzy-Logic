@@ -84,6 +84,7 @@ namespace view {
         statisticalBoard->addRow("Distance (m) : ", distanceLabel);
 
         setWindowTitle(WINDOWS_TITLE);
+
         //  setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
     }
 
@@ -109,7 +110,7 @@ namespace view {
         delete menuBar;
     }
 
-    QGraphicsScene *View::getScene() {
+    QGraphicsScene *View::getGraphicsScene() {
         return titanicScene;
     }
 
@@ -244,5 +245,10 @@ namespace view {
         QString qString(string.data());
 
         courseLabel->setText(qString);
+    }
+
+    QGraphicsView *View::getGraphicsView() {
+
+        return titanicView;
     }
 }

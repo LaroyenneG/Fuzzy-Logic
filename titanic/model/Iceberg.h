@@ -6,11 +6,11 @@
 
 #include "PhysicObject2D.h"
 
-#define NB_POINTS 100
-#define DEFAULT_ICEBERG_X 20.0
-#define DEFAULT_ICEBERG_Y 800.0
-#define DEFAULT_ICEBERG_RAYON 60.0          // m
-#define DEFAULT_ICEBERG_WEIGHT 1500000000   // kg
+#define ICEBERG_NB_POINTS 100
+#define ICEBERG_DEFAULT_X 20.0
+#define ICEBERG_DEFAULT_Y 800.0
+#define ICEBERG_DEFAULT_RAYON 60.0          // m
+#define ICEBERG_DEFAULT_WEIGHT 1500000000   // kg
 
 #define ICEBERG_IMAGE_FILE "../assets/iceberg.png"
 
@@ -28,7 +28,7 @@ namespace model {
 
         explicit Iceberg();
 
-        void drawMe(view::Draftsman *draftsman);
+        void drawMe(view::Draftsman *draftsman) override;
 
         ~Iceberg() override = default;
     };
