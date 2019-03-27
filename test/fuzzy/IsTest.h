@@ -8,6 +8,7 @@
 #include "IsSingleton.h"
 #include "IsRampRight.h"
 #include "IsRampLeft.h"
+#include "IsBell.h"
 #include "ValueModel.h"
 
 using namespace fuzzy;
@@ -21,6 +22,7 @@ CPPUNIT_TEST_SUITE(IsTest);
         CPPUNIT_TEST(testIsRampLeft);
         CPPUNIT_TEST(testIsSingleton);
         CPPUNIT_TEST(testIsRampRight);
+            CPPUNIT_TEST(testIsBell);
     CPPUNIT_TEST_SUITE_END();
 public:
     void testIsTriangle();
@@ -32,6 +34,8 @@ public:
     void testIsRampRight();
 
     void testIsRampLeft();
+
+    void testIsBell();
 };
 
 
