@@ -1,4 +1,5 @@
 
+#include "Draftsman.h"
 #include "Iceberg.h"
 
 #define _USE_MATH_DEFINES
@@ -33,5 +34,9 @@ namespace model {
         }
 
         return points;
+    }
+
+    void Iceberg::drawMe(view::Draftsman *draftsman) {
+        draftsman->drawIceberg(this);
     }
 }

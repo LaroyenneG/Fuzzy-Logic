@@ -2,11 +2,15 @@
 #ifndef LOGIQUEFLOUE_DRAFTSMAN_H
 #define LOGIQUEFLOUE_DRAFTSMAN_H
 
+#include <iostream>
 #include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
 
 #include "Model.h"
 
 #define DRAFTSMAN_SCALE 1.5
+
+#define TITANIC_PICTURE_FILE_NAME "../assets/titanic.png"
 
 
 namespace view {
@@ -29,6 +33,10 @@ namespace view {
         void drawVectors();
 
         void drawElement(const model::PhysicObject2D *object);
+
+        void drawTitanic(const model::Titanic *titanic);
+
+        void drawIceberg(const model::Iceberg *iceberg);
 
         ~Draftsman() = default;
     };

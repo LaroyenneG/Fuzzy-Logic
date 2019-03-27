@@ -33,6 +33,7 @@
 
 #define COURSE_RDS_TO_DEGREE (180.0/3.1416)
 
+
 namespace controller {
 
     class CheckBoxController;
@@ -66,9 +67,9 @@ namespace view {
         QSlider *helmSlider;
         QLabel *courseLabel;
         QCheckBox *automaticPilotCheckBox;
-        QProgressBar *progressBarLazer1;
-        QProgressBar *progressBarLazer2;
-        QProgressBar *progressBarLazer3;
+        QProgressBar *progressBarLaser1;
+        QProgressBar *progressBarLaser2;
+        QProgressBar *progressBarLaser3;
         QLabel *distanceLabel;
         QTimer *refreshTimer;
         QTimer *automaticPilotTimer;

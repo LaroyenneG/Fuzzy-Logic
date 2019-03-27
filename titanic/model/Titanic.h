@@ -6,6 +6,8 @@
 #include <map>
 #include <vector>
 #include <list>
+#include <iostream>
+#include <fstream>
 
 
 #include "PhysicObject2D.h"
@@ -13,8 +15,8 @@
 #include "Rudder.h"
 
 #define SEA_M_VOL 1025.0            // kg/m^3
-
-
+#define TITANIC_SIZE 269.0  // m
+#define TITANIC_WIDITH 28.0
 #define TITANIC_DEFAULT_COURSE 3.1416 / 2.0
 #define TITANIC_DEFAULT_WEIGHT 52310000.0
 #define TITANIC_DEFAULT_X 0.0
@@ -61,6 +63,8 @@ namespace model {
         explicit Titanic();
 
         ~Titanic() override;
+
+        void drawMe(view::Draftsman *draftsman) override;
 
         double approximatedLiftCoefficient(double incidence) const;
 

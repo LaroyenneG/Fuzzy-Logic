@@ -12,6 +12,8 @@
 #define DEFAULT_ICEBERG_RAYON 60.0          // m
 #define DEFAULT_ICEBERG_WEIGHT 1500000000   // kg
 
+#define ICEBERG_IMAGE_FILE "../assets/iceberg.png"
+
 namespace model {
 
     class Iceberg : public PhysicObject2D {
@@ -25,6 +27,10 @@ namespace model {
         explicit Iceberg(double x, double y);
 
         explicit Iceberg();
+
+        void drawMe(view::Draftsman *draftsman);
+
+        ~Iceberg() override = default;
     };
 }
 

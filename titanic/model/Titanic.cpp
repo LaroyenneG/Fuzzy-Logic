@@ -1,9 +1,7 @@
-
-#include <iostream>
-#include <fstream>
 #include "Titanic.h"
 #include "AlternativeMachine.h"
 #include "LowPressureTurbine.h"
+#include "Draftsman.h"
 
 namespace model {
 
@@ -159,5 +157,9 @@ namespace model {
     double Titanic::approximatedLiftCoefficient(double incidence) const {
 
         return estimateOrdinateValue(incidence, lift_coefficients);
+    }
+
+    void Titanic::drawMe(view::Draftsman *draftsman) {
+        draftsman->drawTitanic(this);
     }
 }

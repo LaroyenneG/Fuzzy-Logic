@@ -28,9 +28,9 @@ namespace view {
               helmSlider(nullptr),
               courseLabel(nullptr),
               automaticPilotCheckBox(nullptr),
-              progressBarLazer1(nullptr),
-              progressBarLazer2(nullptr),
-              progressBarLazer3(nullptr),
+              progressBarLaser1(nullptr),
+              progressBarLaser2(nullptr),
+              progressBarLaser3(nullptr),
               distanceLabel(nullptr),
               refreshTimer(nullptr),
               automaticPilotTimer(nullptr) {
@@ -49,9 +49,9 @@ namespace view {
         helmSlider = new QSlider(Qt::Horizontal);
         courseLabel = new QLabel();
         automaticPilotCheckBox = new QCheckBox();
-        progressBarLazer1 = new QProgressBar();
-        progressBarLazer2 = new QProgressBar();
-        progressBarLazer3 = new QProgressBar();
+        progressBarLaser1 = new QProgressBar();
+        progressBarLaser2 = new QProgressBar();
+        progressBarLaser3 = new QProgressBar();
         distanceLabel = new QLabel();
         refreshTimer = new QTimer(this);
         automaticPilotTimer = new QTimer(this);
@@ -78,9 +78,9 @@ namespace view {
         commandPost->addRow("Course (°) : ", courseLabel);
 
         statisticalBoard->addRow("Automatic pilot : ", automaticPilotCheckBox);
-        statisticalBoard->addRow("Lazer 1 (%) : ", progressBarLazer1);
-        statisticalBoard->addRow("Lazer 2 (%) : ", progressBarLazer2);
-        statisticalBoard->addRow("Lazer 3 (%) : ", progressBarLazer3);
+        statisticalBoard->addRow("Laser 1 (%) : ", progressBarLaser1);
+        statisticalBoard->addRow("Laser 2 (%) : ", progressBarLaser2);
+        statisticalBoard->addRow("Laser 3 (%) : ", progressBarLaser3);
         statisticalBoard->addRow("Distance (m) : ", distanceLabel);
 
         setWindowTitle(WINDOWS_TITLE);
@@ -91,9 +91,9 @@ namespace view {
 
         delete refreshTimer;
         delete distanceLabel;
-        delete progressBarLazer3;
-        delete progressBarLazer2;
-        delete progressBarLazer1;
+        delete progressBarLaser3;
+        delete progressBarLaser2;
+        delete progressBarLaser1;
         delete automaticPilotCheckBox;
         delete courseLabel;
         delete helmSlider;

@@ -1,5 +1,4 @@
 
-#include <iostream>
 #include "Draftsman.h"
 
 
@@ -82,5 +81,48 @@ namespace view {
                                         engine[1] + titanic->getPositionY()));
 
         scene->addLine(engineLine, QPen(Qt::yellow));
+    }
+
+    void Draftsman::drawTitanic(const model::Titanic *titanic) {
+
+        const static QImage TITANIC_IMAGE(TITANIC_PICTURE_FILE_NAME);
+        const static QPoint DIMENSION = scaleConverter(TITANIC_SIZE, TITANIC_WIDITH);
+
+        QGraphicsPixmapItem *titanicItem = new QGraphicsPixmapItem(
+                QPixmap::fromImage(TITANIC_IMAGE).scaled(DIMENSION.x(), DIMENSION.y()));
+
+        QTransform rotation;
+        rotation.rotateRadians(titanic->getOrientation());
+
+        QPoint position = scaleConverter(titanic->getPositionX() + TITANIC_WIDITH / 2.0, titanic->getPositionY());
+
+        QTransform translation;
+        translation.translate(position.x(), position.y());
+
+        QTransform transform = rotation * translation;
+
+        titanicItem->setTransform(transform);
+
+        scene->addItem(titanicItem);
+    }
+
+    void Draftsman::drawIceberg(const model::Iceberg *iceberg) {
+
+
+        const static QImage ICEBERG_IMAGE(ICEBERG_IMAGE_FILE);
+        const static QPoint DIMENSION = scaleConverter(DEFAULT_ICEBERG_RAYON * 2.0, DEFAULT_ICEBERG_RAYON * 2.0);
+
+        QGraphicsPixmapItem *icebergItem = new QGraphicsPixmapItem(
+                QPixmap::fromImage(ICEBERG_IMAGE).scaled(DIMENSION.x(), DIMENSION.y()));
+
+        QPoint position = scaleConverter(iceberg->getPositionX() - DEFAULT_ICEBERG_RAYON,
+                                         iceberg->getPositionY() - DEFAULT_ICEBERG_RAYON);
+
+        QTransform translation;
+        translation.translate(position.x(), position.y());
+
+        icebergItem->setTransform(translation);
+
+        scene->addItem(icebergItem);
     }
 }
