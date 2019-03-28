@@ -17,7 +17,7 @@ namespace fuzzy {
         T leftValue = left->evaluate();
         T rightValue = right->evaluate();
 
-        return leftValue + rightValue;
+        return leftValue + rightValue - leftValue * rightValue;
     }
 }
 
