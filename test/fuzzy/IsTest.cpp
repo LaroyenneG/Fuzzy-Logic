@@ -1,5 +1,6 @@
 
 #include <IsSigmoid.h>
+
 #include "IsTest.h"
 
 void IsTest::testIsTriangle() {
@@ -154,4 +155,15 @@ void IsTest::testIsSigmoid() {
     CPPUNIT_ASSERT_DOUBLES_EQUAL(0.5, isSigmoid.getMin(), 0.01);
 
     CPPUNIT_ASSERT_DOUBLES_EQUAL(0.92, isSigmoid.evaluate(&valueModel), 0.01);
+}
+
+void IsTest::testIsGaussian() {
+    ValueModel valueModelA(4.0);
+    ValueModel valueModelB(2.0);
+
+    IsGaussian<double> isGaussian(4.0, 2.0);
+
+    CPPUNIT_ASSERT_EQUAL(4.0, isGaussian.getMean());
+    CPPUNIT_ASSERT_EQUAL(1.0, isGaussian.evaluate(&valueModelA));
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(0.60, isGaussian.evaluate(&valueModelB), 0.01);
 }

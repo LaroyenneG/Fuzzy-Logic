@@ -11,7 +11,7 @@
 #include "IsBell.h"
 #include "ValueModel.h"
 #include "IsSigmoid.h"
-
+#include "IsGaussian.h"
 using namespace fuzzy;
 using namespace core;
 
@@ -24,6 +24,7 @@ CPPUNIT_TEST_SUITE(IsTest);
         CPPUNIT_TEST(testIsSingleton);
         CPPUNIT_TEST(testIsRampRight);
         CPPUNIT_TEST(testIsBell);
+        CPPUNIT_TEST(testIsGaussian);
         CPPUNIT_TEST(testIsSigmoid);
     CPPUNIT_TEST_SUITE_END();
 public:
@@ -38,6 +39,8 @@ public:
     void testIsRampLeft();
 
     void testIsBell();
+
+    void testIsGaussian();
 
     void testIsSigmoid();
 };
