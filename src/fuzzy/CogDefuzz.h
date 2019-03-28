@@ -15,14 +15,24 @@ namespace fuzzy {
     };
 
     template<typename T>
-    T CogDefuzz<T>::defuzz(const Shape<T> &shape) const {
-        return 0;
-    }
-
-    template<typename T>
     CogDefuzz<T>::CogDefuzz(const T &_min, const T &_max, const T &_step)
             : MamdaniDefuzz<T>(_min, _max, _step) {
 
+    }
+
+    template<typename T>
+    T CogDefuzz<T>::defuzz(const Shape<T> &shape) const {
+
+        T numerator(0);
+        T denominator(0);
+
+        for (auto point : shape) {
+
+            numerator += point.first * point.second;
+            denominator += point.second;
+        }
+
+        return numerator / denominator;
     }
 }
 
