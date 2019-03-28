@@ -9,22 +9,23 @@ namespace core {
     template<typename T>
     class BinaryExpressionModel : public BinaryExpression<T>, public Expression<T> {
     private:
-        const BinaryExpression <T> *bOperator;
-        const Expression <T> *left;
-        const Expression <T> *right;
+        BinaryExpression <T> *bOperator;
+        Expression <T> *left;
+        Expression <T> *right;
     public:
-        explicit BinaryExpressionModel(const BinaryExpression <T> *_bOperator, const Expression <T> *_left,
-                                       const Expression <T> *_right);
+        explicit BinaryExpressionModel(BinaryExpression <T> *_bOperator, Expression <T> *_left,
+                                       Expression <T> *_right);
 
         T evaluate() const override;
 
-        T evaluate(const Expression <T> *left, const Expression <T> *right) const override;
+        T evaluate(Expression <T> *left, Expression <T> *right) const override;
 
+        bool isValue() const override;
     };
 
     template<typename T>
-    BinaryExpressionModel<T>::BinaryExpressionModel(const BinaryExpression <T> *_bOperator, const Expression <T> *_left,
-                                                    const Expression <T> *_right)
+    BinaryExpressionModel<T>::BinaryExpressionModel(BinaryExpression <T> *_bOperator, Expression <T> *_left,
+                                                    Expression <T> *_right)
             : bOperator(_bOperator), left(_left), right(_right) {
 
     }
@@ -40,13 +41,18 @@ namespace core {
     }
 
     template<typename T>
-    T BinaryExpressionModel<T>::evaluate(const Expression <T> *left, const Expression <T> *right) const {
+    T BinaryExpressionModel<T>::evaluate(Expression <T> *left, Expression <T> *right) const {
 
         if (bOperator == nullptr) {
             throw exception::OperatorNullException();
         }
 
         return bOperator->evaluate(left, right);
+    }
+
+    template<typename T>
+    bool BinaryExpressionModel<T>::isValue() const {
+        return false;
     }
 }
 #endif //LOGIQUEFLOUE_BINARYEXPRESSIONMODEL_H

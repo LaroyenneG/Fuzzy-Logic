@@ -15,7 +15,7 @@ namespace fuzzy {
     public:
         explicit IsGaussian(const T &_mean, const T &_variance);
 
-        T evaluate(const core::Expression<T> *expression) const override;
+        T evaluate(core::Expression<T> *expression) const override;
 
         const T &getMean() const;
 
@@ -33,7 +33,8 @@ namespace fuzzy {
     }
 
     template<typename T>
-    T IsGaussian<T>::evaluate(const core::Expression<T> *expression) const {
+    T IsGaussian<T>::evaluate(core::Expression<T> *expression) const {
+
         T value = expression->evaluate();
 
         return exp((-0.5 * pow(value - mean, 2)) / pow(variance, 2));

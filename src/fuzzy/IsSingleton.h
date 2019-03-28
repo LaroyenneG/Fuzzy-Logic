@@ -14,7 +14,7 @@ namespace fuzzy {
     public:
         explicit IsSingleton(const T &_value);
 
-        T evaluate(const core::Expression<T> *expression) const override;
+        T evaluate(core::Expression<T> *expression) const override;
 
         const T &getValue() const;
 
@@ -26,7 +26,8 @@ namespace fuzzy {
     IsSingleton<T>::IsSingleton(const T &_value): value(_value) {}
 
     template<typename T>
-    T IsSingleton<T>::evaluate(const core::Expression<T> *expression) const {
+    T IsSingleton<T>::evaluate(core::Expression<T> *expression) const {
+
         T evaluateValue = expression->evaluate();
         if (evaluateValue == value)
             return 1.0;

@@ -9,11 +9,11 @@ namespace fuzzy {
     class AggPlus : public Agg<T> {
 
     public :
-        T evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const override;
+        T evaluate(core::Expression<T> *left, core::Expression<T> *right) const override;
     };
 
     template<typename T>
-    T AggPlus<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
+    T AggPlus<T>::evaluate(core::Expression<T> *left, core::Expression<T> *right) const {
 
         T leftValue = left->evaluate();
         T rightValue = right->evaluate();

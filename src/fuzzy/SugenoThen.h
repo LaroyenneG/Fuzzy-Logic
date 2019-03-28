@@ -16,7 +16,7 @@ namespace fuzzy {
 
         explicit SugenoThen(const T &_permitValue);
 
-        T evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const override;
+        T evaluate(core::Expression<T> *left, core::Expression<T> *right) const override;
     };
 
     template<typename T>
@@ -29,7 +29,7 @@ namespace fuzzy {
     }
 
     template<typename T>
-    T SugenoThen<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
+    T SugenoThen<T>::evaluate(core::Expression<T> *left, core::Expression<T> *right) const {
         return ThenMult<T>::evaluate(left, right);
     }
 }

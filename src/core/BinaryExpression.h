@@ -4,10 +4,12 @@
 #include "Expression.h"
 
 namespace core {
+
     template<typename T>
     class BinaryExpression {
+
     public:
-        virtual T evaluate(const Expression <T> *left, const Expression <T> *right) const = 0;
+        virtual T evaluate(core::Expression<T> *left, core::Expression<T> *right) const = 0;
     };
 }
 

@@ -7,11 +7,11 @@ namespace fuzzy {
     template<typename T>
     class OrMax : public Or<T> {
     public:
-        T evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const override;
+        T evaluate(core::Expression<T> *left, core::Expression<T> *right) const override;
     };
 
     template<typename T>
-    T OrMax<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
+    T OrMax<T>::evaluate(core::Expression<T> *left, core::Expression<T> *right) const {
 
         T leftValue = left->evaluate();
         T rightValue = right->evaluate();

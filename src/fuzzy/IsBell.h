@@ -18,7 +18,7 @@ namespace fuzzy {
     public:
         explicit IsBell(const T &_min, const T &_mid, const T &_max);
 
-        T evaluate(const core::Expression<T> *expression) const override;
+        T evaluate(core::Expression<T> *expression) const override;
 
         const T &getMin() const;
 
@@ -46,7 +46,7 @@ namespace fuzzy {
     }
 
     template<typename T>
-    T IsBell<T>::evaluate(const core::Expression<T> *expression) const {
+    T IsBell<T>::evaluate(core::Expression<T> *expression) const {
 
         T value = expression->evaluate();
 

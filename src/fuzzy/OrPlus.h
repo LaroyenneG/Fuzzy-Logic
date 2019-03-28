@@ -4,15 +4,16 @@
 #include "Or.h"
 
 namespace fuzzy {
+
     template<typename T>
     class OrPlus : public core::BinaryExpression<T> {
-    public:
-        T evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const override;
 
+    public:
+        T evaluate(core::Expression<T> *left, core::Expression<T> *right) const override;
     };
 
     template<typename T>
-    T OrPlus<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
+    T OrPlus<T>::evaluate(core::Expression<T> *left, core::Expression<T> *right) const {
 
         T leftValue = left->evaluate();
         T rightValue = right->evaluate();

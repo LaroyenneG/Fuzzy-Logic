@@ -28,6 +28,8 @@ namespace core {
         T evaluate() const override;
 
         unsigned long size() const;
+
+        bool isValue() const override;
     };
 
 
@@ -69,6 +71,11 @@ namespace core {
         }
 
         return evaluate(operands);
+    }
+
+    template<typename T>
+    bool NaryExpressionModel<T>::isValue() const {
+        return false;
     }
 }
 

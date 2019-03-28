@@ -10,15 +10,15 @@ namespace fuzzy {
     class SugenoConclusion : core::NaryExpression<T> {
 
     private:
-        std::vector<T> coef;
+        std::vector<T> coefficients;
 
     public:
-        T evaluate(const core::Expression<T> **operands) const override;
+        T evaluate(const std::vector<core::Expression<T> *> &operands) const override;
     };
 
     template<typename T>
 
-    T SugenoConclusion<T>::evaluate(const core::Expression<T> **operands) const {
+    T SugenoConclusion<T>::evaluate(const std::vector<core::Expression<T> *> &operands) const {
         return 0;
     }
 }

@@ -15,7 +15,7 @@ namespace core {
     public:
         explicit NaryShadowExpression(NaryExpression<T> *_target);
 
-        T evaluate(const Expression<T> **operands) const;
+        T evaluate(const std::vector<Expression<T> *> &operands) const override;
 
         const NaryExpression<T> *getTarget() const;
 
@@ -27,7 +27,7 @@ namespace core {
     }
 
     template<typename T>
-    T NaryShadowExpression<T>::evaluate(const Expression<T> **operands) const {
+    T NaryShadowExpression<T>::evaluate(const std::vector<Expression<T> *> &operands) const {
 
         if (target == nullptr) {
             throw exception::TargetNullException();

@@ -9,11 +9,12 @@ namespace fuzzy {
     class AggMax : public Agg<T> {
 
     public :
-        T evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const override;
+        T evaluate(core::Expression<T> *left, core::Expression<T> *right) const override;
     };
 
     template<typename T>
-    T AggMax<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
+    T AggMax<T>::evaluate(core::Expression<T> *left, core::Expression<T> *right) const {
+
         T leftValue = left->evaluate();
         T rightValue = right->evaluate();
 

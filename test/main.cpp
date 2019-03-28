@@ -17,6 +17,7 @@
 #include "fuzzy/ThenTest.h"
 #include "fuzzy/IsTest.h"
 #include "fuzzy/AggTest.h"
+#include "fuzzy/DefuzzTest.h"
 
 
 int main(int argc, char **argv) {
@@ -41,6 +42,7 @@ int main(int argc, char **argv) {
     CPPUNIT_TEST_SUITE_REGISTRATION(ThenTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(ShapeTest);
     CPPUNIT_TEST_SUITE_REGISTRATION(IsTest);
+    CPPUNIT_TEST_SUITE_REGISTRATION(DefuzzTest);
 
     CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
 

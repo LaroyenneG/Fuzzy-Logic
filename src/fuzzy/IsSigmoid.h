@@ -26,7 +26,7 @@ namespace fuzzy {
 
         const T &getMin() const;
 
-        T evaluate(const core::Expression<T> *expression) const;
+        T evaluate(core::Expression<T> *expression) const override;
     };
 
     template<typename T>
@@ -55,7 +55,7 @@ namespace fuzzy {
     }
 
     template<typename T>
-    T IsSigmoid<T>::evaluate(const core::Expression<T> *expression) const {
+    T IsSigmoid<T>::evaluate(core::Expression<T> *expression) const {
 
         T value = expression->evaluate();
 

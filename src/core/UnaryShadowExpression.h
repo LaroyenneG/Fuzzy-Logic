@@ -14,7 +14,7 @@ namespace core {
     public:
         explicit UnaryShadowExpression(UnaryExpression <T> *_target);
 
-        T evaluate(const Expression<T> *expression) const override;
+        T evaluate(Expression <T> *expression) const override;
 
         const UnaryExpression<T> *getTarget() const;
 
@@ -26,7 +26,7 @@ namespace core {
     }
 
     template<typename T>
-    T UnaryShadowExpression<T>::evaluate(const Expression<T> *expression) const {
+    T UnaryShadowExpression<T>::evaluate(Expression <T> *expression) const {
 
         if (target == nullptr) {
             throw exception::TargetNullException();

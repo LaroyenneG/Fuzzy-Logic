@@ -8,11 +8,11 @@ namespace fuzzy {
     template<typename T>
     class ThenMin : public Then<T> {
     public:
-        T evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const override;
+        T evaluate(core::Expression<T> *left, core::Expression<T> *right) const override;
     };
 
     template<typename T>
-    T ThenMin<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
+    T ThenMin<T>::evaluate(core::Expression<T> *left, core::Expression<T> *right) const {
 
         T leftValue = left->evaluate();
         T rightValue = right->evaluate();

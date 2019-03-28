@@ -21,7 +21,9 @@ namespace core {
 
         T evaluate() const override;
 
-        T evaluate(const Expression<T> *_operand) const override;
+        T evaluate(Expression <T> *_operand) const override;
+
+        bool isValue() const;
     };
 
     template<typename T>
@@ -30,7 +32,7 @@ namespace core {
     }
 
     template<typename T>
-    T UnaryExpressionModel<T>::evaluate(const Expression<T> *_operand) const {
+    T UnaryExpressionModel<T>::evaluate(Expression <T> *_operand) const {
 
         if (uOperator == nullptr) {
             throw exception::OperatorNullException();
@@ -47,6 +49,11 @@ namespace core {
         }
 
         return evaluate(operand);
+    }
+
+    template<typename T>
+    bool UnaryExpressionModel<T>::isValue() const {
+        return false;
     }
 }
 

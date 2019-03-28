@@ -3,7 +3,6 @@
 
 #include "Not.h"
 
-
 namespace fuzzy {
 
     template<typename T>
@@ -13,11 +12,11 @@ namespace fuzzy {
         const static T ONE;
 
     public:
-        T evaluate(const core::Expression<T> *operand) const override;
+        T evaluate(core::Expression<T> *operand) const override;
     };
 
     template<typename T>
-    T NotMinus<T>::evaluate(const core::Expression<T> *operand) const {
+    T NotMinus<T>::evaluate(core::Expression<T> *operand) const {
 
         T value = operand->evaluate();
 

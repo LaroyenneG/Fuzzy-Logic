@@ -16,7 +16,7 @@ namespace fuzzy {
     public:
         explicit IsRampLeft(const T &_min, const T &_mid, const T &_max);
 
-        T evaluate(const core::Expression<T> *expression) const override;
+        T evaluate(core::Expression<T> *expression) const override;
 
         const T &getMin() const;
 
@@ -43,15 +43,19 @@ namespace fuzzy {
     }
 
     template<typename T>
-    T IsRampLeft<T>::evaluate(const core::Expression<T> *expression) const {
+    T IsRampLeft<T>::evaluate(core::Expression<T> *expression) const {
 
         T value = expression->evaluate();
 
         if (value < mid && value > min) {
+
             return (value - min) / (mid - min);
+
         } else if (value >= mid) {
+
             return ONE;
         }
+
         return ZERO;
     }
 

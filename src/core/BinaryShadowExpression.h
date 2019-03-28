@@ -14,7 +14,7 @@ namespace core {
     public:
         explicit BinaryShadowExpression(BinaryExpression <T> *_target);
 
-        T evaluate(const Expression<T> *left, const Expression<T> *right) const override;
+        T evaluate(Expression <T> *left, Expression <T> *right) const override;
 
         const BinaryExpression<T> *getTarget() const;
 
@@ -26,7 +26,7 @@ namespace core {
     }
 
     template<typename T>
-    T BinaryShadowExpression<T>::evaluate(const Expression<T> *left, const Expression<T> *right) const {
+    T BinaryShadowExpression<T>::evaluate(Expression <T> *left, Expression <T> *right) const {
 
         if (target == nullptr) {
             throw exception::TargetNullException();

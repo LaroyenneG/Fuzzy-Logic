@@ -9,11 +9,8 @@ namespace core {
 
         virtual ~Expression() = default;
 
-        virtual bool isValue() const;
+        virtual bool isValue() const = 0;
     };
-
-    template<typename T>
-    bool Expression<T>::isValue() const { return false; }
 }
 
 
