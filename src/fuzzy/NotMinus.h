@@ -10,7 +10,7 @@ namespace fuzzy {
     class NotMinus : public Not<T> {
 
     private:
-        const static T ONE; // warning
+        const static T ONE;
 
     public:
         T evaluate(const core::Expression<T> *operand) const override;
