@@ -137,5 +137,5 @@ void IsTest::testIsBell() {
     CPPUNIT_ASSERT_EQUAL(0.6, IsBell.getMid());
     CPPUNIT_ASSERT_EQUAL(0.8, IsBell.getMax());
 
-    CPPUNIT_ASSERT_EQUAL(0.211095, IsBell.evaluate(&valueModelA));
+    CPPUNIT_ASSERT_EQUAL(0.211095, round(IsBell.evaluate(&valueModelA) * 1000000) / 1000000);
 }
