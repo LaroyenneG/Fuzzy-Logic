@@ -1,7 +1,3 @@
-//
-// Created by rabougris on 3/26/19.
-//
-
 #ifndef LOGIQUEFLOUE_ISSINGLETON_H
 #define LOGIQUEFLOUE_ISSINGLETON_H
 

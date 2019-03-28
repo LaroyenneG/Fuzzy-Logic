@@ -41,7 +41,11 @@ namespace core {
     UnaryExpression<T> *
     ExpressionFactory<T>::newUnary(UnaryExpression<T> *operand, Expression<T> *expression) {
 
-        return dynamic_cast<UnaryExpression<T> *>(hold(new UnaryExpressionModel<T>(operand, expression)));
+        auto nExpression = new UnaryExpressionModel<T>(operand, expression);
+
+        hold(nExpression);
+
+        return nExpression;
     }
 
     template<typename T>
@@ -49,7 +53,11 @@ namespace core {
                                                          Expression <T> *left,
                                                          Expression <T> *right) {
 
-        return dynamic_cast<BinaryExpression<T> *>(hold(new BinaryExpressionModel<T>(operand, left, right)));
+        auto nExpression = new BinaryExpressionModel<T>(operand, left, right);
+
+        hold(nExpression);
+
+        return nExpression;
     }
 
     template<typename T>

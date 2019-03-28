@@ -1,4 +1,5 @@
 
+#include <IsSigmoid.h>
 #include "IsTest.h"
 
 void IsTest::testIsTriangle() {
@@ -61,6 +62,7 @@ void IsTest::testIsTrapezoid() {
 }
 
 void IsTest::testIsSingleton() {
+
     ValueModel<double> valueModelA(0.5);
     ValueModel<double> valueModelB(0.4);
     IsSingleton<double> isSingleton(0.5);
@@ -75,6 +77,7 @@ void IsTest::testIsSingleton() {
 }
 
 void IsTest::testIsRampRight() {
+
     IsRampRight<double> IsRampRight(0.1, 0.6, 0.7);
     ValueModel<double> valueModelA(0.01);
     ValueModel<double> valueModelB(0.4);
@@ -98,6 +101,7 @@ void IsTest::testIsRampRight() {
 }
 
 void IsTest::testIsRampLeft() {
+
     IsRampLeft<double> IsRampLeft(0.2, 0.7, 0.9);
 
     ValueModel valueModelA(0.1);
@@ -121,6 +125,7 @@ void IsTest::testIsRampLeft() {
 }
 
 void IsTest::testIsBell() {
+
     IsBell<double> IsBell(0.2, 0.7, 0.9);
 
     ValueModel valueModelA(0.5);
@@ -138,4 +143,15 @@ void IsTest::testIsBell() {
     CPPUNIT_ASSERT_EQUAL(0.8, IsBell.getMax());
 
     CPPUNIT_ASSERT_EQUAL(0.211095, round(IsBell.evaluate(&valueModelA) * 1000000) / 1000000);
+}
+
+void IsTest::testIsSigmoid() {
+
+    ValueModel valueModel(2.0);
+
+    IsSigmoid<double> isSigmoid(0.5);
+
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(0.5, isSigmoid.getMin(), 0.01);
+
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(0.92, isSigmoid.evaluate(&valueModel), 0.01);
 }
