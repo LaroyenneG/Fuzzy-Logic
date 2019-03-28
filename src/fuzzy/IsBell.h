@@ -38,8 +38,10 @@ namespace fuzzy {
 
     template<typename T>
     T IsBell<T>::evaluate(const core::Expression<T> *expression) const {
+
         T value = expression->evaluate();
-        return 1 / (1 + pow(abs((value - max) / min), (2 * mid)));
+
+        return 1.0 / (1.0 + pow(fabs((value - max) / min), (2.0 * mid)));
     }
 
     template<typename T>

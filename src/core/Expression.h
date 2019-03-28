@@ -6,8 +6,14 @@ namespace core {
     class Expression {
     public:
         virtual T evaluate() const = 0;
+
         virtual ~Expression() = default;
+
+        virtual bool isValue() const;
     };
+
+    template<typename T>
+    bool Expression<T>::isValue() const { return false; }
 }
 
 

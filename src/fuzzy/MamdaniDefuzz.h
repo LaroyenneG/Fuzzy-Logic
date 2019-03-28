@@ -16,6 +16,8 @@ namespace fuzzy {
 
     template<typename T>
     T MamdaniDefuzz<T>::evaluate(const core::Expression<T> *left, const core::Expression<T> *right) const {
+
+
         return 0;
     }
 }
