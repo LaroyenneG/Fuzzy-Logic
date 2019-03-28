@@ -133,21 +133,25 @@ void IsTest::testIsBell() {
 
     IsBell<double> IsBell(0.2, 0.7, 0.9);
 
-    ValueModel<double> valueModelA(0.5);
+    ValueModel valueModelA(0.05);
+    ValueModel valueModelB(7.8);
+    ValueModel valueModelC(10.0);
 
     CPPUNIT_ASSERT_EQUAL(0.2, IsBell.getMin());
     CPPUNIT_ASSERT_EQUAL(0.7, IsBell.getMid());
     CPPUNIT_ASSERT_EQUAL(0.9, IsBell.getMax());
 
-    IsBell.setMin(0.1);
-    IsBell.setMid(0.6);
-    IsBell.setMax(0.8);
+    IsBell.setMin(2.0);
+    IsBell.setMid(4.0);
+    IsBell.setMax(6.0);
 
-    CPPUNIT_ASSERT_EQUAL(0.1, IsBell.getMin());
-    CPPUNIT_ASSERT_EQUAL(0.6, IsBell.getMid());
-    CPPUNIT_ASSERT_EQUAL(0.8, IsBell.getMax());
+    CPPUNIT_ASSERT_EQUAL(2.0, IsBell.getMin());
+    CPPUNIT_ASSERT_EQUAL(4.0, IsBell.getMid());
+    CPPUNIT_ASSERT_EQUAL(6.0, IsBell.getMax());
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(0.211095, IsBell.evaluate(&valueModelA), 0.000001);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(0.000162, IsBell.evaluate(&valueModelA), 0.000001);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(0.699072, IsBell.evaluate(&valueModelB), 0.000001);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(0.003891, IsBell.evaluate(&valueModelC), 0.000001);
 }
 
 void IsTest::testIsSigmoid() {

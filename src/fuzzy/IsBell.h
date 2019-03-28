@@ -11,6 +11,9 @@ namespace fuzzy {
         T min;
         T mid;
         T max;
+        const static T ONE;
+        const static T TWO;
+
 
     public:
         explicit IsBell(const T &_min, const T &_mid, const T &_max);
@@ -32,6 +35,12 @@ namespace fuzzy {
     };
 
     template<typename T>
+    const T IsBell<T>::ONE(1);
+
+    template<typename T>
+    const T IsBell<T>::TWO(2);
+
+    template<typename T>
     IsBell<T>::IsBell(const T &_min, const T &_mid, const T &_max) : min(_min), mid(_mid), max(_max) {
 
     }
@@ -41,7 +50,7 @@ namespace fuzzy {
 
         T value = expression->evaluate();
 
-        return 1.0 / (1.0 + pow(fabs((value - max) / min), (2.0 * mid)));
+        return ONE / (ONE + pow(fabs((value - max) / min), (TWO * mid)));
     }
 
     template<typename T>
