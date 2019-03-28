@@ -16,5 +16,5 @@ void AggTest::testAggPlus() {
 
     AggPlus<double> aggPlus;
 
-    CPPUNIT_ASSERT_EQUAL(0.5, aggPlus.evaluate(&valueModelA, &valueModelB));
+    CPPUNIT_ASSERT_EQUAL(0.44, aggPlus.evaluate(&valueModelA, &valueModelB));
 }

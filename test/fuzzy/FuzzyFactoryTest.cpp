@@ -28,7 +28,7 @@ void FuzzyFactoryTest::FactoryTest() {
 
 
         auto *orFuzzy = fuzzyFact.newOr(&valueModelA, &valueModelB);
-        CPPUNIT_ASSERT_EQUAL(1.2, orFuzzy->evaluate(&valueModelA, &valueModelB));
+        CPPUNIT_ASSERT_EQUAL(0.85, orFuzzy->evaluate(&valueModelA, &valueModelB));
 
         auto *thenFuzzy = fuzzyFact.newThen(&valueModelA, &valueModelB);
         CPPUNIT_ASSERT_EQUAL(0.5, thenFuzzy->evaluate(&valueModelA, &valueModelB));

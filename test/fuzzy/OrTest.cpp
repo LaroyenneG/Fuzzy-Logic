@@ -17,5 +17,5 @@ void OrTest::testOrPlus() {
 
     OrPlus<double> orPlus;
 
-    CPPUNIT_ASSERT_EQUAL(1.2, orPlus.evaluate(&valueModelA, &valueModelB));
+    CPPUNIT_ASSERT_EQUAL(0.85, orPlus.evaluate(&valueModelA, &valueModelB));
 }
