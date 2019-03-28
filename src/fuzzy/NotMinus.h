@@ -10,7 +10,7 @@ namespace fuzzy {
     class NotMinus : public Not<T> {
 
     private:
-        constexpr static T ONE = 1; // warning
+        const static T ONE; // warning
 
     public:
         T evaluate(const core::Expression<T> *operand) const override;
@@ -24,7 +24,8 @@ namespace fuzzy {
         return ONE - value;
     }
 
-
+    template<typename T>
+    const T NotMinus<T>::ONE(1);
 }
 
 #endif //LOGIQUEFLOUE_NOTMINUS_H
