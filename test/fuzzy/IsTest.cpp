@@ -81,7 +81,8 @@ void IsTest::testIsRampRight() {
 
     IsRampRight<double> IsRampRight(0.1, 0.6, 0.7);
     ValueModel<double> valueModelA(0.01);
-    ValueModel<double> valueModelB(0.4);
+    ValueModel<double> valueModelB(0.7);
+    ValueModel<double> valueModelC(0.3);
 
     CPPUNIT_ASSERT_EQUAL(0.1, IsRampRight.getMin());
     CPPUNIT_ASSERT_EQUAL(0.6, IsRampRight.getMid());
@@ -95,8 +96,9 @@ void IsTest::testIsRampRight() {
     CPPUNIT_ASSERT_EQUAL(0.2, IsRampRight.getMid());
     CPPUNIT_ASSERT_EQUAL(0.5, IsRampRight.getMax());
 
-    CPPUNIT_ASSERT_EQUAL(1.0, IsRampRight.evaluate(&valueModelB));
-    CPPUNIT_ASSERT_EQUAL(0.0, IsRampRight.evaluate(&valueModelA));
+    CPPUNIT_ASSERT_EQUAL(0.0, IsRampRight.evaluate(&valueModelB));
+    CPPUNIT_ASSERT_EQUAL(1.0, IsRampRight.evaluate(&valueModelA));
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(0.666666, IsRampRight.evaluate(&valueModelC), 0.000001);
 
 
 }
@@ -105,8 +107,9 @@ void IsTest::testIsRampLeft() {
 
     IsRampLeft<double> IsRampLeft(0.2, 0.7, 0.9);
 
-    ValueModel valueModelA(0.1);
-    ValueModel valueModelB(0.6);
+    ValueModel<double> valueModelA(0.1);
+    ValueModel<double> valueModelB(0.6);
+    ValueModel<double> valueModelC(0.4);
 
     CPPUNIT_ASSERT_EQUAL(0.2, IsRampLeft.getMin());
     CPPUNIT_ASSERT_EQUAL(0.7, IsRampLeft.getMid());
@@ -122,6 +125,7 @@ void IsTest::testIsRampLeft() {
 
     CPPUNIT_ASSERT_EQUAL(0.0, IsRampLeft.evaluate(&valueModelA));
     CPPUNIT_ASSERT_EQUAL(1.0, IsRampLeft.evaluate(&valueModelB));
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(0.666666, IsRampLeft.evaluate(&valueModelC), 0.000001);
 
 }
 
@@ -129,7 +133,7 @@ void IsTest::testIsBell() {
 
     IsBell<double> IsBell(0.2, 0.7, 0.9);
 
-    ValueModel valueModelA(0.5);
+    ValueModel<double> valueModelA(0.5);
 
     CPPUNIT_ASSERT_EQUAL(0.2, IsBell.getMin());
     CPPUNIT_ASSERT_EQUAL(0.7, IsBell.getMid());
@@ -143,7 +147,7 @@ void IsTest::testIsBell() {
     CPPUNIT_ASSERT_EQUAL(0.6, IsBell.getMid());
     CPPUNIT_ASSERT_EQUAL(0.8, IsBell.getMax());
 
-    CPPUNIT_ASSERT_EQUAL(0.211095, round(IsBell.evaluate(&valueModelA) * 1000000) / 1000000);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(0.211095, IsBell.evaluate(&valueModelA), 0.000001);
 }
 
 void IsTest::testIsSigmoid() {

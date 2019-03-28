@@ -50,9 +50,9 @@ namespace fuzzy {
 
         T value = expression->evaluate();
 
-        if (value < mid && value > min) {
-            return (value - min) / (mid - min);
-        } else if (value >= mid) {
+        if (value > mid && value < max) {
+            return (max - value) / (max - mid);
+        } else if (value <= mid) {
             return ONE;
         }
         return ZERO;
