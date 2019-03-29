@@ -23,7 +23,6 @@ void DefuzzTest::testCogDefuzz() {
 
 
     try {
-
         cogDefuzz.evaluate(&valueModel, &expressionModel);
 
         CPPUNIT_FAIL("no exception throw (ValueModel)");
