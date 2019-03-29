@@ -58,12 +58,13 @@ namespace model {
                                     strengths[Y_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT}};
 
 
-        Vector rudder = computeRudder(time);
+        Vector rudderLift = computeRudder(time);
 
-        const double coupleDirection = (normVector(rudder) != 0) ? rudder[Y_DIM_VALUE] / fabs(rudder[Y_DIM_VALUE])
+        const double coupleDirection = (normVector(rudderLift) != 0) ? rudderLift[Y_DIM_VALUE] /
+                                                                       fabs(rudderLift[Y_DIM_VALUE])
                                                                  : 0.0;
 
-        const double couple = fabs(normVector(rudder) * sin(angleBetweenVector(directionVector(), rudder)) *
+        const double couple = fabs(normVector(rudderLift) * sin(angleBetweenVector(directionVector(), rudderLift)) *
                                    TITANIC_DISTANCE_BETWEEN_RUDDER_AND_GRAVITY_CENTER) * coupleDirection;  // N.m
 
         const double angleAcceleration =
@@ -161,5 +162,15 @@ namespace model {
 
     void Titanic::drawMe(view::Draftsman *draftsman) {
         draftsman->drawTitanic(this);
+    }
+
+    std::array<double, TITANIC_LASERS_COUNTER>
+    Titanic::getLasersValues(const std::set<PhysicObject2D *> &objects) const {
+
+        double laser1 = 0.0;
+        double laser2 = 0.0;
+        double laser3 = 0.0;
+
+        return std::array<double, TITANIC_LASERS_COUNTER>{{laser1, laser2, laser3}};
     }
 }

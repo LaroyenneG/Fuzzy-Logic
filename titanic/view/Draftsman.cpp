@@ -86,7 +86,7 @@ namespace view {
     void Draftsman::drawTitanic(const model::Titanic *titanic) {
 
         const static QImage TITANIC_IMAGE(TITANIC_PICTURE_FILE_NAME);
-        const static QPoint DIMENSION = scaleConverter(TITANIC_SIZE, TITANIC_WIDITH);
+        const static QPoint DIMENSION = scaleConverter(TITANIC_SIZE, TITANIC_WIDTH);
 
         QGraphicsPixmapItem *titanicItem = new QGraphicsPixmapItem(
                 QPixmap::fromImage(TITANIC_IMAGE).scaled(DIMENSION.x(), DIMENSION.y()));
@@ -94,7 +94,7 @@ namespace view {
         QTransform rotation;
         rotation.rotateRadians(titanic->getOrientation());
 
-        QPoint position = scaleConverter(titanic->getPositionX() + TITANIC_WIDITH / 2.0, titanic->getPositionY());
+        QPoint position = scaleConverter(titanic->getPositionX() + TITANIC_WIDTH / 2.0, titanic->getPositionY());
 
         QTransform translation;
         translation.translate(position.x(), position.y());

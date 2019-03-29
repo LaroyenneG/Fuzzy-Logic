@@ -16,7 +16,7 @@
 
 #define SEA_M_VOL 1025.0            // kg/m^3
 #define TITANIC_SIZE 269.0  // m
-#define TITANIC_WIDITH 28.0
+#define TITANIC_WIDTH 28.0
 #define TITANIC_DEFAULT_COURSE 3.1416 / 2.0
 #define TITANIC_DEFAULT_WEIGHT 52310000.0
 #define TITANIC_DEFAULT_X 0.0
@@ -25,6 +25,7 @@
 #define TITANIC_DRAUGHT 10.5 // m
 #define TITANIC_REFERENCE_SURFACE 2824.5 // m²
 #define TITANIC_ENGINES_COUNTER 3
+#define TITANIC_LASERS_COUNTER 3
 
 #define TITANIC_DEFAULT_POINTS_FILE_NAME "../assets/titanic_shape_points.point"
 #define TITANIC_DEFAULT_LIFT_COEFFICIENTS_FILE_NAME "../assets/titanic_lift_coefficients.coef"
@@ -77,6 +78,8 @@ namespace model {
         void setRudderValue(double value);
 
         std::array<double, TITANIC_ENGINES_COUNTER> getMachinesRotationSpeed() const;
+
+        std::array<double, TITANIC_LASERS_COUNTER> getLasersValues(const std::set<PhysicObject2D *> &objects) const;
 
 
         /********************* strengths ************************/
