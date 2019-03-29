@@ -1,3 +1,4 @@
+#include <utility>
 
 
 #include <iostream>
@@ -13,10 +14,10 @@ namespace model {
 
     }
 
-    Rudder::Rudder(const std::map<double, double> &_lift_coefficients, double _value, double _xWaterSpeed,
+    Rudder::Rudder(std::map<double, double> _lift_coefficients, double _value, double _xWaterSpeed,
                    double _yWaterSpeed,
                    double _size)
-            : lift_coefficients(_lift_coefficients), value(_value), waterSpeed{{_xWaterSpeed, _yWaterSpeed}},
+            : lift_coefficients(std::move(_lift_coefficients)), value(_value), waterSpeed{{_xWaterSpeed, _yWaterSpeed}},
               size(_size) {
 
     }
@@ -57,7 +58,7 @@ namespace model {
         Vector starboardLift = PhysicObject2D::pointRotation(vector, -rotation);
 
         Vector lift = (PhysicObject2D::angleBetweenVector(orientation, larboardLift) <
-                       PhysicObject2D::angleBetweenVector(orientation, starboardLift)
+                               PhysicObject2D::angleBetweenVector(orientation, starboardLift)
                        ? larboardLift : starboardLift); // N
 
 

@@ -8,7 +8,7 @@
 
 #include "Model.h"
 
-#define DRAFTSMAN_SCALE 2.0
+#define DRAFTSMAN_SCALE 1.5
 
 #define TITANIC_PICTURE_FILE_NAME "../assets/titanic.png"
 
@@ -24,6 +24,8 @@ namespace view {
         QGraphicsScene *scene;
 
         static QPoint scaleConverter(double x, double y);
+
+        void drawLaserSensor(const model::LaserSensor<TITANIC_LASERS_COUNTER> &laserSensor);
 
     public:
         explicit Draftsman(const model::Model *_model, QGraphicsScene *_scene);

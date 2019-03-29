@@ -1,3 +1,7 @@
+#include <utility>
+
+#include <utility>
+
 #include "Titanic.h"
 #include "AlternativeMachine.h"
 #include "LowPressureTurbine.h"
@@ -6,11 +10,11 @@
 namespace model {
 
     Titanic::Titanic(const std::vector<Point> &points, double _orientation, double _weight, double _xPosition,
-                     double _yPosition,
-                     const std::map<double, double> &_lift_coefficients,
-                     const std::map<double, double> &_drag_coefficients)
+                     double _yPosition, std::map<double, double> _lift_coefficients,
+                     std::map<double, double> _drag_coefficients, double _range, double _angle)
             : PhysicObject2D(points, _xPosition, _yPosition, _orientation, _weight),
-              lift_coefficients(_lift_coefficients), drag_coefficients(_drag_coefficients),
+              lift_coefficients(std::move(_lift_coefficients)), drag_coefficients(std::move(_drag_coefficients)),
+              laserSensor(_xPosition, _yPosition, _orientation, _range, _angle),
               engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
 
     }
@@ -22,7 +26,8 @@ namespace model {
     Titanic::Titanic(double x, double y, double _orientation)
             : Titanic(loadShapePoints(TITANIC_DEFAULT_POINTS_FILE_NAME), _orientation, TITANIC_DEFAULT_WEIGHT, x, y,
                       loadCoefficients(TITANIC_DEFAULT_LIFT_COEFFICIENTS_FILE_NAME),
-                      loadCoefficients(TITANIC_DEFAULT_DRAG_COEFFICIENTS_FILE_NAME)) {
+                      loadCoefficients(TITANIC_DEFAULT_DRAG_COEFFICIENTS_FILE_NAME), TITANIC_LASERS_RANGE,
+                      TITANIC_LASERS_ANGLE) {
 
     }
 
@@ -39,7 +44,6 @@ namespace model {
 
     void Titanic::nextTime(double time) {
 
-
         Vector centrifugalForce = computeCentrifugalForce();  // N
 
         Vector propulsion = computePropulsion(time); // N
@@ -49,7 +53,7 @@ namespace model {
         Vector lift = computeLift(time);   // N
 
         Vector strengths{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE] + lift[X_DIM_VALUE] +
-                          centrifugalForce[X_DIM_VALUE],
+                                  centrifugalForce[X_DIM_VALUE],
                                  propulsion[Y_DIM_VALUE] + drag[Y_DIM_VALUE] + lift[Y_DIM_VALUE] +
                                  centrifugalForce[Y_DIM_VALUE]}};
 
@@ -62,7 +66,7 @@ namespace model {
 
         const double coupleDirection = (normVector(rudderLift) != 0) ? rudderLift[Y_DIM_VALUE] /
                                                                        fabs(rudderLift[Y_DIM_VALUE])
-                                                                 : 0.0;
+                                                                     : 0.0;
 
         const double couple = fabs(normVector(rudderLift) * sin(angleBetweenVector(directionVector(), rudderLift)) *
                                    TITANIC_DISTANCE_BETWEEN_RUDDER_AND_GRAVITY_CENTER) * coupleDirection;  // N.m
@@ -76,6 +80,8 @@ namespace model {
         setAccelerationY(acceleration[Y_DIM_VALUE]);
 
         PhysicObject2D::nextTime(time);
+
+        laserSensor.setPosition(position);
     }
 
 
@@ -164,13 +170,7 @@ namespace model {
         draftsman->drawTitanic(this);
     }
 
-    std::array<double, TITANIC_LASERS_COUNTER>
-    Titanic::getLasersValues(const std::set<PhysicObject2D *> &objects) const {
-
-        double laser1 = 0.1;
-        double laser2 = 0.5;
-        double laser3 = 0.7;
-
-        return std::array<double, TITANIC_LASERS_COUNTER>{{laser1, laser2, laser3}};
+    const LaserSensor<TITANIC_LASERS_COUNTER> &Titanic::getLaserSensor() const {
+        return laserSensor;
     }
 }

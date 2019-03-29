@@ -26,7 +26,7 @@ namespace controller {
 
         view->setCourse(model->getTitanic()->getOrientation());
 
-        auto lasers = model->getTitanic()->getLasersValues(model->getElements());
+        auto lasers = model->getTitanic()->getLaserSensor().getLasersValues(model->getElements());
 
         view->setLasersValue(lasers[0], lasers[1], lasers[2]);
 

@@ -26,14 +26,14 @@ namespace model {
 
         double value;                                              // radian
 
-        std::array<double, MODEL_SPACE_DIMENSION> waterSpeed;     // m / s
+        Point waterSpeed;     // m / s
 
         double size;                                              // m
 
         double getWaterSpeed() const;
 
     public:
-        explicit Rudder(const std::map<double, double> &_lift_coefficients, double _value, double _xWaterSpeed,
+        explicit Rudder(std::map<double, double> _lift_coefficients, double _value, double _xWaterSpeed,
                         double _yWaterSpeed, double _size);
 
         explicit Rudder();

@@ -13,6 +13,7 @@
 #include "PhysicObject2D.h"
 #include "Engine.h"
 #include "Rudder.h"
+#include "LaserSensor.h"
 
 #define SEA_M_VOL 1025.0            // kg/m^3
 #define TITANIC_SIZE 269.0  // m
@@ -26,6 +27,8 @@
 #define TITANIC_REFERENCE_SURFACE 2824.5 // m²
 #define TITANIC_ENGINES_COUNTER 3
 #define TITANIC_LASERS_COUNTER 3
+#define TITANIC_LASERS_RANGE 800 // m
+#define TITANIC_LASERS_ANGLE 0.261666667 // radian
 
 #define TITANIC_DEFAULT_POINTS_FILE_NAME "../assets/titanic_shape_points.point"
 #define TITANIC_DEFAULT_LIFT_COEFFICIENTS_FILE_NAME "../assets/titanic_lift_coefficients.coef"
@@ -40,6 +43,7 @@
 #define TITANIC_ALTERNATIVE_MACHINE_2_RANK 1
 #define TITANIC_TURBINE_MACHINE_RANK 2
 
+
 namespace model {
 
     class Titanic : public PhysicObject2D {
@@ -49,15 +53,15 @@ namespace model {
         const std::map<double, double> drag_coefficients;
 
         Rudder rudder;
+        LaserSensor<TITANIC_LASERS_COUNTER> laserSensor;
 
         const std::array<Engine *, TITANIC_ENGINES_COUNTER> engines;
 
 
     public:
         explicit Titanic(const std::vector<Point> &points, double _orientation, double _weight, double _xPosition,
-                         double _yPosition,
-                         const std::map<double, double> &_lift_coefficients,
-                         const std::map<double, double> &_drag_coefficients);
+                         double _yPosition, std::map<double, double> _lift_coefficients,
+                         std::map<double, double> _drag_coefficients, double _range, double _angle);
 
         explicit Titanic(double x, double y, double _orientation);
 
@@ -79,8 +83,7 @@ namespace model {
 
         std::array<double, TITANIC_ENGINES_COUNTER> getMachinesRotationSpeed() const;
 
-        std::array<double, TITANIC_LASERS_COUNTER> getLasersValues(const std::set<PhysicObject2D *> &objects) const;
-
+        const LaserSensor<TITANIC_LASERS_COUNTER> &getLaserSensor() const;
 
         /********************* strengths ************************/
 

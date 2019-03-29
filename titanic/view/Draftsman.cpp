@@ -29,15 +29,12 @@ namespace view {
 
         for (unsigned int i = 0; !points.empty() && i < points.size() - 1; ++i) {
 
-            auto &p1 = points[i];
-            auto &p2 = points[i + 1];
+            QPoint qp1 = scaleConverter(points[i][X_DIM_VALUE], points[i][Y_DIM_VALUE]);
+            QPoint qp2 = scaleConverter(points[i + 1][X_DIM_VALUE], points[i + 1][Y_DIM_VALUE]);
 
-            QPoint qp1 = scaleConverter(p1[X_DIM_VALUE], p1[Y_DIM_VALUE]);
-            QPoint qp2 = scaleConverter(p2[X_DIM_VALUE], p2[Y_DIM_VALUE]);
+            QLine qLine(qp1, qp2);
 
-            QLine line(qp1, qp2);
-
-            scene->addLine(line);
+            scene->addLine(qLine, QPen(Qt::black));
         }
     }
 
@@ -88,6 +85,9 @@ namespace view {
         const static QImage TITANIC_IMAGE(TITANIC_PICTURE_FILE_NAME);
         const static QPoint DIMENSION = scaleConverter(TITANIC_SIZE, TITANIC_WIDTH);
 
+
+        drawLaserSensor(titanic->getLaserSensor());
+
         QGraphicsPixmapItem *titanicItem = new QGraphicsPixmapItem(
                 QPixmap::fromImage(TITANIC_IMAGE).scaled(DIMENSION.x(), DIMENSION.y()));
 
@@ -124,5 +124,20 @@ namespace view {
         icebergItem->setTransform(translation);
 
         scene->addItem(icebergItem);
+    }
+
+    void Draftsman::drawLaserSensor(const model::LaserSensor<TITANIC_LASERS_COUNTER> &laserSensor) {
+
+        auto lines = laserSensor.getLaserLines(model->getElements());
+
+        for (auto line : lines) {
+
+            QPoint qp1 = scaleConverter(line.first[X_DIM_VALUE], line.first[Y_DIM_VALUE]);
+            QPoint qp2 = scaleConverter(line.second[X_DIM_VALUE], line.second[Y_DIM_VALUE]);
+
+            QLine qLine(qp1, qp2);
+
+            scene->addLine(qLine, QPen(Qt::red));
+        }
     }
 }
