@@ -33,7 +33,5 @@
 .QSlider::handle:horizontal {
     background: burlywood;
     border: 1px solid grey;
-    width: 23px;
-    height: 100px;
     margin: -24px -12px;
 }
