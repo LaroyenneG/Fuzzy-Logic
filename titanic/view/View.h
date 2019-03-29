@@ -11,6 +11,7 @@
 #include <QCheckBox>
 #include <QProgressBar>
 #include <mutex>
+#include <QFile>
 
 
 #define WINDOWS_TITLE "Save the Titanic"
@@ -32,6 +33,8 @@
 #define SLIDER_SIZE_VALUE 100
 
 #define COURSE_RDS_TO_DEGREE (180.0/3.1416)
+
+#define STYLE_SHEET_FILE_PATH "../assets/stylesheet.css"
 
 
 namespace controller {
@@ -82,6 +85,8 @@ namespace view {
         QGraphicsView *getGraphicsView();
 
         void setMachinesSpeed(double alt1, double turbine, double alt2);
+
+        void setLasersValue(double l1, double l2, double l3);
 
         void setShipSpeed(double value);
 

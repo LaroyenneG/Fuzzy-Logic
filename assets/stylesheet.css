@@ -1,0 +1,39 @@
+.QProgressBar {
+    border: 2px solid grey;
+    border-radius: 5px;
+    background-color: lightgrey;
+    text-align: center;
+}
+
+.QProgressBar::chunk {
+    background-color: red;
+}
+
+.QCheckBox {
+    spacing: 10px;
+}
+
+.QCheckBox::indicator {
+    width: 30px;
+    height: 30px;
+}
+
+.QSlider {
+    border: 1px solid #999999;
+    background: lightgrey;
+}
+
+.QSlider::groove:horizontal {
+    border: 1px solid grey;
+    height: 5px;
+    background: grey;
+    margin: 10px;
+}
+
+.QSlider::handle:horizontal {
+    background: burlywood;
+    border: 1px solid grey;
+    width: 23px;
+    height: 100px;
+    margin: -24px -12px;
+}

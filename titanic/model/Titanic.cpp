@@ -167,9 +167,9 @@ namespace model {
     std::array<double, TITANIC_LASERS_COUNTER>
     Titanic::getLasersValues(const std::set<PhysicObject2D *> &objects) const {
 
-        double laser1 = 0.0;
-        double laser2 = 0.0;
-        double laser3 = 0.0;
+        double laser1 = 0.1;
+        double laser2 = 0.5;
+        double laser3 = 0.7;
 
         return std::array<double, TITANIC_LASERS_COUNTER>{{laser1, laser2, laser3}};
     }

@@ -75,7 +75,7 @@ namespace view {
         commandPost->addRow("Rotation (rpm) : ", rpmMachinesLabel);
         commandPost->addRow("Speed (nd) : ", speedLabel);
         commandPost->addRow("Helm (%) : ", helmSlider);
-        commandPost->addRow("Course (°) : ", courseLabel);
+        commandPost->addRow("Course (degree) : ", courseLabel);
 
         statisticalBoard->addRow("Automatic pilot : ", automaticPilotCheckBox);
         statisticalBoard->addRow("Laser 1 (%) : ", progressBarLaser1);
@@ -83,9 +83,14 @@ namespace view {
         statisticalBoard->addRow("Laser 3 (%) : ", progressBarLaser3);
         statisticalBoard->addRow("Distance (m) : ", distanceLabel);
 
-        setWindowTitle(WINDOWS_TITLE);
 
-        //  setFixedSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
+        QFile styleSheetFile(STYLE_SHEET_FILE_PATH);
+        styleSheetFile.open(QFile::ReadOnly);
+        setStyleSheet(QLatin1String(styleSheetFile.readAll()));
+        styleSheetFile.close();
+
+        setWindowTitle(WINDOWS_TITLE);
+        setMinimumSize(WINDOWS_WIDTH_SIZE, WINDOWS_HEIGHT_SIZE);
     }
 
     View::~View() {
@@ -250,5 +255,12 @@ namespace view {
     QGraphicsView *View::getGraphicsView() {
 
         return titanicView;
+    }
+
+    void View::setLasersValue(double l1, double l2, double l3) {
+
+        progressBarLaser1->setValue(static_cast<int>(l1 * 100.0));
+        progressBarLaser2->setValue(static_cast<int>(l2 * 100.0));
+        progressBarLaser3->setValue(static_cast<int>(l3 * 100.0));
     }
 }
