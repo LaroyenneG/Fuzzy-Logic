@@ -15,8 +15,4 @@ namespace model {
     std::string AlternativeMachine::getName() const {
         return std::string(ALTERNATIVE_DEFAULT_ENGINE_NAME);
     }
-
-    double AlternativeMachine::powerFunction(double powerStep, double time) const {
-        return Engine::powerFunction(powerStep, time);
-    }
 }

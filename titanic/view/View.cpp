@@ -15,46 +15,28 @@
 namespace view {
 
     View::View()
-            : parent(nullptr),
-              titanicView(nullptr),
-              titanicScene(nullptr),
-              dashboard(nullptr),
-              menuBar(nullptr),
-              commandPost(nullptr),
-              statisticalBoard(nullptr),
-              machineSlider(nullptr),
-              rpmMachinesLabel(nullptr),
-              speedLabel(nullptr),
-              helmSlider(nullptr),
-              courseLabel(nullptr),
-              automaticPilotCheckBox(nullptr),
-              progressBarLaser1(nullptr),
-              progressBarLaser2(nullptr),
-              progressBarLaser3(nullptr),
-              distanceLabel(nullptr),
-              refreshTimer(nullptr),
-              automaticPilotTimer(nullptr) {
+            : parent(new QBoxLayout(QBoxLayout::TopToBottom)),
+              titanicView(new QGraphicsView()),
+              titanicScene(new QGraphicsScene()),
+              dashboard(new QGridLayout()),
+              menuBar(new QMenuBar()),
+              commandPost(new QFormLayout()),
+              statisticalBoard(new QFormLayout()),
+              machineSlider(new QSlider(Qt::Horizontal)),
+              rpmMachinesLabel(new QLabel()),
+              speedLabel(new QLabel()),
+              helmSlider(new QSlider(Qt::Horizontal)),
+              courseLabel(new QLabel()),
+              automaticPilotCheckBox(new QCheckBox()),
+              progressBarLaser1(new QProgressBar()),
+              progressBarLaser2(new QProgressBar()),
+              progressBarLaser3(new QProgressBar()),
+              distanceLabel(new QLabel()),
+              refreshTimer(new QTimer(this)),
+              automaticPilotTimer(new QTimer(this)) {
 
 
-        menuBar = new QMenuBar();
-        parent = new QBoxLayout(QBoxLayout::TopToBottom);
-        titanicScene = new QGraphicsScene();
-        titanicView = new QGraphicsView(titanicScene);
-        dashboard = new QGridLayout();
-        commandPost = new QFormLayout();
-        statisticalBoard = new QFormLayout();
-        machineSlider = new QSlider(Qt::Horizontal);
-        rpmMachinesLabel = new QLabel();
-        speedLabel = new QLabel();
-        helmSlider = new QSlider(Qt::Horizontal);
-        courseLabel = new QLabel();
-        automaticPilotCheckBox = new QCheckBox();
-        progressBarLaser1 = new QProgressBar();
-        progressBarLaser2 = new QProgressBar();
-        progressBarLaser3 = new QProgressBar();
-        distanceLabel = new QLabel();
-        refreshTimer = new QTimer(this);
-        automaticPilotTimer = new QTimer(this);
+        titanicView->setScene(titanicScene);
 
         automaticPilotTimer->setInterval(DEFAULT_AUTOMATIC_PILOT_INTERVAL);
         refreshTimer->setInterval(DEFAULT_VIEW_TIMER_INTERVAL);
@@ -76,12 +58,12 @@ namespace view {
         commandPost->addRow("Speed (nd) : ", speedLabel);
         commandPost->addRow("Helm (%) : ", helmSlider);
         commandPost->addRow("Course (degree) : ", courseLabel);
+        commandPost->addRow("Distance (m) : ", distanceLabel);
 
         statisticalBoard->addRow("Automatic pilot : ", automaticPilotCheckBox);
         statisticalBoard->addRow("Laser 1 (%) : ", progressBarLaser1);
         statisticalBoard->addRow("Laser 2 (%) : ", progressBarLaser2);
         statisticalBoard->addRow("Laser 3 (%) : ", progressBarLaser3);
-        statisticalBoard->addRow("Distance (m) : ", distanceLabel);
 
 
         QFile styleSheetFile(STYLE_SHEET_FILE_PATH);
@@ -151,9 +133,9 @@ namespace view {
 
     void View::setDistance(double value) {
 
-        int nd = static_cast<int>(value);
+        int m = static_cast<int>(value);
 
-        std::string string = std::to_string(nd);
+        std::string string = std::to_string(m);
 
         QString qString(string.data());
 

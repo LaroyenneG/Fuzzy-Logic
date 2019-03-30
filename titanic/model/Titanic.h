@@ -8,6 +8,7 @@
 #include <list>
 #include <iostream>
 #include <fstream>
+#include <thread>
 
 
 #include "PhysicObject2D.h"
@@ -37,7 +38,7 @@
 #define TITANIC_DISTANCE_BETWEEN_RUDDER_AND_GRAVITY_CENTER (269.0 / 2.0) // m
 #define TITANIC_MOMENT_OF_INERTIA 272447916732.0 // kg/m²
 
-#define TITANIC_ROTATION_FRICTION 0.3
+#define TITANIC_ROTATION_FRICTION 50000000.0
 
 #define TITANIC_ALTERNATIVE_MACHINE_1_RANK 0
 #define TITANIC_ALTERNATIVE_MACHINE_2_RANK 1
@@ -57,6 +58,9 @@ namespace model {
 
         const std::array<Engine *, TITANIC_ENGINES_COUNTER> engines;
 
+        void nextTimeLinear(double time);
+
+        void nextTimeRotation(double time);
 
     public:
         explicit Titanic(const std::vector<Point> &points, double _orientation, double _weight, double _xPosition,
@@ -76,6 +80,7 @@ namespace model {
         double approximatedDragCoefficient(double incidence) const;
 
         void nextTime(double time) override;
+
 
         void setMachinePower(double value);
 

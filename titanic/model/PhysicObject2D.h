@@ -62,7 +62,7 @@ namespace model {
 
     public:
 
-        explicit PhysicObject2D(const std::vector<Point> &_points,
+        explicit PhysicObject2D(std::vector<Point> _points,
                                 double _xPosition,
                                 double _yPosition,
                                 double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration,
@@ -81,7 +81,7 @@ namespace model {
 
         double distance(const PhysicObject2D &object) const;
 
-        void writeAbsolutePoints(std::vector<Point> &points) const;
+        void writeAbsolutePoints(std::vector<Point> &_points) const;
 
         double getPositionX() const;
 
@@ -131,6 +131,8 @@ namespace model {
 
         void nextPosition(double time);
 
+        void nextSpeed(double time);
+
         Vector directionVector() const;
 
         const std::vector<Point> &getPoints() const;
@@ -162,6 +164,8 @@ namespace model {
         static double estimateOrdinateValue(double abscissa, const std::map<double, double> &points);
 
         static std::map<double, double> loadCoefficients(std::__cxx11::string filePath);
+
+        void nextRotationSpeed(double time);
     };
 }
 

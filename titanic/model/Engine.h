@@ -9,9 +9,10 @@
 #define ENGINE_DEFAULT_POWER 0.0
 #define ENGINE_DEFAULT_ROTATION_SPEED 0.0
 #define ENGINE_DEFAULT_ROTATION_ACCELERATION 0.0
-#define ENGINE_DEFAULT_FRICTION 968
 
 #define ENGINE_CV_TO_NEWTON_M_S 735.5
+
+#define ENGINE_BLADE_LIFT_MAGIC_NUMBER 30000.0 // N.r / (rad / s)
 
 #define ENGINE_VALUE_ERROR_MSG "Engine invalid engine power"
 #define ENGINE_DEFAULT_NAME "Engine"
@@ -36,7 +37,7 @@ namespace model {
         const unsigned short bladeNumber;
 
     protected:
-        virtual double powerFunction(double powerStep, double time) const;
+        virtual double powerFunction(double _powerStep, double time) const;
 
     public:
 
@@ -51,7 +52,7 @@ namespace model {
 
         double getRotationSpeed() const;
 
-        double getPropulsionStrength() const; // N / S
+        double computePropulsionStrength() const; // N
 
         void nextRotation(double time);
 
@@ -66,6 +67,8 @@ namespace model {
         virtual void setPower(double value);
 
         virtual ~Engine() = default;
+
+        double getHorsePower();
     };
 }
 

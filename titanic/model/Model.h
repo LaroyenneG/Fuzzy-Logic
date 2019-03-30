@@ -1,6 +1,9 @@
 #ifndef LOGIQUEFLOUE_MODEL_H
 #define LOGIQUEFLOUE_MODEL_H
 
+#define MODEL_DEFAULT_CLOCK 0.01 // s
+#define MODEL_DEFAULT_ACCELERATION 1.0 // s
+
 #include "Titanic.h"
 #include "Iceberg.h"
 
@@ -13,7 +16,13 @@ namespace model {
         Iceberg *iceberg;
         std::set<PhysicObject2D *> elements;
 
+        const double clockStep;
+
+        double timeAcceleration;
+
     public:
+        explicit Model(double _clock, double _timeAcceleration);
+
         explicit Model();
 
         double distance() const;
@@ -29,6 +38,14 @@ namespace model {
         const std::set<PhysicObject2D *> &getElements() const;
 
         bool touching() const;
+
+        void nextTime(double time);
+
+        void computeFuture(double time);
+
+        void setTimeAcceleration(double value);
+
+        double getTimeAcceleration() const;
 
         ~Model();
     };

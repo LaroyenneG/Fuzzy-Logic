@@ -1,6 +1,3 @@
-#include <utility>
-
-#include <utility>
 
 #include "Titanic.h"
 #include "AlternativeMachine.h"
@@ -44,40 +41,11 @@ namespace model {
 
     void Titanic::nextTime(double time) {
 
-        Vector centrifugalForce = computeCentrifugalForce();  // N
+        std::thread linearThread([&] { nextTimeLinear(time); });
+        std::thread rotationThread([&] { nextTimeRotation(time); });
 
-        Vector propulsion = computePropulsion(time); // N
-
-        Vector drag = computeDrag(time);  // N
-
-        Vector lift = computeLift(time);   // N
-
-        Vector strengths{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE] + lift[X_DIM_VALUE] +
-                                  centrifugalForce[X_DIM_VALUE],
-                                 propulsion[Y_DIM_VALUE] + drag[Y_DIM_VALUE] + lift[Y_DIM_VALUE] +
-                                 centrifugalForce[Y_DIM_VALUE]}};
-
-
-        Vector acceleration{{strengths[X_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT,
-                                    strengths[Y_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT}};
-
-
-        Vector rudderLift = computeRudder(time);
-
-        const double coupleDirection = (normVector(rudderLift) != 0) ? rudderLift[Y_DIM_VALUE] /
-                                                                       fabs(rudderLift[Y_DIM_VALUE])
-                                                                     : 0.0;
-
-        const double couple = fabs(normVector(rudderLift) * sin(angleBetweenVector(directionVector(), rudderLift)) *
-                                   TITANIC_DISTANCE_BETWEEN_RUDDER_AND_GRAVITY_CENTER) * coupleDirection;  // N.m
-
-        const double angleAcceleration =
-                couple / TITANIC_MOMENT_OF_INERTIA + TITANIC_ROTATION_FRICTION * -getRotationSpeed(); // radian / s²
-
-        setRotationAcceleration(angleAcceleration);
-
-        setAccelerationX(acceleration[X_DIM_VALUE]);
-        setAccelerationY(acceleration[Y_DIM_VALUE]);
+        linearThread.join();
+        rotationThread.join();
 
         PhysicObject2D::nextTime(time);
 
@@ -93,7 +61,12 @@ namespace model {
     }
 
     std::array<double, TITANIC_ENGINES_COUNTER> Titanic::getMachinesRotationSpeed() const {
-        return std::array<double, TITANIC_ENGINES_COUNTER>{{engines[0]->getRotationSpeed(), engines[1]->getRotationSpeed(), engines[2]->getRotationSpeed()}};
+
+        return std::array<double, TITANIC_ENGINES_COUNTER>{{
+                                                                   engines[TITANIC_ALTERNATIVE_MACHINE_1_RANK]->getRotationSpeed(),
+                                                                   engines[TITANIC_ALTERNATIVE_MACHINE_2_RANK]->getRotationSpeed(),
+                                                                   engines[TITANIC_TURBINE_MACHINE_RANK]->getRotationSpeed()
+                                                           }};
     }
 
 
@@ -124,7 +97,7 @@ namespace model {
 
         Vector direction = directionVector();
 
-        double incidence = angleBetweenVector(speed, directionVector());
+        double incidence = angleBetweenVector(speed, direction);
 
 
         double liftValue =
@@ -148,12 +121,12 @@ namespace model {
         double enginePush = 0.0; // N
         for (auto &engine : engines) {
             engine->nexTime(time);
-            enginePush += engine->getPropulsionStrength();
+            enginePush += engine->computePropulsionStrength();
         }
 
         Vector direction = directionVector();
 
-        return Vector{{enginePush * direction[X_DIM_VALUE] * time, enginePush * direction[Y_DIM_VALUE] * time}}; // N
+        return Vector{{enginePush * direction[X_DIM_VALUE], enginePush * direction[Y_DIM_VALUE]}}; // N
     }
 
     double Titanic::approximatedDragCoefficient(double incidence) const {
@@ -172,5 +145,56 @@ namespace model {
 
     const LaserSensor<TITANIC_LASERS_COUNTER> &Titanic::getLaserSensor() const {
         return laserSensor;
+    }
+
+    void Titanic::nextTimeRotation(double time) {
+
+        Vector rudderStrength = computeRudder(time);
+
+        const double coupleDirection = (normVector(rudderStrength) != 0)
+                                       ? rudderStrength[Y_DIM_VALUE] / fabs(rudderStrength[Y_DIM_VALUE])
+                                       : 0.0;
+
+        const double couple =
+                fabs(normVector(rudderStrength) * sin(angleBetweenVector(directionVector(), rudderStrength)) *
+                     TITANIC_DISTANCE_BETWEEN_RUDDER_AND_GRAVITY_CENTER) * coupleDirection;  // N.m
+
+        const double angleAcceleration =
+                (couple / TITANIC_MOMENT_OF_INERTIA -
+                 TITANIC_ROTATION_FRICTION * getRotationSpeed() / TITANIC_DEFAULT_WEIGHT); // radian / s²
+
+        setRotationAcceleration(angleAcceleration);
+    }
+
+    void Titanic::nextTimeLinear(double time) {
+
+        Vector centrifugalForce; // N
+        Vector propulsion; // N
+        Vector drag;  // N
+        Vector lift;   // N
+
+        std::thread centrifugalThread([&] { centrifugalForce = computeCentrifugalForce(); });
+        std::thread threadPropulsion([&] { propulsion = computePropulsion(time); });
+        std::thread threadLift([&] { lift = computeLift(time); });
+        std::thread threadDrag([&] { drag = computeDrag(time); });
+
+
+        centrifugalThread.join();
+        threadPropulsion.join();
+        threadLift.join();
+        threadDrag.join();
+
+
+        Vector strengths{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE] + lift[X_DIM_VALUE] +
+                          centrifugalForce[X_DIM_VALUE],
+                                 propulsion[Y_DIM_VALUE] + drag[Y_DIM_VALUE] + lift[Y_DIM_VALUE] +
+                                 centrifugalForce[Y_DIM_VALUE]}};
+
+
+        Vector acceleration{{strengths[X_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT,
+                                    strengths[Y_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT}};
+
+        setAccelerationX(acceleration[X_DIM_VALUE]);
+        setAccelerationY(acceleration[Y_DIM_VALUE]);
     }
 }

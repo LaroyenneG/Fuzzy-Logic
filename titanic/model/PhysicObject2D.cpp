@@ -1,15 +1,17 @@
+#include <utility>
+
 #include "PhysicObject2D.h"
 #include "Draftsman.h"
 
 namespace model {
 
-    PhysicObject2D::PhysicObject2D(const std::vector<Point> &_points,
+    PhysicObject2D::PhysicObject2D(std::vector<Point> _points,
                                    double _xPosition,
                                    double _yPosition,
                                    double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration,
                                    double _orientation, double _rotationSpeed, double _rotationAcceleration,
                                    double _weight)
-            : points(_points), position{{_xPosition, _yPosition}}, speed{{_xSpeed, _ySpeed}},
+            : points(std::move(_points)), position{{_xPosition, _yPosition}}, speed{{_xSpeed, _ySpeed}},
               acceleration{{_xAcceleration, _yAcceleration}}, orientation(_orientation), rotationSpeed(_rotationSpeed),
               rotationAcceleration(_rotationAcceleration), weight(_weight) {
     }
@@ -131,19 +133,19 @@ namespace model {
                 if (v1[X_DIM_VALUE] * v2[Y_DIM_VALUE] != v1[Y_DIM_VALUE] * v2[X_DIM_VALUE]) {
 
                     double a1 = (point2Set1[Y_DIM_VALUE] - point1Set1[Y_DIM_VALUE]) /
-                                (point2Set1[X_DIM_VALUE] - point1Set1[X_DIM_VALUE]);
+                            (point2Set1[X_DIM_VALUE] - point1Set1[X_DIM_VALUE]);
                     double c2 = point1Set1[Y_DIM_VALUE] - a1 * point1Set1[X_DIM_VALUE];
 
                     double a2 = (point2Set2[Y_DIM_VALUE] - point1Set2[Y_DIM_VALUE]) /
-                                (point2Set2[X_DIM_VALUE] - point1Set2[X_DIM_VALUE]);
+                            (point2Set2[X_DIM_VALUE] - point1Set2[X_DIM_VALUE]);
                     double c1 = point1Set2[Y_DIM_VALUE] - a2 * point1Set2[X_DIM_VALUE];
 
                     double solution = (c1 - c2) / (a1 - a2);
 
                     if (MIN_VALUE(point1Set1[X_DIM_VALUE], point2Set1[X_DIM_VALUE]) < solution &&
-                        MAX_VALUE(point1Set1[X_DIM_VALUE], point2Set1[X_DIM_VALUE]) > solution &&
-                        MIN_VALUE(point1Set2[X_DIM_VALUE], point2Set2[X_DIM_VALUE]) < solution &&
-                        MAX_VALUE(point1Set2[X_DIM_VALUE], point2Set2[X_DIM_VALUE]) > solution) {
+                            MAX_VALUE(point1Set1[X_DIM_VALUE], point2Set1[X_DIM_VALUE]) > solution &&
+                            MIN_VALUE(point1Set2[X_DIM_VALUE], point2Set2[X_DIM_VALUE]) < solution &&
+                            MAX_VALUE(point1Set2[X_DIM_VALUE], point2Set2[X_DIM_VALUE]) > solution) {
 
                         return true;
                     }
@@ -162,27 +164,27 @@ namespace model {
 
         if (positions.size() == POINT_QUEUE_SIZE) {
 
-            Point points[POINT_QUEUE_SIZE];
+            Point nPosition[POINT_QUEUE_SIZE];
 
             int index = 0;
             for (auto it = positions.begin(); it != positions.end(); it++, index++) {
-                points[index] = *it;
+                nPosition[index] = *it;
             }
 
-            Vector dv1{{points[1][X_DIM_VALUE] - points[0][X_DIM_VALUE],
-                               points[1][Y_DIM_VALUE] - points[0][Y_DIM_VALUE]}};
-            Vector dv2{{points[2][X_DIM_VALUE] - points[0][X_DIM_VALUE],
-                               points[2][Y_DIM_VALUE] - points[0][Y_DIM_VALUE]}};
+            Vector dv1{{nPosition[1][X_DIM_VALUE] - nPosition[0][X_DIM_VALUE],
+                               nPosition[1][Y_DIM_VALUE] - nPosition[0][Y_DIM_VALUE]}};
+            Vector dv2{{nPosition[2][X_DIM_VALUE] - nPosition[0][X_DIM_VALUE],
+                               nPosition[2][Y_DIM_VALUE] - nPosition[0][Y_DIM_VALUE]}};
 
             double angleAlign = angleBetweenVector(dv1, dv2);
 
             if (angleAlign >= NEGLIGIBLE) {
 
-                Point circleCenter = circleSolver(points[0], points[1], points[2]);
+                Point circleCenter = circleSolver(nPosition[0], nPosition[1], nPosition[2]);
 
-                double rayon = distanceBetweenPoint(circleCenter, points[0]);
+                double rayon = distanceBetweenPoint(circleCenter, nPosition[0]);
 
-                Vector direction = vectorBetweenPoints(circleCenter, points[0]);
+                Vector direction = vectorBetweenPoints(circleCenter, nPosition[0]);
 
                 double directionNorm = normVector(direction);
 
@@ -198,13 +200,13 @@ namespace model {
         return strength;
     }
 
-    void PhysicObject2D::writeAbsolutePoints(std::vector<Point> &points) const {
+    void PhysicObject2D::writeAbsolutePoints(std::vector<Point> &_points) const {
 
         for (auto &point : getPoints()) {
 
             Point nPoint = pointTranslation(pointRotation(point, orientation), position);
 
-            points.push_back(nPoint);
+            _points.push_back(nPoint);
         }
     }
 
@@ -257,20 +259,30 @@ namespace model {
 
     void PhysicObject2D::nextTime(double time) {
 
-        nextPosition(time);
+        nextRotationSpeed(time);
         nextOrientation(time);
+
+        nextSpeed(time);
+        nextPosition(time);
+    }
+
+    void PhysicObject2D::nextSpeed(double time) {
+
+        speed[X_DIM_VALUE] += acceleration[X_DIM_VALUE] * time;
+        speed[Y_DIM_VALUE] += acceleration[Y_DIM_VALUE] * time;
+    }
+
+    void PhysicObject2D::nextRotationSpeed(double time) {
+
+        rotationSpeed += rotationAcceleration * time;
     }
 
     void PhysicObject2D::nextOrientation(double time) {
 
-        rotationSpeed += rotationAcceleration * time;
         orientation += rotationSpeed * time;
     }
 
     void PhysicObject2D::nextPosition(double time) {
-
-        speed[X_DIM_VALUE] += acceleration[X_DIM_VALUE] * time;
-        speed[Y_DIM_VALUE] += acceleration[Y_DIM_VALUE] * time;
 
         position[X_DIM_VALUE] += speed[X_DIM_VALUE] * time;
         position[Y_DIM_VALUE] += speed[Y_DIM_VALUE] * time;

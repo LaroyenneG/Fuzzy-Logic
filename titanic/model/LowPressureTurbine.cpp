@@ -25,8 +25,4 @@ namespace model {
     std::string LowPressureTurbine::getName() const {
         return std::string(TURBINE_DEFAULT_ENGINE_NAME);
     }
-
-    double LowPressureTurbine::powerFunction(double powerStep, double time) const {
-        return Engine::powerFunction(powerStep, time);
-    }
 }

@@ -4,9 +4,13 @@
 
 namespace model {
 
-    Model::Model() : titanic(new Titanic()), iceberg(new Iceberg()) {
+    Model::Model(double _clock, double _timeAcceleration)
+            : titanic(new Titanic()), iceberg(new Iceberg()), clockStep(_clock), timeAcceleration(_timeAcceleration) {
         elements.insert(titanic);
         elements.insert(iceberg);
+    }
+
+    Model::Model() : Model(MODEL_DEFAULT_CLOCK, MODEL_DEFAULT_ACCELERATION) {
     }
 
     Model::~Model() {
@@ -42,5 +46,29 @@ namespace model {
 
     bool Model::touching() const {
         return titanic->touch(*iceberg);
+    }
+
+    void Model::nextTime(double time) {
+
+        for (auto element : elements) {
+            element->nextTime(time);
+        }
+    }
+
+    void Model::computeFuture(double time) {
+
+        auto nbCycle = static_cast<unsigned int>(time * timeAcceleration / clockStep);
+
+        for (unsigned int i = 0; i < nbCycle; i++) {
+            nextTime(clockStep);
+        }
+    }
+
+    void Model::setTimeAcceleration(double value) {
+        timeAcceleration = value;
+    }
+
+    double Model::getTimeAcceleration() const {
+        return timeAcceleration;
     }
 }
