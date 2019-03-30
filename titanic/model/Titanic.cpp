@@ -13,7 +13,6 @@ namespace model {
               lift_coefficients(std::move(_lift_coefficients)), drag_coefficients(std::move(_drag_coefficients)),
               laserSensor(_xPosition, _yPosition, _orientation, _range, _angle),
               engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
-
     }
 
     Titanic::Titanic() : Titanic(TITANIC_DEFAULT_X, TITANIC_DEFAULT_Y, TITANIC_DEFAULT_COURSE) {

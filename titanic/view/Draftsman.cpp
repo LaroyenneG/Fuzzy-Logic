@@ -94,7 +94,8 @@ namespace view {
         QTransform rotation;
         rotation.rotateRadians(titanic->getOrientation());
 
-        QPoint position = scaleConverter(titanic->getPositionX() + TITANIC_WIDTH / 2.0, titanic->getPositionY());
+        QPoint position = scaleConverter(titanic->getPositionX() + TITANIC_WIDTH / 2.0,
+                                         titanic->getPositionY() - TITANIC_SIZE / 2.0);
 
         QTransform translation;
         translation.translate(position.x(), position.y());

@@ -158,7 +158,7 @@ namespace model {
 
     Vector PhysicObject2D::computeCentrifugalForce() const {
 
-        static const double NEGLIGIBLE = pow(10, -6);
+        static const double NEGLIGIBLE = pow(10, -3);
 
         Vector strength{{0.0, 0.0}};
 
@@ -347,7 +347,7 @@ namespace model {
         return Vector{{-vector[X_DIM_VALUE], -vector[Y_DIM_VALUE]}};
     }
 
-    std::vector<Point> PhysicObject2D::loadShapePoints(std::string filePath) {
+    std::vector<Point> PhysicObject2D::loadShapePoints(const std::string &filePath) {
 
         static const double POINT_MAX_VALUE = INFINITY;
 
@@ -484,7 +484,7 @@ namespace model {
         return value;
     }
 
-    std::map<double, double> PhysicObject2D::loadCoefficients(std::__cxx11::string filePath) {
+    std::map<double, double> PhysicObject2D::loadCoefficients(const std::string &filePath) {
 
         static const double MAX_INCIDENCE_VALUE = 3.5;
 

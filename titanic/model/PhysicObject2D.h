@@ -153,7 +153,7 @@ namespace model {
 
         static Point pointTranslation(const Point &point, const Vector &translation);
 
-        static std::vector<Point> loadShapePoints(std::string filePath);
+        static std::vector<Point> loadShapePoints(const std::string &filePath);
 
         static double distanceBetweenPoint(const Point &p1, const Point &p2);
 
@@ -163,7 +163,7 @@ namespace model {
 
         static double estimateOrdinateValue(double abscissa, const std::map<double, double> &points);
 
-        static std::map<double, double> loadCoefficients(std::__cxx11::string filePath);
+        static std::map<double, double> loadCoefficients(const std::string &filePath);
 
         void nextRotationSpeed(double time);
     };
