@@ -57,10 +57,13 @@ namespace model {
 
         const double momentOfInertia = 0.5 * propellerWeight * (propellerDiameter / 2.0) * (propellerDiameter / 2.0);
 
-        double torque = getHorsePower() * ENGINE_CV_TO_NEWTON_M_S * time;
+        double torque = (rotationSpeed != 0) ?
+                        getHorsePower() * ENGINE_CV_TO_WATT / fabs(rotationSpeed)
+                                             :
+                        getHorsePower() * ENGINE_CV_TO_WATT;
 
         rotationAcceleration =
-                torque / momentOfInertia - rotationSpeed * friction * propellerDiameter * bladeNumber / propellerWeight;
+                torque / momentOfInertia - rotationSpeed * friction / momentOfInertia;
 
         nextRotation(time);
     }
@@ -83,10 +86,11 @@ namespace model {
     }
 
     double Engine::powerFunction(double _powerStep, double time) const {
-        return _powerStep * time;
+        return _powerStep * time + 1.0;
     }
 
     double Engine::getHorsePower() {
+
         return power * horsePower;
     }
 }
