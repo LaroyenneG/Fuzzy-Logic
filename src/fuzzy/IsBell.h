@@ -7,13 +7,14 @@
 namespace fuzzy {
     template<typename T>
     class IsBell : public Is<T> {
+
     private:
-        T min;
-        T mid;
-        T max;
         const static T ONE;
         const static T TWO;
 
+        T min;
+        T mid;
+        T max;
 
     public:
         explicit IsBell(const T &_min, const T &_mid, const T &_max);

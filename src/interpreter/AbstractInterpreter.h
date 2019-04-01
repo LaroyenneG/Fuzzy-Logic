@@ -13,16 +13,24 @@ namespace interpreter {
     class AbstractInterpreter {
 
     private:
-        std::map<std::string, T> freeMemory;
+        std::map<std::string, T> memory;
+
+    protected:
+        typedef enum {
+            INPUT,
+            OUTPUT
+        } MemoryType;
+
+        T readInMemory(MemoryType type, const std::string &name) const;
+
+        void writeInMemory(MemoryType type, const std::string &name, const T &value);
+
+        void freeInMemory(MemoryType, const std::string &name);
 
     public:
         virtual void execute(std::string line) = 0;
 
         void execute(std::fstream fstream);
-
-        T readInMemory(std::string key) const;
-
-        void writeInMemory(std::string key, const T &value);
     };
 
     template<typename T>
@@ -35,20 +43,37 @@ namespace interpreter {
         }
     }
 
-    template<typename T>
-    T AbstractInterpreter<T>::readInMemory(std::string key) const {
 
-        if (freeMemory.find(key) == freeMemory.end()) {
+    template<typename T>
+    T AbstractInterpreter<T>::readInMemory(MemoryType type, const std::string &name) const {
+
+        std::string key = std::string(type) + name;
+
+        if (memory.find(key) == memory.end()) {
             throw std::exception();
         }
 
-        return freeMemory[key];
+        return memory[key];
     }
 
     template<typename T>
-    void AbstractInterpreter<T>::writeInMemory(std::string key, const T &value) {
+    void AbstractInterpreter<T>::writeInMemory(MemoryType type, const std::string &name, const T &value) {
 
-        freeMemory[key] = value;
+        std::string key = std::string(type) + name;
+
+        memory[key] = value;
+    }
+
+    template<typename T>
+    void AbstractInterpreter<T>::freeInMemory(MemoryType type, const std::string &name) {
+
+        std::string key = std::string(type) + name;
+
+        if (memory.find(key) == memory.end()) {
+            throw std::exception();
+        }
+
+        memory.erase(key);
     }
 }
 
