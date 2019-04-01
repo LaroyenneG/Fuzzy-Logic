@@ -18,7 +18,8 @@ namespace interpreter {
     protected:
         typedef enum {
             INPUT,
-            OUTPUT
+            OUTPUT,
+            TMP
         } MemoryType;
 
         T readInMemory(MemoryType type, const std::string &name) const;
