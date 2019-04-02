@@ -41,7 +41,15 @@ namespace fuzzy {
 
         T value = expression->evaluate();
 
-        return (value <= mid) ? (value - min) / (mid - min) : (max - value) / (max - min);
+        if (value <= min)
+            return (value - value);
+        else if (value >= min && value <= mid)
+            return (value - min) / (mid - min);
+        else if (value >= mid && value <= max)
+            return (max - value) / (max - mid);
+        return 0;
+
+        //return (value <= mid) ? (value - min) / (mid - min) : (max - value) / (max - min);
     }
 
     template<typename T>
