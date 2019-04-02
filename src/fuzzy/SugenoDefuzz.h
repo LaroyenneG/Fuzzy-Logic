@@ -10,7 +10,6 @@ namespace fuzzy {
 
     public:
         T evaluate(const core::Expression<T> **oprands) const override;
-
     };
 
     template<typename T>

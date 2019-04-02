@@ -1,7 +1,6 @@
 #ifndef LOGIQUEFLOUE_ISGAUSSIAN_H
 #define LOGIQUEFLOUE_ISGAUSSIAN_H
 
-#include <cmath>
 #include "Is.h"
 
 namespace fuzzy {
@@ -37,7 +36,9 @@ namespace fuzzy {
 
         T value = expression->evaluate();
 
-        return exp((-0.5 * pow(value - mean, 2)) / pow(variance, 2));
+        T result(std::exp((-0.5 * pow(value - mean, 2)) / pow(variance, 2)));
+
+        return result;
     }
 
     template<typename T>

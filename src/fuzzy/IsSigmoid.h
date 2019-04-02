@@ -13,8 +13,6 @@ namespace fuzzy {
     class IsSigmoid : public Is<T> {
 
     private:
-        const static T ONE;
-
         T min;
 
     public:
@@ -28,9 +26,6 @@ namespace fuzzy {
 
         T evaluate(core::Expression<T> *expression) const override;
     };
-
-    template<typename T>
-    const T IsSigmoid<T>::ONE(1);
 
     template<typename T>
     IsSigmoid<T>::IsSigmoid(const T &_min)
@@ -59,7 +54,7 @@ namespace fuzzy {
 
         T value = expression->evaluate();
 
-        return ONE / (ONE + std::exp(-value - min));
+        return core::Expression<T>::ONE / (core::Expression<T>::ONE + std::exp(-value - min));
     }
 }
 

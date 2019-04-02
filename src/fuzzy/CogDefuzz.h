@@ -22,8 +22,6 @@ namespace fuzzy {
     template<typename T>
     T CogDefuzz<T>::defuzz(const Shape<T> &shape) const {
 
-        const T &step = this->getStep();
-
         T numerator(0);
         T denominator(0);
 
@@ -32,8 +30,8 @@ namespace fuzzy {
             const T &x = point.first;
             const T &y = point.second;
 
-            numerator += x * y * step;
-            denominator += y * step;
+            numerator += x * y;
+            denominator += y;
         }
 
         return numerator / denominator;
