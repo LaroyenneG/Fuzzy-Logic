@@ -5,21 +5,21 @@
 namespace model {
 
     Engine::Engine(double _rotationAcceleration, double _rotationSpeed, double _desiredPower, double _friction,
-                   double _propellerDiameter, double _propellerWeight, double _horsePower, double _maxRotationSpeed,
+                   double _propellerRadius, double _propellerWeight, double _horsePower, double _maxRotationSpeed,
                    double _powerStep, unsigned short _bladeNumber)
             : rotationAcceleration(_rotationAcceleration), rotationSpeed(_rotationSpeed), desiredPower(_desiredPower),
               power(0),
               friction(_friction),
-              propellerDiameter(_propellerDiameter), propellerWeight(_propellerWeight), horsePower(_horsePower),
+              propellerRadius(_propellerRadius), propellerWeight(_propellerWeight), horsePower(_horsePower),
               maxRotationSpeed(_maxRotationSpeed), powerStep(_powerStep), bladeNumber(_bladeNumber) {
 
     }
 
-    Engine::Engine(double _propellerDiameter, double _propellerWeight, double _horsePower, double _maxRotationSpeed,
+    Engine::Engine(double _propellerRadius, double _propellerWeight, double _horsePower, double _maxRotationSpeed,
                    double _friction, double _powerStep, unsigned short _bladeNumber)
             : Engine(ENGINE_DEFAULT_ROTATION_ACCELERATION, ENGINE_DEFAULT_ROTATION_SPEED, ENGINE_DEFAULT_POWER,
                      _friction,
-                     _propellerDiameter,
+                     _propellerRadius,
                      _propellerWeight,
                      _horsePower, _maxRotationSpeed, _powerStep, _bladeNumber) {
 
@@ -31,7 +31,7 @@ namespace model {
 
     double Engine::computePropulsionStrength() const {
 
-        return rotationSpeed * propellerDiameter / 2.0 * ENGINE_BLADE_LIFT_MAGIC_NUMBER * bladeNumber;
+        return rotationSpeed * propellerRadius * ENGINE_BLADE_LIFT_MAGIC_NUMBER * bladeNumber;
     }
 
     double Engine::getPower() const {
@@ -55,15 +55,16 @@ namespace model {
 
         nextPower(time);
 
-        const double momentOfInertia = 0.5 * propellerWeight * (propellerDiameter / 2.0) * (propellerDiameter / 2.0);
+        const double momentOfInertia = 0.5 * propellerWeight * propellerRadius * propellerRadius;
 
-        double torque = (rotationSpeed != 0) ?
+        double torque = (fabs(rotationSpeed) >= 1) ?
                         getHorsePower() * ENGINE_CV_TO_WATT / fabs(rotationSpeed)
                                              :
                         getHorsePower() * ENGINE_CV_TO_WATT;
 
         rotationAcceleration =
-                torque / momentOfInertia - rotationSpeed * friction / momentOfInertia;
+                torque / momentOfInertia -
+                rotationSpeed * bladeNumber * propellerRadius * friction / propellerWeight;
 
         nextRotation(time);
     }
@@ -75,7 +76,7 @@ namespace model {
 
     void Engine::nextPower(double time) {
 
-        double step = powerFunction(powerStep, time);
+        double step = powerStepFunction(powerStep, time, power);
 
         if (power < desiredPower) {
             power = (power + step < desiredPower) ? power + step : desiredPower;
@@ -85,8 +86,8 @@ namespace model {
         }
     }
 
-    double Engine::powerFunction(double _powerStep, double time) const {
-        return _powerStep * time + 1.0;
+    double Engine::powerStepFunction(double _powerStep, double time, double _power) const {
+        return _powerStep * time;
     }
 
     double Engine::getHorsePower() {

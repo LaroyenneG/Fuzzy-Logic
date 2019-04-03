@@ -11,12 +11,15 @@
 #define ALTERNATIVE_DEFAULT_MAX_POWER 15000  // CV
 #define ALTERNATIVE_DEFAULT_MAX_SPEED 77 * 0.10472
 #define ALTERNATIVE_DEFAULT_BLADE_NUMBER 3
-#define ALTERNATIVE_DEFAULT_FRICTION 58000
+#define ALTERNATIVE_DEFAULT_FRICTION 2400
 #define ALTERNATIVE_DEFAULT_POWER_STEP 0.05
 
 namespace model {
 
     class AlternativeMachine : public Engine {
+
+    protected:
+        double powerStepFunction(double _powerStep, double time, double _power) const override;
 
     public:
         explicit AlternativeMachine();

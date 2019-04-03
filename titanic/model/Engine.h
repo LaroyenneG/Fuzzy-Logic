@@ -25,10 +25,10 @@ namespace model {
         double rotationAcceleration; // radian / s²
         double rotationSpeed;       // radian / s
         double desiredPower;               // [-1 - 1] %
-        double power; // [-1 - 1] %
+        double power; // [-1 , 1] %
 
         const double friction;            // m / s
-        const double propellerDiameter;   // m
+        const double propellerRadius;   // m
         const double propellerWeight;     // kg
         const double horsePower;  // hp
         const double maxRotationSpeed; // radian / s
@@ -37,16 +37,16 @@ namespace model {
         const unsigned short bladeNumber;
 
     protected:
-        virtual double powerFunction(double _powerStep, double time) const;
+        virtual double powerStepFunction(double _powerStep, double time, double _power) const;
 
     public:
 
         explicit Engine(double _rotationAcceleration, double _rotationSpeed, double _desiredPower, double _friction,
-                        double _propellerDiameter, double _propellerWeight, double _horsePower,
+                        double _propellerRadius, double _propellerWeight, double _horsePower,
                         double _maxRotationSpeed,
                         double _powerStep, unsigned short _bladeNumber);
 
-        explicit Engine(double _propellerDiameter, double _propellerWeight, double _horsePower,
+        explicit Engine(double _propellerRadius, double _propellerWeight, double _horsePower,
                         double _maxRotationSpeed,
                         double _friction, double _powerStep, unsigned short _bladeNumber);
 
