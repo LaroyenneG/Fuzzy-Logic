@@ -127,7 +127,7 @@ namespace view {
         scene->addItem(icebergItem);
     }
 
-    void Draftsman::drawLaserSensor(const model::LaserSensor<TITANIC_LASERS_COUNTER> &laserSensor) {
+    void Draftsman::drawLaserSensor(const model::LasersSensor<TITANIC_LASERS_COUNTER> &laserSensor) {
 
         auto lines = laserSensor.getLaserLines(model->getElements());
 

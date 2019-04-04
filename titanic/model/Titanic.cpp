@@ -142,7 +142,7 @@ namespace model {
         draftsman->drawTitanic(this);
     }
 
-    const LaserSensor<TITANIC_LASERS_COUNTER> &Titanic::getLaserSensor() const {
+    const LasersSensor<TITANIC_LASERS_COUNTER> &Titanic::getLaserSensor() const {
         return laserSensor;
     }
 

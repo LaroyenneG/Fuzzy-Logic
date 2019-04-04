@@ -26,7 +26,7 @@ namespace model {
 
         double value;                                              // radian
 
-        Point waterSpeed;     // m / s
+        Vector waterSpeed;     // m / s
 
         double size;                                              // m
 
