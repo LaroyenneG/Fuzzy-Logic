@@ -12,7 +12,7 @@
 
 #define ENGINE_CV_TO_WATT 735.5
 
-#define ENGINE_BLADE_LIFT_MAGIC_NUMBER 3000.0 // N.r / (rad / s)
+#define ENGINE_BLADE_LIFT_MAGIC_NUMBER 30000.0 // N.r / (rad / s)
 
 #define ENGINE_VALUE_ERROR_MSG "Engine invalid engine power"
 #define ENGINE_DEFAULT_NAME "Engine"

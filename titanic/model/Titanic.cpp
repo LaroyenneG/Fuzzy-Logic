@@ -13,10 +13,10 @@ namespace model {
               lift_coefficients(std::move(_lift_coefficients)), drag_coefficients(std::move(_drag_coefficients)),
               engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
 
+        setSpeedY(12.0);
     }
 
     Titanic::Titanic() : Titanic(TITANIC_DEFAULT_X, TITANIC_DEFAULT_Y, TITANIC_DEFAULT_COURSE) {
-
     }
 
     Titanic::Titanic(double x, double y, double _orientation)
@@ -27,6 +27,7 @@ namespace model {
     }
 
     void Titanic::setRudderValue(double value) {
+
         rudder.setValue(value);
     }
 
@@ -41,8 +42,13 @@ namespace model {
 
         const static Point LASERS_SENSORS_TRANSLATION{{TITANIC_LASERS_SENSORS_POSITION_X, TITANIC_LASERS_SENSORS_POSITION_Y}};
 
-        nextTimeLinear(time);
-        nextTimeRotation(time);
+        for (auto engine : engines) {
+            engine->nexTime(time);
+        }
+
+
+        nextTimeLinear();
+        nextTimeRotation();
 
         PhysicObject2D::nextTime(time);
 
@@ -71,22 +77,22 @@ namespace model {
     }
 
 
-    Vector Titanic::computeRudder(double time) {
+    Vector Titanic::computeRudder() {
 
-        Vector rudderWaterSpeed = pointRotation(inverseVector(speed), orientation);
-
-        rudder.setWaterSpeedX(rudderWaterSpeed[X_DIM_VALUE]);
-        rudder.setWaterSpeedY(rudderWaterSpeed[Y_DIM_VALUE]);
+        rudder.setOrientation(orientation);
+        rudder.setWaterSpeedX(speed[X_DIM_VALUE]);
+        rudder.setWaterSpeedY(speed[Y_DIM_VALUE]);
 
         return rudder.computeHydrodynamicStrength();
     }
 
-    Vector Titanic::computeDrag(double time) const {
+    Vector Titanic::computeDrag() const {
 
         const double incidence = angleBetweenVector(speed, directionVector());
 
         const double dragValue =
-                0.5 * SEA_M_VOL * TITANIC_REFERENCE_SURFACE * approximatedDragCoefficient(incidence) * getSpeed();
+                0.5 * SEA_M_VOL * TITANIC_REFERENCE_SURFACE * approximatedDragCoefficient(incidence) * getSpeed() *
+                TITANIC_MAGIC_NUMBER;
 
 
         Vector drag{{-dragValue * getSpeedX(), -dragValue * getSpeedY()}};
@@ -94,7 +100,9 @@ namespace model {
         return drag; // N
     }
 
-    Vector Titanic::computeLift(double time) const {
+    Vector Titanic::computeLift() const {
+
+        const static double ROTATION = M_PI / 2.0;
 
         Vector direction = directionVector();
 
@@ -102,26 +110,25 @@ namespace model {
 
 
         double liftValue =
-                0.5 * SEA_M_VOL * TITANIC_REFERENCE_SURFACE * approximatedLiftCoefficient(incidence) * getSpeed();
+                0.5 * SEA_M_VOL * TITANIC_REFERENCE_SURFACE * approximatedLiftCoefficient(incidence) * getSpeed() *
+                TITANIC_MAGIC_NUMBER;
 
 
         Vector vector{{liftValue * getSpeedX(), liftValue * getSpeedY()}};
 
-        const double rotation = M_PI / 2.0;
+        Vector larboardLift = pointRotation(vector, ROTATION);
 
-        Vector larboardLift = pointRotation(vector, rotation);
-
-        Vector starboardLift = pointRotation(vector, -rotation);
+        Vector starboardLift = pointRotation(vector, -ROTATION);
 
         return (angleBetweenVector(direction, larboardLift) < angleBetweenVector(direction, starboardLift)
-                ? larboardLift : starboardLift); // N
+                ? larboardLift
+                : starboardLift); // N
     }
 
-    Vector Titanic::computePropulsion(double time) const {
+    Vector Titanic::computePropulsion() const {
 
         double enginePush = 0.0; // N
         for (auto &engine : engines) {
-            engine->nexTime(time);
             enginePush += engine->computePropulsionStrength();
         }
 
@@ -141,44 +148,40 @@ namespace model {
     }
 
     void Titanic::drawMe(view::Draftsman *draftsman) {
-
         draftsman->drawTitanic(this);
+        draftsman->drawElement(this);
     }
 
     const LasersSensors<TITANIC_LASERS_COUNTER> &Titanic::getLasersSensors() const {
         return lasersSensors;
     }
 
-    void Titanic::nextTimeRotation(double time) {
+    void Titanic::nextTimeRotation() {
 
-        Vector rudderStrength = computeRudder(time);
+        Vector direction = directionVector();
 
-        const double coupleDirection = (normVector(rudderStrength) != 0)
-                                       ? rudderStrength[Y_DIM_VALUE] / fabs(rudderStrength[Y_DIM_VALUE])
-                                       : 0.0;
+        Vector rudderStrength = computeRudder();
 
-        const double couple =
-                fabs(normVector(rudderStrength) * sin(angleBetweenVector(directionVector(), rudderStrength)) *
-                     TITANIC_DISTANCE_BETWEEN_RUDDER_AND_GRAVITY_CENTER) * coupleDirection;  // N.m
+        const double couple = normVector(rudderStrength) * sin(angleBetweenVector(direction, rudderStrength) *
+                                                               TITANIC_DISTANCE_BETWEEN_RUDDER_AND_GRAVITY_CENTER);  // N*m
 
-        const double angleAcceleration =
-                (couple / TITANIC_MOMENT_OF_INERTIA -
-                 TITANIC_ROTATION_FRICTION * getRotationSpeed() / TITANIC_DEFAULT_WEIGHT); // radian / s²
+        const double angleAcceleration = angleVectorDirection(rudderStrength, direction) *
+                                         (couple / TITANIC_MOMENT_OF_INERTIA -
+                                          TITANIC_ROTATION_FRICTION * getRotationSpeed() /
+                                          TITANIC_DEFAULT_WEIGHT); // radian / s²
+
+
+        std::cout << angleAcceleration << "\n";
 
         setRotationAcceleration(angleAcceleration);
     }
 
-    void Titanic::nextTimeLinear(double time) {
+    void Titanic::nextTimeLinear() {
 
-        Vector centrifugalForce; // N
-        Vector propulsion; // N
-        Vector drag;  // N
-        Vector lift;   // N
-
-        centrifugalForce = computeCentrifugalForce();
-        propulsion = computePropulsion(time);
-        lift = computeLift(time);
-        drag = computeDrag(time);
+        Vector centrifugalForce = computeCentrifugalForce(); // N
+        Vector propulsion = computePropulsion(); // N
+        Vector lift = computeLift(); // N
+        Vector drag = computeDrag(); // N
 
 
         Vector strengths{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE] + lift[X_DIM_VALUE] +

@@ -263,7 +263,7 @@ namespace model {
         orientation += rotationSpeed * time;
 
         orientation = (static_cast<int>(std::round(orientation * ROUND_NUMBER)) %
-                       static_cast<int>(std::round(M_PI * 2.0) * ROUND_NUMBER)) * 1.0 / ROUND_NUMBER;
+                       static_cast<int>(std::round(M_PI * 2.0 * ROUND_NUMBER))) * 1.0 / ROUND_NUMBER;
     }
 
     void PhysicObject2D::nextPosition(double time) {
@@ -554,5 +554,14 @@ namespace model {
 
     double PhysicObject2D::lineLength(const Line &line) {
         return distanceBetweenPoint(line.first, line.second);
+    }
+
+    double PhysicObject2D::angleVectorDirection(const Vector &vector1, const Vector &vector2) {
+
+
+        double angle = angleBetweenVector(vector1, vector2);
+
+
+        return (angleBetweenVector(vector2, pointRotation(vector1, angle / 2.0)) < angle) ? 1.0 : -1.0;
     }
 }

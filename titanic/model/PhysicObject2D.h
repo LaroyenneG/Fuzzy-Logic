@@ -172,6 +172,8 @@ namespace model {
         static Point findLineIntersection(const Line &line1, const Line &line2, bool *status);
 
         static double lineLength(const Line &line);
+
+        static double angleVectorDirection(const Vector &vector1, const Vector &vector2);
     };
 }
 

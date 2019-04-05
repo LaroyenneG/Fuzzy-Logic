@@ -19,7 +19,7 @@
 #define SEA_M_VOL 1025.0            // kg/m^3
 #define TITANIC_SIZE 269.0  // m
 #define TITANIC_WIDTH 28.0
-#define TITANIC_DEFAULT_COURSE 3.1416 / 2.0
+#define TITANIC_DEFAULT_COURSE (3.1416 / 2.0)
 #define TITANIC_DEFAULT_WEIGHT 52310000.0
 #define TITANIC_DEFAULT_X 0.0
 #define TITANIC_DEFAULT_Y 0.0
@@ -36,7 +36,7 @@
 #define TITANIC_DISTANCE_BETWEEN_RUDDER_AND_GRAVITY_CENTER (269.0 / 2.0) // m
 #define TITANIC_MOMENT_OF_INERTIA 272447916732.0 // kg/m²
 
-#define TITANIC_ROTATION_FRICTION 50000000.0
+#define TITANIC_ROTATION_FRICTION 10000000.0
 
 #define TITANIC_ALTERNATIVE_MACHINE_1_RANK 0
 #define TITANIC_ALTERNATIVE_MACHINE_2_RANK 1
@@ -48,6 +48,8 @@
 
 #define TITANIC_LASERS_SENSORS_POSITION_X 134.55
 #define TITANIC_LASERS_SENSORS_POSITION_Y 0.0
+
+#define TITANIC_MAGIC_NUMBER 1.0
 
 
 namespace model {
@@ -63,9 +65,9 @@ namespace model {
 
         const std::array<Engine *, TITANIC_ENGINES_COUNTER> engines;
 
-        void nextTimeLinear(double time);
+        void nextTimeLinear();
 
-        void nextTimeRotation(double time);
+        void nextTimeRotation();
 
     public:
         explicit Titanic(const std::vector<Point> &points, double _orientation, double _weight, double _xPosition,
@@ -97,13 +99,13 @@ namespace model {
 
         /********************* strengths ************************/
 
-        Vector computePropulsion(double time) const;
+        Vector computePropulsion() const;
 
-        Vector computeDrag(double time) const;
+        Vector computeDrag() const;
 
-        Vector computeLift(double time) const;
+        Vector computeLift() const;
 
-        Vector computeRudder(double time);
+        Vector computeRudder();
     };
 }
 

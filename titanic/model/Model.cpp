@@ -7,7 +7,7 @@ namespace model {
     Model::Model(double _clock, double _timeAcceleration)
             : titanic(new Titanic()), iceberg(new Iceberg()), clockStep(_clock), timeAcceleration(_timeAcceleration) {
         elements.insert(titanic);
-        elements.insert(iceberg);
+        // elements.insert(iceberg);
     }
 
     Model::Model() : Model(MODEL_DEFAULT_CLOCK, MODEL_DEFAULT_ACCELERATION) {

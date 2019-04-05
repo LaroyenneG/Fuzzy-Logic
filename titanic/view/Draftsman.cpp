@@ -16,8 +16,6 @@ namespace view {
 
         scene->clear();
 
-        scene->addEllipse(0.0, 0.0, 10.0, 10.0);
-
         for (auto element : model->getElements()) {
             element->drawMe(this);
         }
@@ -38,6 +36,16 @@ namespace view {
     }
 
     void Draftsman::drawVectors() {
+
+        auto *titanic = const_cast<model::Titanic *>(model->getTitanic());
+
+        model::Vector rudder = titanic->computeRudder();
+
+        model::Point start = {{titanic->getPositionX(), titanic->getPositionY()}};
+
+        model::Point end = model::PhysicObject2D::pointTranslation(rudder, start);
+
+        scene->addLine(scaleConverter(model::PhysicObject2D::constructLine(start, end)));
     }
 
     void Draftsman::drawTitanic(const model::Titanic *titanic) {
@@ -65,7 +73,7 @@ namespace view {
         QTransform translation;
         translation.translate(position.x(), position.y());
 
-        QTransform transform = center * translation * rotation;
+        QTransform transform = center * rotation * translation;
 
         titanicItem->setTransform(transform);
 
@@ -90,6 +98,8 @@ namespace view {
         icebergItem->setTransform(translation);
 
         scene->addItem(icebergItem);
+
+        drawVectors();
     }
 
     void Draftsman::drawLaserSensor(const model::LasersSensors<3> *laserSensor) {
