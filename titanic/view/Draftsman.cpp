@@ -16,6 +16,8 @@ namespace view {
 
         scene->clear();
 
+        scene->addEllipse(0.0, 0.0, 10.0, 10.0);
+
         for (auto element : model->getElements()) {
             element->drawMe(this);
         }
@@ -47,16 +49,23 @@ namespace view {
         QGraphicsPixmapItem *titanicItem = new QGraphicsPixmapItem(
                 QPixmap::fromImage(TITANIC_IMAGE).scaled(DIMENSION.x(), DIMENSION.y()));
 
+        titanicItem->setY(0.0);
+        titanicItem->setX(0.0);
+
+        QTransform center;
+        center.translate(-DIMENSION.x() / 2.0, -DIMENSION.y() / 2.0);
+
+
         QTransform rotation;
         rotation.rotateRadians(titanic->getOrientation());
 
-        QPoint position = scaleConverter(titanic->getPositionX() + TITANIC_WIDTH / 2.0,
-                                         titanic->getPositionY() - TITANIC_SIZE / 2.0);
+        QPoint position = scaleConverter(titanic->getPositionX(),
+                                         titanic->getPositionY());
 
         QTransform translation;
         translation.translate(position.x(), position.y());
 
-        QTransform transform = rotation * translation;
+        QTransform transform = center * translation * rotation;
 
         titanicItem->setTransform(transform);
 
@@ -97,6 +106,7 @@ namespace view {
     /* static functions */
 
     QPoint Draftsman::scaleConverter(const model::Point &point) {
+
         return scaleConverter(point[X_DIM_VALUE], point[Y_DIM_VALUE]);
     }
 

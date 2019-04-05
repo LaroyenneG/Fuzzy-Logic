@@ -6,9 +6,8 @@
 namespace model {
 
     PhysicObject2D::PhysicObject2D(std::vector<Point> _points,
-                                   double _xPosition,
-                                   double _yPosition,
-                                   double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration,
+                                   double _xPosition, double _yPosition, double _xSpeed, double _ySpeed,
+                                   double _xAcceleration, double _yAcceleration,
                                    double _orientation, double _rotationSpeed, double _rotationAcceleration,
                                    double _weight)
             : points(std::move(_points)), position{{_xPosition, _yPosition}}, speed{{_xSpeed, _ySpeed}},
@@ -259,7 +258,12 @@ namespace model {
 
     void PhysicObject2D::nextOrientation(double time) {
 
+        static const unsigned int ROUND_NUMBER = 1000;
+
         orientation += rotationSpeed * time;
+
+        orientation = (static_cast<int>(std::round(orientation * ROUND_NUMBER)) %
+                       static_cast<int>(std::round(M_PI * 2.0) * ROUND_NUMBER)) * 1.0 / ROUND_NUMBER;
     }
 
     void PhysicObject2D::nextPosition(double time) {

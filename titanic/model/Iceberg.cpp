@@ -8,7 +8,7 @@
 namespace model {
 
     Iceberg::Iceberg(double x, double y, double r, double _weight)
-            : PhysicObject2D(buildPoints(r, ICEBERG_NB_POINTS), x, y, DEFAULT_ORIENTATION, _weight) {
+            : PhysicObject2D(buildCirclePoints(r, ICEBERG_NB_POINTS), x, y, DEFAULT_ORIENTATION, _weight) {
 
     }
 
@@ -20,15 +20,16 @@ namespace model {
 
     }
 
-    std::vector<std::array<double, MODEL_SPACE_DIMENSION>> Iceberg::buildPoints(double r, unsigned int np) {
+    std::vector<std::array<double, MODEL_SPACE_DIMENSION>> Iceberg::buildCirclePoints(double rayon,
+                                                                                      unsigned int pointNumber) {
 
-        std::vector<std::array<double, MODEL_SPACE_DIMENSION>> points;
+        std::vector<Point> points;
 
-        for (unsigned int i = 0; i < np; ++i) {
+        for (unsigned int i = 0; i < pointNumber; ++i) {
 
-            double angle = M_PI * (i * 2.0 / (np - 1));
+            double angle = M_PI * (i * 2.0 / (pointNumber - 1));
 
-            std::array<double, MODEL_SPACE_DIMENSION> point{cos(angle) * r, sin(angle) * r};
+            Point point{cos(angle) * rayon, sin(angle) * rayon};
 
             points.push_back(point);
         }
