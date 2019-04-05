@@ -28,8 +28,6 @@
 #define TITANIC_REFERENCE_SURFACE 2824.5 // m²
 #define TITANIC_ENGINES_COUNTER 3
 #define TITANIC_LASERS_COUNTER 3
-#define TITANIC_LASERS_RANGE 800 // m
-#define TITANIC_LASERS_ANGLE 0.261666667 // radian
 
 #define TITANIC_DEFAULT_POINTS_FILE_NAME "../assets/titanic_shape_points.point"
 #define TITANIC_DEFAULT_LIFT_COEFFICIENTS_FILE_NAME "../assets/titanic_lift_coefficients.coef"
@@ -44,11 +42,11 @@
 #define TITANIC_ALTERNATIVE_MACHINE_2_RANK 1
 #define TITANIC_TURBINE_MACHINE_RANK 2
 
-#define TITANIC_LASER_1_RANK 0
-#define TITANIC_LASER_2_RANK 1
+#define TITANIC_LASER_1_RANK 1
+#define TITANIC_LASER_2_RANK 0
 #define TITANIC_LASER_3_RANK 2
 
-#define TITANIC_LASERS_SENSORS_POSITION_X 135.0
+#define TITANIC_LASERS_SENSORS_POSITION_X 134.55
 #define TITANIC_LASERS_SENSORS_POSITION_Y 0.0
 
 
@@ -72,7 +70,7 @@ namespace model {
     public:
         explicit Titanic(const std::vector<Point> &points, double _orientation, double _weight, double _xPosition,
                          double _yPosition, std::map<double, double> _lift_coefficients,
-                         std::map<double, double> _drag_coefficients, double _range, double _angle);
+                         std::map<double, double> _drag_coefficients);
 
         explicit Titanic(double x, double y, double _orientation);
 

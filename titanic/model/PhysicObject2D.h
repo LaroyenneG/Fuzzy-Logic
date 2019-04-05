@@ -170,6 +170,8 @@ namespace model {
         static std::map<double, double> loadCoefficients(const std::string &filePath);
 
         static Point findLineIntersection(const Line &line1, const Line &line2, bool *status);
+
+        static double lineLength(const Line &line);
     };
 }
 

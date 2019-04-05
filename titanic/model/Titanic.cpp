@@ -8,10 +8,9 @@ namespace model {
 
     Titanic::Titanic(const std::vector<Point> &points, double _orientation, double _weight, double _xPosition,
                      double _yPosition, std::map<double, double> _lift_coefficients,
-                     std::map<double, double> _drag_coefficients, double _range, double _angle)
+                     std::map<double, double> _drag_coefficients)
             : PhysicObject2D(points, _xPosition, _yPosition, _orientation, _weight),
               lift_coefficients(std::move(_lift_coefficients)), drag_coefficients(std::move(_drag_coefficients)),
-              lasersSensors(_xPosition, _yPosition, _orientation, _range, _angle),
               engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
     }
 
@@ -22,8 +21,7 @@ namespace model {
     Titanic::Titanic(double x, double y, double _orientation)
             : Titanic(loadShapePoints(TITANIC_DEFAULT_POINTS_FILE_NAME), _orientation, TITANIC_DEFAULT_WEIGHT, x, y,
                       loadCoefficients(TITANIC_DEFAULT_LIFT_COEFFICIENTS_FILE_NAME),
-                      loadCoefficients(TITANIC_DEFAULT_DRAG_COEFFICIENTS_FILE_NAME), TITANIC_LASERS_RANGE,
-                      TITANIC_LASERS_ANGLE) {
+                      loadCoefficients(TITANIC_DEFAULT_DRAG_COEFFICIENTS_FILE_NAME)) {
 
     }
 
@@ -42,11 +40,8 @@ namespace model {
 
         const static Point LASERS_SENSORS_TRANSLATION{{TITANIC_LASERS_SENSORS_POSITION_X, TITANIC_LASERS_SENSORS_POSITION_Y}};
 
-        std::thread linearThread([&] { nextTimeLinear(time); });
-        std::thread rotationThread([&] { nextTimeRotation(time); });
-
-        linearThread.join();
-        rotationThread.join();
+        nextTimeLinear(time);
+        nextTimeRotation(time);
 
         PhysicObject2D::nextTime(time);
 
@@ -54,6 +49,7 @@ namespace model {
                                                        position);
 
         lasersSensors.setPosition(lasersSensorsPosition);
+        lasersSensors.setOrientation(orientation);
     }
 
 
@@ -177,16 +173,10 @@ namespace model {
         Vector drag;  // N
         Vector lift;   // N
 
-        std::thread centrifugalThread([&] { centrifugalForce = computeCentrifugalForce(); });
-        std::thread threadPropulsion([&] { propulsion = computePropulsion(time); });
-        std::thread threadLift([&] { lift = computeLift(time); });
-        std::thread threadDrag([&] { drag = computeDrag(time); });
-
-
-        centrifugalThread.join();
-        threadPropulsion.join();
-        threadLift.join();
-        threadDrag.join();
+        centrifugalForce = computeCentrifugalForce();
+        propulsion = computePropulsion(time);
+        lift = computeLift(time);
+        drag = computeDrag(time);
 
 
         Vector strengths{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE] + lift[X_DIM_VALUE] +

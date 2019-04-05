@@ -7,10 +7,10 @@
 #include "PhysicObject2D.h"
 
 #define LASERS_SENSORS_DEFAULT_RANGE 800 // m
-#define LASERS_SENSORS_DEFAULT_ANGLE (3.1416/12.0) // radian
+#define LASERS_SENSORS_DEFAULT_ANGLE (3.1416/24.0) // radian
 
 
-#define INVALID_CONFIG_MESSAGE "invalid configuration, cannot create one laser with a angle"
+#define INVALID_CONFIG_MESSAGE "invalid configuration, cannot create one laser with an angle"
 
 
 namespace model {
@@ -33,6 +33,8 @@ namespace model {
         explicit LasersSensors();
 
         void setPosition(const Point &_position);
+
+        void setOrientation(double _orientation);
 
         std::array<double, N> getLasersValues(const std::set<PhysicObject2D *> &objects) const;
 
@@ -61,6 +63,11 @@ namespace model {
     }
 
     template<unsigned int N>
+    void LasersSensors<N>::setOrientation(double _orientation) {
+        orientation = _orientation;
+    }
+
+    template<unsigned int N>
     std::array<double, N> LasersSensors<N>::getLasersValues(const std::set<PhysicObject2D *> &objects) const {
 
         auto laserLines = getLaserLines(objects);
@@ -79,8 +86,6 @@ namespace model {
     LasersSensors<N>::getLaserLines(const std::set<PhysicObject2D *> &objects) const {
 
         static const unsigned int RELATIVE_SIZE = N - 1;
-
-        static const double MAX_DISTANCE = INFINITY;
 
         std::array<Line, N> laserLines;
 
@@ -112,7 +117,8 @@ namespace model {
                 Line line1 = PhysicObject2D::constructLine(position,
                                                            PhysicObject2D::pointTranslation(position, direction));
 
-                double bestDistance = MAX_DISTANCE;
+                double maxDistance = PhysicObject2D::lineLength(line1);
+                laserLines[i] = line1;
 
                 for (auto object : objects) {
 
@@ -124,16 +130,19 @@ namespace model {
 
                         Line line2 = PhysicObject2D::constructLine(points[j], points[j + 1]);
 
-                        bool status;
+                        bool status = false;
 
                         Point intersection = PhysicObject2D::findLineIntersection(line1, line2, &status);
 
-                        double distance = PhysicObject2D::distanceBetweenPoint(position, intersection);
+                        if (status) {
 
-                        if (status && distance <= bestDistance) {
+                            double distance = PhysicObject2D::distanceBetweenPoint(position, intersection);
 
-                            laserLines[i] = PhysicObject2D::constructLine(position, intersection);
-                            bestDistance = distance;
+                            if (distance < maxDistance) {
+
+                                laserLines[i] = PhysicObject2D::constructLine(position, intersection);
+                                maxDistance = distance;
+                            }
                         }
                     }
                 }

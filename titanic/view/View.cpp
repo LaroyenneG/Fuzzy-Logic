@@ -105,11 +105,11 @@ namespace view {
 
         std::string string =
                 "Alternative left : " +
-                std::to_string(static_cast<int>(alt1 * RDS_TO_TPM)) + " | " +
+                std::to_string(static_cast<int>(std::round(alt1 * RDS_TO_TPM))) + " | " +
                 "Turbine : " +
-                std::to_string(static_cast<int>(turbine * RDS_TO_TPM)) + " | " +
+                std::to_string(static_cast<int>(std::round(turbine * RDS_TO_TPM))) + " | " +
                 "Alternative right : " +
-                std::to_string(static_cast<int>(alt2 * RDS_TO_TPM));
+                std::to_string(static_cast<int>(std::round(alt2 * RDS_TO_TPM)));
 
         QString qString(string.data());
 
@@ -122,7 +122,7 @@ namespace view {
 
     void View::setShipSpeed(double value) {
 
-        int nds = static_cast<int>(value * MS_TO_NDS);
+        int nds = static_cast<int>(std::round(value * MS_TO_NDS));
 
         std::string string = std::to_string(nds);
 
@@ -133,7 +133,7 @@ namespace view {
 
     void View::setDistance(double value) {
 
-        int m = static_cast<int>(value);
+        int m = static_cast<int>(std::round(value));
 
         std::string string = std::to_string(m);
 
@@ -197,7 +197,10 @@ namespace view {
     }
 
     void View::touching() {
+
         QMessageBox::information(this, QString(COLLISIONS_TITLE), QString(COLLISIONS_MESSAGE));
+
+        setLasersValue(0.0, 0.0, 0.0);
     }
 
     void View::enableAutomaticPilot() {
@@ -218,7 +221,7 @@ namespace view {
 
     void View::setHelmValue(double value) {
 
-        helmSlider->setValue(static_cast<int>(value));
+        helmSlider->setValue(static_cast<int>(std::round(value)));
     }
 
     void View::setMachinePower(double value) {
@@ -244,9 +247,9 @@ namespace view {
 
     void View::setLasersValue(double laser1, double laser2, double laser3) {
 
-        progressBarLaser1->setValue(static_cast<int>(laser1 * 100.0));
-        progressBarLaser2->setValue(static_cast<int>(laser2 * 100.0));
-        progressBarLaser3->setValue(static_cast<int>(laser3 * 100.0));
+        progressBarLaser1->setValue(static_cast<int>(std::round(laser1 * 100.0)));
+        progressBarLaser2->setValue(static_cast<int>(std::round(laser2 * 100.0)));
+        progressBarLaser3->setValue(static_cast<int>(std::round(laser3 * 100.0)));
     }
 
     bool View::automaticPilotIsEnable() {

@@ -121,7 +121,7 @@ namespace model {
 
                 Line line2 = constructLine(shape2[j], shape2[j + 1]);
 
-                bool status; // if true then intersection in segments
+                bool status = false; // if true then intersection in segments
 
                 findLineIntersection(line1, line2, &status);
 
@@ -546,5 +546,9 @@ namespace model {
         line.second = point2;
 
         return line;
+    }
+
+    double PhysicObject2D::lineLength(const Line &line) {
+        return distanceBetweenPoint(line.first, line.second);
     }
 }
