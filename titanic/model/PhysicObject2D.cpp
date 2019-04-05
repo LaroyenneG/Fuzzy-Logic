@@ -112,43 +112,21 @@ namespace model {
         std::vector<Point> shape2;
         object.writeAbsolutePoints(shape2);
 
-        /********************************************************************/
 
         for (unsigned int i = 0; !shape1.empty() && i < shape1.size() - 1; ++i) {
 
-            Point &point1Set1 = shape1[i];
-            Point &point2Set1 = shape1[i + 1];
-
-            Point v1{{point2Set1[X_DIM_VALUE] - point1Set1[X_DIM_VALUE],
-                             point2Set1[Y_DIM_VALUE] - point1Set1[Y_DIM_VALUE]}};
+            Line line1 = constructLine(shape1[i], shape1[i + 1]);
 
             for (unsigned int j = 0; !shape2.empty() && j < shape2.size() - 1; ++j) {
 
-                Point &point1Set2 = shape2[j];
-                Point &point2Set2 = shape2[j + 1];
+                Line line2 = constructLine(shape2[j], shape2[j + 1]);
 
-                Vector v2{{point2Set2[X_DIM_VALUE] - point1Set2[X_DIM_VALUE],
-                                  point2Set2[Y_DIM_VALUE] - point1Set2[Y_DIM_VALUE]}};
+                bool status; // if true then intersection in segments
 
-                if (v1[X_DIM_VALUE] * v2[Y_DIM_VALUE] != v1[Y_DIM_VALUE] * v2[X_DIM_VALUE]) {
+                findLineIntersection(line1, line2, &status);
 
-                    double a1 = (point2Set1[Y_DIM_VALUE] - point1Set1[Y_DIM_VALUE]) /
-                            (point2Set1[X_DIM_VALUE] - point1Set1[X_DIM_VALUE]);
-                    double c2 = point1Set1[Y_DIM_VALUE] - a1 * point1Set1[X_DIM_VALUE];
-
-                    double a2 = (point2Set2[Y_DIM_VALUE] - point1Set2[Y_DIM_VALUE]) /
-                            (point2Set2[X_DIM_VALUE] - point1Set2[X_DIM_VALUE]);
-                    double c1 = point1Set2[Y_DIM_VALUE] - a2 * point1Set2[X_DIM_VALUE];
-
-                    double solution = (c1 - c2) / (a1 - a2);
-
-                    if (MIN_VALUE(point1Set1[X_DIM_VALUE], point2Set1[X_DIM_VALUE]) < solution &&
-                            MAX_VALUE(point1Set1[X_DIM_VALUE], point2Set1[X_DIM_VALUE]) > solution &&
-                            MIN_VALUE(point1Set2[X_DIM_VALUE], point2Set2[X_DIM_VALUE]) < solution &&
-                            MAX_VALUE(point1Set2[X_DIM_VALUE], point2Set2[X_DIM_VALUE]) > solution) {
-
-                        return true;
-                    }
+                if (status) {
+                    return true;
                 }
             }
         }
@@ -158,7 +136,7 @@ namespace model {
 
     Vector PhysicObject2D::computeCentrifugalForce() const {
 
-        static const double NEGLIGIBLE = pow(10, -3);
+        static const double NEGLIGIBLE = pow(10, -4);
 
         Vector strength{{0.0, 0.0}};
 
@@ -200,29 +178,31 @@ namespace model {
         return strength;
     }
 
-    void PhysicObject2D::writeAbsolutePoints(std::vector<Point> &_points) const {
+    void PhysicObject2D::writeAbsolutePoints(std::vector<Point> &wPoints) const {
 
         for (auto &point : getPoints()) {
 
-            Point nPoint = pointTranslation(pointRotation(point, orientation), position);
-
-            _points.push_back(nPoint);
+            wPoints.push_back(pointTranslation(pointRotation(point, orientation), position));
         }
     }
 
     const std::vector<Point> &PhysicObject2D::getPoints() const {
+
         return points;
     }
 
     void PhysicObject2D::setOrientation(double value) {
+
         orientation = value;
     }
 
     double PhysicObject2D::getOrientation() const {
+
         return orientation;
     }
 
     double PhysicObject2D::getSpeed() const {
+
         return normVector(speed);
     }
 
@@ -294,11 +274,12 @@ namespace model {
         positions.push_back(position);
     }
 
-    double PhysicObject2D::angleBetweenVector(const Vector &v1, const Vector &v2) {
+    double PhysicObject2D::angleBetweenVector(const Vector &vector1, const Vector &vector2) {
 
-        const double denominator = normVector(v1) * normVector(v2);
+        const double denominator = normVector(vector1) * normVector(vector2);
 
-        const double numerator = v1[X_DIM_VALUE] * v2[X_DIM_VALUE] + v1[Y_DIM_VALUE] * v2[Y_DIM_VALUE];
+        const double numerator =
+                vector1[X_DIM_VALUE] * vector2[X_DIM_VALUE] + vector1[Y_DIM_VALUE] * vector2[Y_DIM_VALUE];
 
         double relation = (denominator != 0.0) ? numerator / denominator : M_PI / 2.0;
 
@@ -373,15 +354,15 @@ namespace model {
         return points;
     }
 
-    double PhysicObject2D::distanceBetweenPoint(const Point &p1, const Point &p2) {
+    double PhysicObject2D::distanceBetweenPoint(const Point &point1, const Point &point2) {
 
         double somme = 0.0;
 
         for (unsigned int i = 0; i < MODEL_SPACE_DIMENSION; ++i) {
-            somme += (p1[i] - p2[i]) * (p1[i] - p2[i]);
+            somme += (point1[i] - point2[i]) * (point1[i] - point2[i]);
         }
 
-        return sqrt(somme);
+        return std::sqrt(somme);
     }
 
     Point PhysicObject2D::circleSolver(const Point &p1, const Point &p2, const Point &p3) {
@@ -411,9 +392,9 @@ namespace model {
                              (p3[Y_DIM_VALUE] - newCursor[Y_DIM_VALUE]) / 2.0 + newCursor[Y_DIM_VALUE]}};
     }
 
-    Vector PhysicObject2D::vectorBetweenPoints(const Point &p1, const Point &p2) {
+    Vector PhysicObject2D::vectorBetweenPoints(const Point &point1, const Point &point2) {
 
-        return Vector{{p2[X_DIM_VALUE] - p1[X_DIM_VALUE], p2[Y_DIM_VALUE] - p1[Y_DIM_VALUE]}};
+        return Vector{{point2[X_DIM_VALUE] - point1[X_DIM_VALUE], point2[Y_DIM_VALUE] - point1[Y_DIM_VALUE]}};
     }
 
 
@@ -508,5 +489,62 @@ namespace model {
         ifstream.close();
 
         return coefficients;
+    }
+
+    Point PhysicObject2D::findLineIntersection(const Line &line1, const Line &line2, bool *status) {
+
+        *status = false;
+
+        Point solution;
+
+        const Point &firstPointLine1 = line1.first;
+        const Point &secondPointLine1 = line1.second;
+
+        Vector vectorLine1 = vectorBetweenPoints(firstPointLine1, secondPointLine1);
+
+        const Point &firstPointLine2 = line2.first;
+        const Point &secondPointLine2 = line2.second;
+
+        Vector vectorLine2 = vectorBetweenPoints(firstPointLine2, secondPointLine2);
+
+        if (vectorLine1[X_DIM_VALUE] * vectorLine2[Y_DIM_VALUE] !=
+            vectorLine1[Y_DIM_VALUE] * vectorLine2[X_DIM_VALUE]) {
+
+            // equation : y = ax + b
+
+            const double a1 = vectorLine1[Y_DIM_VALUE] / vectorLine1[X_DIM_VALUE];
+
+            const double b1 = firstPointLine1[Y_DIM_VALUE] - a1 * firstPointLine1[X_DIM_VALUE];
+
+
+            const double a2 = vectorLine2[Y_DIM_VALUE] / vectorLine2[X_DIM_VALUE];
+
+            const double b2 = firstPointLine2[Y_DIM_VALUE] - a2 * firstPointLine2[X_DIM_VALUE];
+
+
+            const double x = (b2 - b1) / (a1 - a2);
+
+            if (MIN_VALUE(firstPointLine1[X_DIM_VALUE], secondPointLine1[X_DIM_VALUE]) < x &&
+                MAX_VALUE(firstPointLine1[X_DIM_VALUE], secondPointLine1[X_DIM_VALUE]) > x &&
+                MIN_VALUE(firstPointLine2[X_DIM_VALUE], secondPointLine2[X_DIM_VALUE]) < x &&
+                MAX_VALUE(firstPointLine2[X_DIM_VALUE], secondPointLine2[X_DIM_VALUE]) > x) {
+
+                *status = true;
+
+                solution = {x, a1 * x + b1};
+            }
+        }
+
+        return solution;
+    }
+
+    Line PhysicObject2D::constructLine(const Point &point1, const Point &point2) {
+
+        Line line;
+
+        line.first = point1;
+        line.second = point2;
+
+        return line;
     }
 }

@@ -11,7 +11,7 @@ namespace model {
                      std::map<double, double> _drag_coefficients, double _range, double _angle)
             : PhysicObject2D(points, _xPosition, _yPosition, _orientation, _weight),
               lift_coefficients(std::move(_lift_coefficients)), drag_coefficients(std::move(_drag_coefficients)),
-              laserSensor(_xPosition, _yPosition, _orientation, _range, _angle),
+              lasersSensors(_xPosition, _yPosition, _orientation, _range, _angle),
               engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
     }
 
@@ -40,6 +40,8 @@ namespace model {
 
     void Titanic::nextTime(double time) {
 
+        const static Point LASERS_SENSORS_TRANSLATION{{TITANIC_LASERS_SENSORS_POSITION_X, TITANIC_LASERS_SENSORS_POSITION_Y}};
+
         std::thread linearThread([&] { nextTimeLinear(time); });
         std::thread rotationThread([&] { nextTimeRotation(time); });
 
@@ -48,7 +50,10 @@ namespace model {
 
         PhysicObject2D::nextTime(time);
 
-        laserSensor.setPosition(position);
+        Point lasersSensorsPosition = pointTranslation(pointRotation(LASERS_SENSORS_TRANSLATION, orientation),
+                                                       position);
+
+        lasersSensors.setPosition(lasersSensorsPosition);
     }
 
 
@@ -142,8 +147,8 @@ namespace model {
         draftsman->drawTitanic(this);
     }
 
-    const LasersSensor<TITANIC_LASERS_COUNTER> &Titanic::getLaserSensor() const {
-        return laserSensor;
+    const LasersSensors<TITANIC_LASERS_COUNTER> &Titanic::getLasersSensors() const {
+        return lasersSensors;
     }
 
     void Titanic::nextTimeRotation(double time) {

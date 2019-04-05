@@ -25,9 +25,9 @@
 #define DEFAULT_ROTATION_ACCELERATION 0.0
 
 #define MODEL_SPACE_DIMENSION 2
-
 #define X_DIM_VALUE 0
 #define Y_DIM_VALUE 1
+
 
 #define MIN_VALUE(a, b) ((a<b) ? a : b)
 #define MAX_VALUE(a, b) ((a>b) ? a : b)
@@ -42,6 +42,7 @@ namespace model {
 
     typedef std::array<double, MODEL_SPACE_DIMENSION> Vector;
     typedef std::array<double, MODEL_SPACE_DIMENSION> Point;
+    typedef std::pair<Point, Point> Line;
 
     class PhysicObject2D {
 
@@ -63,8 +64,7 @@ namespace model {
     public:
 
         explicit PhysicObject2D(std::vector<Point> _points,
-                                double _xPosition,
-                                double _yPosition,
+                                double _xPosition, double _yPosition,
                                 double _xSpeed, double _ySpeed, double _xAcceleration, double _yAcceleration,
                                 double _orientation, double rotationSpeed, double rotationAcceleration,
                                 double _weight);
@@ -81,7 +81,7 @@ namespace model {
 
         double distance(const PhysicObject2D &object) const;
 
-        void writeAbsolutePoints(std::vector<Point> &_points) const;
+        void writeAbsolutePoints(std::vector<Point> &wPoints) const;
 
         double getPositionX() const;
 
@@ -131,6 +131,8 @@ namespace model {
 
         void nextPosition(double time);
 
+        void nextRotationSpeed(double time);
+
         void nextSpeed(double time);
 
         Vector directionVector() const;
@@ -143,9 +145,11 @@ namespace model {
 
         /* static functions */
 
+        static Line constructLine(const Point &point1, const Point &point2);
+
         static Vector inverseVector(const Vector &vector);
 
-        static double angleBetweenVector(const Vector &v1, const Vector &v2);
+        static double angleBetweenVector(const Vector &vector1, const Vector &vector2);
 
         static double normVector(const Vector &vector);
 
@@ -155,17 +159,17 @@ namespace model {
 
         static std::vector<Point> loadShapePoints(const std::string &filePath);
 
-        static double distanceBetweenPoint(const Point &p1, const Point &p2);
+        static double distanceBetweenPoint(const Point &point1, const Point &point2);
 
         static Point circleSolver(const Point &p1, const Point &p2, const Point &p3);
 
-        static Vector vectorBetweenPoints(const Point &p1, const Point &p2);
+        static Vector vectorBetweenPoints(const Point &point1, const Point &point2);
 
         static double estimateOrdinateValue(double abscissa, const std::map<double, double> &points);
 
         static std::map<double, double> loadCoefficients(const std::string &filePath);
 
-        void nextRotationSpeed(double time);
+        static Point findLineIntersection(const Line &line1, const Line &line2, bool *status);
     };
 }
 

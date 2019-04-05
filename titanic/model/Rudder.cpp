@@ -44,7 +44,6 @@ namespace model {
 
         const double incidence = PhysicObject2D::angleBetweenVector(waterSpeed, orientation);
 
-
         const double liftValue =
                 0.5 * SEA_M_VOL * getReferenceSurface() * approximatedLiftCoefficient(incidence) * getWaterSpeed();
 

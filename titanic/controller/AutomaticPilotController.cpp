@@ -13,8 +13,12 @@ namespace controller {
 
     void AutomaticPilotController::compute() {
 
-        view->setHelmValue(-5.0);
+        view->getMutex().lock();
 
-        std::cout << "pilot auto beep" << std::endl;
+        auto lasers = model->getTitanic()->getLasersSensors().getLasersValues(model->getElements());
+
+        view->setLasersValue(lasers[TITANIC_LASER_1_RANK], lasers[TITANIC_LASER_2_RANK], lasers[TITANIC_LASER_3_RANK]);
+
+        view->getMutex().unlock();
     }
 }

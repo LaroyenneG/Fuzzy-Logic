@@ -14,7 +14,7 @@
 #include "PhysicObject2D.h"
 #include "Engine.h"
 #include "Rudder.h"
-#include "LasersSensor.h"
+#include "LasersSensors.h"
 
 #define SEA_M_VOL 1025.0            // kg/m^3
 #define TITANIC_SIZE 269.0  // m
@@ -44,6 +44,13 @@
 #define TITANIC_ALTERNATIVE_MACHINE_2_RANK 1
 #define TITANIC_TURBINE_MACHINE_RANK 2
 
+#define TITANIC_LASER_1_RANK 0
+#define TITANIC_LASER_2_RANK 1
+#define TITANIC_LASER_3_RANK 2
+
+#define TITANIC_LASERS_SENSORS_POSITION_X 135.0
+#define TITANIC_LASERS_SENSORS_POSITION_Y 0.0
+
 
 namespace model {
 
@@ -54,7 +61,7 @@ namespace model {
         const std::map<double, double> drag_coefficients;
 
         Rudder rudder;
-        LasersSensor<TITANIC_LASERS_COUNTER> laserSensor;
+        LasersSensors<TITANIC_LASERS_COUNTER> lasersSensors;
 
         const std::array<Engine *, TITANIC_ENGINES_COUNTER> engines;
 
@@ -88,7 +95,7 @@ namespace model {
 
         std::array<double, TITANIC_ENGINES_COUNTER> getMachinesRotationSpeed() const;
 
-        const LasersSensor<TITANIC_LASERS_COUNTER> &getLaserSensor() const;
+        const LasersSensors<TITANIC_LASERS_COUNTER> &getLasersSensors() const;
 
         /********************* strengths ************************/
 

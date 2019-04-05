@@ -87,6 +87,7 @@ namespace model {
     }
 
     double Engine::powerStepFunction(double _powerStep, double time, double _power) const {
+
         return _powerStep * time;
     }
 

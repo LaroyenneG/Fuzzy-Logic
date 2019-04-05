@@ -25,7 +25,9 @@ namespace view {
 
         static QPoint scaleConverter(double x, double y);
 
-        void drawLaserSensor(const model::LasersSensor<TITANIC_LASERS_COUNTER> &laserSensor);
+        static QLine scaleConverter(const model::Line &line);
+
+        static QPoint scaleConverter(const model::Point &point);
 
     public:
         explicit Draftsman(const model::Model *_model, QGraphicsScene *_scene);
@@ -39,6 +41,8 @@ namespace view {
         void drawTitanic(const model::Titanic *titanic);
 
         void drawIceberg(const model::Iceberg *iceberg);
+
+        void drawLaserSensor(const model::LasersSensors<TITANIC_LASERS_COUNTER> *laserSensor);
 
         ~Draftsman() = default;
     };

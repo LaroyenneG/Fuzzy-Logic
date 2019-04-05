@@ -86,7 +86,7 @@ namespace view {
 
         void setMachinesSpeed(double alt1, double turbine, double alt2);
 
-        void setLasersValue(double l1, double l2, double l3);
+        void setLasersValue(double laser1, double laser2, double laser3);
 
         void setShipSpeed(double value);
 
@@ -127,6 +127,8 @@ namespace view {
         ~View() override;
 
         void touching();
+
+        bool automaticPilotIsEnable();
     };
 }
 

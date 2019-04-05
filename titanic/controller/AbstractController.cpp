@@ -26,9 +26,10 @@ namespace controller {
 
         view->setCourse(model->getTitanic()->getOrientation());
 
-        auto lasers = model->getTitanic()->getLaserSensor().getLasersValues(model->getElements());
+        if (view->automaticPilotIsEnable()) {
+            draftsman->drawLaserSensor(&model->getTitanic()->getLasersSensors());
+        }
 
-        view->setLasersValue(lasers[0], lasers[1], lasers[2]);
 
         view->getMutex().unlock();
     }

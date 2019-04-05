@@ -210,7 +210,10 @@ namespace view {
     }
 
     void View::disableAutomaticPilot() {
+
         automaticPilotTimer->stop();
+
+        setLasersValue(0.0, 0.0, 0.0);
     }
 
     void View::setHelmValue(double value) {
@@ -239,10 +242,14 @@ namespace view {
         return titanicView;
     }
 
-    void View::setLasersValue(double l1, double l2, double l3) {
+    void View::setLasersValue(double laser1, double laser2, double laser3) {
 
-        progressBarLaser1->setValue(static_cast<int>(l1 * 100.0));
-        progressBarLaser2->setValue(static_cast<int>(l2 * 100.0));
-        progressBarLaser3->setValue(static_cast<int>(l3 * 100.0));
+        progressBarLaser1->setValue(static_cast<int>(laser1 * 100.0));
+        progressBarLaser2->setValue(static_cast<int>(laser2 * 100.0));
+        progressBarLaser3->setValue(static_cast<int>(laser3 * 100.0));
+    }
+
+    bool View::automaticPilotIsEnable() {
+        return automaticPilotCheckBox->isChecked();
     }
 }
