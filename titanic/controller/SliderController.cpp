@@ -20,7 +20,7 @@ namespace controller {
 
         for (auto rotationSpeed : machinesRotationSpeed) {
 
-            if (abs(rotationSpeed) >= 0.3 && rotationSpeed * power < 0) {
+            if (abs(rotationSpeed) >= 0.1 && rotationSpeed * power < 0) {
                 canChange = false;
                 break;
             }
@@ -36,7 +36,7 @@ namespace controller {
 
     void SliderController::helmSliderValueChanged(int value) {
 
-        double angle = (value * -1.0 / SLIDER_MAX_VALUE) * (M_PI / 4.0);
+        double angle = (value * -1.0 / SLIDER_MAX_VALUE) * (M_PI / 6.0);
 
         model->getTitanic()->setRudderValue(angle);
     }
