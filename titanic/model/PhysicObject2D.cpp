@@ -258,12 +258,7 @@ namespace model {
 
     void PhysicObject2D::nextOrientation(double time) {
 
-        static const unsigned int ROUND_NUMBER = 1000;
-
         orientation += rotationSpeed * time;
-
-        orientation = (static_cast<int>(std::round(orientation * ROUND_NUMBER)) %
-                       static_cast<int>(std::round(M_PI * 2.0 * ROUND_NUMBER))) * 1.0 / ROUND_NUMBER;
     }
 
     void PhysicObject2D::nextPosition(double time) {

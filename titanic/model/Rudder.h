@@ -13,10 +13,10 @@
 #define RUDDER_DEFAULT_W_SPEED_Y 0.0
 #define RUDDER_DEFAULT_WIDTH 4.55
 #define RUDDER_DEFAULT_HEIGHT 10.54
-#define RUDDER_MAGIC_NUMBER 50.0
 
 
 #define RUDDER_DEFAULT_LIFT_COEFFICIENTS_FILE "../assets/titanic_rudder_lift_coefficients.coef"
+#define RUDDER_DEFAULT_DRAG_COEFFICIENTS_FILE "../assets/titanic_rudder_drag_coefficients.coef"
 
 namespace model {
 
@@ -24,6 +24,7 @@ namespace model {
 
     private:
         const std::map<double, double> lift_coefficients;
+        const std::map<double, double> drag_coefficients;
 
         double value;                                              // radian
         double orientation;                                         // radian
@@ -36,9 +37,9 @@ namespace model {
         double getWaterSpeed() const;
 
     public:
-        explicit Rudder(std::map<double, double> _lift_coefficients, double _value, double _xWaterSpeed,
-                        double _yWaterSpeed,
-                        double _width, double _height, double _orientation);
+        explicit Rudder(std::map<double, double> _lift_coefficients, std::map<double, double> _drag_coefficients,
+                        double _value, double _xWaterSpeed, double _yWaterSpeed, double _width, double _height,
+                        double _orientation);
 
         explicit Rudder();
 

@@ -15,6 +15,7 @@ namespace model {
     }
 
     Titanic::Titanic() : Titanic(TITANIC_DEFAULT_X, TITANIC_DEFAULT_Y, TITANIC_DEFAULT_COURSE) {
+        setSpeedY(11);
     }
 
     Titanic::Titanic(double x, double y, double _orientation)
@@ -43,7 +44,6 @@ namespace model {
         for (auto engine : engines) {
             engine->nexTime(time);
         }
-
 
         nextTimeLinear();
         nextTimeRotation();
@@ -89,8 +89,7 @@ namespace model {
         const double incidence = angleBetweenVector(speed, directionVector());
 
         const double dragValue =
-                0.5 * SEA_M_VOL * TITANIC_REFERENCE_SURFACE * approximatedDragCoefficient(incidence) * getSpeed() *
-                TITANIC_MAGIC_NUMBER;
+                0.5 * SEA_M_VOL * TITANIC_REFERENCE_SURFACE * approximatedDragCoefficient(incidence) * getSpeed();
 
 
         Vector drag{{-dragValue * getSpeedX(), -dragValue * getSpeedY()}};
@@ -108,8 +107,7 @@ namespace model {
 
 
         double liftValue =
-                0.5 * SEA_M_VOL * TITANIC_REFERENCE_SURFACE * approximatedLiftCoefficient(incidence) * getSpeed() *
-                TITANIC_MAGIC_NUMBER;
+                0.5 * SEA_M_VOL * TITANIC_REFERENCE_SURFACE * approximatedLiftCoefficient(incidence) * getSpeed();
 
 
         Vector vector{{liftValue * getSpeedX(), liftValue * getSpeedY()}};
@@ -147,7 +145,6 @@ namespace model {
 
     void Titanic::drawMe(view::Draftsman *draftsman) {
         draftsman->drawTitanic(this);
-        draftsman->drawElement(this);
     }
 
     const LasersSensors<TITANIC_LASERS_COUNTER> &Titanic::getLasersSensors() const {

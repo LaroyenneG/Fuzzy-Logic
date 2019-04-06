@@ -1,6 +1,5 @@
 #include <utility>
-
-
+#include <utility>
 #include <iostream>
 #include "Rudder.h"
 #include "Titanic.h"
@@ -8,15 +7,18 @@
 namespace model {
 
     Rudder::Rudder()
-            : Rudder(PhysicObject2D::loadCoefficients(RUDDER_DEFAULT_LIFT_COEFFICIENTS_FILE), RUDDER_DEFAULT_VALUE,
+            : Rudder(PhysicObject2D::loadCoefficients(RUDDER_DEFAULT_LIFT_COEFFICIENTS_FILE),
+                     PhysicObject2D::loadCoefficients(RUDDER_DEFAULT_DRAG_COEFFICIENTS_FILE), RUDDER_DEFAULT_VALUE,
                      RUDDER_DEFAULT_W_SPEED_X, RUDDER_DEFAULT_W_SPEED_Y,
                      RUDDER_DEFAULT_WIDTH, RUDDER_DEFAULT_HEIGHT, DEFAULT_ORIENTATION) {
 
     }
 
-    Rudder::Rudder(std::map<double, double> _lift_coefficients, double _value, double _xWaterSpeed, double _yWaterSpeed,
-                   double _width, double _height, double _orientation)
-            : lift_coefficients(std::move(_lift_coefficients)), value(_value), orientation(_orientation),
+    Rudder::Rudder(std::map<double, double> _lift_coefficients, std::map<double, double> _drag_coefficients,
+                   double _value, double _xWaterSpeed, double _yWaterSpeed, double _width, double _height,
+                   double _orientation)
+            : lift_coefficients(std::move(_lift_coefficients)), drag_coefficients(std::move(_drag_coefficients)),
+              value(_value), orientation(_orientation),
               waterSpeed{{_xWaterSpeed, _yWaterSpeed}},
               width(_width), height(_height) {
 
@@ -49,8 +51,7 @@ namespace model {
         const double incidence = PhysicObject2D::angleBetweenVector(waterSpeed, direction);
 
         const double liftValue =
-                0.5 * SEA_M_VOL * getReferenceSurface() * approximatedLiftCoefficient(incidence) * getWaterSpeed() *
-                RUDDER_MAGIC_NUMBER;
+                0.5 * SEA_M_VOL * getReferenceSurface() * approximatedLiftCoefficient(incidence) * getWaterSpeed();
 
         Vector vector{{liftValue * waterSpeed[X_DIM_VALUE], liftValue * waterSpeed[Y_DIM_VALUE]}};
 
@@ -65,8 +66,7 @@ namespace model {
 
 
         const double dragValue =
-                0.5 * SEA_M_VOL * getReferenceSurface() * approximatedDragCoefficient(incidence) * getWaterSpeed() *
-                RUDDER_MAGIC_NUMBER;
+                0.5 * SEA_M_VOL * getReferenceSurface() * approximatedDragCoefficient(incidence) * getWaterSpeed();
 
         Vector drag{{-dragValue * waterSpeed[X_DIM_VALUE], -dragValue * waterSpeed[Y_DIM_VALUE]}};
 
@@ -96,6 +96,6 @@ namespace model {
 
     double Rudder::approximatedDragCoefficient(double incidence) const {
 
-        return PhysicObject2D::estimateOrdinateValue(incidence, lift_coefficients);
+        return PhysicObject2D::estimateOrdinateValue(incidence, drag_coefficients);
     }
 }

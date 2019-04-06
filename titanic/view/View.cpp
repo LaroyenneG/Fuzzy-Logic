@@ -231,7 +231,7 @@ namespace view {
 
     void View::setCourse(double value) {
 
-        int course = static_cast<int>(value * COURSE_RDS_TO_DEGREE);
+        int course = static_cast<int>(value * COURSE_RDS_TO_DEGREE) % 360;
 
         std::string string = std::to_string(course);
 
@@ -253,6 +253,7 @@ namespace view {
     }
 
     bool View::automaticPilotIsEnable() {
+
         return automaticPilotCheckBox->isChecked();
     }
 }
