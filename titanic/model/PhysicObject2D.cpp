@@ -342,8 +342,8 @@ namespace model {
 
         while (ifstream) {
 
-            double x = INFINITY;
-            double y = INFINITY;
+            double x = POINT_MAX_VALUE;
+            double y = POINT_MAX_VALUE;
 
             ifstream >> x;
             ifstream >> y;
@@ -414,11 +414,11 @@ namespace model {
             return p1.first < p2.first;
         });
 
-        double value = 0.0;
+        double value = INFINITY;
 
         if (sortedPoints.size() >= 2) {
 
-            std::pair<double, double> leftPoint(0.0, 0.0);
+            std::pair<double, double> leftPoint;
 
             bool initLeft = false;
 
@@ -437,7 +437,7 @@ namespace model {
             }
 
 
-            std::pair<double, double> rightPoint(0.0, 0.0);
+            std::pair<double, double> rightPoint;
 
             bool initRight = false;
 
@@ -455,14 +455,22 @@ namespace model {
                 }
             }
 
+            if (initRight && initLeft) {
 
-            if (initRight && initLeft && leftPoint.first != rightPoint.first) {
+                if (leftPoint == rightPoint) {
 
-                double a = (rightPoint.second - leftPoint.second) / (rightPoint.first - leftPoint.first);
+                    value = leftPoint.second;
 
-                double b = leftPoint.second - a * leftPoint.first;
+                } else if (leftPoint.first != rightPoint.first) {
 
-                value = a * abscissa + b;
+                    // equation : y = a*x+b
+
+                    const double a = (rightPoint.second - leftPoint.second) / (rightPoint.first - leftPoint.first);
+
+                    const double b = leftPoint.second - a * leftPoint.first;
+
+                    value = a * abscissa + b;
+                }
             }
         }
 
@@ -471,7 +479,7 @@ namespace model {
 
     std::map<double, double> PhysicObject2D::loadCoefficients(const std::string &filePath) {
 
-        static const double MAX_INCIDENCE_VALUE = 3.5;
+        static const double MAX_COEFFICIENTS_VALUE = INFINITY;
 
         std::map<double, double> coefficients;
 
@@ -479,13 +487,13 @@ namespace model {
 
         while (ifstream) {
 
-            double x = MAX_INCIDENCE_VALUE;
-            double y = MAX_INCIDENCE_VALUE;
+            double x = MAX_COEFFICIENTS_VALUE;
+            double y = MAX_COEFFICIENTS_VALUE;
 
             ifstream >> x;
             ifstream >> y;
 
-            if (x != MAX_INCIDENCE_VALUE && y != MAX_INCIDENCE_VALUE) {
+            if (x != MAX_COEFFICIENTS_VALUE && y != MAX_COEFFICIENTS_VALUE) {
                 coefficients[x] = y;
             }
         }

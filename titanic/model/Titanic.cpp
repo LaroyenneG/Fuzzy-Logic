@@ -12,8 +12,6 @@ namespace model {
             : PhysicObject2D(points, _xPosition, _yPosition, _orientation, _weight),
               lift_coefficients(std::move(_lift_coefficients)), drag_coefficients(std::move(_drag_coefficients)),
               engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
-
-        setSpeedY(12.0);
     }
 
     Titanic::Titanic() : Titanic(TITANIC_DEFAULT_X, TITANIC_DEFAULT_Y, TITANIC_DEFAULT_COURSE) {

@@ -2,7 +2,7 @@
 #define LOGIQUEFLOUE_MODEL_H
 
 #define MODEL_DEFAULT_CLOCK 0.001 // s
-#define MODEL_DEFAULT_ACCELERATION 1.0 // %
+#define MODEL_DEFAULT_ACCELERATION 1.0
 
 #include "Titanic.h"
 #include "Iceberg.h"

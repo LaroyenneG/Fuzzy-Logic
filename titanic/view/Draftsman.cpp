@@ -98,8 +98,6 @@ namespace view {
         icebergItem->setTransform(translation);
 
         scene->addItem(icebergItem);
-
-        drawVectors();
     }
 
     void Draftsman::drawLaserSensor(const model::LasersSensors<3> *laserSensor) {
