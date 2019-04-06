@@ -13,7 +13,7 @@
 #define RUDDER_DEFAULT_W_SPEED_Y 0.0
 #define RUDDER_DEFAULT_WIDTH 4.55
 #define RUDDER_DEFAULT_HEIGHT 10.54
-#define RUDDER_MAGIC_NUMBER 10.0
+#define RUDDER_MAGIC_NUMBER 50.0
 
 
 #define RUDDER_DEFAULT_LIFT_COEFFICIENTS_FILE "../assets/titanic_rudder_lift_coefficients.coef"

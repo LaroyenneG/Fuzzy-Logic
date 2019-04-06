@@ -71,8 +71,6 @@ namespace model {
         Vector drag{{-dragValue * waterSpeed[X_DIM_VALUE], -dragValue * waterSpeed[Y_DIM_VALUE]}};
 
 
-        std::cout << incidence << ";";
-
         return Vector{{lift[X_DIM_VALUE] + drag[X_DIM_VALUE], lift[Y_DIM_VALUE] + drag[Y_DIM_VALUE]}};
     }
 

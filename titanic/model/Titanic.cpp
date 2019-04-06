@@ -162,16 +162,15 @@ namespace model {
 
         Vector rudderStrength = computeRudder();
 
-        const double couple = normVector(rudderStrength) * sin(angleBetweenVector(direction, rudderStrength) *
-                                                               TITANIC_DISTANCE_BETWEEN_RUDDER_AND_GRAVITY_CENTER);  // N*m
-
-        const double angleAcceleration = angleVectorDirection(rudderStrength, direction) *
-                                         (couple / TITANIC_MOMENT_OF_INERTIA -
-                                          TITANIC_ROTATION_FRICTION * getRotationSpeed() /
-                                          TITANIC_DEFAULT_WEIGHT); // radian / s²
+        const double couple = normVector(rudderStrength) * sin(angleBetweenVector(direction, rudderStrength)) *
+                              TITANIC_DISTANCE_BETWEEN_RUDDER_AND_GRAVITY_CENTER;  // N*m
 
 
-        std::cout << angleAcceleration << "\n";
+        const double rotationFriction = -TITANIC_ROTATION_FRICTION * getRotationSpeed() /
+                                        TITANIC_DEFAULT_WEIGHT;
+
+        const double angleAcceleration = (angleVectorDirection(rudderStrength, direction) *
+                                          couple / TITANIC_MOMENT_OF_INERTIA) + rotationFriction; // radian / s²
 
         setRotationAcceleration(angleAcceleration);
     }

@@ -52,7 +52,8 @@ namespace model {
 
     bool Model::touching() const {
 
-        return titanic->touch(*iceberg);
+        return false;
+        titanic->touch(*iceberg);
     }
 
     void Model::nextTime(double time) {
