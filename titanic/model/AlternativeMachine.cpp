@@ -15,7 +15,8 @@ namespace model {
         return std::string(ALTERNATIVE_DEFAULT_ENGINE_NAME);
     }
 
-    double AlternativeMachine::powerStepFunction(double _powerStep, double time, double _power) const {
+    double
+    AlternativeMachine::powerStepFunction(double _powerStep, double time, double _power, double _desiredPower) const {
 
         double value = _powerStep * time;
 

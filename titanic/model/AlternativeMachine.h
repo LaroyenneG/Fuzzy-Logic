@@ -19,7 +19,7 @@ namespace model {
     class AlternativeMachine : public Engine {
 
     protected:
-        double powerStepFunction(double _powerStep, double time, double _power) const override;
+        double powerStepFunction(double _powerStep, double time, double _power, double _desiredPower) const override;
 
     public:
         explicit AlternativeMachine();

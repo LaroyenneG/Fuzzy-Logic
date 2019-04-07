@@ -26,7 +26,8 @@ namespace model {
         return std::string(TURBINE_DEFAULT_ENGINE_NAME);
     }
 
-    double LowPressureTurbine::powerStepFunction(double _powerStep, double time, double _power) const {
+    double
+    LowPressureTurbine::powerStepFunction(double _powerStep, double time, double _power, double _desiredPower) const {
 
         double value = _powerStep * time;
 

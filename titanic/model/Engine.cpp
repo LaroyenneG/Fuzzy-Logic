@@ -1,6 +1,7 @@
 #include <cmath>
 #include <stdexcept>
 #include "Engine.h"
+#include "Titanic.h"
 
 namespace model {
 
@@ -31,7 +32,9 @@ namespace model {
 
     double Engine::computePropulsionStrength() const {
 
-        return rotationSpeed * propellerRadius * ENGINE_BLADE_LIFT_MAGIC_NUMBER * bladeNumber;
+        double direction = (rotationSpeed < 0) ? -1.0 : 1.0;
+
+        return direction * computeBladeThrust(rotationSpeed, propellerRadius) * bladeNumber;
     }
 
     double Engine::getPower() const {
@@ -59,12 +62,12 @@ namespace model {
 
         double torque = (fabs(rotationSpeed) >= 1) ?
                         getHorsePower() * ENGINE_CV_TO_WATT / fabs(rotationSpeed)
-                                             :
+                                                   :
                         getHorsePower() * ENGINE_CV_TO_WATT;
 
-        rotationAcceleration =
-                torque / momentOfInertia -
-                rotationSpeed * bladeNumber * propellerRadius * friction / propellerWeight;
+        double rotationFriction = -rotationSpeed * bladeNumber * propellerRadius * friction / propellerWeight;
+
+        rotationAcceleration = torque / momentOfInertia + rotationFriction;
 
         nextRotation(time);
     }
@@ -76,7 +79,7 @@ namespace model {
 
     void Engine::nextPower(double time) {
 
-        double step = powerStepFunction(powerStep, time, power);
+        double step = powerStepFunction(powerStep, time, power, desiredPower);
 
         if (power < desiredPower) {
             power = (power + step < desiredPower) ? power + step : desiredPower;
@@ -86,7 +89,7 @@ namespace model {
         }
     }
 
-    double Engine::powerStepFunction(double _powerStep, double time, double _power) const {
+    double Engine::powerStepFunction(double _powerStep, double time, double _power, double _desiredPower) const {
 
         return _powerStep * time;
     }
@@ -94,5 +97,38 @@ namespace model {
     double Engine::getHorsePower() {
 
         return power * horsePower;
+    }
+
+    double Engine::computeBladeThrust(double _rotationSpeed, double _propellerRadius) const {
+
+        static const unsigned int SAMPLING = 10000;
+        static const double THRUST_COEFFICIENT = ENGINE_BLADE_THRUST_MAGIC_NUMBER;
+
+        const double step = _propellerRadius / SAMPLING;
+        const double width = propellerRadius * 2.0 / 3.0;
+
+        double thrust = 0.0;
+
+        double a = 0.0;
+        double b = step;
+
+
+        while (b < propellerRadius) {
+
+            double length = (a + b) / 2.0;
+
+            double waterSpeed = _rotationSpeed * length;
+
+            double surface = (b - a) / 2.0 * width;
+
+            double thrustValue = 0.5 * SEA_M_VOL * surface * THRUST_COEFFICIENT * waterSpeed * waterSpeed;
+
+            thrust += thrustValue;
+
+            a = b;
+            b += step;
+        }
+
+        return thrust;
     }
 }

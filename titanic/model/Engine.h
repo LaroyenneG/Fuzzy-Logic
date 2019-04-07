@@ -12,7 +12,7 @@
 
 #define ENGINE_CV_TO_WATT 735.5
 
-#define ENGINE_BLADE_LIFT_MAGIC_NUMBER 30000.0 // N.r / (rad / s)
+#define ENGINE_BLADE_THRUST_MAGIC_NUMBER 1.42
 
 #define ENGINE_VALUE_ERROR_MSG "Engine invalid engine power"
 #define ENGINE_DEFAULT_NAME "Engine"
@@ -29,7 +29,7 @@ namespace model {
 
         const double friction;            // m / s
         const double propellerRadius;   // m
-        const double propellerWeight;     // kg
+        const double propellerWeight;    // kg
         const double horsePower;  // hp
         const double maxRotationSpeed; // radian / s
         const double powerStep;  // % / s
@@ -37,7 +37,9 @@ namespace model {
         const unsigned short bladeNumber;
 
     protected:
-        virtual double powerStepFunction(double _powerStep, double time, double _power) const;
+        virtual double powerStepFunction(double _powerStep, double time, double _power, double _desiredPower) const;
+
+        virtual double computeBladeThrust(double _rotationSpeed, double _propellerRadius) const;
 
     public:
 

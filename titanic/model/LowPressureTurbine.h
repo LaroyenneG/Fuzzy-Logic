@@ -20,7 +20,7 @@ namespace model {
     class LowPressureTurbine : public Engine {
 
     protected:
-        double powerStepFunction(double _powerStep, double time, double _power) const override;
+        double powerStepFunction(double _powerStep, double time, double _power, double _desiredPower) const override;
 
 
     public:

@@ -195,29 +195,29 @@ namespace model {
         static const double DRAUGHT = TITANIC_DRAUGHT;
         static const double LENGTH = TITANIC_SIZE / 2.0;
         static const unsigned int SAMPLING = 10000;
+        static const double STEP = LENGTH / SAMPLING;
 
         const double rotationSpeed = getRotationSpeed();
         const double direction = (rotationSpeed < 0) ? 1.0 : -1.0;
-        const double step = LENGTH / SAMPLING;
 
         double torque = 0.0;
         double a = 0.0;
-        double b = step;
+        double b = STEP;
 
         while (b < LENGTH) {
 
-            double size = (a + b) / 2.0;
+            double length = (a + b) / 2.0;
 
-            double waterSpeed = rotationSpeed * size;
+            double waterSpeed = rotationSpeed * length;
 
             double surface = (b - a) * DRAUGHT;
 
             double dragValue = 0.5 * SEA_M_VOL * surface * DRAG_COEFFICIENT * waterSpeed * waterSpeed;
 
-            torque += dragValue * size;
+            torque += dragValue * length;
 
             a = b;
-            b += step;
+            b += STEP;
         }
 
         torque *= 2.0;
