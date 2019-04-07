@@ -4,10 +4,10 @@
 
 namespace view {
 
-    const QColor Draftsman::SEA_COLOR(0, 138, 230);
+    const QColor Draftsman::SEA_COLOR(25, 25, 112);
 
     Draftsman::Draftsman(const model::Model *_model, QGraphicsScene *_scene)
-            : model(_model), scene(_scene) {
+            : visibility(DRAFTSMAN_VISIBILITY), model(_model), scene(_scene) {
 
         scene->setBackgroundBrush(SEA_COLOR);
     }
@@ -53,7 +53,6 @@ namespace view {
         const static QImage TITANIC_IMAGE(TITANIC_PICTURE_FILE_NAME);
         const static QPoint DIMENSION = scaleConverter(TITANIC_SIZE, TITANIC_WIDTH);
 
-
         QGraphicsPixmapItem *titanicItem = new QGraphicsPixmapItem(
                 QPixmap::fromImage(TITANIC_IMAGE).scaled(DIMENSION.x(), DIMENSION.y()));
 
@@ -82,9 +81,10 @@ namespace view {
 
     void Draftsman::drawIceberg(const model::Iceberg *iceberg) {
 
-
         const static QImage ICEBERG_IMAGE(ICEBERG_IMAGE_FILE);
         const static QPoint DIMENSION = scaleConverter(ICEBERG_DEFAULT_RAYON * 2.0, ICEBERG_DEFAULT_RAYON * 2.0);
+
+        if (visibility <= model->distance()) { return; }
 
         QGraphicsPixmapItem *icebergItem = new QGraphicsPixmapItem(
                 QPixmap::fromImage(ICEBERG_IMAGE).scaled(DIMENSION.x(), DIMENSION.y()));
@@ -110,6 +110,9 @@ namespace view {
         }
     }
 
+    void Draftsman::changeVisibility(double value) {
+        visibility = value;
+    }
 
     /* static functions */
 
