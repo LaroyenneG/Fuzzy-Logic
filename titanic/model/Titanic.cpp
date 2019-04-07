@@ -15,7 +15,6 @@ namespace model {
     }
 
     Titanic::Titanic() : Titanic(TITANIC_DEFAULT_X, TITANIC_DEFAULT_Y, TITANIC_DEFAULT_COURSE) {
-        setSpeedY(11);
     }
 
     Titanic::Titanic(double x, double y, double _orientation)
@@ -103,10 +102,9 @@ namespace model {
 
         Vector direction = directionVector();
 
-        double incidence = angleBetweenVector(speed, direction);
+        const double incidence = angleBetweenVector(speed, direction);
 
-
-        double liftValue =
+        const double liftValue =
                 0.5 * SEA_M_VOL * TITANIC_REFERENCE_SURFACE * approximatedLiftCoefficient(incidence) * getSpeed();
 
 
@@ -148,6 +146,7 @@ namespace model {
     }
 
     const LasersSensors<TITANIC_LASERS_COUNTER> &Titanic::getLasersSensors() const {
+
         return lasersSensors;
     }
 
@@ -157,15 +156,13 @@ namespace model {
 
         Vector rudderStrength = computeRudder();
 
-        const double couple = normVector(rudderStrength) * sin(angleBetweenVector(direction, rudderStrength)) *
+        const double torque = normVector(rudderStrength) * sin(angleBetweenVector(direction, rudderStrength)) *
                               TITANIC_DISTANCE_BETWEEN_RUDDER_AND_GRAVITY_CENTER;  // N*m
 
-
-        const double rotationFriction = -TITANIC_ROTATION_FRICTION * getRotationSpeed() /
-                                        TITANIC_DEFAULT_WEIGHT;
+        const double rotationFriction = computeRotationFriction();
 
         const double angleAcceleration = (angleVectorDirection(rudderStrength, direction) *
-                                          couple / TITANIC_MOMENT_OF_INERTIA) + rotationFriction; // radian / s²
+                                          torque / TITANIC_MOMENT_OF_INERTIA) + rotationFriction; // radian / s²
 
         setRotationAcceleration(angleAcceleration);
     }
@@ -189,5 +186,42 @@ namespace model {
 
         setAccelerationX(acceleration[X_DIM_VALUE]);
         setAccelerationY(acceleration[Y_DIM_VALUE]);
+    }
+
+    double Titanic::computeRotationFriction() const {
+
+        static const double MOMENT_OF_INERTIA = TITANIC_MOMENT_OF_INERTIA;
+        static const double DRAG_COEFFICIENT = 1.1;
+        static const double DRAUGHT = TITANIC_DRAUGHT;
+        static const double LENGTH = TITANIC_SIZE / 2.0;
+        static const unsigned int SAMPLING = 10000;
+
+        const double rotationSpeed = getRotationSpeed();
+        const double direction = (rotationSpeed < 0) ? 1.0 : -1.0;
+        const double step = LENGTH / SAMPLING;
+
+        double torque = 0.0;
+        double a = 0.0;
+        double b = step;
+
+        while (b < LENGTH) {
+
+            double size = (a + b) / 2.0;
+
+            double waterSpeed = rotationSpeed * size;
+
+            double surface = (b - a) * DRAUGHT;
+
+            double dragValue = 0.5 * SEA_M_VOL * surface * DRAG_COEFFICIENT * waterSpeed * waterSpeed;
+
+            torque += dragValue * size;
+
+            a = b;
+            b += step;
+        }
+
+        torque *= 2.0;
+
+        return torque / MOMENT_OF_INERTIA * direction;
     }
 }

@@ -67,6 +67,8 @@ namespace model {
 
         void nextTimeRotation();
 
+        double computeRotationFriction() const;
+
     public:
         explicit Titanic(const std::vector<Point> &points, double _orientation, double _weight, double _xPosition,
                          double _yPosition, std::map<double, double> _lift_coefficients,
@@ -85,7 +87,6 @@ namespace model {
         double approximatedDragCoefficient(double incidence) const;
 
         void nextTime(double time) override;
-
 
         void setMachinePower(double value);
 
