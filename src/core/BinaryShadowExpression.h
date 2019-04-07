@@ -9,16 +9,16 @@ namespace core {
     class BinaryShadowExpression : public BinaryExpression<T> {
 
     private:
-        BinaryExpression<T> *target;
+        BinaryExpression <T> *target;
 
     public:
         explicit BinaryShadowExpression(BinaryExpression <T> *_target);
 
         T evaluate(Expression <T> *left, Expression <T> *right) const override;
 
-        const BinaryExpression<T> *getTarget() const;
+        const BinaryExpression <T> *getTarget() const;
 
-        void setTarget(BinaryExpression<T> *_target);
+        void setTarget(BinaryExpression <T> *_target);
     };
 
     template<typename T>
@@ -36,12 +36,12 @@ namespace core {
     }
 
     template<typename T>
-    const BinaryExpression<T> *BinaryShadowExpression<T>::getTarget() const {
+    const BinaryExpression <T> *BinaryShadowExpression<T>::getTarget() const {
         return target;
     }
 
     template<typename T>
-    void BinaryShadowExpression<T>::setTarget(BinaryExpression<T> *_target) {
+    void BinaryShadowExpression<T>::setTarget(BinaryExpression <T> *_target) {
         target = _target;
     }
 }

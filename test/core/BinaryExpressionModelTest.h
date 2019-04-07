@@ -13,8 +13,8 @@ using namespace fuzzy;
 class BinaryExpressionModelTest : public CppUnit::TestFixture {
 
 CPPUNIT_TEST_SUITE(BinaryExpressionModelTest);
-            CPPUNIT_TEST(testOperandsNull);
-            CPPUNIT_TEST(testOperatorNull);
+        CPPUNIT_TEST(testOperandsNull);
+        CPPUNIT_TEST(testOperatorNull);
     CPPUNIT_TEST_SUITE_END();
 
 public:

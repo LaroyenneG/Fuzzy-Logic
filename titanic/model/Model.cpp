@@ -8,8 +8,6 @@ namespace model {
             : titanic(new Titanic()), iceberg(new Iceberg()), clockStep(_clock), timeAcceleration(_timeAcceleration) {
         elements.insert(titanic);
         elements.insert(iceberg);
-
-        titanic->setSpeedY(15);
     }
 
     Model::Model() : Model(MODEL_DEFAULT_CLOCK, MODEL_DEFAULT_ACCELERATION) {
@@ -54,8 +52,7 @@ namespace model {
 
     bool Model::touching() const {
 
-        return false;
-        titanic->touch(*iceberg);
+        return titanic->touch(*iceberg);
     }
 
     void Model::nextTime(double time) {

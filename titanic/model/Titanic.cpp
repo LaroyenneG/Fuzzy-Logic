@@ -177,8 +177,8 @@ namespace model {
 
         Vector strengthsSum{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE] + lift[X_DIM_VALUE] +
                              centrifugalForce[X_DIM_VALUE],
-                                 propulsion[Y_DIM_VALUE] + drag[Y_DIM_VALUE] + lift[Y_DIM_VALUE] +
-                                 centrifugalForce[Y_DIM_VALUE]}};
+                                    propulsion[Y_DIM_VALUE] + drag[Y_DIM_VALUE] + lift[Y_DIM_VALUE] +
+                                    centrifugalForce[Y_DIM_VALUE]}};
 
 
         Vector acceleration{{strengthsSum[X_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT,

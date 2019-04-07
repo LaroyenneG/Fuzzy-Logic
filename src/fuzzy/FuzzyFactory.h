@@ -28,7 +28,9 @@ namespace fuzzy {
         core::UnaryShadowExpression<T> *mNot;
 
     public:
-        FuzzyFactory<T>(core::UnaryShadowExpression<T> *, core::BinaryShadowExpression<T> *, core::BinaryShadowExpression<T> *, core::BinaryShadowExpression<T> *, core::BinaryShadowExpression<T> *);
+        FuzzyFactory<T>(core::UnaryShadowExpression<T> *, core::BinaryShadowExpression<T> *,
+                        core::BinaryShadowExpression<T> *, core::BinaryShadowExpression<T> *,
+                        core::BinaryShadowExpression<T> *);
 
         core::BinaryExpression<T> *newAnd(core::Expression<T> *left, core::Expression<T> *right);
 
@@ -55,9 +57,10 @@ namespace fuzzy {
     };
 
     template<typename T>
-    FuzzyFactory<T>::FuzzyFactory(core::UnaryShadowExpression<T> *_not, core::BinaryShadowExpression<T> *_and, core::BinaryShadowExpression<T> *_or, core::BinaryShadowExpression<T> *_then,
+    FuzzyFactory<T>::FuzzyFactory(core::UnaryShadowExpression<T> *_not, core::BinaryShadowExpression<T> *_and,
+                                  core::BinaryShadowExpression<T> *_or, core::BinaryShadowExpression<T> *_then,
                                   core::BinaryShadowExpression<T> *_agg)
-            :mAnd(_and), mOr(_or), mThen(_then), mAgg(_agg),mNot(_not) {}
+            :mAnd(_and), mOr(_or), mThen(_then), mAgg(_agg), mNot(_not) {}
 
     template<typename T>
     core::BinaryExpression<T> *FuzzyFactory<T>::newAnd(core::Expression<T> *left, core::Expression<T> *right) {

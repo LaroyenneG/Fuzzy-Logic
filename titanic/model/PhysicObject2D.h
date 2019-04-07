@@ -10,6 +10,8 @@
 #include <map>
 #include <fstream>
 
+#include "BlackBox.h"
+
 #define DEFAULT_POSITION_X 0.0
 #define DEFAULT_POSITION_Y 0.0
 
@@ -47,6 +49,8 @@ namespace model {
     class PhysicObject2D {
 
     protected:
+        BlackBox blackBox;
+
         std::vector<Point> points;     // m
 
         Point position;                  // m
@@ -123,6 +127,8 @@ namespace model {
 
         double getWeight() const;
 
+        const BlackBox &getBlackBox() const;
+
         void setWeight(double value);
 
         virtual void nextTime(double time);
@@ -140,6 +146,7 @@ namespace model {
         const std::vector<Point> &getPoints() const;
 
         virtual void drawMe(view::Draftsman *draftsman);
+
 
         virtual ~PhysicObject2D() = default;
 

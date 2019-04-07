@@ -12,6 +12,7 @@
 #include "ValueModel.h"
 #include "IsSigmoid.h"
 #include "IsGaussian.h"
+
 using namespace fuzzy;
 using namespace core;
 

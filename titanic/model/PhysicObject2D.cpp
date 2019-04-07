@@ -567,4 +567,8 @@ namespace model {
 
         return (angleBetweenVector(vector2, pointRotation(vector1, angle / 2.0)) < angle) ? 1.0 : -1.0;
     }
+
+    const BlackBox &PhysicObject2D::getBlackBox() const {
+        return blackBox;
+    }
 }

@@ -21,16 +21,16 @@ namespace core {
 
         virtual ~ExpressionFactory();
 
-        Expression<T> *hold(Expression <T> *expression);
+        Expression<T> *hold(Expression<T> *expression);
 
         UnaryExpression<T> *newUnary(UnaryExpression<T> *operand, Expression<T> *expression);
 
         BinaryExpression<T> *
-        newBinary(BinaryExpression <T> *operand, Expression <T> *left, Expression <T> *right);
+        newBinary(BinaryExpression<T> *operand, Expression<T> *left, Expression<T> *right);
     };
 
     template<typename T>
-    Expression<T> *ExpressionFactory<T>::hold(Expression <T> *expression) {
+    Expression<T> *ExpressionFactory<T>::hold(Expression<T> *expression) {
 
         memory.insert(expression);
 
@@ -49,9 +49,9 @@ namespace core {
     }
 
     template<typename T>
-    BinaryExpression<T> *ExpressionFactory<T>::newBinary(BinaryExpression <T> *operand,
-                                                         Expression <T> *left,
-                                                         Expression <T> *right) {
+    BinaryExpression<T> *ExpressionFactory<T>::newBinary(BinaryExpression<T> *operand,
+                                                         Expression<T> *left,
+                                                         Expression<T> *right) {
 
         auto nExpression = new BinaryExpressionModel<T>(operand, left, right);
 
