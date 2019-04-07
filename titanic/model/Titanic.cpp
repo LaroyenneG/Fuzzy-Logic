@@ -175,14 +175,14 @@ namespace model {
         Vector drag = computeDrag(); // N
 
 
-        Vector strengths{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE] + lift[X_DIM_VALUE] +
-                          centrifugalForce[X_DIM_VALUE],
+        Vector strengthsSum{{propulsion[X_DIM_VALUE] + drag[X_DIM_VALUE] + lift[X_DIM_VALUE] +
+                             centrifugalForce[X_DIM_VALUE],
                                  propulsion[Y_DIM_VALUE] + drag[Y_DIM_VALUE] + lift[Y_DIM_VALUE] +
                                  centrifugalForce[Y_DIM_VALUE]}};
 
 
-        Vector acceleration{{strengths[X_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT,
-                                    strengths[Y_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT}};
+        Vector acceleration{{strengthsSum[X_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT,
+                                    strengthsSum[Y_DIM_VALUE] / TITANIC_DEFAULT_WEIGHT}};
 
         setAccelerationX(acceleration[X_DIM_VALUE]);
         setAccelerationY(acceleration[Y_DIM_VALUE]);

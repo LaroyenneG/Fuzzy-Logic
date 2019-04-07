@@ -1,6 +1,4 @@
-
 #include <QApplication>
-
 #include "ControlGroup.h"
 
 using namespace view;
