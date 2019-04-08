@@ -40,6 +40,9 @@ namespace fuzzy {
     template<typename T>
     T IsRampRight<T>::evaluate(core::Expression<T> *expression) const {
 
+        static const T ONE(1);
+        static const T ZERO(0);
+
         T value = expression->evaluate();
 
         if (value > mid && value < max) {
@@ -48,14 +51,15 @@ namespace fuzzy {
 
         } else if (value <= mid) {
 
-            return core::Expression<T>::ONE;
+            return ONE;
         }
 
-        return core::Expression<T>::ZERO;
+        return ZERO;
     }
 
     template<typename T>
     const T &IsRampRight<T>::getMin() const {
+
         return min;
     }
 
@@ -66,21 +70,25 @@ namespace fuzzy {
 
     template<typename T>
     const T &IsRampRight<T>::getMax() const {
+
         return max;
     }
 
     template<typename T>
     void IsRampRight<T>::setMin(const T &_min) {
+
         min = _min;
     }
 
     template<typename T>
     void IsRampRight<T>::setMid(const T &_mid) {
+
         mid = _mid;
     }
 
     template<typename T>
     void IsRampRight<T>::setMax(const T &_max) {
+
         max = _max;
     }
 

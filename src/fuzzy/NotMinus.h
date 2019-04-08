@@ -15,9 +15,11 @@ namespace fuzzy {
     template<typename T>
     T NotMinus<T>::evaluate(core::Expression<T> *operand) const {
 
+        static const T ONE(1);
+
         T value = operand->evaluate();
 
-        return core::Expression<T>::ONE - value;
+        return ONE - value;
     }
 }
 

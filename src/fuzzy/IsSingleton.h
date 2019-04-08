@@ -28,9 +28,12 @@ namespace fuzzy {
     template<typename T>
     T IsSingleton<T>::evaluate(core::Expression<T> *expression) const {
 
+        static const T ONE(1);
+        static const T ZERO(0);
+
         T evaluateValue = expression->evaluate();
 
-        return (evaluateValue == value) ? core::Expression<T>::ONE : core::Expression<T>::ZERO;
+        return (evaluateValue == value) ? ONE : ZERO;
     }
 
     template<typename T>

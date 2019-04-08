@@ -52,9 +52,11 @@ namespace fuzzy {
     template<typename T>
     T IsSigmoid<T>::evaluate(core::Expression<T> *expression) const {
 
+        static const T ONE(1);
+
         T value = expression->evaluate();
 
-        return core::Expression<T>::ONE / (core::Expression<T>::ONE + std::exp(-value - min));
+        return ONE / (ONE + std::exp(-value - min));
     }
 }
 
