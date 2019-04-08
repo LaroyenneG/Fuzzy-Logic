@@ -43,9 +43,15 @@ namespace model {
 
         explicit Rudder();
 
+        double computeIncidence() const;
+
         void setWaterSpeedX(double xValue);
 
         void setWaterSpeedY(double yValue);
+
+        double getWaterSpeedX() const;
+
+        double getWaterSpeedY() const;
 
         void setValue(double _value);
 
@@ -54,6 +60,8 @@ namespace model {
         double getValue() const;
 
         Vector computeHydrodynamicStrength() const;
+
+        Vector directionVector() const;
 
         double getReferenceSurface() const;
 

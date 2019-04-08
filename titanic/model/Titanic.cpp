@@ -12,6 +12,8 @@ namespace model {
             : PhysicObject2D(points, _xPosition, _yPosition, _orientation, _weight),
               lift_coefficients(std::move(_lift_coefficients)), drag_coefficients(std::move(_drag_coefficients)),
               engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
+
+        setSpeedY(-11);
     }
 
     Titanic::Titanic() : Titanic(TITANIC_DEFAULT_X, TITANIC_DEFAULT_Y, TITANIC_DEFAULT_COURSE) {
@@ -61,13 +63,12 @@ namespace model {
             /* engines */
 
             unsigned int i = 0;
-
             for (auto engine : engines) {
 
                 std::string engineLabel;
-                engineLabel.append("engine[");
+                engineLabel.append("engine ");
                 engineLabel.append(std::to_string(i++));
-                engineLabel.append("]");
+                engineLabel.append(" ");
 
                 blackBox.collectData(engineLabel + "(rotation speed)", engine->getRotationSpeed());
                 blackBox.collectData(engineLabel + "(power)", engine->getPower());
@@ -76,7 +77,7 @@ namespace model {
 
             /* incidence */
 
-            blackBox.collectData("ship incidence", angleBetweenVector(speed, directionVector()));
+            blackBox.collectData("ship incidence", computeIncidence());
 
             /* lift */
 
@@ -85,6 +86,7 @@ namespace model {
             blackBox.collectData("lift (x)", lift[X_DIM_VALUE]);
             blackBox.collectData("lift (y)", lift[Y_DIM_VALUE]);
             blackBox.collectData("lift", normVector(lift));
+            blackBox.collectData("lift coefficient", approximatedLiftCoefficient(computeIncidence()));
 
             /* drag */
 
@@ -93,25 +95,33 @@ namespace model {
             blackBox.collectData("drag (x)", drag[X_DIM_VALUE]);
             blackBox.collectData("drag (y)", drag[Y_DIM_VALUE]);
             blackBox.collectData("drag", normVector(drag));
+            blackBox.collectData("drag coefficient", approximatedDragCoefficient(computeIncidence()));
 
             /* centrifugal */
 
-            Vector centrifugal = computeCentrifugalForce();
+            Vector centrifugal = computeCentrifugalStrength();
 
             blackBox.collectData("centrifugal (x)", centrifugal[X_DIM_VALUE]);
             blackBox.collectData("centrifugal (y)", centrifugal[Y_DIM_VALUE]);
             blackBox.collectData("centrifugal", normVector(centrifugal));
-
 
             /* rudder */
 
             Vector rudderStrength = rudder.computeHydrodynamicStrength();
 
             blackBox.collectData("rudder value", rudder.getValue());
-
             blackBox.collectData("rudder strength (x)", rudderStrength[X_DIM_VALUE]);
             blackBox.collectData("rudder strength (y)", rudderStrength[Y_DIM_VALUE]);
             blackBox.collectData("rudder strength", normVector(rudderStrength));
+            blackBox.collectData("rudder incidence", rudder.computeIncidence());
+            blackBox.collectData("lift coefficient", rudder.approximatedLiftCoefficient(rudder.computeIncidence()));
+            blackBox.collectData("drag coefficient", rudder.approximatedDragCoefficient(rudder.computeIncidence()));
+
+            /* rotation friction */
+
+            double rotationFriction = computeRotationFriction();
+
+            blackBox.collectData("rotation friction", rotationFriction);
         }
 #endif
     }
@@ -145,7 +155,7 @@ namespace model {
 
     Vector Titanic::computeDrag() const {
 
-        const double incidence = angleBetweenVector(speed, directionVector());
+        const double incidence = computeIncidence();
 
         const double dragValue =
                 0.5 * SEA_M_VOL * TITANIC_REFERENCE_SURFACE * approximatedDragCoefficient(incidence) * getSpeed();
@@ -162,7 +172,7 @@ namespace model {
 
         Vector direction = directionVector();
 
-        const double incidence = angleBetweenVector(speed, direction);
+        const double incidence = computeIncidence();
 
         const double liftValue =
                 0.5 * SEA_M_VOL * TITANIC_REFERENCE_SURFACE * approximatedLiftCoefficient(incidence) * getSpeed();
@@ -229,7 +239,7 @@ namespace model {
 
     void Titanic::nextTimeLinear() {
 
-        Vector centrifugalForce = computeCentrifugalForce(); // N
+        Vector centrifugalForce = computeCentrifugalStrength(); // N
         Vector propulsion = computePropulsion(); // N
         Vector lift = computeLift(); // N
         Vector drag = computeDrag(); // N
@@ -246,6 +256,11 @@ namespace model {
 
         setAccelerationX(acceleration[X_DIM_VALUE]);
         setAccelerationY(acceleration[Y_DIM_VALUE]);
+    }
+
+
+    double Titanic::computeIncidence() const {
+        return angleBetweenVector(speed, directionVector());
     }
 
     double Titanic::computeRotationFriction() const {

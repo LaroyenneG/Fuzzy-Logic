@@ -23,6 +23,13 @@ namespace model {
                            _weight) {
     }
 
+#ifdef _ACTIVE_BLACK_BOX_
+
+    const BlackBox &PhysicObject2D::getBlackBox() const {
+        return blackBox;
+    }
+
+#endif
 
     double PhysicObject2D::getPositionX() const {
         return position[X_DIM_VALUE];
@@ -131,7 +138,7 @@ namespace model {
         return false;
     }
 
-    Vector PhysicObject2D::computeCentrifugalForce() const {
+    Vector PhysicObject2D::computeCentrifugalStrength() const {
 
         static const double NEGLIGIBLE = pow(10, -4);
 
@@ -287,13 +294,12 @@ namespace model {
             /* points */
 
             unsigned int i = 0;
-
             for (auto p : positions) {
 
                 std::string pointLabel;
-                pointLabel.append("point[");
+                pointLabel.append("point ");
                 pointLabel.append(std::to_string(i++));
-                pointLabel.append("]");
+                pointLabel.append(" ");
 
                 blackBox.collectData(pointLabel + "(x)", p[X_DIM_VALUE]);
                 blackBox.collectData(pointLabel + "(y)", p[Y_DIM_VALUE]);
@@ -614,9 +620,5 @@ namespace model {
 
 
         return (angleBetweenVector(vector2, pointRotation(vector1, angle / 2.0)) < angle) ? 1.0 : -1.0;
-    }
-
-    const BlackBox &PhysicObject2D::getBlackBox() const {
-        return blackBox;
     }
 }

@@ -96,6 +96,8 @@ namespace model {
 
         const LasersSensors<TITANIC_LASERS_COUNTER> &getLasersSensors() const;
 
+        double computeIncidence() const;
+
         /********************* strengths ************************/
 
         Vector computePropulsion() const;

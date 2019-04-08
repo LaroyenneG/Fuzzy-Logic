@@ -48,9 +48,17 @@ namespace model {
 
     class PhysicObject2D {
 
+#ifdef _ACTIVE_BLACK_BOX_
     protected:
         BlackBox blackBox;
 
+    public:
+        const BlackBox &getBlackBox() const;
+
+#endif
+
+
+    protected:
         const std::vector<Point> points;
 
         Point position;                  // m
@@ -79,7 +87,7 @@ namespace model {
                                 double _yPosition, double _orientation, double _weight);
 
 
-        Vector computeCentrifugalForce() const;
+        Vector computeCentrifugalStrength() const;
 
         bool touch(const PhysicObject2D &object) const;
 
@@ -128,8 +136,6 @@ namespace model {
         void setRotationAcceleration(double value);
 
         double getWeight() const;
-
-        const BlackBox &getBlackBox() const;
 
         void setWeight(double value);
 

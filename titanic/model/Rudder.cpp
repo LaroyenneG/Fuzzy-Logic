@@ -46,14 +46,14 @@ namespace model {
 
         static const double ROTATION = M_PI / 2.0;
 
-        Vector direction{{cos(value + orientation), sin(value + orientation)}};
+        Vector direction = directionVector();
 
-        const double incidence = PhysicObject2D::angleBetweenVector(waterSpeed, direction);
+        const double incidence = computeIncidence();
 
         const double liftValue =
                 0.5 * SEA_M_VOL * getReferenceSurface() * approximatedLiftCoefficient(incidence) * getWaterSpeed();
 
-        Vector vector{{liftValue * waterSpeed[X_DIM_VALUE], liftValue * waterSpeed[Y_DIM_VALUE]}};
+        Vector vector{{liftValue * getWaterSpeedX(), liftValue * getWaterSpeedY()}};
 
         Vector larboardLift = PhysicObject2D::pointRotation(vector, ROTATION);
 
@@ -68,7 +68,7 @@ namespace model {
         const double dragValue =
                 0.5 * SEA_M_VOL * getReferenceSurface() * approximatedDragCoefficient(incidence) * getWaterSpeed();
 
-        Vector drag{{-dragValue * waterSpeed[X_DIM_VALUE], -dragValue * waterSpeed[Y_DIM_VALUE]}};
+        Vector drag{{-dragValue * getWaterSpeedX(), -dragValue * getWaterSpeedY()}};
 
 
         return Vector{{lift[X_DIM_VALUE] + drag[X_DIM_VALUE], lift[Y_DIM_VALUE] + drag[Y_DIM_VALUE]}};
@@ -97,5 +97,25 @@ namespace model {
     double Rudder::approximatedDragCoefficient(double incidence) const {
 
         return PhysicObject2D::estimateOrdinateValue(incidence, drag_coefficients);
+    }
+
+    Vector Rudder::directionVector() const {
+
+        return Vector{{cos(value + orientation), sin(value + orientation)}};;
+    }
+
+    double Rudder::getWaterSpeedX() const {
+
+        return waterSpeed[X_DIM_VALUE];
+    }
+
+    double Rudder::getWaterSpeedY() const {
+
+        return waterSpeed[Y_DIM_VALUE];
+    }
+
+    double Rudder::computeIncidence() const {
+
+        return PhysicObject2D::angleBetweenVector(waterSpeed, directionVector());
     }
 }
