@@ -51,17 +51,17 @@ namespace model {
     protected:
         BlackBox blackBox;
 
-        std::vector<Point> points;     // m
+        const std::vector<Point> points;
 
         Point position;                  // m
         Vector speed;                     // m / s
         Vector acceleration;             // m / s²
 
-        double orientation;                                             // radian
-        double rotationSpeed;                                           // radian / s
-        double rotationAcceleration;                                    // radian / s²
+        double orientation;                     // radian
+        double rotationSpeed;                   // radian / s
+        double rotationAcceleration;            // radian / s²
 
-        double weight;                                                    // kg
+        double weight;                          // kg
 
         std::list<Point> positions;
 
@@ -105,6 +105,8 @@ namespace model {
 
         double getSpeedY() const;
 
+        double getAcceleration() const;
+
         double getAccelerationX() const;
 
         double getAccelerationY() const;
@@ -146,7 +148,6 @@ namespace model {
         const std::vector<Point> &getPoints() const;
 
         virtual void drawMe(view::Draftsman *draftsman);
-
 
         virtual ~PhysicObject2D() = default;
 

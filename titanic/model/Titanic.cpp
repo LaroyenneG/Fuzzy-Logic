@@ -54,6 +54,66 @@ namespace model {
 
         lasersSensors.setPosition(lasersSensorsPosition);
         lasersSensors.setOrientation(orientation);
+
+
+#ifdef _ACTIVE_BLACK_BOX_
+        {
+            /* engines */
+
+            unsigned int i = 0;
+
+            for (auto engine : engines) {
+
+                std::string engineLabel;
+                engineLabel.append("engine[");
+                engineLabel.append(std::to_string(i++));
+                engineLabel.append("]");
+
+                blackBox.collectData(engineLabel + "(rotation speed)", engine->getRotationSpeed());
+                blackBox.collectData(engineLabel + "(power)", engine->getPower());
+                blackBox.collectData(engineLabel + "(propulsion)", engine->computePropulsionStrength());
+            }
+
+            /* incidence */
+
+            blackBox.collectData("ship incidence", angleBetweenVector(speed, directionVector()));
+
+            /* lift */
+
+            Vector lift = computeLift();
+
+            blackBox.collectData("lift (x)", lift[X_DIM_VALUE]);
+            blackBox.collectData("lift (y)", lift[Y_DIM_VALUE]);
+            blackBox.collectData("lift", normVector(lift));
+
+            /* drag */
+
+            Vector drag = computeDrag();
+
+            blackBox.collectData("drag (x)", drag[X_DIM_VALUE]);
+            blackBox.collectData("drag (y)", drag[Y_DIM_VALUE]);
+            blackBox.collectData("drag", normVector(drag));
+
+            /* centrifugal */
+
+            Vector centrifugal = computeCentrifugalForce();
+
+            blackBox.collectData("centrifugal (x)", centrifugal[X_DIM_VALUE]);
+            blackBox.collectData("centrifugal (y)", centrifugal[Y_DIM_VALUE]);
+            blackBox.collectData("centrifugal", normVector(centrifugal));
+
+
+            /* rudder */
+
+            Vector rudderStrength = rudder.computeHydrodynamicStrength();
+
+            blackBox.collectData("rudder value", rudder.getValue());
+
+            blackBox.collectData("rudder strength (x)", rudderStrength[X_DIM_VALUE]);
+            blackBox.collectData("rudder strength (y)", rudderStrength[Y_DIM_VALUE]);
+            blackBox.collectData("rudder strength", normVector(rudderStrength));
+        }
+#endif
     }
 
 

@@ -3,7 +3,12 @@
 namespace model {
 
     void BlackBox::collectData(const std::string &column, const std::string &value) {
+
+        mutex.lock();
+
         data[column].push(value);
+
+        mutex.unlock();
     }
 
     void BlackBox::collectData(const std::string &column, double value) {
@@ -76,15 +81,24 @@ namespace model {
 
     void BlackBox::flush() {
 
+        mutex.lock();
+
         for (auto &pair : data) {
             while (!pair.second.empty()) {
                 pair.second.pop();
             }
         }
+
+        mutex.unlock();
     }
 
     void BlackBox::clear() {
 
         data.clear();
+    }
+
+    BlackBox::~BlackBox() {
+
+        mutex.lock();
     }
 }

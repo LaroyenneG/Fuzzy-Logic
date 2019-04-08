@@ -6,12 +6,15 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <mutex>
 
 namespace model {
 
     class BlackBox {
 
     private:
+        std::mutex mutex;
+
         std::map<std::string, std::queue<std::string>> data;
 
     public:
@@ -33,7 +36,7 @@ namespace model {
 
         friend std::ostream &operator<<(std::ostream &ostream, const BlackBox &blackBox);
 
-        ~BlackBox() = default;
+        ~BlackBox();
     };
 }
 

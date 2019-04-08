@@ -1,8 +1,6 @@
 #include <QApplication>
 #include "ControlGroup.h"
 
-#define _BLACK_BOX
-
 using namespace view;
 using namespace model;
 using namespace controller;
@@ -19,7 +17,7 @@ int main(int argc, char **argv) {
 
     int applicationState = QApplication::exec();
 
-#ifdef _BLACK_BOX
+#ifdef _ACTIVE_BLACK_BOX_
     std::cout << model->getTitanic()->getBlackBox() << std::endl;
 #endif
 

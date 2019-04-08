@@ -84,8 +84,7 @@ namespace model {
         std::vector<Point> objectPoints;
         object.writeAbsolutePoints(objectPoints);
 
-        bool init = false;
-        double best = 0.0;
+        double bestDistance = INFINITY;
 
         for (auto myPoint : myPoints) {
 
@@ -93,14 +92,13 @@ namespace model {
 
                 double distance = distanceBetweenPoint(myPoint, objectPoint);
 
-                if (!init || best > distance) {
-                    best = distance;
-                    init = true;
+                if (bestDistance > distance) {
+                    bestDistance = distance;
                 }
             }
         }
 
-        return best;
+        return bestDistance;
     }
 
     bool PhysicObject2D::touch(const PhysicObject2D &object) const {
@@ -195,6 +193,11 @@ namespace model {
         orientation = value;
     }
 
+    double PhysicObject2D::getAcceleration() const {
+
+        return normVector(acceleration);
+    }
+
     double PhysicObject2D::getOrientation() const {
 
         return orientation;
@@ -243,6 +246,60 @@ namespace model {
 
         nextSpeed(time);
         nextPosition(time);
+
+#ifdef _ACTIVE_BLACK_BOX_
+        {
+            /* weight */
+
+            blackBox.collectData("weight", getWeight());
+
+            /* position */
+
+            blackBox.collectData("position (x)", getPositionX());
+            blackBox.collectData("position (y)", getPositionY());
+
+            /* speed */
+
+            blackBox.collectData("speed (x)", getSpeedX());
+            blackBox.collectData("speed (y)", getSpeedY());
+
+            blackBox.collectData("speed", getSpeed());
+
+            /* acceleration */
+
+            blackBox.collectData("acceleration (x)", getAccelerationX());
+            blackBox.collectData("acceleration (y)", getAccelerationY());
+
+            blackBox.collectData("acceleration", getAcceleration());
+
+            /* rotation */
+
+            blackBox.collectData("orientation", getOrientation());
+
+            /* rotation speed */
+
+            blackBox.collectData("rotation speed", getRotationSpeed());
+
+            /* rotation acceleration */
+
+            blackBox.collectData("rotation acceleration", getRotationAcceleration());
+
+            /* points */
+
+            unsigned int i = 0;
+
+            for (auto p : positions) {
+
+                std::string pointLabel;
+                pointLabel.append("point[");
+                pointLabel.append(std::to_string(i++));
+                pointLabel.append("]");
+
+                blackBox.collectData(pointLabel + "(x)", p[X_DIM_VALUE]);
+                blackBox.collectData(pointLabel + "(y)", p[Y_DIM_VALUE]);
+            }
+        }
+#endif
     }
 
     void PhysicObject2D::nextSpeed(double time) {
@@ -299,22 +356,13 @@ namespace model {
 
     Point PhysicObject2D::pointRotation(const Point &point, double angle) {
 
-        Point nPoint;
-
-        nPoint[X_DIM_VALUE] = point[X_DIM_VALUE] * cos(angle) - point[Y_DIM_VALUE] * sin(angle);
-        nPoint[Y_DIM_VALUE] = point[X_DIM_VALUE] * sin(angle) + point[Y_DIM_VALUE] * cos(angle);
-
-        return nPoint;
+        return Point{{point[X_DIM_VALUE] * cos(angle) - point[Y_DIM_VALUE] * sin(angle),
+                             point[X_DIM_VALUE] * sin(angle) + point[Y_DIM_VALUE] * cos(angle)}};
     }
 
     Point PhysicObject2D::pointTranslation(const Point &point, const Vector &translation) {
 
-        Point nPoint;
-
-        nPoint[X_DIM_VALUE] = point[X_DIM_VALUE] + translation[X_DIM_VALUE];
-        nPoint[Y_DIM_VALUE] = point[Y_DIM_VALUE] + translation[Y_DIM_VALUE];
-
-        return nPoint;
+        return Point{{point[X_DIM_VALUE] + translation[X_DIM_VALUE], point[Y_DIM_VALUE] + translation[Y_DIM_VALUE]}};
     }
 
     Vector PhysicObject2D::directionVector() const {
