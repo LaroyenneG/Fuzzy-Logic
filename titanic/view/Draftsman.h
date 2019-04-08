@@ -9,7 +9,7 @@
 #include "Model.h"
 
 #define DRAFTSMAN_SCALE 1.0
-#define DRAFTSMAN_VISIBILITY 500.0 // m
+#define DRAFTSMAN_VISIBILITY 1000.0 // m
 
 #define TITANIC_PICTURE_FILE_NAME "../assets/titanic.png"
 

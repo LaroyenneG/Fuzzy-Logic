@@ -12,8 +12,6 @@ namespace model {
             : PhysicObject2D(points, _xPosition, _yPosition, _orientation, _weight),
               lift_coefficients(std::move(_lift_coefficients)), drag_coefficients(std::move(_drag_coefficients)),
               engines{{new AlternativeMachine(), new AlternativeMachine(), new LowPressureTurbine()}} {
-
-        setSpeedY(-11);
     }
 
     Titanic::Titanic() : Titanic(TITANIC_DEFAULT_X, TITANIC_DEFAULT_Y, TITANIC_DEFAULT_COURSE) {
@@ -114,8 +112,10 @@ namespace model {
             blackBox.collectData("rudder strength (y)", rudderStrength[Y_DIM_VALUE]);
             blackBox.collectData("rudder strength", normVector(rudderStrength));
             blackBox.collectData("rudder incidence", rudder.computeIncidence());
-            blackBox.collectData("lift coefficient", rudder.approximatedLiftCoefficient(rudder.computeIncidence()));
-            blackBox.collectData("drag coefficient", rudder.approximatedDragCoefficient(rudder.computeIncidence()));
+            blackBox.collectData("rudder lift coefficient",
+                                 rudder.approximatedLiftCoefficient(rudder.computeIncidence()));
+            blackBox.collectData("rudder drag coefficient",
+                                 rudder.approximatedDragCoefficient(rudder.computeIncidence()));
 
             /* rotation friction */
 
