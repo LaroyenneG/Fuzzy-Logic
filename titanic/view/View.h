@@ -124,11 +124,11 @@ namespace view {
 
         void disableAutomaticPilot();
 
-        ~View() override;
-
         void touching();
 
         bool automaticPilotIsEnable();
+
+        ~View() override;
     };
 }
 

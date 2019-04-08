@@ -231,7 +231,10 @@ namespace view {
 
     void View::setCourse(double value) {
 
-        int course = static_cast<int>(value * COURSE_RDS_TO_DEGREE) % 360;
+        static const unsigned int DEGREE = 360;
+
+        int course = static_cast<int>(value * COURSE_RDS_TO_DEGREE) % DEGREE;
+        if (course < 0) { course += DEGREE; }
 
         std::string string = std::to_string(course);
 
