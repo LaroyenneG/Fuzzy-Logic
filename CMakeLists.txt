@@ -16,32 +16,32 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 include_directories(lib/include)
 
-include_directories(src/core)
-include_directories(src/fuzzy)
-include_directories(src/exception)
-include_directories(src/interpreter)
+include_directories(src/fuzzylogic/core)
+include_directories(src/fuzzylogic/fuzzy)
+include_directories(src/fuzzylogic/exception)
+include_directories(src/fuzzylogic/interpreter)
 
-include_directories(titanic/model)
-include_directories(titanic/view)
-include_directories(titanic/controller)
-include_directories(titanic/helper)
+include_directories(src/titanic/model)
+include_directories(src/titanic/view)
+include_directories(src/titanic/controller)
+include_directories(src/titanic/helper)
 
-file(GLOB_RECURSE CORE_SOURCES src/core/*) # all core source files
-file(GLOB_RECURSE INTP_SOURCES src/interpreter/*) # all interpreter source files
-file(GLOB_RECURSE FUZZY_SOURCES src/fuzzy/*) # all fuzzy source files
-file(GLOB_RECURSE EXCEPTION_SOURCES src/exception/*) # all exception source files
-file(GLOB_RECURSE TEST_SOURCES test/* test/core/* test/fuzzy/*) # all test source files
-file(GLOB_RECURSE TITANIC_SOURCES titanic/* titanic/model/* titanic/view/* titanic/controller/*) # all titanic source files
+file(GLOB_RECURSE CORE_SOURCES src/fuzzylogic/core/*) # all core source files
+file(GLOB_RECURSE INTP_SOURCES src/fuzzylogic/interpreter/*) # all interpreter source files
+file(GLOB_RECURSE FUZZY_SOURCES src/fuzzylogic/fuzzy/*) # all fuzzy source files
+file(GLOB_RECURSE EXCEPTION_SOURCES src/fuzzylogic/exception/*) # all exception source files
+file(GLOB_RECURSE TEST_SOURCES test/* test/fuzzylogic/core/* test/fuzzylogic/fuzzy/*) # all test source files
+file(GLOB_RECURSE TITANIC_SOURCES src/titanic/* src/titanic/model/* src/titanic/view/* src/titanic/controller/*) # all titanic source files
 
-set(INTERFACE_FILES titanic/controller/CheckBoxController.h
-        titanic/controller/SliderController.h
-        titanic/controller/AutomaticPilotController.h
-        titanic/controller/TimeWizardController.h
-        titanic/controller/MenuController.h) # all slots class'
+set(INTERFACE_FILES src/titanic/controller/CheckBoxController.h
+        src/titanic/controller/SliderController.h
+        src/titanic/controller/AutomaticPilotController.h
+        src/titanic/controller/TimeWizardController.h
+        src/titanic/controller/MenuController.h) # all slots class'
 
 qt4_wrap_cpp(INTERFACE_FILES_MOC ${INTERFACE_FILES})
 
-set(FUZZY_LIBRARY ${CORE_SOURCES} ${FUZZY_SOURCES} ${EXCEPTION_SOURCES} ${INTP_SOURCES} src/FuzzyLogic.h)
+set(FUZZY_LIBRARY ${CORE_SOURCES} ${FUZZY_SOURCES} ${EXCEPTION_SOURCES} ${INTP_SOURCES} src/fuzzylogic/fuzzylogic.h)
 
 add_library(fuzzy ${FUZZY_LIBRARY})
 add_executable(FuzzyTest ${TEST_SOURCES} ${FUZZY_LIBRARY})

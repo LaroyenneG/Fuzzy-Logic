@@ -3,7 +3,7 @@
 
 #include "Expression.h"
 
-namespace fuzzyLogic {
+namespace fuzzylogic {
 
 }
 
