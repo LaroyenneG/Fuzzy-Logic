@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     std::cout << "Welcome to \"Leave a tip\" !" << std::endl << "You can evaluate the tip to leave" << std::endl
               << std::endl;
 
-    LeaveATipTest leaveATip;
+    LeaveATip leaveATip;
 
     std::string answer;
 

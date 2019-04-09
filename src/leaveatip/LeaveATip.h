@@ -4,10 +4,11 @@
 #define LEAVE_A_TIP_INTERPRETER_FILE_PATH "../assets/leaveatip.fuzzy"
 #define LEAVE_A_TIP_DEFAULT_VALUE 0.0
 
+
 #include "fuzzylogic.h"
 
 
-class LeaveATipTest {
+class LeaveATip {
 
 private:
     fuzzylogic::FuzzyInterpreter fuzzyInterpreter;
@@ -18,10 +19,10 @@ private:
     fuzzylogic::type maxTip;
 
 public:
-    explicit LeaveATipTest(fuzzylogic::type _service, fuzzylogic::type _food, fuzzylogic::type _minTip,
-                           fuzzylogic::type _maxTip);
+    explicit LeaveATip(fuzzylogic::type _service, fuzzylogic::type _food, fuzzylogic::type _minTip,
+                       fuzzylogic::type _maxTip);
 
-    explicit LeaveATipTest();
+    explicit LeaveATip();
 
     void setService(fuzzylogic::type _service);
 
