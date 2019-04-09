@@ -1,7 +1,7 @@
 #ifndef LOGIQUEFLOUE_AUTOMATICPILOTCONTROLLER_H
 #define LOGIQUEFLOUE_AUTOMATICPILOTCONTROLLER_H
 
-#include <fuzzylogic.h>
+#include "fuzzylogic.h"
 
 #include "AbstractController.h"
 

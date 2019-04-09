@@ -1,6 +1,7 @@
 #ifndef LOGIQUEFLOUE_SHAPE_H
 #define LOGIQUEFLOUE_SHAPE_H
 
+#include <set>
 #include <vector>
 #include <exception>
 #include <map>

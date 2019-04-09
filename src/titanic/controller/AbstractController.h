@@ -2,7 +2,7 @@
 #ifndef LOGIQUEFLOUE_ABSTRACTCONTROLER_H
 #define LOGIQUEFLOUE_ABSTRACTCONTROLER_H
 
-#include <QObject>
+#include <QWidget>
 #include <mutex>
 
 #include "Model.h"

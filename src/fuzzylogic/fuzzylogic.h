@@ -1,6 +1,11 @@
 #ifndef LOGIQUEFLOUE_FUZZYLOGIC_H
 #define LOGIQUEFLOUE_FUZZYLOGIC_H
 
+#include "OrPlus.h"
+#include "IsBell.h"
+#include "CogDefuzz.h"
+#include "FuzzyFactory.h"
+#include "SugenoDefuzz.h"
 #include "FuzzyInterpreter.h"
 #include "NaryShadowExpression.h"
 #include "UnaryShadowExpression.h"
@@ -13,35 +18,50 @@
 
 namespace fuzzylogic {
 
+    typedef double type;
 
     /****************************************** core *************************************************/
 
     /* Model */
 
-    typedef core::ValueModel<double> ValueModel;
+    typedef core::ValueModel<type> ValueModel;
 
-    typedef core::UnaryExpressionModel<double> UnaryExpressionModel;
+    typedef core::UnaryExpressionModel<type> UnaryExpressionModel;
 
-    typedef core::BinaryExpressionModel<double> BinaryExpressionModel;
+    typedef core::BinaryExpressionModel<type> BinaryExpressionModel;
 
-    typedef core::NaryExpressionModel<double> NaryExpressionModel;
+    typedef core::NaryExpressionModel<type> NaryExpressionModel;
 
 
     /* Shadow */
 
-    typedef core::UnaryShadowExpression<double> UnaryShadowExpression;
+    typedef core::UnaryShadowExpression<type> UnaryShadowExpression;
 
-    typedef core::BinaryShadowExpression<double> BinaryShadowExpression;
+    typedef core::BinaryShadowExpression<type> BinaryShadowExpression;
 
-    typedef core::NaryShadowExpression<double> NaryShadowExpression;
+    typedef core::NaryShadowExpression<type> NaryShadowExpression;
 
 
     /***************************************** fuzzy **************************************************/
 
+    /* Defuzz */
+
+    typedef fuzzy::SugenoDefuzz<type> SugenoDefuzz;
+
+    typedef fuzzy::CogDefuzz<type> CogDefuzz;
+
+
+    /******************************************* is ****************************************************/
+
+    typedef fuzzy::IsBell<type> IsBell;
+
+    /******************************************** or ***************************************************/
+
+    typedef fuzzy::OrPlus<type> OrPlus;
 
     /***************************************** interpreter ********************************************/
 
-    typedef interpreter::FuzzyInterpreter<double> FuzzyInterpreter;
+    typedef interpreter::FuzzyInterpreter<type> FuzzyInterpreter;
 }
 
 
