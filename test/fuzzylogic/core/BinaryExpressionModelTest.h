@@ -7,8 +7,8 @@
 #include "OrMax.h"
 #include "BinaryExpressionModel.h"
 
-using namespace core;
-using namespace fuzzy;
+using namespace fuzzylogic::core;
+using namespace fuzzylogic::fuzzy;
 
 class BinaryExpressionModelTest : public CppUnit::TestFixture {
 

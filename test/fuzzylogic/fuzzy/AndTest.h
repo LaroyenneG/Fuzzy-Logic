@@ -8,8 +8,8 @@
 #include "AndTest.h"
 #include "ValueModel.h"
 
-using namespace fuzzy;
-using namespace core;
+using namespace fuzzylogic::fuzzy;
+using namespace fuzzylogic::core;
 
 
 class AndTest : public CppUnit::TestFixture {

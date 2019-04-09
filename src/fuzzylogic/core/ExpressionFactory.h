@@ -8,7 +8,7 @@
 #include "UnaryExpressionModel.h"
 #include "BinaryExpressionModel.h"
 
-namespace core {
+namespace fuzzylogic::core {
 
     template<typename T>
     class ExpressionFactory {

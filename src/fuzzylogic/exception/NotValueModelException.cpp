@@ -1,7 +1,7 @@
 #include "NotValueModelException.h"
 
 
-namespace exception {
+namespace fuzzylogic::exception {
 
     const std::string NotValueModelException::MESSAGE(
             "MamdaniDefuzz evaluate function require a ValueModelExpression for the second parameter\n");

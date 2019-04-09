@@ -3,7 +3,7 @@
 
 #include "Is.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
     template<typename T>
     class IsGaussian : public Is<T> {
     private:
@@ -14,7 +14,7 @@ namespace fuzzy {
     public:
         explicit IsGaussian(const T &_mean, const T &_variance);
 
-        T evaluate(core::Expression<T> *expression) const override;
+        T evaluate(fuzzylogic::core::Expression<T> *expression) const override;
 
         const T &getMean() const;
 
@@ -32,7 +32,7 @@ namespace fuzzy {
     }
 
     template<typename T>
-    T IsGaussian<T>::evaluate(core::Expression<T> *expression) const {
+    T IsGaussian<T>::evaluate(fuzzylogic::core::Expression<T> *expression) const {
 
         T value = expression->evaluate();
 

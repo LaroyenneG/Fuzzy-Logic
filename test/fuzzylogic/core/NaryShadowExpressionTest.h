@@ -5,7 +5,7 @@
 
 #include "NaryShadowExpression.h"
 
-using namespace core;
+using namespace fuzzylogic::core;
 
 
 class NaryShadowExpressionTest : public CppUnit::TestFixture {

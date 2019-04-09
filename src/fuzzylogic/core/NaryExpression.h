@@ -3,7 +3,7 @@
 
 #include "Expression.h"
 
-namespace core {
+namespace fuzzylogic::core {
 
     template<typename T>
     class NaryExpression {

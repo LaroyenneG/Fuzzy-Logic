@@ -7,7 +7,7 @@
 #include <string>
 #include <map>
 
-namespace interpreter {
+namespace fuzzylogic::interpreter {
 
     template<typename T>
     class AbstractInterpreter {

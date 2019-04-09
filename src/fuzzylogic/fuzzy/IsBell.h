@@ -4,7 +4,7 @@
 #include <cmath>
 #include "Is.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
     template<typename T>
     class IsBell : public Is<T> {
 
@@ -16,7 +16,7 @@ namespace fuzzy {
     public:
         explicit IsBell(const T &_min, const T &_mid, const T &_max);
 
-        T evaluate(core::Expression<T> *expression) const override;
+        T evaluate(fuzzylogic::core::Expression<T> *expression) const override;
 
         const T &getMin() const;
 
@@ -39,7 +39,7 @@ namespace fuzzy {
     }
 
     template<typename T>
-    T IsBell<T>::evaluate(core::Expression<T> *expression) const {
+    T IsBell<T>::evaluate(fuzzylogic::core::Expression<T> *expression) const {
 
         static const T ONE(1);
         static const T TWO(2);

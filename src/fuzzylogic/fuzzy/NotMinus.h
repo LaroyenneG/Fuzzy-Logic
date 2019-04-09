@@ -3,17 +3,17 @@
 
 #include "Not.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
 
     template<typename T>
     class NotMinus : public Not<T> {
 
     public:
-        T evaluate(core::Expression<T> *operand) const override;
+        T evaluate(fuzzylogic::core::Expression<T> *operand) const override;
     };
 
     template<typename T>
-    T NotMinus<T>::evaluate(core::Expression<T> *operand) const {
+    T NotMinus<T>::evaluate(fuzzylogic::core::Expression<T> *operand) const {
 
         static const T ONE(1);
 

@@ -27,5 +27,5 @@ void DefuzzTest::testCogDefuzz() {
 
         CPPUNIT_FAIL("no exception throw (ValueModel)");
 
-    } catch (exception::FuzzyException &ignored) {}
+    } catch (fuzzylogic::exception::FuzzyException &ignored) {}
 }

@@ -5,12 +5,12 @@
 #include "BinaryExpression.h"
 
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
     template<typename T>
-    class And : public core::BinaryExpression<T> {
+    class And : public fuzzylogic::core::BinaryExpression<T> {
 
     public:
-        virtual T evaluate(core::Expression<T> *left, core::Expression<T> *right) const = 0;
+        virtual T evaluate(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) const = 0;
     };
 }
 

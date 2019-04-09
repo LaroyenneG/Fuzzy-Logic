@@ -7,7 +7,7 @@
 #include "OperatorNullException.h"
 #include "OperandNullException.h"
 
-namespace core {
+namespace fuzzylogic::core {
 
     template<typename T>
     class NaryExpressionModel : public NaryExpression<T>, public Expression<T> {
@@ -55,7 +55,7 @@ namespace core {
     T NaryExpressionModel<T>::evaluate(const std::vector<Expression<T> *> &_operands) const {
 
         if (nOperator == nullptr) {
-            throw exception::OperatorNullException();
+            throw fuzzylogic::exception::OperatorNullException();
         }
 
         return nOperator->evaluate(_operands);
@@ -66,7 +66,7 @@ namespace core {
 
         for (auto operand : operands) {
             if (operand == nullptr) {
-                throw exception::OperandNullException();
+                throw fuzzylogic::exception::OperandNullException();
             }
         }
 

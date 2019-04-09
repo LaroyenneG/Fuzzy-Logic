@@ -7,8 +7,8 @@
 #include "OrPlus.h"
 #include "ValueModel.h"
 
-using namespace core;
-using namespace fuzzy;
+using namespace fuzzylogic::core;
+using namespace fuzzylogic::fuzzy;
 
 class OrTest : public CppUnit::TestFixture {
 CPPUNIT_TEST_SUITE(OrTest);

@@ -4,7 +4,7 @@
 
 #include "AbstractInterpreter.h"
 
-namespace interpreter {
+namespace fuzzylogic::interpreter {
 
     template<typename T>
     class FuzzyInterpreter : public AbstractInterpreter<T> {
@@ -18,6 +18,5 @@ namespace interpreter {
 
     }
 }
-
 
 #endif //LOGIQUEFLOUE_FUZZYMONITOR_H

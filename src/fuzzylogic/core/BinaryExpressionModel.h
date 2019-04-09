@@ -5,7 +5,7 @@
 #include "OperatorNullException.h"
 #include "BinaryExpression.h"
 
-namespace core {
+namespace fuzzylogic::core {
     template<typename T>
     class BinaryExpressionModel : public BinaryExpression<T>, public Expression<T> {
     private:
@@ -34,7 +34,7 @@ namespace core {
     T BinaryExpressionModel<T>::evaluate() const {
 
         if (left == nullptr || right == nullptr) {
-            throw exception::OperandNullException();
+            throw fuzzylogic::exception::OperandNullException();
         }
 
         return evaluate(left, right);
@@ -44,7 +44,7 @@ namespace core {
     T BinaryExpressionModel<T>::evaluate(Expression <T> *left, Expression <T> *right) const {
 
         if (bOperator == nullptr) {
-            throw exception::OperatorNullException();
+            throw fuzzylogic::exception::OperatorNullException();
         }
 
         return bOperator->evaluate(left, right);

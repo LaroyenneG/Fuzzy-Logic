@@ -1,7 +1,7 @@
 #ifndef LOGIQUEFLOUE_EXPRESSION_H
 #define LOGIQUEFLOUE_EXPRESSION_H
 
-namespace core {
+namespace fuzzylogic::core {
 
     template<typename T>
     class Expression {

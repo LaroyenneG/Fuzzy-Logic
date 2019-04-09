@@ -4,7 +4,7 @@
 #include "Expression.h"
 #include "Is.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
 
 
     template<typename T>
@@ -14,7 +14,7 @@ namespace fuzzy {
     public:
         explicit IsSingleton(const T &_value);
 
-        T evaluate(core::Expression<T> *expression) const override;
+        T evaluate(fuzzylogic::core::Expression<T> *expression) const override;
 
         const T &getValue() const;
 
@@ -26,7 +26,7 @@ namespace fuzzy {
     IsSingleton<T>::IsSingleton(const T &_value): value(_value) {}
 
     template<typename T>
-    T IsSingleton<T>::evaluate(core::Expression<T> *expression) const {
+    T IsSingleton<T>::evaluate(fuzzylogic::core::Expression<T> *expression) const {
 
         static const T ONE(1);
         static const T ZERO(0);

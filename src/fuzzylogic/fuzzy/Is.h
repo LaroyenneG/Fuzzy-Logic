@@ -4,13 +4,13 @@
 #include "Expression.h"
 #include "UnaryExpression.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
 
     template<typename T>
-    class Is : public core::UnaryExpression<T> {
+    class Is : public fuzzylogic::core::UnaryExpression<T> {
 
     public:
-        virtual T evaluate(core::Expression<T> *expression) const = 0;
+        virtual T evaluate(fuzzylogic::core::Expression<T> *expression) const = 0;
     };
 }
 

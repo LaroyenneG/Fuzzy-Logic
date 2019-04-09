@@ -3,7 +3,7 @@
 
 #include "FuzzyException.h"
 
-namespace exception {
+namespace fuzzylogic::exception {
 
     class PointAlreadyAddedShapeException : public FuzzyException {
 

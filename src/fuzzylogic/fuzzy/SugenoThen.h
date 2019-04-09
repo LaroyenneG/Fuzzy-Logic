@@ -3,7 +3,7 @@
 
 #include "Then.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
 
     template<typename T>
     class SugenoThen : public ThenMult<T> {
@@ -16,7 +16,7 @@ namespace fuzzy {
 
         explicit SugenoThen(const T &_permitValue);
 
-        T evaluate(core::Expression<T> *left, core::Expression<T> *right) const override;
+        T evaluate(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) const override;
     };
 
     template<typename T>
@@ -29,7 +29,7 @@ namespace fuzzy {
     }
 
     template<typename T>
-    T SugenoThen<T>::evaluate(core::Expression<T> *left, core::Expression<T> *right) const {
+    T SugenoThen<T>::evaluate(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) const {
         return ThenMult<T>::evaluate(left, right);
     }
 }

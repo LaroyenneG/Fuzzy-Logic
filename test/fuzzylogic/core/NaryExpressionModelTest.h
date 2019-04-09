@@ -5,7 +5,7 @@
 #include <NaryExpressionModel.h>
 
 
-using namespace core;
+using namespace fuzzylogic::core;
 
 class NaryExpressionModelTest : public CppUnit::TestFixture {
 

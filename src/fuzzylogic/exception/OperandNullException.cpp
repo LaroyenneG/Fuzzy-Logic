@@ -1,6 +1,6 @@
 #include "OperandNullException.h"
 
-namespace exception {
+namespace fuzzylogic::exception {
 
     const std::string OperandNullException::MESSAGE(
             "The required operand has been null\n" + InvalidObjectConfigurationException::MESSAGE);

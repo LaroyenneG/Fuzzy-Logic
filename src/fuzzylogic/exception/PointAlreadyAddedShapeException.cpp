@@ -2,7 +2,7 @@
 #include "PointAlreadyAddedShapeException.h"
 
 
-namespace exception {
+namespace fuzzylogic::exception {
 
     const std::string PointAlreadyAddedShapeException::MESSAGE("The required operator has been null");
 

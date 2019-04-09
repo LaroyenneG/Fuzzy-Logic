@@ -4,7 +4,7 @@
 #include "TargetNullException.h"
 #include "NaryExpression.h"
 
-namespace core {
+namespace fuzzylogic::core {
 
     template<typename T>
     class NaryShadowExpression : public NaryExpression<T> {
@@ -30,7 +30,7 @@ namespace core {
     T NaryShadowExpression<T>::evaluate(const std::vector<Expression<T> *> &operands) const {
 
         if (target == nullptr) {
-            throw exception::TargetNullException();
+            throw fuzzylogic::exception::TargetNullException();
         }
 
         return target->evaluate(operands);

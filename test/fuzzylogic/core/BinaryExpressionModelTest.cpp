@@ -10,7 +10,7 @@ void BinaryExpressionModelTest::testOperandsNull() {
     try {
         binaryExpressionModel.evaluate();
         CPPUNIT_FAIL("missing exception");
-    } catch (exception::OperandNullException &e) {
+    } catch (fuzzylogic::exception::OperandNullException &e) {
     }
 }
 
@@ -21,6 +21,6 @@ void BinaryExpressionModelTest::testOperatorNull() {
     try {
         binaryExpressionModel.evaluate(nullptr, nullptr);
         CPPUNIT_FAIL("missing exception");
-    } catch (exception::OperatorNullException &e) {
+    } catch (fuzzylogic::exception::OperatorNullException &e) {
     }
 }

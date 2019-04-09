@@ -5,7 +5,7 @@
 
 #include "UnaryShadowExpression.h"
 
-using namespace core;
+using namespace fuzzylogic::core;
 
 class UnaryShadowExpressionTest : public CppUnit::TestFixture {
 

@@ -3,7 +3,7 @@
 
 #include "Is.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
     template<typename T>
     class IsRampLeft : public Is<T> {
     private:
@@ -14,7 +14,7 @@ namespace fuzzy {
     public:
         explicit IsRampLeft(const T &_min, const T &_mid, const T &_max);
 
-        T evaluate(core::Expression<T> *expression) const override;
+        T evaluate(fuzzylogic::core::Expression<T> *expression) const override;
 
         const T &getMin() const;
 
@@ -34,7 +34,7 @@ namespace fuzzy {
     }
 
     template<typename T>
-    T IsRampLeft<T>::evaluate(core::Expression<T> *expression) const {
+    T IsRampLeft<T>::evaluate(fuzzylogic::core::Expression<T> *expression) const {
 
         static const T ZERO(0);
         static const T ONE(1);

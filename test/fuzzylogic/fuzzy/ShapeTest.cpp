@@ -8,7 +8,7 @@ void ShapeTest::testAddPoint() {
 
     shape.addPoint(6.0, 0.5);
 
-    CPPUNIT_ASSERT_THROW(shape.addPoint(6.0, 0.5), exception::PointAlreadyAddedShapeException);
+    CPPUNIT_ASSERT_THROW(shape.addPoint(6.0, 0.5), fuzzylogic::exception::PointAlreadyAddedShapeException);
 
     for (auto point : shape) {
         CPPUNIT_ASSERT_EQUAL(6.0, point.first);

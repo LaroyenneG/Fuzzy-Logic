@@ -8,8 +8,8 @@
 #include "ValueModel.h"
 #include "SugenoThen.h"
 
-using namespace core;
-using namespace fuzzy;
+using namespace fuzzylogic::core;
+using namespace fuzzylogic::fuzzy;
 
 
 class ThenTest : public CppUnit::TestFixture {

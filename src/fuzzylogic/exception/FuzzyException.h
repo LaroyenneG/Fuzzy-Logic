@@ -8,9 +8,9 @@
 #include <iostream>
 
 #define OPEN_FUZZY_SECURE_BLOCK try
-#define CLOSE_FUZZY_SECURE_BLOCK catch(exception::FuzzyException &e) {e.printDebug(); CPPUNIT_FAIL("Fuzzy exception throw");}
+#define CLOSE_FUZZY_SECURE_BLOCK catch(fuzzylogic::exception::FuzzyException &e) {e.printDebug(); CPPUNIT_FAIL("Fuzzy exception throw");}
 
-namespace exception {
+namespace fuzzylogic::exception {
 
     class FuzzyException : std::runtime_error {
 

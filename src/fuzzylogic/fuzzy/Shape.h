@@ -16,7 +16,7 @@
 
 #define OUT_OF_BOUND "iterator out of bound"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
 
     template<typename T>
     class Shape {
@@ -153,7 +153,7 @@ namespace fuzzy {
 
         auto it = set.find(y);
         if (it != set.end()) {
-            throw exception::PointAlreadyAddedShapeException();
+            throw fuzzylogic::exception::PointAlreadyAddedShapeException();
         }
 
         points[x].insert(y);
@@ -212,7 +212,7 @@ namespace fuzzy {
 
                 case SPACE_CHAR:
                     if (pairLoaded) {
-                        throw exception::ShapeSerializationException();
+                        throw fuzzylogic::exception::ShapeSerializationException();
                     }
                     break;
 
@@ -226,7 +226,7 @@ namespace fuzzy {
                     if (pairLoaded) {
                         pairLoaded = false;
                     } else {
-                        throw exception::ShapeSerializationException();
+                        throw fuzzylogic::exception::ShapeSerializationException();
                     }
 
                     map[x].insert(y);
@@ -237,7 +237,7 @@ namespace fuzzy {
                     break;
 
                 default:
-                    throw exception::ShapeSerializationException();
+                    throw fuzzylogic::exception::ShapeSerializationException();
             }
         }
     }

@@ -13,8 +13,8 @@
 #include "IsSigmoid.h"
 #include "IsGaussian.h"
 
-using namespace fuzzy;
-using namespace core;
+using namespace fuzzylogic::fuzzy;
+using namespace fuzzylogic::core;
 
 class IsTest : public CppUnit::TestFixture {
 

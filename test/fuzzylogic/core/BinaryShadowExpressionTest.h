@@ -5,7 +5,7 @@
 
 #include "BinaryShadowExpression.h"
 
-using namespace core;
+using namespace fuzzylogic::core;
 
 class BinaryShadowExpressionTest : public CppUnit::TestFixture {
 

@@ -7,7 +7,7 @@
 
 #define SIGMOID_DEFAULT_MINIMUM 0
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
 
     template<typename T>
     class IsSigmoid : public Is<T> {
@@ -24,7 +24,7 @@ namespace fuzzy {
 
         const T &getMin() const;
 
-        T evaluate(core::Expression<T> *expression) const override;
+        T evaluate(fuzzylogic::core::Expression<T> *expression) const override;
     };
 
     template<typename T>
@@ -50,7 +50,7 @@ namespace fuzzy {
     }
 
     template<typename T>
-    T IsSigmoid<T>::evaluate(core::Expression<T> *expression) const {
+    T IsSigmoid<T>::evaluate(fuzzylogic::core::Expression<T> *expression) const {
 
         static const T ONE(1);
 

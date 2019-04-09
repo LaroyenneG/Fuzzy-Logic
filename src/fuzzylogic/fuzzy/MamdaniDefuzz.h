@@ -6,10 +6,10 @@
 #include "BinaryExpression.h"
 #include "Shape.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
 
     template<typename T>
-    class MamdaniDefuzz : public core::BinaryExpression<T> {
+    class MamdaniDefuzz : public fuzzylogic::core::BinaryExpression<T> {
 
     private:
         T min;
@@ -19,7 +19,8 @@ namespace fuzzy {
     public:
         explicit MamdaniDefuzz(const T &_min, const T &_max, const T &_step);
 
-        T evaluate(core::Expression<T> *expression, core::Expression<T> *_valueModel) const override;
+        T evaluate(fuzzylogic::core::Expression<T> *expression,
+                   fuzzylogic::core::Expression<T> *_valueModel) const override;
 
         virtual T defuzz(const Shape<T> &shape) const = 0;
 
@@ -42,13 +43,14 @@ namespace fuzzy {
     }
 
     template<typename T>
-    T MamdaniDefuzz<T>::evaluate(core::Expression<T> *expression, core::Expression<T> *_valueModel) const {
+    T MamdaniDefuzz<T>::evaluate(fuzzylogic::core::Expression<T> *expression,
+                                 fuzzylogic::core::Expression<T> *_valueModel) const {
 
         if (!_valueModel->isValue()) {
-            throw exception::NotValueModelException();
+            throw fuzzylogic::exception::NotValueModelException();
         }
 
-        auto valueModel = dynamic_cast<core::ValueModel<T> *>(_valueModel);
+        auto valueModel = dynamic_cast<fuzzylogic::core::ValueModel<T> *>(_valueModel);
 
         Shape<T> shape;
 

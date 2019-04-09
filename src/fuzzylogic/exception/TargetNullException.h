@@ -3,7 +3,7 @@
 
 #include "InvalidObjectConfigurationException.h"
 
-namespace exception {
+namespace fuzzylogic::exception {
 
     class TargetNullException : public InvalidObjectConfigurationException {
 

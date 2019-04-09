@@ -6,8 +6,8 @@
 
 #include "CogDefuzz.h"
 
-using namespace fuzzy;
-using namespace core;
+using namespace fuzzylogic::fuzzy;
+using namespace fuzzylogic::core;
 
 class DefuzzTest : public CppUnit::TestFixture {
 

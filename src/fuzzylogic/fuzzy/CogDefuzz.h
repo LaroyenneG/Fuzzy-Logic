@@ -3,7 +3,7 @@
 
 #include "MamdaniDefuzz.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
 
     template<typename T>
     class CogDefuzz : public MamdaniDefuzz<T> {

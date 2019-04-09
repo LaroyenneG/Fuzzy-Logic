@@ -7,7 +7,7 @@
 
 #include "Shape.h"
 
-using namespace fuzzy;
+using namespace fuzzylogic::fuzzy;
 
 class ShapeTest : public CppUnit::TestFixture {
 CPPUNIT_TEST_SUITE(ShapeTest);

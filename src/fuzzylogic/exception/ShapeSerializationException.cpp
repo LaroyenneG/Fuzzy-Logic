@@ -1,6 +1,6 @@
 #include "ShapeSerializationException.h"
 
-namespace exception {
+namespace fuzzylogic::exception {
 
     const std::string ShapeSerializationException::MESSAGE("Shape serialization format was incorrect");
 

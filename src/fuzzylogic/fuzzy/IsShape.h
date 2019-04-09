@@ -4,7 +4,7 @@
 #include "Is.h"
 #include "Shape.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
 
     template<typename T>
     class IsShape : public Is<T> {
@@ -15,7 +15,7 @@ namespace fuzzy {
     public:
         explicit IsShape(const Shape<T> &_shape);
 
-        T evaluate(core::Expression<T> *expression) const override;
+        T evaluate(fuzzylogic::core::Expression<T> *expression) const override;
 
         void setShape(const Shape<T> &_shape);
 
@@ -23,7 +23,7 @@ namespace fuzzy {
     };
 
     template<typename T>
-    T IsShape<T>::evaluate(core::Expression<T> *expression) const {
+    T IsShape<T>::evaluate(fuzzylogic::core::Expression<T> *expression) const {
         return 0;
     }
 

@@ -8,7 +8,7 @@
 #include "UnaryExpression.h"
 #include "OperatorNullException.h"
 
-namespace core {
+namespace fuzzylogic::core {
     template<typename T>
     class UnaryExpressionModel : public Expression<T>, public UnaryExpression<T> {
 
@@ -35,7 +35,7 @@ namespace core {
     T UnaryExpressionModel<T>::evaluate(Expression <T> *_operand) const {
 
         if (uOperator == nullptr) {
-            throw exception::OperatorNullException();
+            throw fuzzylogic::exception::OperatorNullException();
         }
 
         return uOperator->evaluate(_operand);
@@ -45,7 +45,7 @@ namespace core {
     T UnaryExpressionModel<T>::evaluate() const {
 
         if (operand == nullptr) {
-            throw exception::OperandNullException();
+            throw fuzzylogic::exception::OperandNullException();
         }
 
         return evaluate(operand);

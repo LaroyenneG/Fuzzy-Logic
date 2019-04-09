@@ -4,7 +4,7 @@
 #include "TargetNullException.h"
 #include "BinaryExpression.h"
 
-namespace core {
+namespace fuzzylogic::core {
     template<typename T>
     class BinaryShadowExpression : public BinaryExpression<T> {
 
@@ -29,7 +29,7 @@ namespace core {
     T BinaryShadowExpression<T>::evaluate(Expression <T> *left, Expression <T> *right) const {
 
         if (target == nullptr) {
-            throw exception::TargetNullException();
+            throw fuzzylogic::exception::TargetNullException();
         }
 
         return target->evaluate(left, right);

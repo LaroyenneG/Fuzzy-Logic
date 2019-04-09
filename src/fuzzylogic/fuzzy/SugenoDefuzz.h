@@ -3,18 +3,18 @@
 
 #include "NaryExpression.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
     template<typename T>
 
-    class SugenoDefuzz : core::NaryExpression<T> {
+    class SugenoDefuzz : fuzzylogic::core::NaryExpression<T> {
 
     public:
-        T evaluate(const core::Expression<T> **oprands) const override;
+        T evaluate(const fuzzylogic::core::Expression<T> **oprands) const override;
     };
 
     template<typename T>
 
-    T SugenoDefuzz<T>::evaluate(const core::Expression<T> **oprands) const {
+    T SugenoDefuzz<T>::evaluate(const fuzzylogic::core::Expression<T> **oprands) const {
         return 0;
     }
 }

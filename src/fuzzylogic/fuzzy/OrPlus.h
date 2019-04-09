@@ -3,17 +3,17 @@
 
 #include "Or.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
 
     template<typename T>
-    class OrPlus : public core::BinaryExpression<T> {
+    class OrPlus : public fuzzylogic::core::BinaryExpression<T> {
 
     public:
-        T evaluate(core::Expression<T> *left, core::Expression<T> *right) const override;
+        T evaluate(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) const override;
     };
 
     template<typename T>
-    T OrPlus<T>::evaluate(core::Expression<T> *left, core::Expression<T> *right) const {
+    T OrPlus<T>::evaluate(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) const {
 
         T leftValue = left->evaluate();
         T rightValue = right->evaluate();

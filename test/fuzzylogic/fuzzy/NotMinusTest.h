@@ -7,8 +7,8 @@
 #include "NotMinus.h"
 #include "ValueModel.h"
 
-using namespace fuzzy;
-using namespace core;
+using namespace fuzzylogic::fuzzy;
+using namespace fuzzylogic::core;
 
 class NotMinusTest : public CppUnit::TestFixture {
 

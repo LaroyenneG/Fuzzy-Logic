@@ -2,9 +2,9 @@
 
 #include "FuzzyException.h"
 
-namespace exception {
+namespace fuzzylogic::exception {
 
-    exception::FuzzyException::FuzzyException(const std::string &_message, unsigned short _errorCode)
+    fuzzylogic::exception::FuzzyException::FuzzyException(const std::string &_message, unsigned short _errorCode)
             : std::runtime_error(_message), time(0), errorCode(_errorCode) {
     }
 

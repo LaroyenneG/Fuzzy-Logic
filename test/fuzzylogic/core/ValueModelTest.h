@@ -5,7 +5,7 @@
 
 #include "ValueModel.h"
 
-using namespace core;
+using namespace fuzzylogic::core;
 
 class ValueModelTest : public CppUnit::TestFixture {
 

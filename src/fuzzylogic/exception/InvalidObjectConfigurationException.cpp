@@ -1,6 +1,6 @@
 #include "InvalidObjectConfigurationException.h"
 
-namespace exception {
+namespace fuzzylogic::exception {
 
     const std::string InvalidObjectConfigurationException::MESSAGE(
             "You have activated a function with a invalid configuration.\nPlease use a other constructor to escape this error");

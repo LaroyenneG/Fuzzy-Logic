@@ -16,6 +16,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 include_directories(lib/include)
 
+include_directories(src/fuzzylogic)
 include_directories(src/fuzzylogic/core)
 include_directories(src/fuzzylogic/fuzzy)
 include_directories(src/fuzzylogic/exception)

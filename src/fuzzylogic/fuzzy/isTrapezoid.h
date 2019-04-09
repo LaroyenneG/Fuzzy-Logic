@@ -4,7 +4,7 @@
 #include "Expression.h"
 #include "Is.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
 
     template<typename T>
     class isTrapezoid : public Is<T> {
@@ -17,7 +17,7 @@ namespace fuzzy {
     public:
         explicit isTrapezoid(const T &_lowLeft, const T &_lowRight, const T &_highLeft, const T &_highRight);
 
-        T evaluate(core::Expression<T> *expression) const override;
+        T evaluate(fuzzylogic::core::Expression<T> *expression) const override;
 
         const T &getLowLeft() const;
 
@@ -43,7 +43,7 @@ namespace fuzzy {
     }
 
     template<typename T>
-    T isTrapezoid<T>::evaluate(core::Expression<T> *expression) const {
+    T isTrapezoid<T>::evaluate(fuzzylogic::core::Expression<T> *expression) const {
 
         T value = expression->evaluate();
 

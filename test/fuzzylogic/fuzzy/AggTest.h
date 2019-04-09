@@ -8,8 +8,8 @@
 #include "AggPlus.h"
 #include "ValueModel.h"
 
-using namespace core;
-using namespace fuzzy;
+using namespace fuzzylogic::core;
+using namespace fuzzylogic::fuzzy;
 
 
 class AggTest : public CppUnit::TestFixture {

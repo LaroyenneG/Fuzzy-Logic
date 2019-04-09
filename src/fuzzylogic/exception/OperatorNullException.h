@@ -4,7 +4,7 @@
 
 #include "InvalidObjectConfigurationException.h"
 
-namespace exception {
+namespace fuzzylogic::exception {
 
     class OperatorNullException : public InvalidObjectConfigurationException {
 

@@ -15,105 +15,115 @@
 #include "Not.h"
 #include "Is.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
 
     template<typename T>
-    class FuzzyFactory : public core::ExpressionFactory<T> {
+    class FuzzyFactory : public fuzzylogic::core::ExpressionFactory<T> {
 
     private:
-        core::BinaryShadowExpression<T> *mAnd;
-        core::BinaryShadowExpression<T> *mOr;
-        core::BinaryShadowExpression<T> *mThen;
-        core::BinaryShadowExpression<T> *mAgg;
-        core::UnaryShadowExpression<T> *mNot;
+        fuzzylogic::core::BinaryShadowExpression<T> *mAnd;
+        fuzzylogic::core::BinaryShadowExpression<T> *mOr;
+        fuzzylogic::core::BinaryShadowExpression<T> *mThen;
+        fuzzylogic::core::BinaryShadowExpression<T> *mAgg;
+        fuzzylogic::core::UnaryShadowExpression<T> *mNot;
 
     public:
-        FuzzyFactory<T>(core::UnaryShadowExpression<T> *, core::BinaryShadowExpression<T> *,
-                        core::BinaryShadowExpression<T> *, core::BinaryShadowExpression<T> *,
-                        core::BinaryShadowExpression<T> *);
+        FuzzyFactory<T>(fuzzylogic::core::UnaryShadowExpression<T> *, fuzzylogic::core::BinaryShadowExpression<T> *,
+                        fuzzylogic::core::BinaryShadowExpression<T> *, fuzzylogic::core::BinaryShadowExpression<T> *,
+                        fuzzylogic::core::BinaryShadowExpression<T> *);
 
-        core::BinaryExpression<T> *newAnd(core::Expression<T> *left, core::Expression<T> *right);
+        fuzzylogic::core::BinaryExpression<T> *
+        newAnd(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right);
 
-        core::BinaryExpression<T> *newOr(core::Expression<T> *left, core::Expression<T> *right);
+        fuzzylogic::core::BinaryExpression<T> *
+        newOr(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right);
 
-        core::BinaryExpression<T> *newThen(core::Expression<T> *left, core::Expression<T> *right);
+        fuzzylogic::core::BinaryExpression<T> *
+        newThen(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right);
 
-        core::BinaryExpression<T> *newAgg(core::Expression<T> *left, core::Expression<T> *right);
+        fuzzylogic::core::BinaryExpression<T> *
+        newAgg(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right);
 
-        core::UnaryExpression<T> *newNot(core::Expression<T> *operand);
+        fuzzylogic::core::UnaryExpression<T> *newNot(fuzzylogic::core::Expression<T> *operand);
 
-        core::UnaryExpression<T> *newIs(Is<T> *s, core::Expression<T> *operand);
+        fuzzylogic::core::UnaryExpression<T> *newIs(Is<T> *s, fuzzylogic::core::Expression<T> *operand);
 
-        void changeAnd(fuzzy::And<T> *_operator);
+        void changeAnd(fuzzylogic::fuzzy::And<T> *_operator);
 
-        void changeOr(fuzzy::Or<T> *_operator);
+        void changeOr(fuzzylogic::fuzzy::Or<T> *_operator);
 
-        void changeAgg(fuzzy::Agg<T> *_operator);
+        void changeAgg(fuzzylogic::fuzzy::Agg<T> *_operator);
 
-        void changeThen(fuzzy::Then<T> *_operator);
+        void changeThen(fuzzylogic::fuzzy::Then<T> *_operator);
 
-        void changeNot(fuzzy::Not<T> *_operator);
+        void changeNot(fuzzylogic::fuzzy::Not<T> *_operator);
 
     };
 
     template<typename T>
-    FuzzyFactory<T>::FuzzyFactory(core::UnaryShadowExpression<T> *_not, core::BinaryShadowExpression<T> *_and,
-                                  core::BinaryShadowExpression<T> *_or, core::BinaryShadowExpression<T> *_then,
-                                  core::BinaryShadowExpression<T> *_agg)
+    FuzzyFactory<T>::FuzzyFactory(fuzzylogic::core::UnaryShadowExpression<T> *_not,
+                                  fuzzylogic::core::BinaryShadowExpression<T> *_and,
+                                  fuzzylogic::core::BinaryShadowExpression<T> *_or,
+                                  fuzzylogic::core::BinaryShadowExpression<T> *_then,
+                                  fuzzylogic::core::BinaryShadowExpression<T> *_agg)
             :mAnd(_and), mOr(_or), mThen(_then), mAgg(_agg), mNot(_not) {}
 
     template<typename T>
-    core::BinaryExpression<T> *FuzzyFactory<T>::newAnd(core::Expression<T> *left, core::Expression<T> *right) {
-        return core::ExpressionFactory<T>::newBinary(mAnd, left, right);
+    fuzzylogic::core::BinaryExpression<T> *
+    FuzzyFactory<T>::newAnd(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) {
+        return fuzzylogic::core::ExpressionFactory<T>::newBinary(mAnd, left, right);
     }
 
     template<typename T>
-    core::BinaryExpression<T> *FuzzyFactory<T>::newOr(core::Expression<T> *left, core::Expression<T> *right) {
-        return core::ExpressionFactory<T>::newBinary(mOr, left, right);
+    fuzzylogic::core::BinaryExpression<T> *
+    FuzzyFactory<T>::newOr(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) {
+        return fuzzylogic::core::ExpressionFactory<T>::newBinary(mOr, left, right);
     }
 
     template<typename T>
-    core::BinaryExpression<T> *FuzzyFactory<T>::newThen(core::Expression<T> *left, core::Expression<T> *right) {
-        return core::ExpressionFactory<T>::newBinary(mThen, left, right);
+    fuzzylogic::core::BinaryExpression<T> *
+    FuzzyFactory<T>::newThen(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) {
+        return fuzzylogic::core::ExpressionFactory<T>::newBinary(mThen, left, right);
     }
 
     template<typename T>
-    core::BinaryExpression<T> *FuzzyFactory<T>::newAgg(core::Expression<T> *left, core::Expression<T> *right) {
-        return core::ExpressionFactory<T>::newBinary(mAgg, left, right);
+    fuzzylogic::core::BinaryExpression<T> *
+    FuzzyFactory<T>::newAgg(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) {
+        return fuzzylogic::core::ExpressionFactory<T>::newBinary(mAgg, left, right);
     }
 
     template<typename T>
-    core::UnaryExpression<T> *FuzzyFactory<T>::newNot(core::Expression<T> *operand) {
-        return core::ExpressionFactory<T>::newUnary(mNot, operand);
+    fuzzylogic::core::UnaryExpression<T> *FuzzyFactory<T>::newNot(fuzzylogic::core::Expression<T> *operand) {
+        return fuzzylogic::core::ExpressionFactory<T>::newUnary(mNot, operand);
     }
 
     template<typename T>
-    core::UnaryExpression<T> *FuzzyFactory<T>::newIs(Is<T> *s, core::Expression<T> *operand) {
-        return core::ExpressionFactory<T>::newUnary(s, operand);
+    fuzzylogic::core::UnaryExpression<T> *FuzzyFactory<T>::newIs(Is<T> *s, fuzzylogic::core::Expression<T> *operand) {
+        return fuzzylogic::core::ExpressionFactory<T>::newUnary(s, operand);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeAnd(fuzzy::And<T> *_operator) {
+    void FuzzyFactory<T>::changeAnd(fuzzylogic::fuzzy::And<T> *_operator) {
         mAnd->setTarget(_operator);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeOr(fuzzy::Or<T> *_operator) {
+    void FuzzyFactory<T>::changeOr(fuzzylogic::fuzzy::Or<T> *_operator) {
         mOr->setTarget(_operator);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeAgg(fuzzy::Agg<T> *_operator) {
+    void FuzzyFactory<T>::changeAgg(fuzzylogic::fuzzy::Agg<T> *_operator) {
         mAgg->setTarget(_operator);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeThen(fuzzy::Then<T> *_operator) {
+    void FuzzyFactory<T>::changeThen(fuzzylogic::fuzzy::Then<T> *_operator) {
         mThen->setTarget(_operator);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeNot(fuzzy::Not<T> *_operator) {
+    void FuzzyFactory<T>::changeNot(fuzzylogic::fuzzy::Not<T> *_operator) {
         mNot->setTarget(_operator);
     }
 

@@ -1,6 +1,7 @@
 #ifndef LOGIQUEFLOUE_FUZZYLOGIC_H
 #define LOGIQUEFLOUE_FUZZYLOGIC_H
 
+#include "FuzzyInterpreter.h"
 #include "NaryShadowExpression.h"
 #include "UnaryShadowExpression.h"
 #include "BinaryShadowExpression.h"
@@ -38,6 +39,9 @@ namespace fuzzylogic {
     /***************************************** fuzzy **************************************************/
 
 
+    /***************************************** interpreter ********************************************/
+
+    typedef interpreter::FuzzyInterpreter<double> FuzzyInterpreter;
 }
 
 

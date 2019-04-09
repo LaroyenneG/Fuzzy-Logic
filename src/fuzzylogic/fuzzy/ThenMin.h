@@ -3,16 +3,16 @@
 
 #include "Then.h"
 
-namespace fuzzy {
+namespace fuzzylogic::fuzzy {
 
     template<typename T>
     class ThenMin : public Then<T> {
     public:
-        T evaluate(core::Expression<T> *left, core::Expression<T> *right) const override;
+        T evaluate(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) const override;
     };
 
     template<typename T>
-    T ThenMin<T>::evaluate(core::Expression<T> *left, core::Expression<T> *right) const {
+    T ThenMin<T>::evaluate(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) const {
 
         T leftValue = left->evaluate();
         T rightValue = right->evaluate();

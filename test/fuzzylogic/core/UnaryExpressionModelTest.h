@@ -5,7 +5,7 @@
 
 #include "UnaryExpressionModel.h"
 
-using namespace core;
+using namespace fuzzylogic::core;
 
 class UnaryExpressionModelTest : public CppUnit::TestFixture {
 
