@@ -6,10 +6,20 @@ set(CMAKE_CXX_FLAGS "-Wall -Werror -pedantic -g")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D _ACTIVE_BLACK_BOX_") # enable black box
 
-set(CPPUNIT libcppunit-unix-64.a)
+if (LINUX OR UNIX AND NOT APPLE)
+    set(CPPUNIT libcppunit-unix-64.a)
+endif ()
 
-find_package(Qt4 REQUIRED)
-include(${QT_USE_FILE})
+if (APPLE)
+    message(STATUS ">>> Think different")
+endif ()
+
+if (WIN32)
+    set(CPPUNIT libcppunit-win-64.a)
+endif ()
+
+
+find_package(Qt5Widgets CONFIG REQUIRED)
 add_definitions(${QT_DEFINITIONS})
 set(QT_USE_QTOPENGL TRUE)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -40,16 +50,19 @@ set(INTERFACE_FILES src/titanic/controller/CheckBoxController.h
         src/titanic/controller/TimeWizardController.h
         src/titanic/controller/MenuController.h) # all slots class'
 
-qt4_wrap_cpp(INTERFACE_FILES_MOC ${INTERFACE_FILES})
+qt5_wrap_cpp(INTERFACE_FILES_MOC ${INTERFACE_FILES})
 
 set(FUZZY_LIBRARY ${CORE_SOURCES} ${FUZZY_SOURCES} ${EXCEPTION_SOURCES} ${INTP_SOURCES} src/fuzzylogic/fuzzylogic.h)
 
-add_library(fuzzy ${FUZZY_LIBRARY})
+add_library(fuzzylogic ${FUZZY_LIBRARY})
 add_executable(FuzzyTest ${TEST_SOURCES} ${FUZZY_LIBRARY})
 add_executable(Titanic ${TITANIC_SOURCES} ${FUZZY_LIBRARY} ${INTERFACE_FILES_MOC})
 
 
-# target_link_libraries(FuzzyTest ${CMAKE_SOURCE_DIR}/lib/${CPPUNIT})
+# Library link
+
+# target_link_libraries(FuzzyTest ${CMAKE_SOURCE_DIR}/lib/${CPPUNIT}) # <= because mascot
 target_link_libraries(FuzzyTest cppunit)
-target_link_libraries(Titanic ${QT_LIBRARIES})
+
+target_link_libraries(Titanic Qt5::Widgets)
 target_link_libraries(Titanic pthread)

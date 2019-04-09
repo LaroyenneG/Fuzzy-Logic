@@ -1,6 +1,8 @@
 #ifndef LOGIQUEFLOUE_AUTOMATICPILOTCONTROLLER_H
 #define LOGIQUEFLOUE_AUTOMATICPILOTCONTROLLER_H
 
+#include <fuzzylogic.h>
+
 #include "AbstractController.h"
 
 namespace controller {
@@ -10,7 +12,7 @@ namespace controller {
     Q_OBJECT
 
     private:
-        //  fuzzylogic::FuzzyInterpreter fuzzyInterpreter;
+        fuzzylogic::FuzzyInterpreter fuzzyInterpreter;
 
     public:
         explicit AutomaticPilotController(Model *_model, View *_view, Draftsman *_draftsman);
