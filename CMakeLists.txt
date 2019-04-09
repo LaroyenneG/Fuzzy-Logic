@@ -87,8 +87,9 @@ target_link_libraries(titanictest Qt5::Widgets)
 
 
 ################################ Leave a tip ###############################################
+include_directories(src/leaveatip)
 
-set(LEAVE_A_TIP_SOURCES src/leaveatip/LeaveAtip.cpp src/leaveatip/LeaveAtip.h) # all leaveatip source files
+set(LEAVE_A_TIP_SOURCES src/leaveatip/LeaveATip.cpp src/leaveatip/LeaveATip.h) # all leaveatip source files
 
 add_executable(leaveatip ${LEAVE_A_TIP_SOURCES} src/leaveatip/main.cpp)
 

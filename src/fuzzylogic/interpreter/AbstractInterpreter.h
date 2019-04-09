@@ -29,18 +29,19 @@ namespace fuzzylogic::interpreter {
         void freeInMemory(MemoryType, const std::string &name);
 
     public:
-        virtual void execute(std::string line) = 0;
+        virtual void execute(const std::string &line) = 0;
 
-        void execute(std::fstream fstream);
+        void executeFile(std::fstream &fstream);
     };
 
     template<typename T>
-    void AbstractInterpreter<T>::execute(std::fstream fstream) {
+    void AbstractInterpreter<T>::executeFile(std::fstream &fstream) {
 
         std::string line;
 
         while (std::getline(fstream, line)) {
             execute(line);
+            line.clear();
         }
     }
 

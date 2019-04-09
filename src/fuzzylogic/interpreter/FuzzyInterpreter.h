@@ -10,11 +10,11 @@ namespace fuzzylogic::interpreter {
     class FuzzyInterpreter : public AbstractInterpreter<T> {
 
     public:
-        void execute(std::string line) override;
+        void execute(const std::string &line) override;
     };
 
     template<typename T>
-    void FuzzyInterpreter<T>::execute(std::string line) {
+    void FuzzyInterpreter<T>::execute(const std::string &line) {
 
     }
 }
