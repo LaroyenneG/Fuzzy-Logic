@@ -31,6 +31,23 @@ namespace model {
 
 #endif
 
+    void PhysicObject2D::resetToDefault() {
+
+        setOrientation(DEFAULT_ORIENTATION);
+
+        setPositionX(DEFAULT_POSITION_X);
+        setPositionY(DEFAULT_POSITION_Y);
+
+        setSpeedX(DEFAULT_SPEED_X);
+        setSpeedY(DEFAULT_SPEED_Y);
+
+        setAccelerationX(DEFAULT_ACCELERATION_X);
+        setAccelerationY(DEFAULT_ACCELERATION_Y);
+
+        setRotationSpeed(DEFAULT_ROTATION_SPEED);
+        setRotationAcceleration(DEFAULT_ROTATION_ACCELERATION);
+    }
+
     double PhysicObject2D::getPositionX() const {
         return position[X_DIM_VALUE];
     }

@@ -131,4 +131,11 @@ namespace model {
 
         return thrust;
     }
+
+    void Engine::resetToDefault() {
+
+        rotationSpeed = ENGINE_DEFAULT_ROTATION_SPEED;
+        rotationAcceleration = ENGINE_DEFAULT_ROTATION_ACCELERATION;
+        power = ENGINE_DEFAULT_POWER;
+    }
 }

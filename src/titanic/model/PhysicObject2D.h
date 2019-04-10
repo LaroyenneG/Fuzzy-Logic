@@ -85,6 +85,8 @@ namespace model {
                                 double _yPosition, double _orientation, double _weight);
 
 
+        virtual void resetToDefault();
+
         Vector computeCentrifugalStrength() const;
 
         bool touch(const PhysicObject2D &object) const;

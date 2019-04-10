@@ -68,6 +68,8 @@ namespace model {
         double approximatedLiftCoefficient(double incidence) const;
 
         double approximatedDragCoefficient(double incidence) const;
+
+        void resetToDefault();
     };
 }
 

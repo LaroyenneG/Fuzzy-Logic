@@ -189,6 +189,16 @@ namespace view {
 
     void View::setMenuController(controller::MenuController *menuController) const {
 
+        QObject::connect(icebergSceneAction, &QAction::triggered, menuController,
+                         &controller::MenuController::icebergScene);
+        QObject::connect(realIcebergSceneAction, &QAction::triggered, menuController,
+                         &controller::MenuController::realIcebergScene);
+
+        QObject::connect(resetAction, &QAction::triggered, menuController, &controller::MenuController::reset);
+        QObject::connect(pauseAction, &QAction::triggered, menuController, &controller::MenuController::pause);
+        QObject::connect(playAction, &QAction::triggered, menuController, &controller::MenuController::play);
+        QObject::connect(accelerationAction, &QAction::triggered, menuController,
+                         &controller::MenuController::acceleration);
     }
 
     int View::getTimeInterval() const {
@@ -205,16 +215,17 @@ namespace view {
     }
 
     void View::stopTime() {
-        refreshTimer->stop();
-    }
-
-    void View::startTime() {
 
         if (refreshTimer->isActive()) {
             refreshTimer->stop();
         }
+    }
 
-        refreshTimer->start();
+    void View::startTime() {
+
+        if (!refreshTimer->isActive()) {
+            refreshTimer->start();
+        }
     }
 
     void View::touching() {
@@ -305,5 +316,19 @@ namespace view {
 
         realIcebergSceneAction = new QAction(tr("&Real iceberg scene"));
         icebergSceneAction = new QAction(tr("&Iceberg scene"));
+    }
+
+    void View::lockDashboard() {
+
+        helmSlider->setDisabled(true);
+        machineSlider->setDisabled(true);
+        automaticPilotCheckBox->setDisabled(true);
+    }
+
+    void View::unlockDashboard() {
+
+        helmSlider->setDisabled(false);
+        machineSlider->setDisabled(false);
+        automaticPilotCheckBox->setDisabled(false);
     }
 }

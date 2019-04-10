@@ -118,4 +118,12 @@ namespace model {
 
         return PhysicObject2D::angleBetweenVector(waterSpeed, directionVector());
     }
+
+    void Rudder::resetToDefault() {
+
+        setWaterSpeedX(RUDDER_DEFAULT_W_SPEED_X);
+        setWaterSpeedX(RUDDER_DEFAULT_W_SPEED_Y);
+
+        setValue(RUDDER_DEFAULT_VALUE);
+    }
 }

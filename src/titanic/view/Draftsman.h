@@ -9,7 +9,6 @@
 #include "Model.h"
 
 #define DRAFTSMAN_SCALE 1.0
-#define DRAFTSMAN_VISIBILITY 1000.0 // m
 
 #define TITANIC_PICTURE_FILE_NAME "../assets/titanic.png"
 
@@ -19,8 +18,6 @@ namespace view {
     class Draftsman {
 
     private:
-        double visibility;
-
         static const QColor SEA_COLOR;
 
         const model::Model *model;
@@ -48,8 +45,6 @@ namespace view {
         void drawLaserSensor(const model::LasersSensors<TITANIC_LASERS_COUNTER> *laserSensor);
 
         ~Draftsman() = default;
-
-        void changeVisibility(double value);
     };
 }
 

@@ -7,7 +7,7 @@ namespace view {
     const QColor Draftsman::SEA_COLOR(25, 25, 112);
 
     Draftsman::Draftsman(const model::Model *_model, QGraphicsScene *_scene)
-            : visibility(DRAFTSMAN_VISIBILITY), model(_model), scene(_scene) {
+            : model(_model), scene(_scene) {
 
         scene->setBackgroundBrush(SEA_COLOR);
     }
@@ -84,7 +84,7 @@ namespace view {
         const static QImage ICEBERG_IMAGE(ICEBERG_IMAGE_FILE);
         const static QPoint DIMENSION = scaleConverter(ICEBERG_DEFAULT_RAYON * 2.0, ICEBERG_DEFAULT_RAYON * 2.0);
 
-        if (visibility <= model->distance()) { return; }
+        if (model->getVisibility() <= model->distance()) { return; }
 
         QGraphicsPixmapItem *icebergItem = new QGraphicsPixmapItem(
                 QPixmap::fromImage(ICEBERG_IMAGE).scaled(DIMENSION.x(), DIMENSION.y()));
@@ -108,10 +108,6 @@ namespace view {
 
             scene->addLine(scaleConverter(line), QPen(Qt::red));
         }
-    }
-
-    void Draftsman::changeVisibility(double value) {
-        visibility = value;
     }
 
     /* static functions */
