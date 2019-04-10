@@ -33,7 +33,15 @@ namespace view {
               progressBarLaser3(new QProgressBar()),
               distanceLabel(new QLabel()),
               refreshTimer(new QTimer(this)),
-              automaticPilotTimer(new QTimer(this)) {
+              automaticPilotTimer(new QTimer(this)),
+              simulationMenu(nullptr),
+              resetAction(nullptr),
+              pauseAction(nullptr),
+              playAction(nullptr),
+              accelerationAction(nullptr),
+              sceneMenu(nullptr),
+              realIcebergSceneAction(nullptr),
+              icebergSceneAction(nullptr) {
 
 
         titanicView->setScene(titanicScene);
@@ -48,7 +56,12 @@ namespace view {
 
         parent->addWidget(titanicView);
         parent->addLayout(dashboard);
+
+        createActions();
+        createMenus();
+
         parent->setMenuBar(menuBar);
+
 
         dashboard->addLayout(commandPost, 0, 0);
         dashboard->addLayout(statisticalBoard, 0, 1);
@@ -77,6 +90,14 @@ namespace view {
 
     View::~View() {
 
+        delete simulationMenu;
+        delete pauseAction;
+        delete playAction;
+        delete accelerationAction;
+        delete resetAction;
+        delete sceneMenu;
+        delete realIcebergSceneAction;
+        delete icebergSceneAction;
         delete refreshTimer;
         delete distanceLabel;
         delete progressBarLaser3;
@@ -250,13 +271,39 @@ namespace view {
 
     void View::setLasersValue(double laser1, double laser2, double laser3) {
 
-        progressBarLaser1->setValue(static_cast<int>(std::round(laser1 * 100.0)));
-        progressBarLaser2->setValue(static_cast<int>(std::round(laser2 * 100.0)));
-        progressBarLaser3->setValue(static_cast<int>(std::round(laser3 * 100.0)));
+        static const double MUTIPLY = 100.0;
+
+        progressBarLaser1->setValue(static_cast<int>(std::round(laser1 * MUTIPLY)));
+        progressBarLaser2->setValue(static_cast<int>(std::round(laser2 * MUTIPLY)));
+        progressBarLaser3->setValue(static_cast<int>(std::round(laser3 * MUTIPLY)));
     }
 
     bool View::automaticPilotIsEnable() {
 
         return automaticPilotCheckBox->isChecked();
+    }
+
+    void View::createMenus() {
+
+        simulationMenu = menuBar->addMenu(tr("&Simulation"));
+        simulationMenu->addAction(pauseAction);
+        simulationMenu->addAction(playAction);
+        simulationMenu->addAction(accelerationAction);
+        simulationMenu->addAction(resetAction);
+
+        sceneMenu = menuBar->addMenu(tr("&Scene"));
+        sceneMenu->addAction(realIcebergSceneAction);
+        sceneMenu->addAction(icebergSceneAction);
+    }
+
+    void View::createActions() {
+
+        pauseAction = new QAction(tr("&Pause"));
+        playAction = new QAction(tr("&Play"));
+        accelerationAction = new QAction(tr("&Acceleration"));
+        resetAction = new QAction(tr("&Reset to default"));
+
+        realIcebergSceneAction = new QAction(tr("&Real iceberg scene"));
+        icebergSceneAction = new QAction(tr("&Iceberg scene"));
     }
 }

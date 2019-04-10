@@ -77,6 +77,21 @@ namespace view {
         QTimer *refreshTimer;
         QTimer *automaticPilotTimer;
 
+        /* menu items */
+        QMenu *simulationMenu;
+        QAction *resetAction;
+        QAction *pauseAction;
+        QAction *playAction;
+        QAction *accelerationAction;
+
+        QMenu *sceneMenu;
+        QAction *realIcebergSceneAction;
+        QAction *icebergSceneAction;
+
+        void createActions();
+
+        void createMenus();
+
     public:
         explicit View();
 
