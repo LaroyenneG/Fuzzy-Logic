@@ -162,7 +162,7 @@ namespace model {
 
             if (angleAlign >= NEGLIGIBLE) {
 
-                Point circleCenter = circleSolver(nPosition[0], nPosition[1], nPosition[2]);
+                Point circleCenter = circleCenterSolver(nPosition[0], nPosition[1], nPosition[2]);
 
                 double rayon = distanceBetweenPoint(circleCenter, nPosition[0]);
 
@@ -418,7 +418,7 @@ namespace model {
         return std::sqrt(somme);
     }
 
-    Point PhysicObject2D::circleSolver(const Point &p1, const Point &p2, const Point &p3) {
+    Point PhysicObject2D::circleCenterSolver(const Point &p1, const Point &p2, const Point &p3) {
 
         const double meaning = (p3[Y_DIM_VALUE] - p2[Y_DIM_VALUE] < 0) ? -1.0 : 1.0;
 

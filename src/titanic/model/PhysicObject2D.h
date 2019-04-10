@@ -173,7 +173,7 @@ namespace model {
 
         static double distanceBetweenPoint(const Point &point1, const Point &point2);
 
-        static Point circleSolver(const Point &p1, const Point &p2, const Point &p3);
+        static Point circleCenterSolver(const Point &p1, const Point &p2, const Point &p3);
 
         static Vector vectorBetweenPoints(const Point &point1, const Point &point2);
 
