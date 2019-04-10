@@ -46,8 +46,8 @@ add_library(fuzzylogic ${FUZZY_LIBRARY})
 
 file(GLOB_RECURSE FUZZY_TEST_SOURCES test/fuzzylogic/*) # all test source files
 
-add_executable(fuzzytest ${FUZZY_TEST_SOURCES} ${FUZZY_LIBRARY})
-target_link_libraries(fuzzytest cppunit)
+add_executable(fuzzylogictest ${FUZZY_TEST_SOURCES} ${FUZZY_LIBRARY})
+target_link_libraries(fuzzylogictest cppunit)
 
 
 ################################## Titanic ##############################################

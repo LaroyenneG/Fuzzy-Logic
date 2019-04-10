@@ -610,14 +610,13 @@ namespace model {
     }
 
     double PhysicObject2D::lineLength(const Line &line) {
+
         return distanceBetweenPoint(line.first, line.second);
     }
 
     double PhysicObject2D::angleVectorDirection(const Vector &vector1, const Vector &vector2) {
 
-
         double angle = angleBetweenVector(vector1, vector2);
-
 
         return (angleBetweenVector(vector2, pointRotation(vector1, angle / 2.0)) < angle) ? 1.0 : -1.0;
     }
