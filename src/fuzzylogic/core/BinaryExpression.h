@@ -10,6 +10,8 @@ namespace fuzzylogic::core {
 
     public:
         virtual T evaluate(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) const = 0;
+
+        virtual ~BinaryExpression() = default;
     };
 }
 

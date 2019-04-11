@@ -6,7 +6,7 @@
 namespace fuzzylogic::fuzzy {
 
     template<typename T>
-    class OrPlus : public fuzzylogic::core::BinaryExpression<T> {
+    class OrPlus : public Or<T> {
 
     public:
         T evaluate(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) const override;

@@ -1,7 +1,7 @@
 #include "FuzzyFactoryTest.h"
 #include <cmath>
 
-void FuzzyFactoryTest::FactoryTest() {
+void FuzzyFactoryTest::factoryTest() {
 
     OPEN_FUZZY_SECURE_BLOCK {
 
@@ -13,15 +13,10 @@ void FuzzyFactoryTest::FactoryTest() {
         ThenMin<double> thenMin;
         NotMinus<double> notMinus;
         AggMax<double> aggMax;
-
-        UnaryShadowExpression<double> shadowNot(&notMinus);
-        BinaryShadowExpression<double> shadowAnd(&andMin);
-        BinaryShadowExpression<double> shadowOr(&orPlus);
-        BinaryShadowExpression<double> shadowThen(&thenMin);
-        BinaryShadowExpression<double> shadowAgg(&aggMax);
+        CogDefuzz<double> cogDefuzz;
 
 
-        FuzzyFactory<double> fuzzyFact(&shadowNot, &shadowAnd, &shadowOr, &shadowThen, &shadowAgg);
+        FuzzyFactory<double> fuzzyFact(&notMinus, &andMin, &orPlus, &thenMin, &aggMax, &cogDefuzz);
 
         auto *andFuzzy = fuzzyFact.newAnd(&valueModelA, &valueModelB);
         CPPUNIT_ASSERT_EQUAL(0.5, andFuzzy->evaluate(&valueModelA, &valueModelB));

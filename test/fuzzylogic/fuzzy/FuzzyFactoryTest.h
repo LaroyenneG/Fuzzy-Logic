@@ -15,14 +15,15 @@
 #include "ThenMin.h"
 #include "ThenMult.h"
 #include "AggMax.h"
+#include "CogDefuzz.h"
 
 class FuzzyFactoryTest : public CppUnit::TestFixture {
 
 CPPUNIT_TEST_SUITE(FuzzyFactoryTest);
-        CPPUNIT_TEST(FactoryTest);
+        CPPUNIT_TEST(factoryTest);
     CPPUNIT_TEST_SUITE_END();
 public:
-    void FactoryTest();
+    void factoryTest();
 
 };
 

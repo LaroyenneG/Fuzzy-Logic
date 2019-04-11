@@ -65,6 +65,11 @@ namespace fuzzylogic {
 
     typedef fuzzy::OrPlus<type> OrPlus;
 
+
+    /******************************************** factory ***********************************************/
+
+    typedef fuzzy::FuzzyFactory<type> FuzzyFactory;
+
     /***************************************** interpreter ********************************************/
 
     typedef interpreter::FuzzyInterpreter<type> FuzzyInterpreter;

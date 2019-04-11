@@ -17,8 +17,6 @@ namespace fuzzylogic::core {
         std::set<Expression<T> *> memory;
 
     public:
-        ExpressionFactory() = default;
-
         virtual ~ExpressionFactory();
 
         Expression<T> *hold(Expression<T> *expression);

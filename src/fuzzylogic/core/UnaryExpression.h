@@ -8,6 +8,8 @@ namespace fuzzylogic::core {
     class UnaryExpression {
     public:
         virtual T evaluate(Expression <T> *expression) const = 0;
+
+        virtual ~UnaryExpression() = default;
     };
 }
 

@@ -41,7 +41,7 @@ namespace fuzzylogic::fuzzy {
 
     evaluate();
 
-    numerator += sth->
+    denominator += sth->
 
     getPremiseValue();
 }
