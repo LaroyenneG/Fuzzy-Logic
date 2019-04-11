@@ -4,7 +4,7 @@ LeaveATip::LeaveATip(fuzzylogic::type _service, fuzzylogic::type _food, fuzzylog
                      fuzzylogic::type _maxTip)
         : service(_service), food(_food), minTip(_minTip), maxTip(_maxTip) {
 
-    std::fstream file(LEAVE_A_TIP_INTERPRETER_FILE_PATH);
+    std::ifstream file(LEAVE_A_TIP_INTERPRETER_FILE_PATH);
 
     fuzzyInterpreter.executeFile(file);
 

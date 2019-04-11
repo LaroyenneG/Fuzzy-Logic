@@ -31,11 +31,11 @@ namespace fuzzylogic::interpreter {
     public:
         virtual void execute(const std::string &line) = 0;
 
-        void executeFile(std::fstream &fstream);
+        void executeFile(std::ifstream &fstream);
     };
 
     template<typename T>
-    void AbstractInterpreter<T>::executeFile(std::fstream &fstream) {
+    void AbstractInterpreter<T>::executeFile(std::ifstream &fstream) {
 
         std::string line;
 

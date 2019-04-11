@@ -1,6 +1,8 @@
 #ifndef LOGIQUEFLOUE_AUTOMATICPILOTCONTROLLER_H
 #define LOGIQUEFLOUE_AUTOMATICPILOTCONTROLLER_H
 
+#define AUTO_CONTROLLER_INTERPRETER_FILE_PATH "../assets/automatic-pilot.fuzzy"
+
 #include "fuzzylogic.h"
 
 #include "AbstractController.h"
