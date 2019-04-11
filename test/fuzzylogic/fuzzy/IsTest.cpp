@@ -22,7 +22,7 @@ void IsTest::testIsTriangle() {
     CPPUNIT_ASSERT_EQUAL(0.5, isTriangle.getMax());
 
     double evaluate = isTriangle.evaluate(&valueModelA);
-    double expected = -0.444;
+    double expected = 0.0;
 
     double evaluate1 = isTriangle.evaluate(&valueModelB);
     double expected1 = 1.0;
@@ -174,4 +174,22 @@ void IsTest::testIsGaussian() {
     CPPUNIT_ASSERT_EQUAL(4.0, isGaussian.getMean());
     CPPUNIT_ASSERT_EQUAL(1.0, isGaussian.evaluate(&valueModelA));
     CPPUNIT_ASSERT_DOUBLES_EQUAL(0.60, isGaussian.evaluate(&valueModelB), 0.01);
+}
+
+void IsTest::testIsRangeBell() {
+    ValueModel valueModelA(1.0);
+    ValueModel valueModelB(2.0);
+    ValueModel valueModelC(0.0);
+
+    IsRangeBell<double> isRangeBell_lazerOne(1.0, 1.0, 0.0, 0.0, 1.0);
+
+    IsRangeBell<double> isRangeBell_lazerTwo(1.0, 1.0, 0.0, 0.0, 1.0);
+
+    IsRangeBell<double> isRangeBell_lazerThree(1.0, 1.0, 1.0, 0.0, 1.0);
+
+    CPPUNIT_ASSERT_EQUAL(1.0, isRangeBell_lazerOne.getMid());
+
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0, isRangeBell_lazerOne.evaluate(&valueModelB), 0.01);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(0.5, isRangeBell_lazerOne.evaluate(&valueModelA), 0.01);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, isRangeBell_lazerOne.evaluate(&valueModelC), 0.01);
 }

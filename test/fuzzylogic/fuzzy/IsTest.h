@@ -12,6 +12,7 @@
 #include "ValueModel.h"
 #include "IsSigmoid.h"
 #include "IsGaussian.h"
+#include "IsRangeBell.h"
 
 using namespace fuzzylogic::fuzzy;
 using namespace fuzzylogic::core;
@@ -27,6 +28,7 @@ CPPUNIT_TEST_SUITE(IsTest);
         CPPUNIT_TEST(testIsBell);
         CPPUNIT_TEST(testIsGaussian);
         CPPUNIT_TEST(testIsSigmoid);
+        CPPUNIT_TEST(testIsRangeBell);
     CPPUNIT_TEST_SUITE_END();
 public:
     void testIsTriangle();
@@ -44,6 +46,8 @@ public:
     void testIsGaussian();
 
     void testIsSigmoid();
+
+    void testIsRangeBell();
 };
 
 
