@@ -63,17 +63,17 @@ namespace fuzzylogic::fuzzy {
         newDefuzz(core::Expression<T> *left, core::Expression<T> *right, const T &min, const T &max,
                   const T &step);
 
-        void changeAnd(And<T> *_operator);
+        void changeAnd(And<T> *_target);
 
-        void changeOr(Or<T> *_operator);
+        void changeOr(Or<T> *_target);
 
-        void changeAgg(Agg<T> *_operator);
+        void changeAgg(Agg<T> *_target);
 
-        void changeThen(Then<T> *_operator);
+        void changeThen(Then<T> *_target);
 
-        void changeDefuzz(MamdaniDefuzz<T> *_operator);
+        void changeDefuzz(MamdaniDefuzz<T> *_target);
 
-        void changeNot(Not<T> *_operator);
+        void changeNot(Not<T> *_target);
     };
 
     template<typename T>
@@ -102,35 +102,41 @@ namespace fuzzylogic::fuzzy {
     template<typename T>
     fuzzylogic::core::BinaryExpression<T> *
     FuzzyFactory<T>::newAnd(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) {
+
         return fuzzylogic::core::ExpressionFactory<T>::newBinary(sAnd, left, right);
     }
 
     template<typename T>
     fuzzylogic::core::BinaryExpression<T> *
     FuzzyFactory<T>::newOr(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) {
+
         return fuzzylogic::core::ExpressionFactory<T>::newBinary(sOr, left, right);
     }
 
     template<typename T>
     fuzzylogic::core::BinaryExpression<T> *
     FuzzyFactory<T>::newThen(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) {
+
         return fuzzylogic::core::ExpressionFactory<T>::newBinary(sThen, left, right);
     }
 
     template<typename T>
     fuzzylogic::core::BinaryExpression<T> *
     FuzzyFactory<T>::newAgg(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) {
+
         return fuzzylogic::core::ExpressionFactory<T>::newBinary(sAgg, left, right);
     }
 
     template<typename T>
     fuzzylogic::core::UnaryExpression<T> *FuzzyFactory<T>::newNot(fuzzylogic::core::Expression<T> *operand) {
+
         return fuzzylogic::core::ExpressionFactory<T>::newUnary(sNot, operand);
     }
 
     template<typename T>
     fuzzylogic::core::UnaryExpression<T> *
     FuzzyFactory<T>::newIs(Is<T> *shape, fuzzylogic::core::Expression<T> *operand) {
+
         return fuzzylogic::core::ExpressionFactory<T>::newUnary(shape, operand);
     }
 
@@ -138,40 +144,45 @@ namespace fuzzylogic::fuzzy {
     core::BinaryExpression<T> *FuzzyFactory<T>::newDefuzz(core::Expression<T> *left, core::Expression<T> *right,
                                                           const T &min, const T &max, const T &step) {
 
-        MamdaniDefuzz<T> *mamdaniDefuzz = sDefuzz->getTarget();
+        // In this class the sDefuzz target can only contain a Mamdani instance
 
+        auto *mamdaniDefuzz = dynamic_cast<MamdaniDefuzz<T> *>(sDefuzz->getTarget());
+
+        mamdaniDefuzz->setMin(min);
+        mamdaniDefuzz->setMax(max);
+        mamdaniDefuzz->setStep(step);
 
         return fuzzylogic::core::ExpressionFactory<T>::newBinary(sDefuzz, left, right);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeAnd(And<T> *_operator) {
-        sAnd->setTarget(_operator);
+    void FuzzyFactory<T>::changeAnd(And<T> *_target) {
+        sAnd->setTarget(_target);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeOr(Or<T> *_operator) {
-        sOr->setTarget(_operator);
+    void FuzzyFactory<T>::changeOr(Or<T> *_target) {
+        sOr->setTarget(_target);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeAgg(Agg<T> *_operator) {
-        sAgg->setTarget(_operator);
+    void FuzzyFactory<T>::changeAgg(Agg<T> *_target) {
+        sAgg->setTarget(_target);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeThen(Then<T> *_operator) {
-        sThen->setTarget(_operator);
+    void FuzzyFactory<T>::changeThen(Then<T> *_target) {
+        sThen->setTarget(_target);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeNot(Not<T> *_operator) {
-        sNot->setTarget(_operator);
+    void FuzzyFactory<T>::changeNot(Not<T> *_target) {
+        sNot->setTarget(_target);
     }
 
     template<typename T>
-    void FuzzyFactory<T>::changeDefuzz(MamdaniDefuzz<T> *_operator) {
-        sDefuzz->setTarget(_operator);
+    void FuzzyFactory<T>::changeDefuzz(MamdaniDefuzz<T> *_target) {
+        sDefuzz->setTarget(_target);
     }
 
     template<typename T>
@@ -182,7 +193,7 @@ namespace fuzzylogic::fuzzy {
         delete sThen;
         delete sDefuzz;
         delete sOr;
-        // delete sNot;
+        delete sAnd;
     }
 }
 #endif //LOGIQUEFLOUE_FUZZYFACTORY_H
