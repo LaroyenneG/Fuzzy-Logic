@@ -54,6 +54,7 @@ namespace model {
 
     public:
         const BlackBox &getBlackBox() const;
+
 #endif
 
     protected:

@@ -48,7 +48,7 @@ namespace fuzzylogic::fuzzy {
 
 return (denominator != ZERO) ? numerator / denominator :
 ZERO;
-    }
+}
 }
 
 #endif //LOGIQUEFLOUE_SUGENODEFUZZ_H
