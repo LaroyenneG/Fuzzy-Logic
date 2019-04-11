@@ -3,7 +3,7 @@
 
 #define SUGENO_THEN_DEFAULT_PREMISE_VALUE 0
 
-#include "Then.h"
+#include "ThenMult.h"
 
 namespace fuzzylogic::fuzzy {
 

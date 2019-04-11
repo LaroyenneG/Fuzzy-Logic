@@ -22,6 +22,8 @@ namespace fuzzylogic::fuzzy {
     template<typename T>
     T CogDefuzz<T>::defuzz(const Shape<T> &shape) const {
 
+        static const T ZERO(0);
+
         T numerator(0);
         T denominator(0);
 
@@ -34,7 +36,7 @@ namespace fuzzylogic::fuzzy {
             denominator += y;
         }
 
-        return numerator / denominator;
+        return (denominator != ZERO) ? numerator / denominator : ZERO;
     }
 }
 
