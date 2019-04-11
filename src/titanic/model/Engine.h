@@ -71,6 +71,8 @@ namespace model {
         virtual ~Engine() = default;
 
         double getHorsePower();
+
+        virtual void resetToDefault();
     };
 }
 

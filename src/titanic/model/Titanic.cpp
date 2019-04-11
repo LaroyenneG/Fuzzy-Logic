@@ -24,6 +24,23 @@ namespace model {
 
     }
 
+    void Titanic::resetToDefault() {
+
+        PhysicObject2D::resetToDefault();
+
+        setPositionX(TITANIC_DEFAULT_X);
+        setPositionY(TITANIC_DEFAULT_Y);
+
+        setWeight(TITANIC_DEFAULT_WEIGHT);
+        setOrientation(TITANIC_DEFAULT_COURSE);
+
+        for (auto engine : engines) {
+            engine->resetToDefault();
+        }
+
+        rudder.resetToDefault();
+    }
+
     void Titanic::setRudderValue(double value) {
 
         rudder.setValue(value);

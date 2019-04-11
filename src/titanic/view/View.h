@@ -143,6 +143,10 @@ namespace view {
 
         bool automaticPilotIsEnable();
 
+        void lockDashboard();
+
+        void unlockDashboard();
+
         ~View() override;
     };
 }

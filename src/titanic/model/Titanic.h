@@ -78,6 +78,8 @@ namespace model {
 
         ~Titanic() override;
 
+        void resetToDefault() override;
+
         void drawMe(view::Draftsman *draftsman) override;
 
         double approximatedLiftCoefficient(double incidence) const;

@@ -4,6 +4,8 @@
 
 #include "AbstractController.h"
 
+#include <QInputDialog>
+
 namespace controller {
 
     class MenuController : public AbstractController {
@@ -17,6 +19,17 @@ namespace controller {
 
     public slots:
 
+        void reset();
+
+        void pause();
+
+        void play();
+
+        void acceleration();
+
+        void realIcebergScene();
+
+        void icebergScene();
     };
 }
 

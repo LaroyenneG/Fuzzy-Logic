@@ -28,7 +28,7 @@ namespace controller {
     public:
         explicit AbstractController(Model *_model, View *_view, Draftsman *_draftsman);
 
-        virtual ~AbstractController() = default;
+        ~AbstractController() override = default;
     };
 }
 
