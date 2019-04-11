@@ -45,18 +45,29 @@ namespace fuzzylogic::fuzzy {
     template<typename T>
     T isTrapezoid<T>::evaluate(fuzzylogic::core::Expression<T> *expression) const {
 
+        static const T ZERO(0);
+        static const T ONE(1);
+
         T value = expression->evaluate();
 
-        if (value <= lowLeft)
-            return 0;
-        else if (value < highLeft)
+        if (value <= lowLeft) {
+
+            return ZERO;
+
+        } else if (value < highLeft) {
+
             return (value - lowLeft) / (highRight - lowLeft);
-        else if (value <= highRight)
-            return 1.0;
-        else if (value < lowRight)
+
+        } else if (value <= highRight) {
+
+            return ONE;
+
+        } else if (value < lowRight) {
+
             return (lowLeft - value) / (lowRight - highRight);
-        else
-            return 0;
+        }
+
+        return ZERO;
     }
 
     template<typename T>

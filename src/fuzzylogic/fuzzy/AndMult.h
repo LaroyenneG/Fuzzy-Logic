@@ -15,10 +15,10 @@ namespace fuzzylogic::fuzzy {
     template<typename T>
     T AndMult<T>::evaluate(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) const {
 
-        T l = left->evaluate();
-        T r = right->evaluate();
+        T leftValue = left->evaluate();
+        T rightValue = right->evaluate();
 
-        return l * r;
+        return leftValue * rightValue;
     }
 }
 

@@ -6,6 +6,7 @@
 namespace fuzzylogic::fuzzy {
     template<typename T>
     class IsGaussian : public Is<T> {
+
     private:
         T mean;
         T variance;
@@ -23,7 +24,6 @@ namespace fuzzylogic::fuzzy {
         void setMean(const T &_mean);
 
         void setVariance(const T &_variance);
-
     };
 
     template<typename T>
@@ -34,9 +34,16 @@ namespace fuzzylogic::fuzzy {
     template<typename T>
     T IsGaussian<T>::evaluate(fuzzylogic::core::Expression<T> *expression) const {
 
+        static const T ONE(1);
+        static const T TWO(2);
+
         T value = expression->evaluate();
 
-        T result(std::exp((-0.5 * pow(value - mean, 2)) / pow(variance, 2)));
+        T numerator(-ONE / TWO * (value - mean) * (value - mean));
+
+        T denominator(variance * variance);
+
+        T result(std::exp(numerator / denominator));
 
         return result;
     }

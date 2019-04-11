@@ -57,12 +57,17 @@ namespace fuzzylogic::fuzzy {
         static const T TWO(2);
 
         T value = expression->evaluate();
-        if (value < rangeMin)
+
+        if (value < rangeMin) {
+
             return ZERO;
-        else if (value > rangeMax)
+
+        } else if (value > rangeMax) {
+
             return ZERO;
-        else
-            return ONE / (ONE + pow(fabs((value - max) / min), (TWO * mid)));
+        }
+
+        return ONE / (ONE + pow(fabs((value - max) / min), (TWO * mid)));
     }
 
     template<typename T>

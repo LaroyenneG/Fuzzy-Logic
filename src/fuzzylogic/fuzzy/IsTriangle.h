@@ -39,17 +39,23 @@ namespace fuzzylogic::fuzzy {
     template<typename T>
     T IsTriangle<T>::evaluate(fuzzylogic::core::Expression<T> *expression) const {
 
+        static const T ZERO(0);
+
         T value = expression->evaluate();
 
-        if (value <= min)
-            return (value - value);
-        else if (value >= min && value <= mid)
-            return (value - min) / (mid - min);
-        else if (value >= mid && value <= max)
-            return (max - value) / (max - mid);
-        return 0;
+        if (value <= min) {
 
-        //return (value <= mid) ? (value - min) / (mid - min) : (max - value) / (max - min);
+            return ZERO;
+
+        } else if (value >= min && value <= mid) {
+
+            return (value - min) / (mid - min);
+
+        } else if (value >= mid && value <= max) {
+
+            return (max - value) / (max - mid);
+        }
+        return ZERO;
     }
 
     template<typename T>

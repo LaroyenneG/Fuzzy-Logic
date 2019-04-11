@@ -54,9 +54,7 @@ namespace fuzzylogic::fuzzy {
 
         static const T ONE(1);
 
-        T value = expression->evaluate();
-
-        return ONE / (ONE + std::exp(-value - min));
+        return ONE / (ONE + std::exp(-expression->evaluate() - min));
     }
 }
 

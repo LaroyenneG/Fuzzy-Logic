@@ -13,13 +13,43 @@ namespace fuzzylogic::fuzzy {
         std::vector<T> coefficients;
 
     public:
+        explicit SugenoConclusion() = default;
+
+        explicit SugenoConclusion(const std::vector<T> &_coefficients);
+
         T evaluate(const std::vector<fuzzylogic::core::Expression<T> *> &operands) const override;
+
+        const std::vector<T> &getCoefficients() const;
+
+        void setCoefficients(const std::vector<T> &_coefficients);
     };
 
     template<typename T>
+    SugenoConclusion<T>::SugenoConclusion(const std::vector<T> &_coefficients) : coefficients(_coefficients) {
 
+    }
+
+    template<typename T>
     T SugenoConclusion<T>::evaluate(const std::vector<fuzzylogic::core::Expression<T> *> &operands) const {
-        return 0;
+
+        T value(0);
+
+        for (int i = 0; i < operands.size() && i < coefficients.size(); i++) {
+            value += operands[i] * coefficients[i];
+        }
+
+        return value;
+    }
+
+    template<typename T>
+    const std::vector<T> &SugenoConclusion<T>::getCoefficients() const {
+
+        return coefficients;
+    }
+
+    template<typename T>
+    void SugenoConclusion<T>::setCoefficients(const std::vector<T> &_coefficients) {
+        coefficients = _coefficients;
     }
 }
 

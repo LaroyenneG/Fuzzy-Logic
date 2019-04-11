@@ -1,6 +1,7 @@
 #ifndef LOGIQUEFLOUE_FUZZYLOGIC_H
 #define LOGIQUEFLOUE_FUZZYLOGIC_H
 
+#include "SugenoConclusion.h"
 #include "OrPlus.h"
 #include "IsBell.h"
 #include "CogDefuzz.h"
@@ -49,6 +50,8 @@ namespace fuzzylogic {
     typedef fuzzy::SugenoDefuzz<type> SugenoDefuzz;
 
     typedef fuzzy::CogDefuzz<type> CogDefuzz;
+
+    typedef fuzzy::SugenoConclusion<type> SugenoConclusion;
 
 
     /******************************************* is ****************************************************/

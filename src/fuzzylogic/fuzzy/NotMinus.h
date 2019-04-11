@@ -17,9 +17,7 @@ namespace fuzzylogic::fuzzy {
 
         static const T ONE(1);
 
-        T value = operand->evaluate();
-
-        return ONE - value;
+        return ONE - operand->evaluate();
     }
 }
 

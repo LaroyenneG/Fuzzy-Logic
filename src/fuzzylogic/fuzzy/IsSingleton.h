@@ -31,9 +31,7 @@ namespace fuzzylogic::fuzzy {
         static const T ONE(1);
         static const T ZERO(0);
 
-        T evaluateValue = expression->evaluate();
-
-        return (evaluateValue == value) ? ONE : ZERO;
+        return (expression->evaluate() == value) ? ONE : ZERO;
     }
 
     template<typename T>
