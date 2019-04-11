@@ -1,7 +1,6 @@
 
-#include "NotMinus.h"
-#include "UnaryExpressionModel.h"
 #include "DefuzzTest.h"
+
 
 void DefuzzTest::testCogDefuzz() {
 
@@ -28,4 +27,15 @@ void DefuzzTest::testCogDefuzz() {
         CPPUNIT_FAIL("no exception throw (ValueModel)");
 
     } catch (fuzzylogic::exception::FuzzyException &ignored) {}
+}
+
+void DefuzzTest::testSugenoDefuzz() {
+
+    SugenoDefuzz<double> sugenoDefuzz;
+
+}
+
+void DefuzzTest::testSugenoConclusion() {
+
+    SugenoConclusion<double> sugenoConclusion;
 }

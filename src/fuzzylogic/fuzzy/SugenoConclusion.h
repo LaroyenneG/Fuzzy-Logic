@@ -34,8 +34,8 @@ namespace fuzzylogic::fuzzy {
 
         T value(0);
 
-        for (int i = 0; i < operands.size() && i < coefficients.size(); i++) {
-            value += operands[i] * coefficients[i];
+        for (unsigned int i = 0; i < operands.size() && i < coefficients.size(); i++) {
+            value += operands[i]->evaluate() * coefficients[i];
         }
 
         return value;
