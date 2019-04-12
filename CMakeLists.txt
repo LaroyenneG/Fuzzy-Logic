@@ -5,8 +5,12 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-Wall -Werror -pedantic -g")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D _ACTIVE_BLACK_BOX_") # enable black box
 
+set(LIB_PATH "${CMAKE_SOURCE_DIR}/lib")
+
+
 if (LINUX OR UNIX AND NOT APPLE)
-    set(CPPUNIT libcppunit-unix-64.a)
+    set(CPPUNIT "${LIB_PATH}/libcppunit-unix-64.a")
+    set(CPPUNIT cppunit)
 endif ()
 
 if (APPLE)
@@ -14,11 +18,9 @@ if (APPLE)
 endif ()
 
 if (WIN32)
-    set(CPPUNIT libcppunit-win-64.a)
+    set(CPPUNIT "${LIB_PATH}/libcppunit-win-32.a")
+    set(CMAKE_PREFIX_PATH "C:\\Qt\\5.12.2\\mingw73_32")
 endif ()
-
-
-set(CPPUNIT "${CMAKE_SOURCE_DIR}/lib/${CPPUNIT}")
 
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -47,12 +49,12 @@ add_library(fuzzylogic ${FUZZY_LIBRARY})
 file(GLOB_RECURSE FUZZY_TEST_SOURCES test/fuzzylogic/*) # all test source files
 
 add_executable(fuzzylogictest ${FUZZY_TEST_SOURCES} ${FUZZY_LIBRARY})
-target_link_libraries(fuzzylogictest cppunit)
+target_link_libraries(fuzzylogictest "${CPPUNIT}")
 
 
 ################################## Titanic ##############################################
 
-find_package(Qt5Widgets CONFIG REQUIRED)
+find_package(Qt5 COMPONENTS Core Gui Widgets Xml REQUIRED)
 add_definitions(${QT_DEFINITIONS})
 set(QT_USE_QTOPENGL TRUE)
 
@@ -82,7 +84,7 @@ target_link_libraries(titanic Qt5::Widgets)
 file(GLOB_RECURSE TITANIC_TEST_SOURCES test/titanic/*) # all test source files
 
 add_executable(titanictest ${TITANIC_SOURCES} ${FUZZY_LIBRARY} ${TITANIC_TEST_SOURCES} ${INTERFACE_FILES_MOC})
-target_link_libraries(titanictest cppunit)
+target_link_libraries(titanictest "${CPPUNIT}")
 target_link_libraries(titanictest Qt5::Widgets)
 
 
@@ -99,4 +101,4 @@ add_executable(leaveatip ${LEAVE_A_TIP_SOURCES} src/leaveatip/main.cpp)
 file(GLOB_RECURSE TIP_TEST_SOURCES test/leaveatip/*) # all test source files
 
 add_executable(leaveatiptest ${TIP_TEST_SOURCES} ${LEAVE_A_TIP_SOURCES})
-target_link_libraries(leaveatiptest cppunit)
+target_link_libraries(leaveatiptest "${CPPUNIT}")
