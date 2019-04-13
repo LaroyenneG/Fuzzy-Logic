@@ -55,6 +55,7 @@ namespace fuzzylogic::fuzzy {
 
             return (max - value) / (max - mid);
         }
+
         return ZERO;
     }
 
