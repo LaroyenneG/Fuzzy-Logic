@@ -52,16 +52,20 @@ namespace fuzzylogic::fuzzy {
 
         auto valueModel = dynamic_cast<fuzzylogic::core::ValueModel<T> *>(left);
 
+        T stateSave = valueModel->evaluate();
+
         Shape<T> shape;
 
         for (T x = min; x < max; x += step) {
 
-            valueModel->setValue(min);
+            valueModel->setValue(x);
 
             T y = right->evaluate();
 
             shape.addPoint(x, y);
         }
+
+        valueModel->setValue(stateSave);
 
         return defuzz(shape);
     }

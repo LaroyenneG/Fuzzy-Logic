@@ -5,7 +5,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "CogDefuzz.h"
-#include "NotMinus.h"
+#include "IsTriangle.h"
 #include "UnaryExpressionModel.h"
 #include "SugenoDefuzz.h"
 #include "SugenoConclusion.h"

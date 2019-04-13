@@ -4,25 +4,26 @@
 
 void DefuzzTest::testCogDefuzz() {
 
-    CogDefuzz<double> cogDefuzz(0.0, 10.0, 1.0);
+    CogDefuzz<double> cogDefuzz(0.0, 10.0, 0.0001);
 
-    ValueModel<double> valueModel(0.0);
+    ValueModel<double> valueModel(5.0);
 
-    NotMinus<double> notMinus;
+    IsTriangle<double> isTriangle(0.0, 5.0, 10.0);
 
-    UnaryExpressionModel expressionModel(&notMinus, &valueModel);
+    UnaryExpressionModel expressionModel(&isTriangle, &valueModel);
 
     OPEN_FUZZY_SECURE_BLOCK {
 
-        double result = cogDefuzz.evaluate(&expressionModel, &valueModel);
+        double result = cogDefuzz.evaluate(&valueModel, &expressionModel);
 
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(4.5, result, 0.005);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(5.0, result, 0.0001);
 
     } CLOSE_FUZZY_SECURE_BLOCK
 
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(5.0, valueModel.evaluate(), 0.001);
 
     try {
-        cogDefuzz.evaluate(&valueModel, &expressionModel);
+        cogDefuzz.evaluate(&expressionModel, &valueModel);
 
         CPPUNIT_FAIL("no exception throw (ValueModel)");
 
