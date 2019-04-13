@@ -14,7 +14,7 @@ class LeaveATipTest : public CppUnit::TestFixture {
 
 CPPUNIT_TEST_SUITE(LeaveATipTest);
         CPPUNIT_TEST(testLessonExample);
-        // CPPUNIT_TEST(testInterpreter);
+        CPPUNIT_TEST(testInterpreter);
     CPPUNIT_TEST_SUITE_END();
 
 private:
