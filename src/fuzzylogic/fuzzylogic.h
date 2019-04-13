@@ -9,9 +9,18 @@
 #include "OrMax.h"
 #include "NotMinus.h"
 #include "AndMin.h"
-#include "IsTriangle.h"
+#include "AndMult.h"
 #include "ThenMin.h"
-
+#include "ThenMult.h"
+#include "IsTriangle.h"
+#include "IsRangeBell.h"
+#include "IsGaussian.h"
+#include "IsRampLeft.h"
+#include "IsRampRight.h"
+#include "IsShape.h"
+#include "IsSigmoid.h"
+#include "IsSingleton.h"
+#include "isTrapezoid.h"
 #include "Expression.h"
 #include "IsBell.h"
 #include "CogDefuzz.h"
@@ -74,21 +83,46 @@ namespace fuzzylogic {
 
     typedef fuzzy::SugenoThen<type> SugenoThen;
 
+    typedef fuzzy::Shape<type> Shape;
+
 
     /******************************************* is ****************************************************/
 
     typedef fuzzy::IsTriangle<type> IsTriangle;
     typedef fuzzy::IsBell<type> IsBell;
+    typedef fuzzy::IsRangeBell<type> IsRangeBell;
+    typedef fuzzy::IsGaussian<type> IsGaussian;
+    typedef fuzzy::IsRampLeft<type> IsRampLeft;
+    typedef fuzzy::IsRampRight<type> IsRampRight;
+    typedef fuzzy::IsSingleton<type> IsSingleton;
+    typedef fuzzy::IsSigmoid<type> IsSigmoid;
+    typedef fuzzy::isTrapezoid<type> IsTrapezoid;
+
+
+    /******************************************** agg ***************************************************/
+
+    typedef fuzzy::AggPlus<type> AggPlus;
+    typedef fuzzy::AggMax<type> AggMax;
+
+    /******************************************** and ***************************************************/
+
+    typedef fuzzy::AndMin<type> AndMin;
+    typedef fuzzy::AndMult<type> AndMult;
+
+    /******************************************** not ***************************************************/
+
+    typedef fuzzy::NotMinus<type> NotMinus;
 
     /******************************************** or ***************************************************/
 
     typedef fuzzy::OrPlus<type> OrPlus;
     typedef fuzzy::OrMax<type> OrMax;
-    typedef fuzzy::NotMinus<type> NotMinus;
-    typedef fuzzy::AndMin<type> AndMin;
+
+    /******************************************** then ***************************************************/
+
     typedef fuzzy::ThenMin<type> ThenMin;
-    typedef fuzzy::AggPlus<type> AggPlus;
-    typedef fuzzy::AggMax<type> AggMax;
+    typedef fuzzy::ThenMult<type> ThenMult;
+
 
 
     /******************************************** factory ***********************************************/
