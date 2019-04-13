@@ -43,23 +43,23 @@ namespace fuzzylogic::fuzzy {
 
         ~FuzzyFactory() override;
 
-        fuzzylogic::core::BinaryExpression<T> *
+        fuzzylogic::core::Expression<T> *
         newAnd(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right);
 
-        fuzzylogic::core::BinaryExpression<T> *
+        fuzzylogic::core::Expression<T> *
         newOr(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right);
 
-        fuzzylogic::core::BinaryExpression<T> *
+        fuzzylogic::core::Expression<T> *
         newThen(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right);
 
-        fuzzylogic::core::BinaryExpression<T> *
+        fuzzylogic::core::Expression<T> *
         newAgg(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right);
 
-        fuzzylogic::core::UnaryExpression<T> *newNot(fuzzylogic::core::Expression<T> *operand);
+        fuzzylogic::core::Expression<T> *newNot(fuzzylogic::core::Expression<T> *operand);
 
-        fuzzylogic::core::UnaryExpression<T> *newIs(Is<T> *shape, fuzzylogic::core::Expression<T> *operand);
+        fuzzylogic::core::Expression<T> *newIs(Is<T> *shape, fuzzylogic::core::Expression<T> *operand);
 
-        core::BinaryExpression<T> *
+        core::Expression<T> *
         newDefuzz(core::Expression<T> *left, core::Expression<T> *right, const T &min, const T &max,
                   const T &step);
 
@@ -100,49 +100,49 @@ namespace fuzzylogic::fuzzy {
 
 
     template<typename T>
-    fuzzylogic::core::BinaryExpression<T> *
+    fuzzylogic::core::Expression<T> *
     FuzzyFactory<T>::newAnd(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) {
 
         return fuzzylogic::core::ExpressionFactory<T>::newBinary(sAnd, left, right);
     }
 
     template<typename T>
-    fuzzylogic::core::BinaryExpression<T> *
+    fuzzylogic::core::Expression<T> *
     FuzzyFactory<T>::newOr(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) {
 
         return fuzzylogic::core::ExpressionFactory<T>::newBinary(sOr, left, right);
     }
 
     template<typename T>
-    fuzzylogic::core::BinaryExpression<T> *
+    fuzzylogic::core::Expression<T> *
     FuzzyFactory<T>::newThen(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) {
 
         return fuzzylogic::core::ExpressionFactory<T>::newBinary(sThen, left, right);
     }
 
     template<typename T>
-    fuzzylogic::core::BinaryExpression<T> *
+    fuzzylogic::core::Expression<T> *
     FuzzyFactory<T>::newAgg(fuzzylogic::core::Expression<T> *left, fuzzylogic::core::Expression<T> *right) {
 
         return fuzzylogic::core::ExpressionFactory<T>::newBinary(sAgg, left, right);
     }
 
     template<typename T>
-    fuzzylogic::core::UnaryExpression<T> *FuzzyFactory<T>::newNot(fuzzylogic::core::Expression<T> *operand) {
+    fuzzylogic::core::Expression<T> *FuzzyFactory<T>::newNot(fuzzylogic::core::Expression<T> *operand) {
 
         return fuzzylogic::core::ExpressionFactory<T>::newUnary(sNot, operand);
     }
 
     template<typename T>
-    fuzzylogic::core::UnaryExpression<T> *
+    fuzzylogic::core::Expression<T> *
     FuzzyFactory<T>::newIs(Is<T> *shape, fuzzylogic::core::Expression<T> *operand) {
 
         return fuzzylogic::core::ExpressionFactory<T>::newUnary(shape, operand);
     }
 
     template<typename T>
-    core::BinaryExpression<T> *FuzzyFactory<T>::newDefuzz(core::Expression<T> *left, core::Expression<T> *right,
-                                                          const T &min, const T &max, const T &step) {
+    core::Expression<T> *FuzzyFactory<T>::newDefuzz(core::Expression<T> *left, core::Expression<T> *right,
+                                                    const T &min, const T &max, const T &step) {
 
         // In this class the sDefuzz target can only contain a Mamdani instance
 

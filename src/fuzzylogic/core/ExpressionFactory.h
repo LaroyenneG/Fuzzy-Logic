@@ -21,9 +21,9 @@ namespace fuzzylogic::core {
 
         Expression<T> *hold(Expression<T> *expression);
 
-        UnaryExpression<T> *newUnary(UnaryExpression<T> *operand, Expression<T> *expression);
+        Expression<T> *newUnary(UnaryExpression<T> *operand, Expression<T> *expression);
 
-        BinaryExpression<T> *
+        Expression<T> *
         newBinary(BinaryExpression<T> *operand, Expression<T> *left, Expression<T> *right);
     };
 
@@ -36,7 +36,7 @@ namespace fuzzylogic::core {
     }
 
     template<typename T>
-    UnaryExpression<T> *
+    Expression<T> *
     ExpressionFactory<T>::newUnary(UnaryExpression<T> *operand, Expression<T> *expression) {
 
         auto nExpression = new UnaryExpressionModel<T>(operand, expression);
@@ -47,9 +47,9 @@ namespace fuzzylogic::core {
     }
 
     template<typename T>
-    BinaryExpression<T> *ExpressionFactory<T>::newBinary(BinaryExpression<T> *operand,
-                                                         Expression<T> *left,
-                                                         Expression<T> *right) {
+    Expression<T> *ExpressionFactory<T>::newBinary(BinaryExpression<T> *operand,
+                                                   Expression<T> *left,
+                                                   Expression<T> *right) {
 
         auto nExpression = new BinaryExpressionModel<T>(operand, left, right);
 
