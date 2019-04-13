@@ -18,6 +18,8 @@ namespace fuzzylogic::core {
 
         const UnaryExpression <T> *getTarget() const;
 
+        UnaryExpression <T> *getTarget();
+
         void setTarget(UnaryExpression <T> *_target);
     };
 
@@ -37,12 +39,20 @@ namespace fuzzylogic::core {
 
     template<typename T>
     const UnaryExpression <T> *UnaryShadowExpression<T>::getTarget() const {
+
         return target;
     }
 
     template<typename T>
     void UnaryShadowExpression<T>::setTarget(UnaryExpression <T> *_target) {
+
         target = _target;
+    }
+
+    template<typename T>
+    UnaryExpression <T> *UnaryShadowExpression<T>::getTarget() {
+
+        return target;
     }
 }
 

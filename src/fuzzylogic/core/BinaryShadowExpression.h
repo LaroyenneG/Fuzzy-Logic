@@ -18,6 +18,8 @@ namespace fuzzylogic::core {
 
         const BinaryExpression <T> *getTarget() const;
 
+        BinaryExpression <T> *getTarget();
+
         void setTarget(BinaryExpression <T> *_target);
     };
 
@@ -43,6 +45,12 @@ namespace fuzzylogic::core {
     template<typename T>
     void BinaryShadowExpression<T>::setTarget(BinaryExpression <T> *_target) {
         target = _target;
+    }
+
+    template<typename T>
+    BinaryExpression <T> *BinaryShadowExpression<T>::getTarget() {
+
+        return target;
     }
 }
 

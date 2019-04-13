@@ -19,8 +19,8 @@ namespace fuzzylogic::fuzzy {
     public:
         explicit MamdaniDefuzz(const T &_min, const T &_max, const T &_step);
 
-        T evaluate(fuzzylogic::core::Expression<T> *expression,
-                   fuzzylogic::core::Expression<T> *_valueModel) const override;
+        T evaluate(fuzzylogic::core::Expression<T> *left,
+                   fuzzylogic::core::Expression<T> *right) const override;
 
         virtual T defuzz(const Shape<T> &shape) const = 0;
 
@@ -43,14 +43,14 @@ namespace fuzzylogic::fuzzy {
     }
 
     template<typename T>
-    T MamdaniDefuzz<T>::evaluate(fuzzylogic::core::Expression<T> *expression,
-                                 fuzzylogic::core::Expression<T> *_valueModel) const {
+    T MamdaniDefuzz<T>::evaluate(fuzzylogic::core::Expression<T> *left,
+                                 fuzzylogic::core::Expression<T> *right) const {
 
-        if (!_valueModel->isValue()) {
+        if (!left->isValue()) {
             throw fuzzylogic::exception::NotValueModelException();
         }
 
-        auto valueModel = dynamic_cast<fuzzylogic::core::ValueModel<T> *>(_valueModel);
+        auto valueModel = dynamic_cast<fuzzylogic::core::ValueModel<T> *>(left);
 
         Shape<T> shape;
 
@@ -58,7 +58,7 @@ namespace fuzzylogic::fuzzy {
 
             valueModel->setValue(min);
 
-            T y = expression->evaluate();
+            T y = right->evaluate();
 
             shape.addPoint(x, y);
         }

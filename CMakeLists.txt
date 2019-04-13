@@ -93,12 +93,12 @@ include_directories(src/leaveatip)
 
 set(LEAVE_A_TIP_SOURCES src/leaveatip/LeaveATip.cpp src/leaveatip/LeaveATip.h) # all leaveatip source files
 
-add_executable(leaveatip ${LEAVE_A_TIP_SOURCES} src/leaveatip/main.cpp)
+add_executable(leaveatip ${LEAVE_A_TIP_SOURCES} ${FUZZY_LIBRARY} src/leaveatip/main.cpp)
 
 
 ################################ Leave a tip test #############################################
 
 file(GLOB_RECURSE TIP_TEST_SOURCES test/leaveatip/*) # all test source files
 
-add_executable(leaveatiptest ${TIP_TEST_SOURCES} ${LEAVE_A_TIP_SOURCES})
+add_executable(leaveatiptest ${TIP_TEST_SOURCES} ${FUZZY_LIBRARY} ${LEAVE_A_TIP_SOURCES})
 target_link_libraries(leaveatiptest "${CPPUNIT}")

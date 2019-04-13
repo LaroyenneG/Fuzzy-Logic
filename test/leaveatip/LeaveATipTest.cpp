@@ -5,21 +5,29 @@
 
 void LeaveATipTest::testLessonExample() {
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(4.075, computeTip(3.0, 8.0), 0.001);
+    OPEN_FUZZY_SECURE_BLOCK {
+
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(4.075, computeTip(3.0, 8.0), 0.001);
+
+    } CLOSE_FUZZY_SECURE_BLOCK
 }
 
 void LeaveATipTest::testInterpreter() {
 
-    static const std::vector<std::array<type, 2>> TEST_DATA = {{3.0, 8.0}}; // pair (service, food) a tester
+    OPEN_FUZZY_SECURE_BLOCK {
 
-    LeaveATip leaveATip;
-    leaveATip.setMinTip(LEAVE_A_TIP_TEST_MIN_TIP);
-    leaveATip.setMaxTip(LEAVE_A_TIP_TEST_MAX_TIP);
+        static const std::vector<std::array<type, 2>> TEST_DATA = {{3.0, 8.0}}; // pair (service, food) a tester
 
-    for (auto data : TEST_DATA) {
+        LeaveATip leaveATip;
+        leaveATip.setMinTip(LEAVE_A_TIP_TEST_MIN_TIP);
+        leaveATip.setMaxTip(LEAVE_A_TIP_TEST_MAX_TIP);
 
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(computeTip(data[0], data[1]), leaveATip.evaluateTip(), 0.001);
-    }
+        for (auto data : TEST_DATA) {
+
+            CPPUNIT_ASSERT_DOUBLES_EQUAL(computeTip(data[0], data[1]), leaveATip.evaluateTip(), 0.001);
+        }
+
+    } CLOSE_FUZZY_SECURE_BLOCK
 }
 
 type LeaveATipTest::computeTip(type service, type food) {
@@ -46,30 +54,30 @@ type LeaveATipTest::computeTip(type service, type food) {
     IsTriangle generous(20, 25, 30);
 
     //values
-    Value V_service(service);
-    Value V_foods(food);
-    Value V_tips(0);
+    Value v_service(service);
+    Value v_foods(food);
+    Value v_tips(0);
 
     Expression *r =
             f.newAgg(
                     f.newAgg(
                             f.newThen(
-                                    f.newIs(&poor, &V_service),
-                                    f.newIs(&cheap, &V_tips)
+                                    f.newIs(&poor, &v_service),
+                                    f.newIs(&cheap, &v_tips)
                             ),
                             f.newThen(
-                                    f.newIs(&good, &V_service),
-                                    f.newIs(&average, &V_tips)
+                                    f.newIs(&good, &v_service),
+                                    f.newIs(&average, &v_tips)
                             )
                     ),
                     f.newThen(
-                            f.newIs(&excellent, &V_service),
-                            f.newIs(&generous, &V_tips)
+                            f.newIs(&excellent, &v_service),
+                            f.newIs(&generous, &v_tips)
                     )
             );
 
     //defuzzication
-    Expression *system = f.newDefuzz(&V_tips, r, 0, 25, 1);
+    Expression *system = f.newDefuzz(&v_tips, r, 0, 25, 1);
 
     //apply input
     auto returnValue = system->evaluate();
