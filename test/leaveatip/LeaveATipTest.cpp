@@ -54,30 +54,30 @@ type LeaveATipTest::computeTip(type service, type food) {
     IsTriangle generous(20, 25, 30);
 
     //values
-    Value v_service(service);
-    Value v_foods(food);
-    Value v_tips(0);
+    ValueModel vService(service);
+    ValueModel vFoods(food);
+    ValueModel vTips(0);
 
     Expression *r =
             f.newAgg(
                     f.newAgg(
                             f.newThen(
-                                    f.newIs(&poor, &v_service),
-                                    f.newIs(&cheap, &v_tips)
+                                    f.newIs(&poor, &vService),
+                                    f.newIs(&cheap, &vTips)
                             ),
                             f.newThen(
-                                    f.newIs(&good, &v_service),
-                                    f.newIs(&average, &v_tips)
+                                    f.newIs(&good, &vService),
+                                    f.newIs(&average, &vTips)
                             )
                     ),
                     f.newThen(
-                            f.newIs(&excellent, &v_service),
-                            f.newIs(&generous, &v_tips)
+                            f.newIs(&excellent, &vService),
+                            f.newIs(&generous, &vTips)
                     )
             );
 
     //defuzzication
-    Expression *system = f.newDefuzz(&v_tips, r, LEAVE_A_TIP_TEST_MIN_TIP, LEAVE_A_TIP_TEST_MAX_TIP, 1.0);
+    Expression *system = f.newDefuzz(&vTips, r, LEAVE_A_TIP_TEST_MIN_TIP, LEAVE_A_TIP_TEST_MAX_TIP, 1.0);
 
     //apply input
     auto returnValue = system->evaluate();

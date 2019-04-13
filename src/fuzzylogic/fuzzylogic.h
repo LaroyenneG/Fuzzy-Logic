@@ -62,10 +62,6 @@ namespace fuzzylogic {
 
     typedef core::NaryShadowExpression<type> NaryShadowExpression;
 
-    /* Value */
-
-    typedef core::ValueModel<type> Value;
-
     /* Expression */
 
     typedef core::Expression<type> Expression;
