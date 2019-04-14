@@ -14,8 +14,6 @@ namespace fuzzylogic::exception {
 
     public:
         explicit NotValueModelException();
-
-        ~NotValueModelException() override = default;
     };
 }
 

@@ -46,11 +46,11 @@ namespace fuzzylogic::fuzzy {
     T MamdaniDefuzz<T>::evaluate(fuzzylogic::core::Expression<T> *left,
                                  fuzzylogic::core::Expression<T> *right) const {
 
-        if (!left->isValue()) {
+        auto valueModel = dynamic_cast<fuzzylogic::core::ValueModel<T> *>(left);
+
+        if (valueModel == nullptr) {
             throw fuzzylogic::exception::NotValueModelException();
         }
-
-        auto valueModel = dynamic_cast<fuzzylogic::core::ValueModel<T> *>(left);
 
         T stateSave = valueModel->evaluate();
 

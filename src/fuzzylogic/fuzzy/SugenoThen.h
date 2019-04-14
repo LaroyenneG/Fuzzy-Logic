@@ -33,6 +33,7 @@ namespace fuzzylogic::fuzzy {
 
     template<typename T>
     const T &SugenoThen<T>::getPremiseValue() const {
+
         return premiseValue;
     }
 

@@ -20,8 +20,6 @@ namespace fuzzylogic::core {
         T evaluate() const override;
 
         void setValue(const T &_v);
-
-        bool isValue() const;
     };
 
     template<typename T>
@@ -41,11 +39,6 @@ namespace fuzzylogic::core {
     template<typename T>
     void ValueModel<T>::setValue(const T &_v) {
         value = _v;
-    }
-
-    template<typename T>
-    bool ValueModel<T>::isValue() const {
-        return true;
     }
 }
 

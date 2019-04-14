@@ -10,8 +10,6 @@ namespace fuzzylogic::core {
         virtual T evaluate() const = 0;
 
         virtual ~Expression() = default;
-
-        virtual bool isValue() const = 0;
     };
 }
 

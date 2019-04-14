@@ -22,8 +22,6 @@ namespace fuzzylogic::core {
 
         T evaluate(Expression <T> *left, Expression <T> *right) const override;
 
-        bool isValue() const override;
-
         const BinaryExpression <T> *getOperator() const;
 
         BinaryExpression <T> *getOperator();
@@ -53,11 +51,6 @@ namespace fuzzylogic::core {
         }
 
         return bOperator->evaluate(_left, _right);
-    }
-
-    template<typename T>
-    bool BinaryExpressionModel<T>::isValue() const {
-        return false;
     }
 
     template<typename T>
