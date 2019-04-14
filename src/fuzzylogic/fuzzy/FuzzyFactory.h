@@ -75,9 +75,15 @@ namespace fuzzylogic::fuzzy {
 
         fuzzylogic::core::Expression<T> *newIs(Is<T> *shape, fuzzylogic::core::Expression<T> *operand);
 
-        core::Expression<T> *
+        fuzzylogic::core::Expression<T> *
         newMamdaniDefuzz(core::Expression<T> *left, core::Expression<T> *right, const T &min, const T &max,
                          const T &step);
+
+        fuzzylogic::core::Expression<T> *
+        newSugenoDefuzz(const std::vector<fuzzylogic::core::Expression<T> *> &operands);
+
+        fuzzylogic::core::Expression<T> *
+        newConclusion(const std::vector<fuzzylogic::core::Expression<T> *> &operands);
 
         void changeAnd(And<T> *_target);
 
@@ -113,14 +119,14 @@ namespace fuzzylogic::fuzzy {
                                   MamdaniDefuzz<T> *_mamdaniDefuzz, SugenoDefuzz<T> *_sugenoDefuzz,
                                   SugenoConclusion<T> *_sugenoConclusion)
 
-            : FuzzyFactory(new core::UnaryShadowExpression<T>(_not),
-                           new core::BinaryShadowExpression<T>(_and),
-                           new core::BinaryShadowExpression<T>(_or),
-                           new core::BinaryShadowExpression<T>(_then),
-                           new core::BinaryShadowExpression<T>(_agg),
-                           new core::BinaryShadowExpression<T>(_mamdaniDefuzz),
-                           new core::NaryShadowExpression<T>(_sugenoDefuzz),
-                           new core::NaryShadowExpression<T>(_sugenoConclusion)) {
+            : FuzzyFactory(new fuzzylogic::core::UnaryShadowExpression<T>(_not),
+                           new fuzzylogic::core::BinaryShadowExpression<T>(_and),
+                           new fuzzylogic::core::BinaryShadowExpression<T>(_or),
+                           new fuzzylogic::core::BinaryShadowExpression<T>(_then),
+                           new fuzzylogic::core::BinaryShadowExpression<T>(_agg),
+                           new fuzzylogic::core::BinaryShadowExpression<T>(_mamdaniDefuzz),
+                           new fuzzylogic::core::NaryShadowExpression<T>(_sugenoDefuzz),
+                           new fuzzylogic::core::NaryShadowExpression<T>(_sugenoConclusion)) {
 
     }
 
@@ -182,8 +188,9 @@ namespace fuzzylogic::fuzzy {
     }
 
     template<typename T>
-    core::Expression<T> *FuzzyFactory<T>::newMamdaniDefuzz(core::Expression<T> *left, core::Expression<T> *right,
-                                                           const T &min, const T &max, const T &step) {
+    fuzzylogic::core::Expression<T> *
+    FuzzyFactory<T>::newMamdaniDefuzz(core::Expression<T> *left, core::Expression<T> *right,
+                                      const T &min, const T &max, const T &step) {
 
         // In this class the sMamdaniDefuzz target can only contain a Mamdani instance
 
@@ -194,6 +201,18 @@ namespace fuzzylogic::fuzzy {
         mamdaniDefuzz->setStep(step);
 
         return fuzzylogic::core::ExpressionFactory<T>::newBinary(sMamdaniDefuzz, left, right);
+    }
+
+    template<typename T>
+    core::Expression<T> *FuzzyFactory<T>::newSugenoDefuzz(const std::vector<core::Expression<T> *> &operands) {
+
+        return fuzzylogic::core::ExpressionFactory<T>::newNary(sSugenoDefuzz, operands);
+    }
+
+    template<typename T>
+    core::Expression<T> *FuzzyFactory<T>::newConclusion(const std::vector<core::Expression<T> *> &operands) {
+
+        return fuzzylogic::core::ExpressionFactory<T>::newNary(sSugenoConclusion, operands);
     }
 
     template<typename T>

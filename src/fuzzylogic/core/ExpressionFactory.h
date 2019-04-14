@@ -7,6 +7,7 @@
 #include "BinaryExpression.h"
 #include "UnaryExpressionModel.h"
 #include "BinaryExpressionModel.h"
+#include "NaryExpressionModel.h"
 
 namespace fuzzylogic::core {
 
@@ -21,10 +22,12 @@ namespace fuzzylogic::core {
 
         Expression<T> *hold(Expression<T> *expression);
 
-        Expression<T> *newUnary(UnaryExpression<T> *operand, Expression<T> *expression);
+        Expression<T> *newUnary(UnaryExpression<T> *uOperator, Expression<T> *expression);
 
         Expression<T> *
-        newBinary(BinaryExpression<T> *operand, Expression<T> *left, Expression<T> *right);
+        newBinary(BinaryExpression<T> *bOperator, Expression<T> *left, Expression<T> *right);
+
+        Expression<T> *newNary(NaryExpression<T> *nOperator, const std::vector<Expression<T> *> &operands);
     };
 
     template<typename T>
@@ -37,9 +40,9 @@ namespace fuzzylogic::core {
 
     template<typename T>
     Expression<T> *
-    ExpressionFactory<T>::newUnary(UnaryExpression<T> *operand, Expression<T> *expression) {
+    ExpressionFactory<T>::newUnary(UnaryExpression<T> *uOperator, Expression<T> *expression) {
 
-        auto nExpression = new UnaryExpressionModel<T>(operand, expression);
+        auto nExpression = new UnaryExpressionModel<T>(uOperator, expression);
 
         hold(nExpression);
 
@@ -47,11 +50,22 @@ namespace fuzzylogic::core {
     }
 
     template<typename T>
-    Expression<T> *ExpressionFactory<T>::newBinary(BinaryExpression<T> *operand,
+    Expression<T> *ExpressionFactory<T>::newBinary(BinaryExpression<T> *bOperator,
                                                    Expression<T> *left,
                                                    Expression<T> *right) {
 
-        auto nExpression = new BinaryExpressionModel<T>(operand, left, right);
+        auto nExpression = new BinaryExpressionModel<T>(bOperator, left, right);
+
+        hold(nExpression);
+
+        return nExpression;
+    }
+
+    template<typename T>
+    Expression<T> *
+    ExpressionFactory<T>::newNary(NaryExpression<T> *nOperator, const std::vector<Expression<T> *> &operands) {
+
+        auto nExpression = new NaryExpressionModel<T>(nOperator, operands);
 
         hold(nExpression);
 

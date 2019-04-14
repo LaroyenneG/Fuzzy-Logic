@@ -34,6 +34,7 @@ void DefuzzTest::testSugenoDefuzz() {
 
     SugenoDefuzz<double> sugenoDefuzz;
 
+
 }
 
 void DefuzzTest::testSugenoConclusion() {
