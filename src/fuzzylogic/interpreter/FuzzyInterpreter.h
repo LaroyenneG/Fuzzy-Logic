@@ -16,6 +16,7 @@ namespace fuzzylogic::interpreter {
     template<typename T>
     void FuzzyInterpreter<T>::execute(const std::string &line) {
 
+        std::cout << line << std::endl;
     }
 }
 

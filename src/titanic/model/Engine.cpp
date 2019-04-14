@@ -91,6 +91,8 @@ namespace model {
 
     double Engine::powerStepFunction(double _powerStep, double time, double _power, double _desiredPower) const {
 
+        _power += _desiredPower;
+
         return _powerStep * time;
     }
 

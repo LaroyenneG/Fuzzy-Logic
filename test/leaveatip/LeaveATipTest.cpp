@@ -97,6 +97,8 @@ type LeaveATipTest::computeTipWithCog(type service, type food) {
 
 type LeaveATipTest::computeTipWithSugeno(type service, type food) {
 
+    std::cout << service << food << std::endl;
+
     /* a completer */
 
     return 0;

@@ -31,11 +31,10 @@ namespace model {
 
         double value = _powerStep * time;
 
-        /*
+
         if (fabs(_power) <= 0.5) {
-            value /= 10.0;
+            value /= _desiredPower * 50.0;
         }
-         */
 
         return value;
     }
