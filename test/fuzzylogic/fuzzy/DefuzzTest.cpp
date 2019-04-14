@@ -40,4 +40,33 @@ void DefuzzTest::testSugenoDefuzz() {
 void DefuzzTest::testSugenoConclusion() {
 
     SugenoConclusion<double> sugenoConclusion;
+
+
+    std::vector<Expression<double> *> expressions;
+
+    std::vector<double> coefficients;
+    for (int i = 0; i < 1000; i++) {
+
+        double c = 1.0 / (i + 1);
+
+        coefficients.push_back(c);
+
+        auto *valueModel = new ValueModel<double>();
+
+        valueModel->setValue(i * 2.0);
+
+        expressions.push_back(valueModel);
+    }
+
+    sugenoConclusion.setCoefficients(coefficients);
+
+
+    double result = sugenoConclusion.evaluate(expressions);
+
+
+    for (auto expression : expressions) {
+        delete expression;
+    }
+
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1985.02, result, 0.01);
 }

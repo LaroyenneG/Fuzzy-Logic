@@ -3,6 +3,8 @@
 
 #include "Expression.h"
 
+#define VALUE_MODEL_DEFAULT_VALUE 0
+
 namespace fuzzylogic::core {
 
     template<typename T>
@@ -13,6 +15,8 @@ namespace fuzzylogic::core {
     public:
         explicit ValueModel(T _value);
 
+        explicit ValueModel();
+
         T evaluate() const override;
 
         void setValue(const T &_v);
@@ -22,6 +26,11 @@ namespace fuzzylogic::core {
 
     template<typename T>
     ValueModel<T>::ValueModel(T _value) : value(_value) {
+    }
+
+    template<typename T>
+    ValueModel<T>::ValueModel() : ValueModel(VALUE_MODEL_DEFAULT_VALUE) {
+
     }
 
     template<typename T>
