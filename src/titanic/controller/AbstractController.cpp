@@ -8,9 +8,9 @@ namespace controller {
 
     }
 
-    void AbstractController::updateView() {
+    void AbstractController::updateView() const {
 
-        view->getMutex().lock();
+        mutex.lock();
 
         draftsman->draw();
 
@@ -27,10 +27,20 @@ namespace controller {
         view->setCourse(model->getTitanic()->getOrientation());
 
         if (view->automaticPilotIsEnable()) {
+
             draftsman->drawLaserSensor(&model->getTitanic()->getLasersSensors());
+
+            auto lasers = model->getTitanic()->getLasersSensors().getLasersValues(model->getElements());
+
+            view->setLasersValue(lasers[TITANIC_LASER_1_RANK], lasers[TITANIC_LASER_2_RANK],
+                                 lasers[TITANIC_LASER_3_RANK]);
         }
 
+        if (model->touching()) {
+            view->stopTime();
+            view->touching();
+        }
 
-        view->getMutex().unlock();
+        mutex.unlock();
     }
 }

@@ -17,12 +17,10 @@ namespace controller {
 
     void AutomaticPilotController::compute() {
 
-        view->getMutex().lock();
+        mutex.lock();
 
-        auto lasers = model->getTitanic()->getLasersSensors().getLasersValues(model->getElements());
+        /* to completed */
 
-        view->setLasersValue(lasers[TITANIC_LASER_1_RANK], lasers[TITANIC_LASER_2_RANK], lasers[TITANIC_LASER_3_RANK]);
-
-        view->getMutex().unlock();
+        mutex.unlock();
     }
 }

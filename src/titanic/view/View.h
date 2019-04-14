@@ -55,8 +55,6 @@ namespace view {
     class View : public QWidget {
 
     private:
-        std::mutex mutex;
-
         QBoxLayout *parent;
         QGraphicsView *titanicView;
         QGraphicsScene *titanicScene;
@@ -106,8 +104,6 @@ namespace view {
         void setShipSpeed(double value);
 
         void setDistance(double value);
-
-        std::mutex &getMutex();
 
         void setCheckBoxController(controller::CheckBoxController *checkBoxController) const;
 

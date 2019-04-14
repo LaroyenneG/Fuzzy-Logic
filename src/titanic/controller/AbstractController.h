@@ -20,10 +20,12 @@ namespace controller {
         Draftsman *draftsman;
 
     protected:
+        mutable std::mutex mutex;
+
         Model *model;
         View *view;
 
-        void updateView();
+        void updateView() const;
 
     public:
         explicit AbstractController(Model *_model, View *_view, Draftsman *_draftsman);

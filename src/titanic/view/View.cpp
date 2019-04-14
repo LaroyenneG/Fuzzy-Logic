@@ -137,10 +137,6 @@ namespace view {
         rpmMachinesLabel->setText(qString);
     }
 
-    std::mutex &View::getMutex() {
-        return mutex;
-    }
-
     void View::setShipSpeed(double value) {
 
         int nds = static_cast<int>(std::round(value * MS_TO_NDS));

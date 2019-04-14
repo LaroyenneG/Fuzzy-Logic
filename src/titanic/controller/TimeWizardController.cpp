@@ -4,19 +4,25 @@
 namespace controller {
 
     TimeWizardController::TimeWizardController(Model *_model, View *_view, Draftsman *_draftsman)
-            : AbstractController(_model, _view, _draftsman) {
+            : AbstractController(_model, _view, _draftsman), thread([] {}) {
 
     }
 
     void TimeWizardController::nextTime() {
 
+        thread.join();
+
         updateView();
 
-        model->computeFuture(view->getTimeInterval() / 1000.0);
+        thread = std::thread([this] { computeFuture(); });
+    }
 
-        if (model->touching()) {
-            view->stopTime();
-            view->touching();
-        }
+    void TimeWizardController::computeFuture() {
+
+        mutex.lock();
+
+        model->computeFuture(view->getTimeInterval() * TIME_WIZARD_CONTROLLER_TIME_CONVERTER);
+
+        mutex.unlock();
     }
 }
