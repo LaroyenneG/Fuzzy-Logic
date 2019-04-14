@@ -13,7 +13,7 @@ LeaveATip::LeaveATip(fuzzylogic::type _service, fuzzylogic::type _food, fuzzylog
 }
 
 LeaveATip::LeaveATip()
-        : LeaveATip(LEAVE_A_TIP_INTERPRETER_MCOG_FILE_PATH) {
+        : LeaveATip(LEAVE_A_TIP_INTERPRETER_M_COG_FILE_PATH) {
 
 }
 

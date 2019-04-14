@@ -18,7 +18,9 @@ CPPUNIT_TEST_SUITE(LeaveATipTest);
     CPPUNIT_TEST_SUITE_END();
 
 private:
-    static type computeTip(type service, type food);
+    static type computeTipWithCog(type service, type food);
+
+    static type computeTipWithSugeno(type service, type food);
 
 public:
     void testLessonExample();
