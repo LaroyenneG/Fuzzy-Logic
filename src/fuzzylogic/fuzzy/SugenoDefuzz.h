@@ -9,11 +9,9 @@
 namespace fuzzylogic::fuzzy {
     template<typename T>
 
-    class SugenoDefuzz : fuzzylogic::core::NaryExpression<T> {
+    class SugenoDefuzz : public fuzzylogic::core::NaryExpression<T> {
 
     public:
-        SugenoDefuzz() = default;
-
         T evaluate(const std::vector<core::Expression<T> *> &operands) const override;
     };
 
@@ -28,12 +26,12 @@ namespace fuzzylogic::fuzzy {
 
         for (auto operand: operands) {
 
-            auto *bem = dynamic_cast<core::BinaryExpressionModel<T> *> (operand);
-            auto *bse = dynamic_cast<const core::BinaryShadowExpression<T> *> (bem->getOperator());
-            auto *sth = dynamic_cast<const SugenoThen<T> *> (bse->getTarget());
+            auto binaryExpressionModel = dynamic_cast<core::BinaryExpressionModel<T> *> (operand);
+            auto binaryShadowExpression = dynamic_cast<core::BinaryShadowExpression<T> *> (binaryExpressionModel->getOperator());
+            auto sugenoThen = dynamic_cast<SugenoThen<T> *> (binaryShadowExpression->getTarget());
 
             numerator += operand->evaluate();
-            denominator += sth->getPremiseValue();
+            denominator += sugenoThen->getPremiseValue();
         }
 
         return (denominator != ZERO) ? numerator / denominator : ZERO;

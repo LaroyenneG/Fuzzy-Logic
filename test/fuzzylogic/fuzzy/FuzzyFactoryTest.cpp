@@ -11,7 +11,7 @@ void FuzzyFactoryTest::factoryTest() {
         AndMin<double> andMin;
         OrPlus<double> orPlus;
         ThenMin<double> thenMin;
-        NotMinus<double> notMinus;
+        NotMinus1<double> notMinus;
         AggMax<double> aggMax;
         CogDefuzz<double> cogDefuzz;
 

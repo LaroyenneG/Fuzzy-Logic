@@ -24,6 +24,10 @@ namespace fuzzylogic::core {
         T evaluate(Expression <T> *_operand) const override;
 
         bool isValue() const;
+
+        const Expression <T> *getOperator() const;
+
+        Expression <T> *getOperator();
     };
 
     template<typename T>
@@ -54,6 +58,18 @@ namespace fuzzylogic::core {
     template<typename T>
     bool UnaryExpressionModel<T>::isValue() const {
         return false;
+    }
+
+    template<typename T>
+    const Expression <T> *UnaryExpressionModel<T>::getOperator() const {
+
+        return uOperator;
+    }
+
+    template<typename T>
+    Expression <T> *UnaryExpressionModel<T>::getOperator() {
+
+        return uOperator;
     }
 }
 

@@ -6,7 +6,7 @@ void NotMinusTest::testNotMinus() {
 
     ValueModel valueModelA(0.7);
 
-    NotMinus<double> notMinus;
+    NotMinus1<double> notMinus;
 
     double result = notMinus.evaluate(&valueModelA);
     double expected = 0.3;

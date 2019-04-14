@@ -11,7 +11,7 @@
 #include "ValueModel.h"
 #include "OrMax.h"
 #include "OrPlus.h"
-#include "NotMinus.h"
+#include "NotMinus1.h"
 #include "ThenMin.h"
 #include "ThenMult.h"
 #include "AggMax.h"

@@ -32,6 +32,10 @@ namespace fuzzylogic::core {
         unsigned long size() const;
 
         bool isValue() const override;
+
+        const NaryExpression<T> *getOperator() const;
+
+        NaryExpression<T> *getOperator();
     };
 
 
@@ -85,6 +89,18 @@ namespace fuzzylogic::core {
     template<typename T>
     bool NaryExpressionModel<T>::isValue() const {
         return false;
+    }
+
+    template<typename T>
+    const NaryExpression<T> *NaryExpressionModel<T>::getOperator() const {
+
+        return nOperator;
+    }
+
+    template<typename T>
+    NaryExpression<T> *NaryExpressionModel<T>::getOperator() {
+
+        return nOperator;
     }
 }
 

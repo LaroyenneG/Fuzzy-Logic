@@ -7,7 +7,7 @@
 namespace fuzzylogic::fuzzy {
     template<typename T>
 
-    class SugenoConclusion : fuzzylogic::core::NaryExpression<T> {
+    class SugenoConclusion : public fuzzylogic::core::NaryExpression<T> {
 
     private:
         std::vector<T> coefficients;

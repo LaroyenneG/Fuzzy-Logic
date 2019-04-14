@@ -7,7 +7,7 @@
 #include "AggMax.h"
 #include "AggPlus.h"
 #include "OrMax.h"
-#include "NotMinus.h"
+#include "NotMinus1.h"
 #include "AndMin.h"
 #include "AndMult.h"
 #include "ThenMin.h"
@@ -107,7 +107,7 @@ namespace fuzzylogic {
 
     /******************************************** not ***************************************************/
 
-    typedef fuzzy::NotMinus<type> NotMinus;
+    typedef fuzzy::NotMinus1<type> NotMinus;
 
     /******************************************** or ***************************************************/
 

@@ -77,7 +77,7 @@ type LeaveATipTest::computeTip(type service, type food) {
             );
 
     //defuzzication
-    Expression *system = f.newDefuzz(&vTips, r, LEAVE_A_TIP_TEST_MIN_TIP, LEAVE_A_TIP_TEST_MAX_TIP, 1.0);
+    Expression *system = f.newMamdaniDefuzz(&vTips, r, LEAVE_A_TIP_TEST_MIN_TIP, LEAVE_A_TIP_TEST_MAX_TIP, 1.0);
 
     //apply input
     auto returnValue = system->evaluate();

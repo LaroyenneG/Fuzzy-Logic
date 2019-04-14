@@ -25,6 +25,8 @@ namespace fuzzylogic::core {
         bool isValue() const override;
 
         const BinaryExpression <T> *getOperator() const;
+
+        BinaryExpression <T> *getOperator();
     };
 
     template<typename T>
@@ -60,6 +62,12 @@ namespace fuzzylogic::core {
 
     template<typename T>
     const BinaryExpression <T> *BinaryExpressionModel<T>::getOperator() const {
+
+        return bOperator;
+    }
+
+    template<typename T>
+    BinaryExpression <T> *BinaryExpressionModel<T>::getOperator() {
 
         return bOperator;
     }

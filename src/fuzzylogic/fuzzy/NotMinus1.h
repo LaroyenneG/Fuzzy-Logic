@@ -1,19 +1,19 @@
-#ifndef LOGIQUEFLOUE_NOTMINUS_H
-#define LOGIQUEFLOUE_NOTMINUS_H
+#ifndef LOGIQUEFLOUE_NOTMINUS1_H
+#define LOGIQUEFLOUE_NOTMINUS1_H
 
 #include "Not.h"
 
 namespace fuzzylogic::fuzzy {
 
     template<typename T>
-    class NotMinus : public Not<T> {
+    class NotMinus1 : public Not<T> {
 
     public:
         T evaluate(fuzzylogic::core::Expression<T> *operand) const override;
     };
 
     template<typename T>
-    T NotMinus<T>::evaluate(fuzzylogic::core::Expression<T> *operand) const {
+    T NotMinus1<T>::evaluate(fuzzylogic::core::Expression<T> *operand) const {
 
         static const T ONE(1);
 
@@ -21,4 +21,4 @@ namespace fuzzylogic::fuzzy {
     }
 }
 
-#endif //LOGIQUEFLOUE_NOTMINUS_H
+#endif //LOGIQUEFLOUE_NOTMINUS1_H

@@ -4,7 +4,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "Not.h"
-#include "NotMinus.h"
+#include "NotMinus1.h"
 #include "ValueModel.h"
 
 using namespace fuzzylogic::fuzzy;

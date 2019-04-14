@@ -11,6 +11,8 @@ namespace fuzzylogic::core {
 
     public:
         virtual T evaluate(const std::vector<Expression<T> *> &operands) const = 0;
+
+        virtual ~NaryExpression() = default;
     };
 }
 
