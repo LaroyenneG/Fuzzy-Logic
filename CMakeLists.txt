@@ -7,10 +7,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D _ACTIVE_BLACK_BOX_") # enable black b
 
 set(LIB_PATH "${CMAKE_SOURCE_DIR}/lib")
 
-
 if (LINUX OR UNIX AND NOT APPLE)
     set(CPPUNIT "${LIB_PATH}/libcppunit-unix-64.a")
-    set(CPPUNIT cppunit)
+    set(CPPUNIT cppunit) # mascote
 endif ()
 
 if (APPLE)
@@ -18,8 +17,7 @@ if (APPLE)
 endif ()
 
 if (WIN32)
-    set(CPPUNIT "${LIB_PATH}/libcppunit-win-32.a")
-    set(CMAKE_PREFIX_PATH "C:\\Qt\\5.12.2\\mingw73_32")
+    set(CPPUNIT "${LIB_PATH}/libcppunit-win-64.a")
 endif ()
 
 
