@@ -1,8 +1,11 @@
-
 #include "Titanic.h"
 #include "AlternativeMachine.h"
 #include "LowPressureTurbine.h"
 #include "Draftsman.h"
+
+#define _USE_MATH_DEFINES
+
+#include <math.h>
 
 namespace model {
 

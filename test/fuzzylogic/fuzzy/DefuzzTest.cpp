@@ -10,7 +10,7 @@ void DefuzzTest::testCogDefuzz() {
 
     IsTriangle<double> isTriangle(0.0, 5.0, 10.0);
 
-    UnaryExpressionModel expressionModel(&isTriangle, &valueModel);
+    UnaryExpressionModel<double> expressionModel(&isTriangle, &valueModel);
 
     OPEN_FUZZY_SECURE_BLOCK {
 

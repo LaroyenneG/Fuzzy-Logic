@@ -1,8 +1,11 @@
-#include <utility>
-#include <utility>
-#include <iostream>
 #include "Rudder.h"
 #include "Titanic.h"
+
+#define _USE_MATH_DEFINES
+
+#include <math.h>
+#include <iostream>
+
 
 namespace model {
 

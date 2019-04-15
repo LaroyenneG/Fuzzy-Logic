@@ -15,7 +15,7 @@
 #define OPEN_POINT_CHAR '('
 #define CLOSE_POINT_CHAR ')'
 
-#define OUT_OF_BOUND "iterator out of bound"
+#define OUT_OF_BOUND "iterator out of bounds"
 
 namespace fuzzylogic::fuzzy {
 
@@ -34,8 +34,6 @@ namespace fuzzylogic::fuzzy {
 
         public:
             explicit iterator(const Shape<T> &target, bool type);
-
-            iterator(const iterator &it);
 
             std::pair<const T &, const T &> operator*() const;
 
@@ -64,8 +62,6 @@ namespace fuzzylogic::fuzzy {
     public:
         explicit Shape() = default;
 
-        Shape(const Shape<T> &shape);
-
         explicit Shape(std::istream &istream);
 
         virtual ~Shape() = default;
@@ -93,10 +89,8 @@ namespace fuzzylogic::fuzzy {
         bool operator==(const Shape<T> &other) const;
 
         bool operator!=(const Shape<T> &other) const;
-
-        template<typename Y>
-        friend std::ostream &operator<<(std::ostream &ostream, const Shape<Y> &shape);
     };
+
 
     template<typename T>
     Shape<T>::iterator::iterator(const Shape<T> &target, bool type) {
@@ -116,11 +110,6 @@ namespace fuzzylogic::fuzzy {
     }
 
     template<typename T>
-    Shape<T>::iterator::iterator(const Shape::iterator &it)
-            : xIterator(it.xIterator), yIterator(it.yIterator), xEnd(it.xEnd), yEnd(it.yEnd) {
-    }
-
-    template<typename T>
     void Shape<T>::iterator::next() {
 
         yIterator++;
@@ -137,14 +126,8 @@ namespace fuzzylogic::fuzzy {
     }
 
     template<typename T>
-    Shape<T>::Shape(std::istream
-                    &istream) {
+    Shape<T>::Shape(std::istream &istream) {
         unSerialize(istream);
-    }
-
-    template<typename T>
-    Shape<T>::Shape(
-            const Shape<T> &shape) : points(shape.points) {
     }
 
     template<typename T>
@@ -194,7 +177,7 @@ namespace fuzzylogic::fuzzy {
 
         map.clear();
 
-        char c;
+        char c = '\0';
 
         istream >> c;
 
@@ -327,7 +310,7 @@ namespace fuzzylogic::fuzzy {
     }
 
     template<typename T>
-    typename Shape<T>::iterator &Shape<T>::iterator::operator=(const Shape::iterator &iterator) {
+    typename Shape<T>::iterator &Shape<T>::iterator::operator=(const Shape<T>::iterator &iterator) {
 
         if (&iterator != this) {
             yEnd = iterator.yEnd;
@@ -340,7 +323,7 @@ namespace fuzzylogic::fuzzy {
     }
 
     template<typename T>
-    bool Shape<T>::iterator::equals(const Shape::iterator &it) const {
+    bool Shape<T>::iterator::equals(const Shape<T>::iterator &it) const {
 
         if (xIterator == xEnd && it.xIterator == it.xEnd) {
             return true;
@@ -350,12 +333,12 @@ namespace fuzzylogic::fuzzy {
     }
 
     template<typename T>
-    bool Shape<T>::iterator::operator==(const Shape::iterator &it) const {
+    bool Shape<T>::iterator::operator==(const Shape<T>::iterator &it) const {
         return equals(it);
     }
 
     template<typename T>
-    bool Shape<T>::iterator::operator!=(const Shape::iterator &it) const {
+    bool Shape<T>::iterator::operator!=(const Shape<T>::iterator &it) const {
         return !equals(it);
     }
 }

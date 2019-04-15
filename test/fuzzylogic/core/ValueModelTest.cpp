@@ -3,14 +3,14 @@
 
 void ValueModelTest::testConstructor() {
 
-    ValueModel valueModel(3.0);
+    ValueModel<double> valueModel(3.0);
 
     CPPUNIT_ASSERT_EQUAL(3.0, valueModel.evaluate());
 }
 
 void ValueModelTest::testSetter() {
 
-    ValueModel valueModel(5.0);
+    ValueModel<double> valueModel(5.0);
 
     CPPUNIT_ASSERT_EQUAL(5.0, valueModel.evaluate());
 

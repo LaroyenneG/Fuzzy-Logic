@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.13)
-project(LogiqueFloue)
+project(fuzzy-logic)
 
+set(CMAKE_CXX_COMPILER g++)
 set(CMAKE_CXX_STANDARD 17)
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic -g")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D _ACTIVE_BLACK_BOX_") # enable black box
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_ACTIVE_BLACK_BOX_") # enable black box
 
 set(LIB_PATH "${CMAKE_SOURCE_DIR}/lib")
 
@@ -16,7 +18,7 @@ if (APPLE)
     message(STATUS ">>> Think different")
 endif ()
 
-if (WIN32)
+if (WIN34)
     set(CPPUNIT "${LIB_PATH}/libcppunit-win-64.a")
 endif ()
 
@@ -39,7 +41,7 @@ file(GLOB_RECURSE EXCEPTION_SOURCES src/fuzzylogic/exception/*) # all exception 
 
 set(FUZZY_LIBRARY ${CORE_SOURCES} ${FUZZY_SOURCES} ${EXCEPTION_SOURCES} ${INTP_SOURCES} src/fuzzylogic/fuzzylogic.h)
 
-add_library(fuzzylogic ${FUZZY_LIBRARY})
+add_library(fuzzylogic ${FUZZY_LIBRARY} lib/include/cppunit/config-auto.h)
 
 
 ############################### Fuzzy logic test ##############################################
@@ -54,7 +56,6 @@ target_link_libraries(fuzzylogictest "${CPPUNIT}")
 
 find_package(Qt5 COMPONENTS Core Gui Widgets Xml REQUIRED)
 add_definitions(${QT_DEFINITIONS})
-set(QT_USE_QTOPENGL TRUE)
 
 include_directories(src/titanic/model)
 include_directories(src/titanic/view)
@@ -82,8 +83,7 @@ target_link_libraries(titanic pthread Qt5::Widgets)
 file(GLOB_RECURSE TITANIC_TEST_SOURCES test/titanic/*) # all test source files
 
 add_executable(titanictest ${TITANIC_SOURCES} ${FUZZY_LIBRARY} ${TITANIC_TEST_SOURCES} ${INTERFACE_FILES_MOC})
-target_link_libraries(titanictest "${CPPUNIT}")
-target_link_libraries(titanictest pthread Qt5::Widgets)
+target_link_libraries(titanictest pthread Qt5::Widgets "${CPPUNIT}")
 
 
 ################################ Leave a tip ###############################################

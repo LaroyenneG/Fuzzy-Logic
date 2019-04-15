@@ -2,13 +2,13 @@
 #ifndef LOGIQUEFLOUE_UNARYEXPRESSIONMODEL_H
 #define LOGIQUEFLOUE_UNARYEXPRESSIONMODEL_H
 
-#include <OperandNullException.h>
-#include <OperatorNullException.h>
+#include "OperatorNullException.h"
+#include "OperandNullException.h"
 #include "Expression.h"
 #include "UnaryExpression.h"
-#include "OperatorNullException.h"
 
 namespace fuzzylogic::core {
+
     template<typename T>
     class UnaryExpressionModel : public Expression<T>, public UnaryExpression<T> {
 

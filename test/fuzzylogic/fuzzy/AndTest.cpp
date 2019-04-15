@@ -2,8 +2,8 @@
 
 void AndTest::testAndMin() {
 
-    ValueModel valueModelA(0.5);
-    ValueModel valueModelB(0.7);
+    ValueModel<double> valueModelA(0.5);
+    ValueModel<double> valueModelB(0.7);
 
     AndMin<double> andMin;
 
@@ -12,8 +12,8 @@ void AndTest::testAndMin() {
 
 void AndTest::testAndMult() {
 
-    ValueModel valueModelA(0.5);
-    ValueModel valueModelB(0.7);
+    ValueModel<double> valueModelA(0.5);
+    ValueModel<double> valueModelB(0.7);
 
     AndMult<double> andMult;
 

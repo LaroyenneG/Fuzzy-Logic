@@ -2,8 +2,9 @@
 
 
 void AggTest::testAggMax() {
-    ValueModel valueModelA(0.6);
-    ValueModel valueModelB(0.8);
+
+    ValueModel<double> valueModelA(0.6);
+    ValueModel<double> valueModelB(0.8);
 
     AggMax<double> aggMax;
 
@@ -11,8 +12,9 @@ void AggTest::testAggMax() {
 }
 
 void AggTest::testAggPlus() {
-    ValueModel valueModelA(0.2);
-    ValueModel valueModelB(0.3);
+
+    ValueModel<double> valueModelA(0.2);
+    ValueModel<double> valueModelB(0.3);
 
     AggPlus<double> aggPlus;
 
