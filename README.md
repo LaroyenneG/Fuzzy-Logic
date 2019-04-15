@@ -1,5 +1,10 @@
 # Fuzzy logic framework
 
+### Minimum configuration required :
+- cmake version 3.9.6
+- g++ GNU compiler
+- QT library version 5
+
 
 #### Build project :
 
