@@ -30,3 +30,31 @@ $ cd fuzzy-logic
 $ cmake CMakeLists.txt
 $ make
 ```
+
+After construction, you should have six binary files :
+
+- _fuzzylogic_ : fuzzy logic archive file.
+- _fuzzylogictest_ : fuzzy logic library test program.
+- _leaveatip_ : tip estimation assistance program. 
+- _leaveatiptest_ : leave a tip test program.
+- _titanic_ : titanic simulator program.
+- _titanictest_ : titanic simulator test program.
+
+#### How to use the library ?
+
+1) copy all header files in repository _src/fuzzylogic_ in your project.
+2) include _fuzzylogic.h_ header file in your source file.
+3) link fuzzy logic archive file on your project.
+
+###### cmake file example
+```CMAKE
+# include fuzzy library
+include_directories(lib/fuzzylogic)
+include_directories(lib/fuzzylogic/core)
+include_directories(lib/fuzzylogic/fuzzy)
+include_directories(lib/fuzzylogic/interpreter)
+include_directories(lib/fuzzylogic/exception)
+
+# link archive
+target_link_libraries(yourproject libfuzzylogic.a)
+```
