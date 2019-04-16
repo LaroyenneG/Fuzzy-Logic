@@ -103,13 +103,18 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
 
     std::cout << service << food << std::endl;
 
+    std::vector<Expression *> rules;
+    std::vector<Expression *> conclusionServiceFood;
+    std::vector<Expression *> conlusionService;
+    std::vector<type> coeffs{{1.6, 2.1}};
+
     //operators
     NotMinus opNot;
     AndMin opAnd;
     OrMax opOr;
     SugenoThen opThen;
     SugenoDefuzz opDefuzz;
-    SugenoConclusion opConclusion;
+    SugenoConclusion opConclusion(coeffs);
 
 
     //fuzzy factory expression
@@ -130,9 +135,11 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
     //values
     ValueModel vService(service);
     ValueModel vFoods(food);
-    ValueModel vTips(0);
 
-    std::vector<Expression *> rules;
+    conclusionServiceFood.push_back(&vService);
+    conclusionServiceFood.push_back(&vFoods);
+
+    conlusionService.push_back(&vService);
 
     Expression *r1 =
             f.newThen(
@@ -140,7 +147,7 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
                             f.newIs(&excellent, &vService),
                             f.newIs(&rancid, &vFoods)
                     ),
-                    f.newIs(&cheap, &vTips)
+                    f.newConclusion(conclusionServiceFood)
             );
 
     rules.push_back(r1);
@@ -148,7 +155,7 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
     Expression *r2 =
             f.newThen(
                     f.newIs(&good, &vService),
-                    f.newIs(&average, &vTips)
+                    f.newConclusion(conlusionService)
             );
 
     rules.push_back(r2);
@@ -159,7 +166,7 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
                             f.newIs(&excellent, &vService),
                             f.newIs(&delicious, &vFoods)
                     ),
-                    f.newIs(&generous, &vTips)
+                    f.newConclusion(conclusionServiceFood)
             );
 
     rules.push_back(r3);
