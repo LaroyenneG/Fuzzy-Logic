@@ -55,6 +55,9 @@ type LeaveATipTest::computeTipWithCog(type service, type food) {
 
 
     //membership function
+    IsTriangle rancid(-5, 0, 5);
+    IsTriangle delicious(5, 10, 15);
+
     IsTriangle poor(-5, 0, 5);
     IsTriangle good(0, 5, 10);
     IsTriangle excellent(5, 10, 15);
@@ -72,7 +75,7 @@ type LeaveATipTest::computeTipWithCog(type service, type food) {
             f.newAgg(
                     f.newAgg(
                             f.newThen(
-                                    f.newIs(&poor, &vService),
+                                    f.newOr(f.newIs(&poor, &vService), f.newIs(&rancid, &vFoods)),
                                     f.newIs(&cheap, &vTips)
                             ),
                             f.newThen(
@@ -81,7 +84,7 @@ type LeaveATipTest::computeTipWithCog(type service, type food) {
                             )
                     ),
                     f.newThen(
-                            f.newIs(&excellent, &vService),
+                            f.newOr(f.newIs(&excellent, &vService), f.newIs(&delicious, &vFoods)),
                             f.newIs(&generous, &vTips)
                     )
             );
