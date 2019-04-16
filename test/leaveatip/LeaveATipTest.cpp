@@ -7,7 +7,7 @@ void LeaveATipTest::testLessonExample() {
 
     OPEN_FUZZY_SECURE_BLOCK {
 
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(4.075, computeTipWithCog(3.0, 8.0), 0.001);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(16.716, computeTipWithCog(3.0, 8.0), 0.001);
 
     } CLOSE_FUZZY_SECURE_BLOCK
 }
@@ -55,8 +55,6 @@ type LeaveATipTest::computeTipWithCog(type service, type food) {
 
 
     //membership function
-
-
     IsRampRight rancid(0, 5, 5);
     IsRampLeft delicious(5, 10, 10);
 
