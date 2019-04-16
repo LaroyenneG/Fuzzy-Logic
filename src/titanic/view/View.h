@@ -14,7 +14,7 @@
 #include <QFile>
 
 
-#define WINDOWS_TITLE "Save the Titanic"
+#define WINDOWS_TITLE "Saves the Titanic"
 
 #define WINDOWS_HEIGHT_SIZE 800
 #define WINDOWS_WIDTH_SIZE 1200
