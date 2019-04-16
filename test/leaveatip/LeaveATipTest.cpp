@@ -8,6 +8,7 @@ void LeaveATipTest::testLessonExample() {
     OPEN_FUZZY_SECURE_BLOCK {
 
         CPPUNIT_ASSERT_DOUBLES_EQUAL(16.716, computeTipWithCog(3.0, 8.0), 0.001);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(16.3, computeTipWithSugeno(3.0, 8.0), 0.001);
 
     } CLOSE_FUZZY_SECURE_BLOCK
 }
@@ -102,7 +103,69 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
 
     std::cout << service << food << std::endl;
 
-    /* a completer */
+    //operators
+    NotMinus opNot;
+    AndMin opAnd;
+    OrMax opOr;
+    SugenoThen opThen;
+    SugenoDefuzz opDefuzz;
+    SugenoConclusion opConclusion;
 
-    return 0;
+
+    //fuzzy factory expression
+    FuzzyFactory f(&opNot, &opAnd, &opOr, &opThen, &opDefuzz, &opConclusion);
+
+    //membership function
+    IsTriangle poor(-5, 0, 5);
+    IsTriangle good(0, 5, 10);
+    IsTriangle excellent(5, 10, 15);
+
+    IsTriangle rancid(-5, 0, 5);
+    IsTriangle delicious(5, 10, 15);
+
+    IsTriangle cheap(0, 5, 10);
+    IsTriangle average(10, 15, 20);
+    IsTriangle generous(20, 25, 30);
+
+    //values
+    ValueModel vService(service);
+    ValueModel vFoods(food);
+    ValueModel vTips(0);
+
+    std::vector<Expression *> rules;
+
+    Expression *r1 =
+            f.newThen(
+                    f.newOr(
+                            f.newIs(&excellent, &vService),
+                            f.newIs(&rancid, &vFoods)
+                    ),
+                    f.newIs(&cheap, &vTips)
+            );
+
+    rules.push_back(r1);
+
+    Expression *r2 =
+            f.newThen(
+                    f.newIs(&good, &vService),
+                    f.newIs(&average, &vTips)
+            );
+
+    rules.push_back(r2);
+
+    Expression *r3 =
+            f.newThen(
+                    f.newOr(
+                            f.newIs(&excellent, &vService),
+                            f.newIs(&delicious, &vFoods)
+                    ),
+                    f.newIs(&generous, &vTips)
+            );
+
+    rules.push_back(r3);
+
+    //defuzzification
+    Expression *system = f.newSugenoDefuzz(rules);
+
+    return system->evaluate();
 }
