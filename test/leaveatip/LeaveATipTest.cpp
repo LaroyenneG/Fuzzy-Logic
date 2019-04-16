@@ -55,12 +55,14 @@ type LeaveATipTest::computeTipWithCog(type service, type food) {
 
 
     //membership function
-    IsTriangle rancid(-5, 0, 5);
-    IsTriangle delicious(5, 10, 15);
 
-    IsTriangle poor(-5, 0, 5);
-    IsTriangle good(0, 5, 10);
-    IsTriangle excellent(5, 10, 15);
+
+    IsRampRight rancid(0, 5, 5);
+    IsRampLeft delicious(5, 10, 10);
+
+    IsRangeBell poor(1, 1, 0, 0, 5);
+    IsBell good(1.2, 3.2, 5);
+    IsRangeBell excellent(1, 1, 10, 5, 10);
 
     IsTriangle cheap(0, 5, 10);
     IsTriangle average(10, 15, 20);
