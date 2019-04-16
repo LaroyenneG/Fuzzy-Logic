@@ -1,5 +1,7 @@
 # Fuzzy logic framework
 
+This project exploits the potential of fuzzy logic to allow the titanic to avoid icebergs.
+
 ### Project structure :
 
 - _lib/_ : contains cppunit library for testing purposes.
@@ -26,4 +28,5 @@ $ cmake CMakeLists.txt
 $ make
 ```
 
-![alt text](./assets/simulator-screen-shot.png)
+#### Simulator screenshot
+![alt text](./assets/simulator-screen-shot.jpg)
