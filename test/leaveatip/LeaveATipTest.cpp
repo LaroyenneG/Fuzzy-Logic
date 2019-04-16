@@ -106,7 +106,7 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
     std::vector<Expression *> rules;
     std::vector<Expression *> conclusionServiceFood;
     std::vector<Expression *> conlusionService;
-    std::vector<type> coeffs{{1.6, 2.1}};
+    std::vector<type> coeffs{{1.0, 1.0}};
 
     //operators
     NotMinus opNot;
@@ -121,12 +121,12 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
     FuzzyFactory f(&opNot, &opAnd, &opOr, &opThen, &opDefuzz, &opConclusion);
 
     //membership function
-    IsTriangle poor(-5, 0, 5);
-    IsTriangle good(0, 5, 10);
-    IsTriangle excellent(5, 10, 15);
+    IsRampRight rancid(0, 5, 5);
+    IsRampLeft delicious(5, 10, 10);
 
-    IsTriangle rancid(-5, 0, 5);
-    IsTriangle delicious(5, 10, 15);
+    IsRangeBell poor(1, 1, 0, 0, 5);
+    IsBell good(1.2, 3.2, 5);
+    IsRangeBell excellent(1, 1, 10, 5, 10);
 
     IsTriangle cheap(0, 5, 10);
     IsTriangle average(10, 15, 20);
@@ -147,7 +147,7 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
                             f.newIs(&excellent, &vService),
                             f.newIs(&rancid, &vFoods)
                     ),
-                    f.newConclusion(conclusionServiceFood)
+                    f.newSugenoConclusion(conclusionServiceFood)
             );
 
     rules.push_back(r1);
@@ -155,7 +155,7 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
     Expression *r2 =
             f.newThen(
                     f.newIs(&good, &vService),
-                    f.newConclusion(conlusionService)
+                    f.newSugenoConclusion(conlusionService)
             );
 
     rules.push_back(r2);
@@ -166,7 +166,7 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
                             f.newIs(&excellent, &vService),
                             f.newIs(&delicious, &vFoods)
                     ),
-                    f.newConclusion(conclusionServiceFood)
+                    f.newSugenoConclusion(conclusionServiceFood)
             );
 
     rules.push_back(r3);

@@ -85,7 +85,7 @@ namespace fuzzylogic::fuzzy {
         newSugenoDefuzz(const std::vector<core::Expression<T> *> &operands);
 
         core::Expression<T> *
-        newConclusion(const std::vector<core::Expression<T> *> &operands);
+        newSugenoConclusion(const std::vector<core::Expression<T> *> &operands);
 
         void changeAnd(And<T> *_target);
 
@@ -220,7 +220,7 @@ namespace fuzzylogic::fuzzy {
     }
 
     template<typename T>
-    core::Expression<T> *FuzzyFactory<T>::newConclusion(const std::vector<core::Expression<T> *> &operands) {
+    core::Expression<T> *FuzzyFactory<T>::newSugenoConclusion(const std::vector<core::Expression<T> *> &operands) {
 
         return core::ExpressionFactory<T>::newNary(sSugenoConclusion, operands);
     }

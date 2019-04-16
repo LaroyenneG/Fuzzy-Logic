@@ -32,10 +32,13 @@ namespace fuzzylogic::fuzzy {
     template<typename T>
     T SugenoConclusion<T>::evaluate(const std::vector<fuzzylogic::core::Expression<T> *> &operands) const {
 
+        static const T ONE(1);
         T value(0);
 
-        for (unsigned int i = 0; i < operands.size() && i < coefficients.size(); i++) {
-            value += operands[i]->evaluate() * coefficients[i];
+        for (unsigned int i = 0; i < coefficients.size(); i++) {
+
+            T input = (i < operands.size()) ? operands[i]->evaluate() : ONE;
+            value += input * coefficients[i];
         }
 
         return value;
