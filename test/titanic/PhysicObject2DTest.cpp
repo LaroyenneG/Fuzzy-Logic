@@ -17,9 +17,9 @@ void PhysicObject2DTest::testCircleSolver() {
 void PhysicObject2DTest::testCircleSolverWithBigCircle() {
 
     Point solution{{0, 0}};
-    Point p1{{0, 6000}};
-    Point p2{{6000, 0}};
-    Point p3{{-6000, 0}};
+    Point p1{{100, 0}};
+    Point p2{{99.98, 1.8}};
+    Point p3{{99.95, 3.19}};
 
     Point center = PhysicObject2D::circleCenterSolver(p1, p2, p3);
 

@@ -428,45 +428,45 @@ namespace model {
 
     Point PhysicObject2D::circleCenterSolver(const Point &p1, const Point &p2, const Point &p3) {
 
-        static const double CAP_ERROR = 0.0;
+        long double denominator = 2 * (p1[X_DIM_VALUE] * p2[Y_DIM_VALUE] -
+                                       p1[X_DIM_VALUE] * p3[Y_DIM_VALUE] -
+                                       p2[X_DIM_VALUE] * p1[Y_DIM_VALUE] +
+                                       p2[X_DIM_VALUE] * p3[Y_DIM_VALUE] +
+                                       p3[X_DIM_VALUE] * p1[Y_DIM_VALUE] -
+                                       p3[X_DIM_VALUE] * p2[Y_DIM_VALUE]);
 
-        double denominator = 2 * (p1[X_DIM_VALUE] * p2[Y_DIM_VALUE] -
-                                  p1[X_DIM_VALUE] * p3[Y_DIM_VALUE] -
-                                  p2[X_DIM_VALUE] * p1[Y_DIM_VALUE] +
-                                  p2[X_DIM_VALUE] * p3[Y_DIM_VALUE] +
-                                  p3[X_DIM_VALUE] * p1[Y_DIM_VALUE] -
-                                  p3[X_DIM_VALUE] * p2[Y_DIM_VALUE]);
-
-        if (denominator == CAP_ERROR) {
+        if (denominator == 0) {
             throw std::logic_error("points are aligned");
         }
 
-        double a = (p1[X_DIM_VALUE] * p1[X_DIM_VALUE] * p2[Y_DIM_VALUE] -
-                    p1[X_DIM_VALUE] * p1[X_DIM_VALUE] * p3[Y_DIM_VALUE] -
-                    p2[X_DIM_VALUE] * p2[X_DIM_VALUE] * p1[Y_DIM_VALUE] +
-                    p2[X_DIM_VALUE] * p2[X_DIM_VALUE] * p3[Y_DIM_VALUE] +
-                    p3[X_DIM_VALUE] * p3[X_DIM_VALUE] * p1[Y_DIM_VALUE] -
-                    p3[X_DIM_VALUE] * p3[X_DIM_VALUE] * p2[Y_DIM_VALUE] +
-                    p1[Y_DIM_VALUE] * p1[Y_DIM_VALUE] * p2[Y_DIM_VALUE] -
-                    p1[Y_DIM_VALUE] * p1[Y_DIM_VALUE] * p3[Y_DIM_VALUE] -
-                    p1[Y_DIM_VALUE] * p2[Y_DIM_VALUE] * p2[Y_DIM_VALUE] +
-                    p1[Y_DIM_VALUE] * p3[Y_DIM_VALUE] * p3[Y_DIM_VALUE] +
-                    p2[Y_DIM_VALUE] * p2[Y_DIM_VALUE] * p3[Y_DIM_VALUE] -
-                    p2[Y_DIM_VALUE] * p3[Y_DIM_VALUE] * p3[Y_DIM_VALUE]) / denominator;
+        long double aNumerator = (p1[X_DIM_VALUE] * p1[X_DIM_VALUE] * p2[Y_DIM_VALUE] -
+                                  p1[X_DIM_VALUE] * p1[X_DIM_VALUE] * p3[Y_DIM_VALUE] -
+                                  p2[X_DIM_VALUE] * p2[X_DIM_VALUE] * p1[Y_DIM_VALUE] +
+                                  p2[X_DIM_VALUE] * p2[X_DIM_VALUE] * p3[Y_DIM_VALUE] +
+                                  p3[X_DIM_VALUE] * p3[X_DIM_VALUE] * p1[Y_DIM_VALUE] -
+                                  p3[X_DIM_VALUE] * p3[X_DIM_VALUE] * p2[Y_DIM_VALUE] +
+                                  p1[Y_DIM_VALUE] * p1[Y_DIM_VALUE] * p2[Y_DIM_VALUE] -
+                                  p1[Y_DIM_VALUE] * p1[Y_DIM_VALUE] * p3[Y_DIM_VALUE] -
+                                  p1[Y_DIM_VALUE] * p2[Y_DIM_VALUE] * p2[Y_DIM_VALUE] +
+                                  p1[Y_DIM_VALUE] * p3[Y_DIM_VALUE] * p3[Y_DIM_VALUE] +
+                                  p2[Y_DIM_VALUE] * p2[Y_DIM_VALUE] * p3[Y_DIM_VALUE] -
+                                  p2[Y_DIM_VALUE] * p3[Y_DIM_VALUE] * p3[Y_DIM_VALUE]);
 
-        double b = -(p1[X_DIM_VALUE] * p1[X_DIM_VALUE] * p2[X_DIM_VALUE] -
-                     p1[X_DIM_VALUE] * p1[X_DIM_VALUE] * p3[X_DIM_VALUE] -
-                     p1[X_DIM_VALUE] * p2[X_DIM_VALUE] * p2[X_DIM_VALUE] +
-                     p1[X_DIM_VALUE] * p3[X_DIM_VALUE] * p3[X_DIM_VALUE] -
-                     p1[X_DIM_VALUE] * p2[Y_DIM_VALUE] * p2[Y_DIM_VALUE] +
-                     p1[X_DIM_VALUE] * p3[Y_DIM_VALUE] * p3[Y_DIM_VALUE] +
-                     p2[X_DIM_VALUE] * p2[X_DIM_VALUE] * p3[X_DIM_VALUE] -
-                     p2[X_DIM_VALUE] * p3[X_DIM_VALUE] * p3[X_DIM_VALUE] +
-                     p2[X_DIM_VALUE] * p1[Y_DIM_VALUE] * p1[Y_DIM_VALUE] -
-                     p2[X_DIM_VALUE] * p3[Y_DIM_VALUE] * p3[Y_DIM_VALUE] -
-                     p3[X_DIM_VALUE] * p1[Y_DIM_VALUE] * p1[Y_DIM_VALUE] +
-                     p3[X_DIM_VALUE] * p2[Y_DIM_VALUE] * p2[Y_DIM_VALUE]) / denominator;
+        long double bNumerator = -(p1[X_DIM_VALUE] * p1[X_DIM_VALUE] * p2[X_DIM_VALUE] -
+                                   p1[X_DIM_VALUE] * p1[X_DIM_VALUE] * p3[X_DIM_VALUE] -
+                                   p1[X_DIM_VALUE] * p2[X_DIM_VALUE] * p2[X_DIM_VALUE] +
+                                   p1[X_DIM_VALUE] * p3[X_DIM_VALUE] * p3[X_DIM_VALUE] -
+                                   p1[X_DIM_VALUE] * p2[Y_DIM_VALUE] * p2[Y_DIM_VALUE] +
+                                   p1[X_DIM_VALUE] * p3[Y_DIM_VALUE] * p3[Y_DIM_VALUE] +
+                                   p2[X_DIM_VALUE] * p2[X_DIM_VALUE] * p3[X_DIM_VALUE] -
+                                   p2[X_DIM_VALUE] * p3[X_DIM_VALUE] * p3[X_DIM_VALUE] +
+                                   p2[X_DIM_VALUE] * p1[Y_DIM_VALUE] * p1[Y_DIM_VALUE] -
+                                   p2[X_DIM_VALUE] * p3[Y_DIM_VALUE] * p3[Y_DIM_VALUE] -
+                                   p3[X_DIM_VALUE] * p1[Y_DIM_VALUE] * p1[Y_DIM_VALUE] +
+                                   p3[X_DIM_VALUE] * p2[Y_DIM_VALUE] * p2[Y_DIM_VALUE]);
 
+        auto a = static_cast< double>(aNumerator / denominator);
+        auto b = static_cast< double>(bNumerator / denominator);
 
         return Point{{a, b}};
     }
