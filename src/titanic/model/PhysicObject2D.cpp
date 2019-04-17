@@ -3,6 +3,8 @@
 
 #define _USE_MATH_DEFINES
 
+#include <pso/FitnessEvaluatorInterface.h>
+#include <pso/ParticleSwarmOptimization.h>
 #include <math.h>
 
 namespace model {
@@ -159,33 +161,33 @@ namespace model {
 
     Vector PhysicObject2D::computeCentrifugalStrength() const {
 
-        static const double NEGLIGIBLE = pow(10, -4);
+        static const double NEGLIGIBLE = pow(10, -9);
 
         Vector strength{{0.0, 0.0}};
 
         if (positions.size() == POINT_QUEUE_SIZE) {
 
-            Point nPosition[POINT_QUEUE_SIZE];
+            Point positionArray[POINT_QUEUE_SIZE];
 
             int index = 0;
             for (auto it = positions.begin(); it != positions.end(); it++, index++) {
-                nPosition[index] = *it;
+                positionArray[index] = *it;
             }
 
-            Vector dv1{{nPosition[1][X_DIM_VALUE] - nPosition[0][X_DIM_VALUE],
-                               nPosition[1][Y_DIM_VALUE] - nPosition[0][Y_DIM_VALUE]}};
-            Vector dv2{{nPosition[2][X_DIM_VALUE] - nPosition[0][X_DIM_VALUE],
-                               nPosition[2][Y_DIM_VALUE] - nPosition[0][Y_DIM_VALUE]}};
+            Vector dv1{{positionArray[1][X_DIM_VALUE] - positionArray[0][X_DIM_VALUE],
+                               positionArray[1][Y_DIM_VALUE] - positionArray[0][Y_DIM_VALUE]}};
+            Vector dv2{{positionArray[2][X_DIM_VALUE] - positionArray[0][X_DIM_VALUE],
+                               positionArray[2][Y_DIM_VALUE] - positionArray[0][Y_DIM_VALUE]}};
 
             double angleAlign = angleBetweenVector(dv1, dv2);
 
             if (angleAlign >= NEGLIGIBLE) {
 
-                Point circleCenter = circleCenterSolver(nPosition[0], nPosition[1], nPosition[2]);
+                Point circleCenter = circleCenterSolver(positionArray[0], positionArray[1], positionArray[2]);
 
-                double rayon = distanceBetweenPoint(circleCenter, nPosition[0]);
+                double rayon = distanceBetweenPoint(circleCenter, positionArray[0]);
 
-                Vector direction = vectorBetweenPoints(circleCenter, nPosition[0]);
+                Vector direction = vectorBetweenPoints(circleCenter, positionArray[0]);
 
                 double directionNorm = normVector(direction);
 
@@ -439,63 +441,52 @@ namespace model {
 
     Point PhysicObject2D::circleCenterSolver(const Point &p1, const Point &p2, const Point &p3) {
 
-#define CIRCLE_SOLVER_FITNESS(d1, d2, d3) (fabs(d1 - d2) + fabs(d2 - d3) + fabs(d1 - d3))
+        static const double MAX_RAYON = 10000;
 
-        static const Vector TRANSITIONS[] = {{{1,  0}},
-                                             {{0,  1}},
-                                             {{-1, -1}},
-                                             {{-1, 0}},
-                                             {{0,  -1}},
-                                             {{1,  1}},
-                                             {{-1, 1}},
-                                             {{1,  -1}}};
+        class CenterCircleFitness : public FitnessEvaluatorInterface {
 
-        static const double NEGLIGIBLE = pow(10, -9);
+        private:
+            const Point &p1;
+            const Point &p2;
+            const Point &p3;
 
-        Point center{{(p1[X_DIM_VALUE] + p2[X_DIM_VALUE] + p3[X_DIM_VALUE]) / 3.0,
-                             (p1[Y_DIM_VALUE] + p2[Y_DIM_VALUE] + p3[Y_DIM_VALUE]) / 3.0}};
+        public:
+            explicit CenterCircleFitness(const Point &_p1, const Point &_p2, const Point &_p3)
+                    : p1(_p1), p2(_p2), p3(_p3) {
 
-        double d1 = distanceBetweenPoint(center, p1);
-        double d2 = distanceBetweenPoint(center, p2);
-        double d3 = distanceBetweenPoint(center, p3);
-        double fitness = CIRCLE_SOLVER_FITNESS(d1, d2, d3);
+            }
 
-        double step = MIN_VALUE(MIN_VALUE(d1, d2), MIN_VALUE(d2, d3)) / 2.0;
+            double computeFitness(double *particlePosition, unsigned int dimension) const override {
 
-        while (fitness >= NEGLIGIBLE && step >= NEGLIGIBLE) {
-
-
-            d1 = distanceBetweenPoint(center, p1);
-            d2 = distanceBetweenPoint(center, p2);
-            d3 = distanceBetweenPoint(center, p3);
-
-            fitness = CIRCLE_SOLVER_FITNESS(d1, d2, d3);
-
-            bool correctStep = false;
-
-            for (auto transition : TRANSITIONS) {
-
-                double x = center[X_DIM_VALUE] + step * transition[X_DIM_VALUE];
-                double y = center[Y_DIM_VALUE] + step * transition[Y_DIM_VALUE];
-
-                Point nCenter{{x, y}};
-
-                double nD1 = distanceBetweenPoint(nCenter, p1);
-                double nD2 = distanceBetweenPoint(nCenter, p2);
-                double nD3 = distanceBetweenPoint(nCenter, p3);
-
-                double nFitness = CIRCLE_SOLVER_FITNESS(nD1, nD2, nD3);
-
-                if (fitness >= nFitness) {
-                    center = nCenter;
-                    correctStep = true;
-                    break;
+                if (dimension != MODEL_SPACE_DIMENSION) {
+                    std::cerr << "Invalid dimension for circle center solver" << std::endl;
+                    exit(EXIT_FAILURE);
                 }
-            }
 
-            if (!correctStep) {
-                step /= 2.0;
+                Point center{{particlePosition[X_DIM_VALUE], particlePosition[Y_DIM_VALUE]}};
+
+                double d1 = distanceBetweenPoint(center, p1);
+                double d2 = distanceBetweenPoint(center, p2);
+                double d3 = distanceBetweenPoint(center, p3);
+
+                return fabs(d1 - d2) + fabs(d2 - d3) + fabs(d1 - d3);
             }
+        };
+
+        Point center{{INFINITY, INFINITY}};
+
+        CenterCircleFitness centerCircleFitness(p1, p2, p3);
+
+        ParticleSwarmOptimization pso(MODEL_SPACE_DIMENSION, 100, 10, 1000, -4.0, 4.0, 0,
+                                      MIN_VALUE(p2[X_DIM_VALUE], p2[Y_DIM_VALUE]) - MAX_RAYON,
+                                      MAX_VALUE(p2[X_DIM_VALUE], p2[Y_DIM_VALUE]) + MAX_RAYON, 2, 2, 0.0,
+                                      &centerCircleFitness);
+
+        Particle *particle = pso.processing();
+
+        if (particle != nullptr) {
+            center[X_DIM_VALUE] = particle->getBestPosition(X_DIM_VALUE);
+            center[Y_DIM_VALUE] = particle->getBestPosition(Y_DIM_VALUE);
         }
 
         return center;
