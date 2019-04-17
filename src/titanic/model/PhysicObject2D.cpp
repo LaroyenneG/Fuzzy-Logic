@@ -439,29 +439,65 @@ namespace model {
 
     Point PhysicObject2D::circleCenterSolver(const Point &p1, const Point &p2, const Point &p3) {
 
-        const double meaning = (p3[Y_DIM_VALUE] - p2[Y_DIM_VALUE] < 0) ? -1.0 : 1.0;
+        static const Vector TRANSITIONS[] = {{{1,  0}},
+                                             {{0,  1}},
+                                             {{-1, -1}},
+                                             {{-1, 0}},
+                                             {{0,  -1}},
+                                             {{1,  1}},
+                                             {{-1, 1}},
+                                             {{1,  -1}}};
 
-        const double rotationAngle =
-                angleBetweenVector(vectorBetweenPoints(p1, p2), vectorBetweenPoints(p2, p3)) * meaning;
+        static const double NEGLIGIBLE = pow(10, -4);
 
-        const Vector referenceVector = vectorBetweenPoints(p2, p3);
+        Point center{{(p1[X_DIM_VALUE] + p2[X_DIM_VALUE] + p3[X_DIM_VALUE]) / 3.0,
+                             (p1[Y_DIM_VALUE] + p2[Y_DIM_VALUE] + p3[Y_DIM_VALUE]) / 3.0}};
 
-        Point lastCursor = p2;
-        Point newCursor = p3;
+        double d1 = distanceBetweenPoint(center, p1);
+        double d2 = distanceBetweenPoint(center, p2);
+        double d3 = distanceBetweenPoint(center, p3);
 
-        do {
-            Vector transform = pointRotation(vectorBetweenPoints(lastCursor, newCursor), rotationAngle);
+        double step = MIN_VALUE(MIN_VALUE(d1, d2), MIN_VALUE(d2, d3)) / 2.0;
 
-            lastCursor = newCursor;
+        while ((fabs(d1 - d2) >= NEGLIGIBLE || fabs(d2 - d3) >= NEGLIGIBLE || fabs(d1 - d3) >= NEGLIGIBLE) &&
+               step >= NEGLIGIBLE) {
 
-            newCursor[X_DIM_VALUE] += transform[X_DIM_VALUE];
-            newCursor[Y_DIM_VALUE] += transform[Y_DIM_VALUE];
+            d1 = distanceBetweenPoint(center, p1);
+            d2 = distanceBetweenPoint(center, p2);
+            d3 = distanceBetweenPoint(center, p3);
 
-        } while (angleBetweenVector(referenceVector, vectorBetweenPoints(p3, newCursor)) < M_PI / 2.0);
+            double min = MIN_VALUE(MIN_VALUE(d1, d2), MIN_VALUE(d2, d3));
+            double max = MAX_VALUE(MIN_VALUE(d1, d2), MAX_VALUE(d2, d3));
 
+            bool correctStep = false;
 
-        return Point{{(p3[X_DIM_VALUE] - newCursor[X_DIM_VALUE]) / 2.0 + newCursor[X_DIM_VALUE],
-                             (p3[Y_DIM_VALUE] - newCursor[Y_DIM_VALUE]) / 2.0 + newCursor[Y_DIM_VALUE]}};
+            for (auto transition : TRANSITIONS) {
+
+                double x = center[X_DIM_VALUE] + step * transition[X_DIM_VALUE];
+                double y = center[Y_DIM_VALUE] + step * transition[Y_DIM_VALUE];
+
+                Point nCenter{{x, y}};
+
+                double nD1 = distanceBetweenPoint(nCenter, p1);
+                double nD2 = distanceBetweenPoint(nCenter, p2);
+                double nD3 = distanceBetweenPoint(nCenter, p3);
+
+                double nMin = MIN_VALUE(MIN_VALUE(nD1, nD2), MIN_VALUE(nD2, nD3));
+                double nMax = MAX_VALUE(MIN_VALUE(nD1, nD2), MAX_VALUE(nD2, nD3));
+
+                if (nMin > min && nMax < max) {
+                    center = nCenter;
+                    correctStep = true;
+                    break;
+                }
+            }
+
+            if (!correctStep) {
+                step /= 2.0;
+            }
+        }
+
+        return center;
     }
 
     Vector PhysicObject2D::vectorBetweenPoints(const Point &point1, const Point &point2) {
