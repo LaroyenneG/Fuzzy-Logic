@@ -441,56 +441,31 @@ namespace model {
 
     Point PhysicObject2D::circleCenterSolver(const Point &p1, const Point &p2, const Point &p3) {
 
-        static const double MAX_RAYON = 10000;
+        const double meaning = (p3[Y_DIM_VALUE] - p2[Y_DIM_VALUE] < 0) ? -1.0 : 1.0;
 
-        class CenterCircleFitness : public FitnessEvaluatorInterface {
+        const double rotationAngle =
+                angleBetweenVector(vectorBetweenPoints(p1, p2), vectorBetweenPoints(p2, p3)) * meaning;
 
-        private:
-            const Point &p1;
-            const Point &p2;
-            const Point &p3;
+        const Vector referenceVector = vectorBetweenPoints(p2, p3);
 
-        public:
-            explicit CenterCircleFitness(const Point &_p1, const Point &_p2, const Point &_p3)
-                    : p1(_p1), p2(_p2), p3(_p3) {
+        Point lastCursor = p2;
+        Point newCursor = p3;
 
-            }
+        do {
+            Vector transform = pointRotation(vectorBetweenPoints(lastCursor, newCursor), rotationAngle);
 
-            double computeFitness(double *particlePosition, unsigned int dimension) const override {
+            lastCursor = newCursor;
 
-                if (dimension != MODEL_SPACE_DIMENSION) {
-                    std::cerr << "Invalid dimension for circle center solver" << std::endl;
-                    exit(EXIT_FAILURE);
-                }
+            newCursor[X_DIM_VALUE] += transform[X_DIM_VALUE];
+            newCursor[Y_DIM_VALUE] += transform[Y_DIM_VALUE];
 
-                Point center{{particlePosition[X_DIM_VALUE], particlePosition[Y_DIM_VALUE]}};
+        } while (angleBetweenVector(referenceVector, vectorBetweenPoints(p3, newCursor)) < M_PI / 2.0);
 
-                double d1 = distanceBetweenPoint(center, p1);
-                double d2 = distanceBetweenPoint(center, p2);
-                double d3 = distanceBetweenPoint(center, p3);
 
-                return fabs(d1 - d2) + fabs(d2 - d3) + fabs(d1 - d3);
-            }
-        };
-
-        Point center{{INFINITY, INFINITY}};
-
-        CenterCircleFitness centerCircleFitness(p1, p2, p3);
-
-        ParticleSwarmOptimization pso(MODEL_SPACE_DIMENSION, 100, 10, 1000, -4.0, 4.0, 0,
-                                      MIN_VALUE(p2[X_DIM_VALUE], p2[Y_DIM_VALUE]) - MAX_RAYON,
-                                      MAX_VALUE(p2[X_DIM_VALUE], p2[Y_DIM_VALUE]) + MAX_RAYON, 2, 2, 0.0,
-                                      &centerCircleFitness);
-
-        Particle *particle = pso.processing();
-
-        if (particle != nullptr) {
-            center[X_DIM_VALUE] = particle->getBestPosition(X_DIM_VALUE);
-            center[Y_DIM_VALUE] = particle->getBestPosition(Y_DIM_VALUE);
-        }
-
-        return center;
+        return Point{{(p3[X_DIM_VALUE] - newCursor[X_DIM_VALUE]) / 2.0 + newCursor[X_DIM_VALUE],
+                             (p3[Y_DIM_VALUE] - newCursor[Y_DIM_VALUE]) / 2.0 + newCursor[Y_DIM_VALUE]}};
     }
+    
 
     Vector PhysicObject2D::vectorBetweenPoints(const Point &point1, const Point &point2) {
 
