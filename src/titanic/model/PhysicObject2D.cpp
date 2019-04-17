@@ -1,11 +1,6 @@
 #include "PhysicObject2D.h"
 #include "Draftsman.h"
 
-#define _USE_MATH_DEFINES
-
-#include <pso/FitnessEvaluatorInterface.h>
-#include <pso/ParticleSwarmOptimization.h>
-#include <math.h>
 
 namespace model {
 
@@ -161,8 +156,6 @@ namespace model {
 
     Vector PhysicObject2D::computeCentrifugalStrength() const {
 
-        static const double NEGLIGIBLE = pow(10, -9);
-
         Vector strength{{0.0, 0.0}};
 
         if (positions.size() == POINT_QUEUE_SIZE) {
@@ -174,14 +167,7 @@ namespace model {
                 positionArray[index] = *it;
             }
 
-            Vector dv1{{positionArray[1][X_DIM_VALUE] - positionArray[0][X_DIM_VALUE],
-                               positionArray[1][Y_DIM_VALUE] - positionArray[0][Y_DIM_VALUE]}};
-            Vector dv2{{positionArray[2][X_DIM_VALUE] - positionArray[0][X_DIM_VALUE],
-                               positionArray[2][Y_DIM_VALUE] - positionArray[0][Y_DIM_VALUE]}};
-
-            double angleAlign = angleBetweenVector(dv1, dv2);
-
-            if (angleAlign >= NEGLIGIBLE) {
+            try {
 
                 Point circleCenter = circleCenterSolver(positionArray[0], positionArray[1], positionArray[2]);
 
@@ -197,7 +183,8 @@ namespace model {
                 double value = weight * getSpeed() / rayon;
 
                 strength = {value * direction[X_DIM_VALUE], value * direction[Y_DIM_VALUE]};
-            }
+
+            } catch (std::logic_error &e) {}
         }
 
         return strength;
@@ -441,31 +428,49 @@ namespace model {
 
     Point PhysicObject2D::circleCenterSolver(const Point &p1, const Point &p2, const Point &p3) {
 
-        const double meaning = (p3[Y_DIM_VALUE] - p2[Y_DIM_VALUE] < 0) ? -1.0 : 1.0;
+        static const double CAP_ERROR = 0.0;
 
-        const double rotationAngle =
-                angleBetweenVector(vectorBetweenPoints(p1, p2), vectorBetweenPoints(p2, p3)) * meaning;
+        double denominator = 2 * (p1[X_DIM_VALUE] * p2[Y_DIM_VALUE] -
+                                  p1[X_DIM_VALUE] * p3[Y_DIM_VALUE] -
+                                  p2[X_DIM_VALUE] * p1[Y_DIM_VALUE] +
+                                  p2[X_DIM_VALUE] * p3[Y_DIM_VALUE] +
+                                  p3[X_DIM_VALUE] * p1[Y_DIM_VALUE] -
+                                  p3[X_DIM_VALUE] * p2[Y_DIM_VALUE]);
 
-        const Vector referenceVector = vectorBetweenPoints(p2, p3);
+        if (denominator == CAP_ERROR) {
+            throw std::logic_error("points are aligned");
+        }
 
-        Point lastCursor = p2;
-        Point newCursor = p3;
+        double a = (p1[X_DIM_VALUE] * p1[X_DIM_VALUE] * p2[Y_DIM_VALUE] -
+                    p1[X_DIM_VALUE] * p1[X_DIM_VALUE] * p3[Y_DIM_VALUE] -
+                    p2[X_DIM_VALUE] * p2[X_DIM_VALUE] * p1[Y_DIM_VALUE] +
+                    p2[X_DIM_VALUE] * p2[X_DIM_VALUE] * p3[Y_DIM_VALUE] +
+                    p3[X_DIM_VALUE] * p3[X_DIM_VALUE] * p1[Y_DIM_VALUE] -
+                    p3[X_DIM_VALUE] * p3[X_DIM_VALUE] * p2[Y_DIM_VALUE] +
+                    p1[Y_DIM_VALUE] * p1[Y_DIM_VALUE] * p2[Y_DIM_VALUE] -
+                    p1[Y_DIM_VALUE] * p1[Y_DIM_VALUE] * p3[Y_DIM_VALUE] -
+                    p1[Y_DIM_VALUE] * p2[Y_DIM_VALUE] * p2[Y_DIM_VALUE] +
+                    p1[Y_DIM_VALUE] * p3[Y_DIM_VALUE] * p3[Y_DIM_VALUE] +
+                    p2[Y_DIM_VALUE] * p2[Y_DIM_VALUE] * p3[Y_DIM_VALUE] -
+                    p2[Y_DIM_VALUE] * p3[Y_DIM_VALUE] * p3[Y_DIM_VALUE]) / denominator;
 
-        do {
-            Vector transform = pointRotation(vectorBetweenPoints(lastCursor, newCursor), rotationAngle);
+        double b = -(p1[X_DIM_VALUE] * p1[X_DIM_VALUE] * p2[X_DIM_VALUE] -
+                     p1[X_DIM_VALUE] * p1[X_DIM_VALUE] * p3[X_DIM_VALUE] -
+                     p1[X_DIM_VALUE] * p2[X_DIM_VALUE] * p2[X_DIM_VALUE] +
+                     p1[X_DIM_VALUE] * p3[X_DIM_VALUE] * p3[X_DIM_VALUE] -
+                     p1[X_DIM_VALUE] * p2[Y_DIM_VALUE] * p2[Y_DIM_VALUE] +
+                     p1[X_DIM_VALUE] * p3[Y_DIM_VALUE] * p3[Y_DIM_VALUE] +
+                     p2[X_DIM_VALUE] * p2[X_DIM_VALUE] * p3[X_DIM_VALUE] -
+                     p2[X_DIM_VALUE] * p3[X_DIM_VALUE] * p3[X_DIM_VALUE] +
+                     p2[X_DIM_VALUE] * p1[Y_DIM_VALUE] * p1[Y_DIM_VALUE] -
+                     p2[X_DIM_VALUE] * p3[Y_DIM_VALUE] * p3[Y_DIM_VALUE] -
+                     p3[X_DIM_VALUE] * p1[Y_DIM_VALUE] * p1[Y_DIM_VALUE] +
+                     p3[X_DIM_VALUE] * p2[Y_DIM_VALUE] * p2[Y_DIM_VALUE]) / denominator;
 
-            lastCursor = newCursor;
 
-            newCursor[X_DIM_VALUE] += transform[X_DIM_VALUE];
-            newCursor[Y_DIM_VALUE] += transform[Y_DIM_VALUE];
-
-        } while (angleBetweenVector(referenceVector, vectorBetweenPoints(p3, newCursor)) < M_PI / 2.0);
-
-
-        return Point{{(p3[X_DIM_VALUE] - newCursor[X_DIM_VALUE]) / 2.0 + newCursor[X_DIM_VALUE],
-                             (p3[Y_DIM_VALUE] - newCursor[Y_DIM_VALUE]) / 2.0 + newCursor[Y_DIM_VALUE]}};
+        return Point{{a, b}};
     }
-    
+
 
     Vector PhysicObject2D::vectorBetweenPoints(const Point &point1, const Point &point2) {
 

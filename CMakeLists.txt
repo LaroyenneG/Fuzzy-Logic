@@ -75,7 +75,7 @@ qt5_wrap_cpp(INTERFACE_FILES_MOC ${INTERFACE_FILES})
 
 add_executable(titanic ${TITANIC_SOURCES} ${FUZZY_LIBRARY} ${INTERFACE_FILES_MOC} src/titanic/main.cpp)
 
-target_link_libraries(titanic pthread Qt5::Widgets "${LIB_PATH}/libpso-unix-64.a")
+target_link_libraries(titanic pthread Qt5::Widgets)
 
 
 ##################################### Titanic test #########################################
@@ -83,7 +83,7 @@ target_link_libraries(titanic pthread Qt5::Widgets "${LIB_PATH}/libpso-unix-64.a
 file(GLOB_RECURSE TITANIC_TEST_SOURCES test/titanic/*) # all test source files
 
 add_executable(titanictest ${TITANIC_SOURCES} ${FUZZY_LIBRARY} ${TITANIC_TEST_SOURCES} ${INTERFACE_FILES_MOC})
-target_link_libraries(titanictest pthread Qt5::Widgets "${CPPUNIT}" "${LIB_PATH}/libpso-unix-64.a")
+target_link_libraries(titanictest pthread Qt5::Widgets "${CPPUNIT}")
 
 
 ################################ Leave a tip ###############################################
