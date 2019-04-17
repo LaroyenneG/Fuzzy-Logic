@@ -439,6 +439,8 @@ namespace model {
 
     Point PhysicObject2D::circleCenterSolver(const Point &p1, const Point &p2, const Point &p3) {
 
+#define CIRCLE_SOLVER_FITNESS(d1, d2, d3) (fabs(d1 - d2) + fabs(d2 - d3) + fabs(d1 - d3))
+
         static const Vector TRANSITIONS[] = {{{1,  0}},
                                              {{0,  1}},
                                              {{-1, -1}},
@@ -448,7 +450,7 @@ namespace model {
                                              {{-1, 1}},
                                              {{1,  -1}}};
 
-        static const double NEGLIGIBLE = pow(10, -4);
+        static const double NEGLIGIBLE = pow(10, -9);
 
         Point center{{(p1[X_DIM_VALUE] + p2[X_DIM_VALUE] + p3[X_DIM_VALUE]) / 3.0,
                              (p1[Y_DIM_VALUE] + p2[Y_DIM_VALUE] + p3[Y_DIM_VALUE]) / 3.0}};
@@ -456,18 +458,18 @@ namespace model {
         double d1 = distanceBetweenPoint(center, p1);
         double d2 = distanceBetweenPoint(center, p2);
         double d3 = distanceBetweenPoint(center, p3);
+        double fitness = CIRCLE_SOLVER_FITNESS(d1, d2, d3);
 
         double step = MIN_VALUE(MIN_VALUE(d1, d2), MIN_VALUE(d2, d3)) / 2.0;
 
-        while ((fabs(d1 - d2) >= NEGLIGIBLE || fabs(d2 - d3) >= NEGLIGIBLE || fabs(d1 - d3) >= NEGLIGIBLE) &&
-               step >= NEGLIGIBLE) {
+        while (fitness >= NEGLIGIBLE && step >= NEGLIGIBLE) {
+
 
             d1 = distanceBetweenPoint(center, p1);
             d2 = distanceBetweenPoint(center, p2);
             d3 = distanceBetweenPoint(center, p3);
 
-            double min = MIN_VALUE(MIN_VALUE(d1, d2), MIN_VALUE(d2, d3));
-            double max = MAX_VALUE(MIN_VALUE(d1, d2), MAX_VALUE(d2, d3));
+            fitness = CIRCLE_SOLVER_FITNESS(d1, d2, d3);
 
             bool correctStep = false;
 
@@ -482,10 +484,9 @@ namespace model {
                 double nD2 = distanceBetweenPoint(nCenter, p2);
                 double nD3 = distanceBetweenPoint(nCenter, p3);
 
-                double nMin = MIN_VALUE(MIN_VALUE(nD1, nD2), MIN_VALUE(nD2, nD3));
-                double nMax = MAX_VALUE(MIN_VALUE(nD1, nD2), MAX_VALUE(nD2, nD3));
+                double nFitness = CIRCLE_SOLVER_FITNESS(nD1, nD2, nD3);
 
-                if (nMin > min && nMax < max) {
+                if (fitness >= nFitness) {
                     center = nCenter;
                     correctStep = true;
                     break;
