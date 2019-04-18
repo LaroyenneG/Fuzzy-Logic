@@ -2,10 +2,11 @@
 #define LOGIQUEFLOUE_UNARYEXPRESSION_H
 
 #include "Expression.h"
+#include "CoreObject.h"
 
 namespace fuzzylogic::core {
     template<typename T>
-    class UnaryExpression {
+    class UnaryExpression : public CoreObject<T> {
     public:
         virtual T evaluate(Expression <T> *expression) const = 0;
 
