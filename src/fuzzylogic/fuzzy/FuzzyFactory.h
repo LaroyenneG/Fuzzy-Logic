@@ -157,7 +157,7 @@ namespace fuzzylogic::fuzzy {
     FuzzyFactory<T>::FuzzyFactory(Not<T> *_not, And<T> *_and, Or<T> *_or, SugenoThen<T> *_then,
                                   SugenoDefuzz<T> *_sugenoDefuzz, SugenoConclusion<T> *_sugenoConclusion)
 
-            :FuzzyFactory(_not, _and, _or, _then, nullptr, nullptr, _sugenoDefuzz, _sugenoConclusion) {
+            : FuzzyFactory(_not, _and, _or, _then, nullptr, nullptr, _sugenoDefuzz, _sugenoConclusion) {
 
     }
 

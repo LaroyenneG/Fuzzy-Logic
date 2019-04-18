@@ -27,9 +27,9 @@ namespace fuzzylogic::interpreter {
         } DefuzzType;
 
     private:
-        const std::map<std::string, const core::Expression<T> *> fuzzyCollection;
+        const std::map<std::string, const core::BinaryExpression<T> *> fuzzyCollection;
 
-        static std::map<std::string, core::Expression<T> *> buildFuzzyCollection();
+        static std::map<std::string, const core::BinaryExpression<T> *> buildFuzzyCollection();
 
         std::map<std::string, fuzzy::FuzzyFactory<T> *> context;
 
@@ -47,6 +47,10 @@ namespace fuzzylogic::interpreter {
         ~FuzzyInterpreter();
 
         void execute(const std::string &line) override;
+
+        bool operatorExist(const std::string &name) const;
+
+        bool contextExist(const std::string &name) const;
     };
 
     template<typename T>
@@ -63,9 +67,9 @@ namespace fuzzylogic::interpreter {
     }
 
     template<typename T>
-    std::map<std::string, core::Expression<T> *> FuzzyInterpreter<T>::buildFuzzyCollection() {
+    std::map<std::string, const core::BinaryExpression<T> *> FuzzyInterpreter<T>::buildFuzzyCollection() {
 
-        std::map<std::string, core::Expression<T> *> collection;
+        std::map<std::string, const core::BinaryExpression<T> *> collection;
 
         collection[INTERPRETEUR_ORMAXNAME] = new fuzzy::OrMax<T>();
         collection[INTERPRETEUR_AGGMAXNAME] = new fuzzy::AggMax<T>();
@@ -85,8 +89,6 @@ namespace fuzzylogic::interpreter {
         for (auto &pair:fuzzyCollection) {
             delete pair.second;
         }
-
-        fuzzyCollection.clear();
     }
 
     template<typename T>
@@ -125,6 +127,29 @@ namespace fuzzylogic::interpreter {
         return factory;
     }
 
+    template<typename T>
+    bool FuzzyInterpreter<T>::operatorExist(const std::string &name) const {
+
+        for (auto &pair : fuzzyCollection) {
+            if (pair.first == name) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    template<typename T>
+    bool FuzzyInterpreter<T>::contextExist(const std::string &name) const {
+
+        for (auto &pair : context) {
+            if (pair.first == name) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
 
 #endif //LOGIQUEFLOUE_FUZZYMONITOR_H
