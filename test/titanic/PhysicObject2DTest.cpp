@@ -10,8 +10,8 @@ void PhysicObject2DTest::testCircleSolver() {
 
     Point center = PhysicObject2D::circleCenterSolver(p1, p2, p3);
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(solution[X_DIM_VALUE], center[X_DIM_VALUE], 0.1);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(solution[Y_DIM_VALUE], center[Y_DIM_VALUE], 0.1);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(solution[X_DIM_VALUE], center[X_DIM_VALUE], 0.01);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(solution[Y_DIM_VALUE], center[Y_DIM_VALUE], 0.01);
 }
 
 void PhysicObject2DTest::testCircleSolverWithBigCircle() {
