@@ -7,6 +7,8 @@
 #include <string>
 #include <map>
 
+#define INTERPRETER_CHAR_TO_SPLIT_LINE ' '
+
 namespace fuzzylogic::interpreter {
 
     template<typename T>
@@ -32,6 +34,10 @@ namespace fuzzylogic::interpreter {
         virtual void execute(const std::string &line) = 0;
 
         void executeFile(std::ifstream &fstream);
+
+        static std::string getInstructionName(const std::string &line);
+
+        static std::vector<std::string> lineToArgs(const std::string &line);
     };
 
     template<typename T>
@@ -76,6 +82,63 @@ namespace fuzzylogic::interpreter {
         }
 
         memory.erase(key);
+    }
+
+    template<typename T>
+    std::string AbstractInterpreter<T>::getInstructionName(const std::string &line) {
+
+        std::string name;
+
+        unsigned int index = 0;
+
+        while (index < line.size()) {
+
+            char c = line[index];
+
+            if (c == INTERPRETER_CHAR_TO_SPLIT_LINE) {
+                break;
+            }
+
+            name += c;
+
+            index++;
+        }
+
+        return name;
+    }
+
+    template<typename T>
+    std::vector<std::string> AbstractInterpreter<T>::lineToArgs(const std::string &line) {
+
+        std::vector<std::string> args;
+
+        unsigned int index = 0;
+
+        while (index < line.size()) {
+
+            std::string arg;
+
+            while (index < line.size()) {
+
+                char c = line[index];
+
+                if (c == INTERPRETER_CHAR_TO_SPLIT_LINE) {
+                    break;
+                }
+
+                arg += c;
+
+                index++;
+            }
+
+            if (!arg.empty()) {
+                args.push_back(arg);
+            }
+
+            index++;
+        }
+
+        return args;
     }
 }
 
