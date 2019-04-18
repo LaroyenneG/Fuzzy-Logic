@@ -486,7 +486,7 @@ namespace model {
         long double a = aNumerator / denominator;
         long double b = bNumerator / denominator;
 
-        return Point{{static_cast<double >(a), static_cast<double >(b)}};
+        return Point{{static_cast<double>(a), static_cast<double>(b)}};
     }
 
 
