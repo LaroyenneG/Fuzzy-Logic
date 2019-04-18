@@ -15,6 +15,9 @@
 #define INTERPRETEUR_NOT_MIN_NAME "NotMin"
 #define INTERPRETEUR_THEN_MIN_NAME "ThenMin"
 #define INTERPRETEUR_COG_DEFUZZ_NAME "CogDefuzz"
+#define INTERPRETEUR_SUGENO_THEN_NAME "SugenoThen"
+#define INTERPRETEUR_SUGENO_DEFUZZ_NAME "SugenoDefuzz"
+#define INTERPRETEUR_SUGENO_CONCLUSION_NAME "SugenoConclusion"
 #define INTERPRETER_CREATE_FUZZYSYSTEM "FuzzySystem"
 #define INTERPRETEUR_TYPE_COG "Cog"
 #define INTERPRETEUR_TYPE_SUGENO "Sugeno"
@@ -88,6 +91,10 @@ namespace fuzzylogic::interpreter {
         for (auto &pair:fuzzyOperatorContext) {
             delete pair.second;
         }
+
+        for (auto &pair:factoryContext) {
+            delete pair.second;
+        }
     }
 
     template<typename T>
@@ -149,7 +156,7 @@ namespace fuzzylogic::interpreter {
     template<typename T>
     fuzzy::FuzzyFactory<T> *FuzzyInterpreter<T>::createSugenoFactory(std::vector<std::string> &arguments) {
 
-        if (arguments.size() < 7) {
+        if (arguments.size() < 4) {
             throw exception::InterpreterException("Not enough arguments");
         }
 
@@ -165,11 +172,11 @@ namespace fuzzylogic::interpreter {
         auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[2])]);
         auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[3])]);
         auto opSugenoThen = dynamic_cast<fuzzy::SugenoThen<T> *>(fuzzyOperatorContext[buildContextKey(context,
-                                                                                                      arguments[4])]);
+                                                                                                      INTERPRETEUR_SUGENO_THEN_NAME)]);
         auto opSugenoDefuzz = dynamic_cast<fuzzy::SugenoDefuzz<T> *>(fuzzyOperatorContext[buildContextKey(context,
-                                                                                                          arguments[5])]);
+                                                                                                          INTERPRETEUR_SUGENO_DEFUZZ_NAME)]);
         auto opSugenoConclusion = dynamic_cast<fuzzy::SugenoConclusion<T> *>(fuzzyOperatorContext[buildContextKey(
-                context, arguments[6])]);
+                context, INTERPRETEUR_SUGENO_CONCLUSION_NAME)]);
 
         auto factory = new fuzzy::FuzzyFactory<T>(opNot, opAnd, opOr, opSugenoThen, opSugenoDefuzz,
                                                   opSugenoConclusion);
