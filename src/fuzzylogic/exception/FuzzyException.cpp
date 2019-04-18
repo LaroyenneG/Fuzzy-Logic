@@ -18,8 +18,6 @@ namespace fuzzylogic::exception {
 
         std::string string = std::asctime(local);
 
-        delete local;
-
         return string;
     }
 
