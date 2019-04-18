@@ -35,11 +35,11 @@ namespace fuzzylogic::interpreter {
 
         std::map<fuzzy::FuzzyFactory<T> *, DefuzzType> factoryType;
 
-        void createFuzzySystem(const std::vector<std::string> &arguments);
+        void createFuzzySystem(std::vector<std::string> &arguments);
 
-        fuzzy::FuzzyFactory<T> *createCogFactory();
+        fuzzy::FuzzyFactory<T> *createCogFactory(std::vector<std::string> &arguments);
 
-        fuzzy::FuzzyFactory<T> *createSugenoFactory();
+        fuzzy::FuzzyFactory<T> *createSugenoFactory(std::vector<std::string> &arguments);
 
     public:
         FuzzyInterpreter();
@@ -92,36 +92,75 @@ namespace fuzzylogic::interpreter {
     }
 
     template<typename T>
-    void FuzzyInterpreter<T>::createFuzzySystem(const std::vector<std::string> &arguments) {
+    void FuzzyInterpreter<T>::createFuzzySystem(std::vector<std::string> &arguments) {
 
         if (arguments.size() < 2) {
             throw exception::InterpreterException("Not enough arguments");
         }
 
+        std::string defuzzType = arguments[1];
+        std::string contextName = arguments[0];
+
         fuzzy::FuzzyFactory<T> *factory = nullptr;
 
-        if (arguments[1] == INTERPRETEUR_TYPE_COG) {
-            factory = createCogFactory();
-        } else if (arguments[1] == INTERPRETEUR_TYPE_SUGENO) {
-            factory = createSugenoFactory();
+        if (defuzzType == INTERPRETEUR_TYPE_COG) {
+            factory = createCogFactory(arguments);
+        } else if (defuzzType == INTERPRETEUR_TYPE_SUGENO) {
+            factory = createSugenoFactory(arguments);
         }
 
-        context[arguments[0]] = factory;
+        context[contextName] = factory;
     }
 
     template<typename T>
-    fuzzy::FuzzyFactory<T> *FuzzyInterpreter<T>::createCogFactory() {
+    fuzzy::FuzzyFactory<T> *FuzzyInterpreter<T>::createCogFactory(std::vector<std::string> &arguments) {
 
-        fuzzy::FuzzyFactory<T> *factory = nullptr;
+        if (arguments.size() < 6) {
+            throw exception::InterpreterException("Not enough arguments");
+        }
+
+        for (auto &argument : arguments) {
+            if (!operatorExist(argument)) {
+                throw exception::InterpreterException("Error : " + argument + "not exist");
+            }
+        }
+
+        auto opNot = dynamic_cast<fuzzy::Not<T> *>(fuzzyCollection[arguments[0]]);
+        auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyCollection[arguments[1]]);
+        auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyCollection[arguments[2]]);
+        auto opThen = dynamic_cast<fuzzy::Then<T> *>(fuzzyCollection[arguments[3]]);
+        auto opAgg = dynamic_cast<fuzzy::Agg<T> *>(fuzzyCollection[arguments[4]]);
+        auto opCogDefuzz = dynamic_cast<fuzzy::CogDefuzz<T> *>(fuzzyCollection[arguments[5]]);
+
+
+        fuzzy::FuzzyFactory<T> *factory = new fuzzy::FuzzyFactory(opNot, opAnd, opOr, opThen, opAgg, opCogDefuzz);
         factoryType[factory] = COG;
 
         return factory;
     }
 
     template<typename T>
-    fuzzy::FuzzyFactory<T> *FuzzyInterpreter<T>::createSugenoFactory() {
+    fuzzy::FuzzyFactory<T> *FuzzyInterpreter<T>::createSugenoFactory(std::vector<std::string> &arguments) {
 
-        fuzzy::FuzzyFactory<T> *factory = nullptr;
+        if (arguments.size() < 6) {
+            throw exception::InterpreterException("Not enough arguments");
+        }
+
+        for (auto &argument : arguments) {
+            if (!operatorExist(argument)) {
+                throw exception::InterpreterException("Error : " + argument + "not exist");
+            }
+        }
+
+        auto opNot = dynamic_cast<fuzzy::Not<T> *>(fuzzyCollection[arguments[0]]);
+        auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyCollection[arguments[1]]);
+        auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyCollection[arguments[2]]);
+        auto opSugenoThen = dynamic_cast<fuzzy::SugenoThen<T> *>(fuzzyCollection[arguments[3]]);
+        auto opSugenoDefuzz = dynamic_cast<fuzzy::SugenoDefuzz<T> *>(fuzzyCollection[arguments[4]]);
+        auto opSugenoConclusion = dynamic_cast<fuzzy::SugenoConclusion<T> *>(fuzzyCollection[arguments[5]]);
+
+        fuzzy::FuzzyFactory<T> *factory = new fuzzy::FuzzyFactory(opNot, opAnd, opOr, opSugenoThen, opSugenoDefuzz,
+                                                                  opSugenoConclusion);
         factoryType[factory] = SUGENO;
 
         return factory;
