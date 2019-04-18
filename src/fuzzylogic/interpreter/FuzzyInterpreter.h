@@ -136,11 +136,12 @@ namespace fuzzylogic::interpreter {
         }
 
         auto opNot = dynamic_cast<fuzzy::Not<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[0])]);
-        auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyOperatorContext[arguments[1]]);
-        auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyOperatorContext[arguments[2]]);
-        auto opThen = dynamic_cast<fuzzy::Then<T> *>(fuzzyOperatorContext[arguments[3]]);
-        auto opAgg = dynamic_cast<fuzzy::Agg<T> *>(fuzzyOperatorContext[arguments[4]]);
-        auto opCogDefuzz = dynamic_cast<fuzzy::MamdaniDefuzz<T> *>(fuzzyOperatorContext[arguments[5]]);
+        auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[1])]);
+        auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[2])]);
+        auto opThen = dynamic_cast<fuzzy::Then<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[3])]);
+        auto opAgg = dynamic_cast<fuzzy::Agg<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[4])]);
+        auto opCogDefuzz = dynamic_cast<fuzzy::MamdaniDefuzz<T> *>(fuzzyOperatorContext[buildContextKey(context,
+                                                                                                        arguments[5])]);
 
 
         auto factory = new fuzzy::FuzzyFactory<T>(opNot, opAnd, opOr, opThen, opAgg, opCogDefuzz);
@@ -165,12 +166,15 @@ namespace fuzzylogic::interpreter {
             }
         }
 
-        auto opNot = dynamic_cast<fuzzy::Not<T> *>(fuzzyOperatorContext[arguments[0]]);
-        auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyOperatorContext[arguments[1]]);
-        auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyOperatorContext[arguments[2]]);
-        auto opSugenoThen = dynamic_cast<fuzzy::SugenoThen<T> *>(fuzzyOperatorContext[arguments[3]]);
-        auto opSugenoDefuzz = dynamic_cast<fuzzy::SugenoDefuzz<T> *>(fuzzyOperatorContext[arguments[4]]);
-        auto opSugenoConclusion = dynamic_cast<fuzzy::SugenoConclusion<T> *>(fuzzyOperatorContext[arguments[5]]);
+        auto opNot = dynamic_cast<fuzzy::Not<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[0])]);
+        auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[1])]);
+        auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[2])]);
+        auto opSugenoThen = dynamic_cast<fuzzy::SugenoThen<T> *>(fuzzyOperatorContext[buildContextKey(context,
+                                                                                                      arguments[3])]);
+        auto opSugenoDefuzz = dynamic_cast<fuzzy::SugenoDefuzz<T> *>(fuzzyOperatorContext[buildContextKey(context,
+                                                                                                          arguments[4])]);
+        auto opSugenoConclusion = dynamic_cast<fuzzy::SugenoConclusion<T> *>(fuzzyOperatorContext[buildContextKey(
+                context, arguments[5])]);
 
         auto factory = new fuzzy::FuzzyFactory<T>(opNot, opAnd, opOr, opSugenoThen, opSugenoDefuzz,
                                                                   opSugenoConclusion);
