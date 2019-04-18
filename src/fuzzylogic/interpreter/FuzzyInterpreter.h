@@ -9,8 +9,12 @@
 #include "AggMax.h"
 #include "InterpreterException.h"
 
-#define INTERPRETEUR_ORMAXNAME "orMax"
-#define INTERPRETEUR_AGGMAXNAME "aggMax"
+#define INTERPRETEUR_OR_MAX_NAME "orMax"
+#define INTERPRETEUR_AGG_MAX_NAME "aggMax"
+#define INTERPRETEUR_AND_MIN_NAME "andMin"
+#define INTERPRETEUR_NOT_MIN_NAME "notMin"
+#define INTERPRETEUR_THEN_MIN_NAME "thenMin"
+#define INTERPRETEUR_COG_DEFUZZ_NAME "cogDefuzz"
 #define INTERPRETEUR_CREATE_FUZZYSYSTEM "fuzzySystem"
 #define INTERPRETEUR_TYPE_COG "typeCog"
 #define INTERPRETEUR_TYPE_SUGENO "typeSugeno"
@@ -76,8 +80,12 @@ namespace fuzzylogic::interpreter {
 
         std::string front = context + INTERPRETEUR_CONTEXT_ACCESS;
 
-        collection[front + INTERPRETEUR_ORMAXNAME] = new fuzzy::OrMax<T>();
-        collection[front + INTERPRETEUR_AGGMAXNAME] = new fuzzy::AggMax<T>();
+        collection[front + INTERPRETEUR_OR_MAX_NAME] = new fuzzy::OrMax<T>();
+        collection[front + INTERPRETEUR_AGG_MAX_NAME] = new fuzzy::AggMax<T>();
+        collection[front + INTERPRETEUR_NOT_MIN_NAME] = new fuzzy::NotMinus1<T>();
+        collection[front + INTERPRETEUR_AND_MIN_NAME] = new fuzzy::AndMin<T>();
+        collection[front + INTERPRETEUR_THEN_MIN_NAME] = new fuzzy::ThenMin<T>();
+        collection[front + INTERPRETEUR_COG_DEFUZZ_NAME] = new fuzzy::CogDefuzz<T>();
 
 
         return collection;
