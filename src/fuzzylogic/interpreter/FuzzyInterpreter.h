@@ -11,6 +11,8 @@
 #include "InterpreterException.h"
 #include "IsTriangle.h"
 
+#include <stack>
+
 
 #define INTERPRETER_OR_MAX_NAME "OrMax"
 #define INTERPRETER_AGG_MAX_NAME "AggMax"
@@ -39,6 +41,8 @@
 #define INTERPRETER_RULE_OR "Or"
 #define INTERPRETER_RULE_NOT "Not"
 #define INTERPRETER_RULE_IS "Is"
+#define INTERPRETER_RULE_OPEN_EXPRESSION_CHAR '('
+#define INTERPRETER_RULE_CLOSE_EXPRESSION_CHAR '('
 
 
 
@@ -77,6 +81,9 @@ namespace fuzzylogic::interpreter {
         std::map<std::string, core::Expression<T> *> systemContext;
 
     protected:
+        core::Expression<T> *
+        convertStringRuleToExpression(fuzzy::FuzzyFactory<T> *factory, const std::string &stringRule,
+                                      const std::string &context);
 
         void buildMamdaniSystem(std::vector<std::string> args);
 
@@ -114,10 +121,16 @@ namespace fuzzylogic::interpreter {
 
         std::vector<std::string> findInputsInContext(const std::string &context);
 
-        static std::string buildContextKey(const std::string &context, const std::string &name);
+        static std::string buildKeyWithContextAndName(const std::string &context, const std::string &name);
 
         static void buildFuzzyOperatorCollection(std::map<std::string, core::CoreObject<T> *> &map,
                                                  const std::string &context);
+
+        static std::string extractLeftMemberInStringRule(const std::string &stringRule);
+
+        static std::string extractRightMemberInStringRule(const std::string &stringRule);
+
+        static std::string extractOperatorMemberInStringRule(const std::string &stringRule);
 
     public:
         FuzzyInterpreter();
@@ -241,13 +254,15 @@ namespace fuzzylogic::interpreter {
             }
         }
 
-        auto opNot = dynamic_cast<fuzzy::Not<T> *>(fuzzyOperatorContext[buildContextKey(context, args[1])]);
-        auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyOperatorContext[buildContextKey(context, args[2])]);
-        auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyOperatorContext[buildContextKey(context, args[3])]);
-        auto opThen = dynamic_cast<fuzzy::Then<T> *>(fuzzyOperatorContext[buildContextKey(context, args[4])]);
-        auto opAgg = dynamic_cast<fuzzy::Agg<T> *>(fuzzyOperatorContext[buildContextKey(context, args[5])]);
-        auto opCogDefuzz = dynamic_cast<fuzzy::MamdaniDefuzz<T> *>(fuzzyOperatorContext[buildContextKey(context,
-                                                                                                        INTERPRETER_COG_DEFUZZ_NAME)]);
+        auto opNot = dynamic_cast<fuzzy::Not<T> *>(fuzzyOperatorContext[buildKeyWithContextAndName(context, args[1])]);
+        auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyOperatorContext[buildKeyWithContextAndName(context, args[2])]);
+        auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyOperatorContext[buildKeyWithContextAndName(context, args[3])]);
+        auto opThen = dynamic_cast<fuzzy::Then<T> *>(fuzzyOperatorContext[buildKeyWithContextAndName(context,
+                                                                                                     args[4])]);
+        auto opAgg = dynamic_cast<fuzzy::Agg<T> *>(fuzzyOperatorContext[buildKeyWithContextAndName(context, args[5])]);
+        auto opCogDefuzz = dynamic_cast<fuzzy::MamdaniDefuzz<T> *>(fuzzyOperatorContext[buildKeyWithContextAndName(
+                context,
+                INTERPRETER_COG_DEFUZZ_NAME)]);
 
 
         auto factory = new fuzzy::FuzzyFactory<T>(opNot, opAnd, opOr, opThen, opAgg, opCogDefuzz);
@@ -272,14 +287,16 @@ namespace fuzzylogic::interpreter {
             }
         }
 
-        auto opNot = dynamic_cast<fuzzy::Not<T> *>(fuzzyOperatorContext[buildContextKey(context, args[1])]);
-        auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyOperatorContext[buildContextKey(context, args[2])]);
-        auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyOperatorContext[buildContextKey(context, args[3])]);
-        auto opSugenoThen = dynamic_cast<fuzzy::SugenoThen<T> *>(fuzzyOperatorContext[buildContextKey(context,
-                                                                                                      INTERPRETER_SUGENO_THEN_NAME)]);
-        auto opSugenoDefuzz = dynamic_cast<fuzzy::SugenoDefuzz<T> *>(fuzzyOperatorContext[buildContextKey(context,
-                                                                                                          INTERPRETER_SUGENO_DEFUZZ_NAME)]);
-        auto opSugenoConclusion = dynamic_cast<fuzzy::SugenoConclusion<T> *>(fuzzyOperatorContext[buildContextKey(
+        auto opNot = dynamic_cast<fuzzy::Not<T> *>(fuzzyOperatorContext[buildKeyWithContextAndName(context, args[1])]);
+        auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyOperatorContext[buildKeyWithContextAndName(context, args[2])]);
+        auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyOperatorContext[buildKeyWithContextAndName(context, args[3])]);
+        auto opSugenoThen = dynamic_cast<fuzzy::SugenoThen<T> *>(fuzzyOperatorContext[buildKeyWithContextAndName(
+                context,
+                INTERPRETER_SUGENO_THEN_NAME)]);
+        auto opSugenoDefuzz = dynamic_cast<fuzzy::SugenoDefuzz<T> *>(fuzzyOperatorContext[buildKeyWithContextAndName(
+                context,
+                INTERPRETER_SUGENO_DEFUZZ_NAME)]);
+        auto opSugenoConclusion = dynamic_cast<fuzzy::SugenoConclusion<T> *>(fuzzyOperatorContext[buildKeyWithContextAndName(
                 context, INTERPRETER_SUGENO_CONCLUSION_NAME)]);
 
         auto factory = new fuzzy::FuzzyFactory<T>(opNot, opAnd, opOr, opSugenoThen, opSugenoDefuzz,
@@ -292,7 +309,7 @@ namespace fuzzylogic::interpreter {
     template<typename T>
     bool FuzzyInterpreter<T>::operatorExistInContext(const std::string &context, const std::string &name) const {
 
-        std::string key = buildContextKey(context, name);
+        std::string key = buildKeyWithContextAndName(context, name);
 
         return fuzzyOperatorContext.find(key) != fuzzyOperatorContext.end();
     }
@@ -304,7 +321,7 @@ namespace fuzzylogic::interpreter {
     }
 
     template<typename T>
-    std::string FuzzyInterpreter<T>::buildContextKey(const std::string &context, const std::string &name) {
+    std::string FuzzyInterpreter<T>::buildKeyWithContextAndName(const std::string &context, const std::string &name) {
 
         return context + INTERPRETER_CONTEXT_ACCESS + name;
     }
@@ -313,12 +330,12 @@ namespace fuzzylogic::interpreter {
     void FuzzyInterpreter<T>::buildFuzzyOperatorCollection(std::map<std::string, core::CoreObject<T> *> &map,
                                                            const std::string &context) {
 
-        map[buildContextKey(context, INTERPRETER_OR_MAX_NAME)] = new fuzzy::OrMax<T>();
-        map[buildContextKey(context, INTERPRETER_AGG_MAX_NAME)] = new fuzzy::AggMax<T>();
-        map[buildContextKey(context, INTERPRETER_NOT_MIN_NAME)] = new fuzzy::NotMinus1<T>();
-        map[buildContextKey(context, INTERPRETER_AND_MIN_NAME)] = new fuzzy::AndMin<T>();
-        map[buildContextKey(context, INTERPRETER_THEN_MIN_NAME)] = new fuzzy::ThenMin<T>();
-        map[buildContextKey(context, INTERPRETER_COG_DEFUZZ_NAME)] = new fuzzy::CogDefuzz<T>();
+        map[buildKeyWithContextAndName(context, INTERPRETER_OR_MAX_NAME)] = new fuzzy::OrMax<T>();
+        map[buildKeyWithContextAndName(context, INTERPRETER_AGG_MAX_NAME)] = new fuzzy::AggMax<T>();
+        map[buildKeyWithContextAndName(context, INTERPRETER_NOT_MIN_NAME)] = new fuzzy::NotMinus1<T>();
+        map[buildKeyWithContextAndName(context, INTERPRETER_AND_MIN_NAME)] = new fuzzy::AndMin<T>();
+        map[buildKeyWithContextAndName(context, INTERPRETER_THEN_MIN_NAME)] = new fuzzy::ThenMin<T>();
+        map[buildKeyWithContextAndName(context, INTERPRETER_COG_DEFUZZ_NAME)] = new fuzzy::CogDefuzz<T>();
     }
 
     template<typename T>
@@ -637,10 +654,22 @@ namespace fuzzylogic::interpreter {
 
         core::Expression<T> *rules = nullptr;
 
-        /*
-         * to complete
-         */
+        const std::vector<std::string> &stringRules = rulesContext[context]; // cannot not existing (tested before function)
 
+        for (const auto &stringRule : stringRules) {
+
+            core::Expression<T> *rule = convertStringRuleToExpression(factory, stringRule, context);
+
+            if (rules == nullptr) {
+                rules = rule;
+            } else {
+                rules = factory->newAgg(rules, rule);
+            }
+        }
+
+        if (rules == nullptr) {
+            throw exception::InterpreterException("Rules are empty !");
+        }
 
         core::Expression<T> *system = factory->newMamdaniDefuzz(output, rules, start, end, step);
 
@@ -697,7 +726,7 @@ namespace fuzzylogic::interpreter {
 
             std::vector<std::string> contextAndName = AbstractInterpreter<T>::lineToArgs(
                     AbstractInterpreter<T>::stringReplace(variableFullName, INTERPRETER_CONTEXT_ACCESS,
-                                                          std::to_string(INTERPRETER_CHAR_TO_SPLIT_LINE)));
+                                                          std::string(1, INTERPRETER_CHAR_TO_SPLIT_LINE)));
 
             if (!contextAndName.empty() && contextAndName[0] == context) {
 
@@ -710,6 +739,190 @@ namespace fuzzylogic::interpreter {
         }
 
         return inputs;
+    }
+
+    template<typename T>
+    core::Expression<T> *
+    FuzzyInterpreter<T>::convertStringRuleToExpression(fuzzy::FuzzyFactory<T> *factory, const std::string &stringRule,
+                                                       const std::string &context) {
+
+        if (stringRule.size() < 2 || stringRule.front() != INTERPRETER_RULE_OPEN_EXPRESSION_CHAR ||
+            stringRule.back() != INTERPRETER_RULE_CLOSE_EXPRESSION_CHAR) {
+
+            throw exception::InterpreterException("Invalid rule format : " + stringRule);
+        }
+
+        std::string expressionString = stringRule;
+        expressionString.erase(expressionString.begin());
+        expressionString.erase(expressionString.end());
+
+        std::string stringLeft = extractLeftMemberInStringRule(stringRule);
+        std::string stringRight = extractRightMemberInStringRule(stringRule);
+        std::string stringOperator = extractOperatorMemberInStringRule(stringRule);
+
+
+        core::Expression<T> *expression = nullptr;
+
+        if (stringOperator == INTERPRETER_RULE_THEN) {
+
+            expression = factory->newThen(convertStringRuleToExpression(factory, stringLeft, context),
+                                          convertStringRuleToExpression(factory, stringRight, context));
+
+        } else if (stringOperator == INTERPRETER_RULE_AND) {
+
+            expression = factory->newAnd(convertStringRuleToExpression(factory, stringLeft, context),
+                                         convertStringRuleToExpression(factory, stringRight, context));
+
+        } else if (stringOperator == INTERPRETER_RULE_NOT) {
+
+            if (!stringLeft.empty()) {
+                throw exception::InterpreterException(
+                        "Invalid rule : " + stringRule + " not operator haven't left operand " + stringLeft);
+            }
+
+            expression = factory->newNot(convertStringRuleToExpression(factory, stringRight, context));
+
+        } else if (stringOperator == INTERPRETER_RULE_IS) {
+
+            std::string variableKey = buildKeyWithContextAndName(context, stringLeft);
+
+            if (!variableExist(variableKey)) {
+                throw exception::InterpreterException("Un known variable : " + stringRight);
+            }
+
+            core::ValueModel<T> *variable = variableContextAndName[variableKey];
+
+            std::string definitionKey = buildKeyWithContextAndName(context, stringRight);
+
+            if (!definitionExist(definitionKey)) {
+                throw exception::InterpreterException("Un known shape : " + stringRight);
+            }
+
+
+            fuzzy::Is<T> *shape = definitionsContextAndName[definitionKey];
+
+            expression = factory->newIs(shape, variable);
+
+            /*
+             * } else if (..) {
+             *
+             * to complete
+             *
+             */
+
+        } else {
+            throw exception::InterpreterException(
+                    "Invalid rule : " + stringRule + " un known operator " + stringOperator);
+        }
+
+        return expression;
+    }
+
+    template<typename T>
+    std::string FuzzyInterpreter<T>::extractLeftMemberInStringRule(const std::string &stringRule) {
+
+        std::string sLeft;
+
+        if (!stringRule.empty()) {
+
+            int cursor = 0;
+            unsigned int index = 0;
+
+            if (stringRule[index] == INTERPRETER_RULE_OPEN_EXPRESSION_CHAR) {
+
+                do {
+                    if (stringRule[index] == INTERPRETER_RULE_OPEN_EXPRESSION_CHAR) {
+                        cursor++;
+                    }
+
+                    if (stringRule[index] == INTERPRETER_RULE_CLOSE_EXPRESSION_CHAR) {
+                        cursor--;
+                    }
+
+                    sLeft += stringRule[index];
+
+                    index++;
+
+                } while (index < stringRule.size() && cursor > 0);
+            }
+        }
+
+        return sLeft;
+    }
+
+    template<typename T>
+    std::string FuzzyInterpreter<T>::extractRightMemberInStringRule(const std::string &stringRule) {
+
+        std::string sRight;
+
+        if (!stringRule.empty()) {
+
+            int cursor = 0;
+            unsigned int index = stringRule.size() - 1;
+
+            if (stringRule[index] == INTERPRETER_RULE_OPEN_EXPRESSION_CHAR) {
+
+                do {
+                    if (stringRule[index] == INTERPRETER_RULE_OPEN_EXPRESSION_CHAR) {
+                        cursor++;
+                    }
+
+                    if (stringRule[index] == INTERPRETER_RULE_CLOSE_EXPRESSION_CHAR) {
+                        cursor--;
+                    }
+
+                    sRight += stringRule[index];
+
+                    index--;
+
+                } while (index < stringRule.size() && cursor > 0);
+            }
+        }
+
+
+        return sRight;
+    }
+
+    template<typename T>
+    std::string FuzzyInterpreter<T>::extractOperatorMemberInStringRule(const std::string &stringRule) {
+
+        std::string sOperator;
+
+
+        if (!stringRule.empty()) {
+
+            int cursor = 0;
+            unsigned int index = 0;
+
+            if (stringRule[index] == INTERPRETER_RULE_OPEN_EXPRESSION_CHAR) {
+
+                do {
+                    if (stringRule[index] == INTERPRETER_RULE_OPEN_EXPRESSION_CHAR) {
+                        cursor++;
+                    }
+
+                    if (stringRule[index] == INTERPRETER_RULE_CLOSE_EXPRESSION_CHAR) {
+                        cursor--;
+                    }
+
+                    index++;
+
+                } while (index < stringRule.size() && cursor > 0);
+            }
+
+            while (index < stringRule.size()) {
+
+                if (stringRule[index] == INTERPRETER_RULE_OPEN_EXPRESSION_CHAR) {
+                    break;
+                }
+
+                sOperator += stringRule[index];
+
+                index++;
+            }
+        }
+
+        return sOperator;
     }
 }
 
