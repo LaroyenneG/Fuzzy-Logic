@@ -3,6 +3,11 @@
 
 #define AUTO_CONTROLLER_INTERPRETER_FILE_PATH "../assets/automatic-pilot.fuzzy"
 
+#define AUTO_PILOT_LAZER_1_FULL_NAME "Helm->lazer1"
+#define AUTO_PILOT_LAZER_2_FULL_NAME "Helm->lazer2"
+#define AUTO_PILOT_LAZER_3_FULL_NAME "Helm->lazer3"
+#define AUTO_PILOT_HELM_FULL_NAME "Helm->value"
+
 #include "fuzzylogic.h"
 
 #include "AbstractController.h"
@@ -14,12 +19,12 @@ namespace controller {
     Q_OBJECT
 
     private:
-        fuzzylogic::FuzzyInterpreter fuzzyInterpreter;
+        fuzzylogic::AbstractInterpreter *interpreter;
 
     public:
         explicit AutomaticPilotController(Model *_model, View *_view, Draftsman *_draftsman);
 
-        ~AutomaticPilotController() override = default;
+        ~AutomaticPilotController() override;
 
     public slots:
 

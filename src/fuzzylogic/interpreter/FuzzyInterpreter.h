@@ -1,6 +1,7 @@
 #ifndef LOGIQUEFLOUE_FUZZYMONITOR_H
 #define LOGIQUEFLOUE_FUZZYMONITOR_H
 
+#include "Is.h"
 #include "ValueModel.h"
 #include "CoreObject.h"
 #include "AbstractInterpreter.h"
@@ -25,6 +26,8 @@
 #define INTERPRETER_VAR_DECLARATION "Var"
 #define INTERPRETER_INPUT_TYPE "Input"
 #define INTERPRETER_OUTPUT_TYPE "Output"
+#define INTERPRETER_COMPUTE "Compute"
+#define INTERPRETER_DEFINITION "Define"
 
 namespace fuzzylogic::interpreter {
 
@@ -53,6 +56,10 @@ namespace fuzzylogic::interpreter {
 
         std::map<const core::ValueModel<T> *, VarType> varType;
 
+        std::map<std::string, fuzzy::Is<T> *> definitionsContext;
+
+    protected:
+
         void createFuzzySystem(std::vector<std::string> &args);
 
         fuzzy::FuzzyFactory<T> *createCogFactory(std::vector<std::string> &args);
@@ -60,6 +67,16 @@ namespace fuzzylogic::interpreter {
         fuzzy::FuzzyFactory<T> *createSugenoFactory(std::vector<std::string> &args);
 
         void createVar(std::vector<std::string> &args);
+
+        void compute(std::vector<std::string> &args);
+
+        void definition(std::vector<std::string> &args);
+
+        bool operatorExistInContext(const std::string &context, const std::string &name) const;
+
+        bool contextExist(const std::string &name) const;
+
+        VarType getVarType(const core::ValueModel<T> *valueModel) const;
 
         static std::string buildContextKey(const std::string &context, const std::string &name);
 
@@ -72,10 +89,6 @@ namespace fuzzylogic::interpreter {
         ~FuzzyInterpreter();
 
         void execute(const std::string &line) override;
-
-        bool operatorExistInContext(const std::string &context, const std::string &name) const;
-
-        bool contextExist(const std::string &name) const;
     };
 
     template<typename T>
@@ -88,9 +101,21 @@ namespace fuzzylogic::interpreter {
         args.erase(args.begin());
 
         if (instruction == INTERPRETER_CREATE_FUZZY_SYSTEM) {
+
             createFuzzySystem(args);
+
         } else if (instruction == INTERPRETER_VAR_DECLARATION) {
+
             createVar(args);
+
+        } else if (instruction == INTERPRETER_COMPUTE) {
+
+            compute(args);
+
+        } else if (instruction == INTERPRETER_DEFINITION) {
+
+            definition(args);
+
         } else {
             throw exception::InterpreterException("Invalid command : " + instruction);
         }
@@ -102,11 +127,15 @@ namespace fuzzylogic::interpreter {
     template<typename T>
     FuzzyInterpreter<T>::~FuzzyInterpreter() {
 
-        for (auto &pair:fuzzyOperatorContext) {
+        for (auto pair: fuzzyOperatorContext) {
             delete pair.second;
         }
 
-        for (auto &pair:factoryContext) {
+        for (auto pair: factoryContext) {
+            delete pair.second;
+        }
+
+        for (auto pair : varContext) {
             delete pair.second;
         }
     }
@@ -114,7 +143,7 @@ namespace fuzzylogic::interpreter {
     template<typename T>
     void FuzzyInterpreter<T>::createFuzzySystem(std::vector<std::string> &args) {
 
-        if (args.size() != 2) {
+        if (args.size() < 2) {
             throw exception::InterpreterException("Not enough arguments");
         }
 
@@ -204,25 +233,13 @@ namespace fuzzylogic::interpreter {
 
         std::string key = buildContextKey(context, name);
 
-        for (auto &pair : fuzzyOperatorContext) {
-            if (pair.first == key) {
-                return true;
-            }
-        }
-
-        return false;
+        return fuzzyOperatorContext.find(key) != fuzzyOperatorContext.end();
     }
 
     template<typename T>
     bool FuzzyInterpreter<T>::contextExist(const std::string &name) const {
 
-        for (auto &pair : factoryContext) {
-            if (pair.first == name) {
-                return true;
-            }
-        }
-
-        return false;
+        return factoryContext.find(name) != factoryContext.end();
     }
 
     template<typename T>
@@ -281,6 +298,34 @@ namespace fuzzylogic::interpreter {
         varContext[completeName] = valueModel;
 
         varType[valueModel] = type;
+    }
+
+    template<typename T>
+    void FuzzyInterpreter<T>::compute(std::vector<std::string> &args) {
+
+        if (!args.empty()) {
+            throw exception::InterpreterException("Invalid Compute argument number, required zero");
+        }
+
+
+    }
+
+    template<typename T>
+    typename FuzzyInterpreter<T>::VarType FuzzyInterpreter<T>::getVarType(const core::ValueModel<T> *valueModel) const {
+
+        auto it = varType.find(valueModel);
+
+        return (it != varType.end()) ? it->second : Error;
+    }
+
+    template<typename T>
+    void FuzzyInterpreter<T>::definition(std::vector<std::string> &args) {
+
+        if (args.empty()) {
+            throw exception::InterpreterException("Definition command required more arguments");
+        }
+
+
     }
 }
 

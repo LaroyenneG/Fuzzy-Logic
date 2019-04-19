@@ -1,1 +1,4 @@
-FuzzySystem alexis Cog NotMin AndMin OrMax ThenMin AggMax
+FuzzySystem Tip Cog NotMin AndMin OrMax ThenMin AggMax
+Var Input Tip->service
+Var Input Tip->food
+Var Output Tip->tip

@@ -10,6 +10,7 @@
 
 
 #define INTERPRETER_CHAR_TO_SPLIT_LINE ' '
+#define INTERPRETER_KEY_SEPARATOR_CHAR ':'
 
 namespace fuzzylogic::interpreter {
 
@@ -19,20 +20,21 @@ namespace fuzzylogic::interpreter {
     private:
         std::map<std::string, T> memory;
 
-    protected:
+    public:
         typedef enum {
             INPUT,
             OUTPUT,
             TMP
         } MemoryType;
 
-        T readInMemory(MemoryType type, const std::string &name) const;
+        const T &readInMemory(MemoryType type, const std::string &name) const;
 
         void writeInMemory(MemoryType type, const std::string &name, const T &value);
 
         void freeInMemory(MemoryType, const std::string &name);
 
-    public:
+        virtual ~AbstractInterpreter() = default;
+
         virtual void execute(const std::string &line) = 0;
 
         void executeFile(std::ifstream &fstream);
@@ -57,21 +59,23 @@ namespace fuzzylogic::interpreter {
 
 
     template<typename T>
-    T AbstractInterpreter<T>::readInMemory(MemoryType type, const std::string &name) const {
+    const T &AbstractInterpreter<T>::readInMemory(MemoryType type, const std::string &name) const {
 
-        std::string key = std::string(type) + name;
+        std::string key = std::to_string(type) + INTERPRETER_KEY_SEPARATOR_CHAR + name;
 
-        if (memory.find(key) == memory.end()) {
-            throw std::exception();
+        auto it = memory.find(key);
+
+        if (it == memory.end()) {
+            throw std::invalid_argument("invalid variable name");
         }
 
-        return memory[key];
+        return it->second;
     }
 
     template<typename T>
     void AbstractInterpreter<T>::writeInMemory(MemoryType type, const std::string &name, const T &value) {
 
-        std::string key = std::string(type) + name;
+        std::string key = std::to_string(type) + INTERPRETER_KEY_SEPARATOR_CHAR + name;
 
         memory[key] = value;
     }
@@ -79,10 +83,10 @@ namespace fuzzylogic::interpreter {
     template<typename T>
     void AbstractInterpreter<T>::freeInMemory(MemoryType type, const std::string &name) {
 
-        std::string key = std::string(type) + name;
+        std::string key = std::to_string(type) + INTERPRETER_KEY_SEPARATOR_CHAR + name;
 
         if (memory.find(key) == memory.end()) {
-            throw std::exception();
+            throw std::invalid_argument("invalid variable name");
         }
 
         memory.erase(key);
@@ -160,14 +164,14 @@ namespace fuzzylogic::interpreter {
 
                 if (string[j] != a[k]) {
                     pattern = false;
+                } else {
+                    charCounter++;
                 }
-
-                charCounter++;
             }
 
             if (pattern && charCounter == a.size()) {
                 result += b;
-                i += charCounter;
+                i += charCounter - 1;
             } else {
                 result += string[i];
             }

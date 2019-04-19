@@ -129,6 +129,8 @@ namespace fuzzylogic {
     /***************************************** interpreter ********************************************/
 
     typedef interpreter::FuzzyInterpreter<type> FuzzyInterpreter;
+
+    typedef interpreter::AbstractInterpreter<type> AbstractInterpreter;
 }
 
 
