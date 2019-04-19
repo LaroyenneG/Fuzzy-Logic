@@ -8,7 +8,8 @@
 #include <map>
 #include <algorithm>
 
-
+#define INTERPRETER_MULTI_LINES_OPEN_CHAR '{'
+#define INTERPRETER_MULTI_LINES_CLOSE_CHAR '}'
 #define INTERPRETER_CHAR_TO_SPLIT_LINE ' '
 #define INTERPRETER_KEY_SEPARATOR_CHAR ':'
 
@@ -18,7 +19,14 @@ namespace fuzzylogic::interpreter {
     class AbstractInterpreter {
 
     private:
+        std::string stringBuffer;
+
         std::map<std::string, T> memory;
+
+        void lineReaderExecution(const std::string &line);
+
+    protected:
+        virtual void execute(const std::string &line) = 0;
 
     public:
         typedef enum {
@@ -35,9 +43,9 @@ namespace fuzzylogic::interpreter {
 
         virtual ~AbstractInterpreter() = default;
 
-        virtual void execute(const std::string &line) = 0;
-
         void executeFile(std::ifstream &fstream);
+
+        void executeLine(const std::string &line);
 
         static std::string extractFirstArgument(const std::string &line);
 
@@ -51,9 +59,20 @@ namespace fuzzylogic::interpreter {
 
         std::string line;
 
-        while (std::getline(fstream, line)) {
-            execute(line);
-            line.clear();
+        int lineCount = 1;
+
+        try {
+
+            while (std::getline(fstream, line)) {
+                lineReaderExecution(line);
+                line.clear();
+                lineCount++;
+            }
+
+        } catch (std::exception &e) {
+            std::cerr << e.what() << std::endl;
+            std::cerr << "At line : " << lineCount << std::endl;
+            exit(EXIT_FAILURE);
         }
     }
 
@@ -178,6 +197,58 @@ namespace fuzzylogic::interpreter {
         }
 
         return result;
+    }
+
+    template<typename T>
+    void AbstractInterpreter<T>::lineReaderExecution(const std::string &line) {
+
+        std::string nLine;
+
+        if (stringBuffer.empty()) {
+            nLine = line;
+        } else {
+            stringBuffer += line;
+        }
+
+        size_t openPosition = nLine.find(INTERPRETER_MULTI_LINES_OPEN_CHAR);
+        size_t closePosition = stringBuffer.find(INTERPRETER_MULTI_LINES_CLOSE_CHAR);
+
+        if (openPosition != std::string::npos) {
+
+            std::string cleanLine = line;
+
+            cleanLine.erase(openPosition);
+
+            stringBuffer += cleanLine;
+
+            nLine.clear();
+        }
+
+        if (closePosition != std::string::npos) {
+
+            std::string cleanLine = stringBuffer;
+
+            cleanLine.erase(closePosition);
+
+            nLine = cleanLine;
+
+            stringBuffer.clear();
+        }
+
+        if (!nLine.empty()) {
+            execute(nLine);
+        }
+    }
+
+    template<typename T>
+    void AbstractInterpreter<T>::executeLine(const std::string &line) {
+
+        try {
+            execute(line);
+        } catch (std::exception &e) {
+            std::cerr << e.what() << std::endl;
+            exit(EXIT_FAILURE);
+        }
     }
 }
 

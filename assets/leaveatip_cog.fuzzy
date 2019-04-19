@@ -2,3 +2,10 @@ FuzzySystem Tip Cog NotMin AndMin OrMax ThenMin AggMax
 Var Input Tip->service
 Var Input Tip->food
 Var Output Tip->tip
+Define Triangle Tip->generous 1.0 2.0 3.0
+Rules Tip {
+ijofb btn
+trbijnrb btop
+btirb,, rtb
+}
+

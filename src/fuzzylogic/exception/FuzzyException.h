@@ -12,7 +12,7 @@
 
 namespace fuzzylogic::exception {
 
-    class FuzzyException : std::runtime_error {
+    class FuzzyException : public std::runtime_error {
 
     private:
         const std::time_t time;

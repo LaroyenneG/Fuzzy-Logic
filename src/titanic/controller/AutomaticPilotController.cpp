@@ -28,7 +28,7 @@ namespace controller {
         interpreter->writeInMemory(fuzzylogic::AbstractInterpreter::INPUT, AUTO_PILOT_LAZER_3_FULL_NAME,
                                    lasers[TITANIC_LASER_3_RANK]);
 
-        interpreter->execute(INTERPRETER_COMPUTE);
+        interpreter->executeLine(INTERPRETER_COMPUTE_COMMAND);
 
         double helmValue = interpreter->readInMemory(fuzzylogic::AbstractInterpreter::OUTPUT,
                                                      AUTO_PILOT_HELM_FULL_NAME);

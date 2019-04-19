@@ -101,8 +101,6 @@ type LeaveATipTest::computeTipWithCog(type service, type food) {
 
 type LeaveATipTest::computeTipWithSugeno(type service, type food) {
 
-    std::cout << service << food << std::endl;
-
     std::vector<Expression *> rules;
     std::vector<Expression *> conclusionServiceFood;
     std::vector<Expression *> conlusionService;
