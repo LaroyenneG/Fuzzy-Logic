@@ -6,6 +6,8 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include <algorithm>
+
 
 #define INTERPRETER_CHAR_TO_SPLIT_LINE ' '
 
@@ -35,9 +37,11 @@ namespace fuzzylogic::interpreter {
 
         void executeFile(std::ifstream &fstream);
 
-        static std::string getInstructionName(const std::string &line);
+        static std::string extractFirstArgument(const std::string &line);
 
         static std::vector<std::string> lineToArgs(const std::string &line);
+
+        static std::string stringReplace(const std::string &string, const std::string &a, const std::string &b);
     };
 
     template<typename T>
@@ -85,7 +89,7 @@ namespace fuzzylogic::interpreter {
     }
 
     template<typename T>
-    std::string AbstractInterpreter<T>::getInstructionName(const std::string &line) {
+    std::string AbstractInterpreter<T>::extractFirstArgument(const std::string &line) {
 
         std::string name;
 
@@ -139,6 +143,37 @@ namespace fuzzylogic::interpreter {
         }
 
         return args;
+    }
+
+    template<typename T>
+    std::string
+    AbstractInterpreter<T>::stringReplace(const std::string &string, const std::string &a, const std::string &b) {
+
+        std::string result;
+
+        for (unsigned int i = 0; i < string.size(); i++) {
+
+            unsigned int charCounter = 0;
+            bool pattern = true;
+
+            for (unsigned int j = i, k = 0; j < string.size() && k < a.size(); j++, k++) {
+
+                if (string[j] != a[k]) {
+                    pattern = false;
+                }
+
+                charCounter++;
+            }
+
+            if (pattern && charCounter == a.size()) {
+                result += b;
+                i += charCounter;
+            } else {
+                result += string[i];
+            }
+        }
+
+        return result;
     }
 }
 

@@ -10,18 +10,21 @@
 #include "InterpreterException.h"
 
 #define INTERPRETER_OR_MAX_NAME "OrMax"
-#define INTERPRETEUR_AGG_MAX_NAME "AggMax"
-#define INTERPRETEUR_AND_MIN_NAME "AndMin"
-#define INTERPRETEUR_NOT_MIN_NAME "NotMin"
-#define INTERPRETEUR_THEN_MIN_NAME "ThenMin"
-#define INTERPRETEUR_COG_DEFUZZ_NAME "CogDefuzz"
-#define INTERPRETEUR_SUGENO_THEN_NAME "SugenoThen"
-#define INTERPRETEUR_SUGENO_DEFUZZ_NAME "SugenoDefuzz"
-#define INTERPRETEUR_SUGENO_CONCLUSION_NAME "SugenoConclusion"
-#define INTERPRETER_CREATE_FUZZYSYSTEM "FuzzySystem"
-#define INTERPRETEUR_TYPE_COG "Cog"
-#define INTERPRETEUR_TYPE_SUGENO "Sugeno"
-#define INTERPRETEUR_CONTEXT_ACCESS "->"
+#define INTERPRETER_AGG_MAX_NAME "AggMax"
+#define INTERPRETER_AND_MIN_NAME "AndMin"
+#define INTERPRETER_NOT_MIN_NAME "NotMin"
+#define INTERPRETER_THEN_MIN_NAME "ThenMin"
+#define INTERPRETER_COG_DEFUZZ_NAME "CogDefuzz"
+#define INTERPRETER_SUGENO_THEN_NAME "SugenoThen"
+#define INTERPRETER_SUGENO_DEFUZZ_NAME "SugenoDefuzz"
+#define INTERPRETER_SUGENO_CONCLUSION_NAME "SugenoConclusion"
+#define INTERPRETER_CREATE_FUZZY_SYSTEM "FuzzySystem"
+#define INTERPRETER_TYPE_COG "Cog"
+#define INTERPRETER_TYPE_SUGENO "Sugeno"
+#define INTERPRETER_CONTEXT_ACCESS "->"
+#define INTERPRETER_VAR_DECLARATION "Var"
+#define INTERPRETER_INPUT_TYPE "Input"
+#define INTERPRETER_OUTPUT_TYPE "Output"
 
 namespace fuzzylogic::interpreter {
 
@@ -33,6 +36,11 @@ namespace fuzzylogic::interpreter {
             COG,
             SUGENO
         } DefuzzType;
+        typedef enum {
+            Output,
+            Input,
+            Error
+        } VarType;
 
     private:
         std::map<std::string, core::CoreObject<T> *> fuzzyOperatorContext;
@@ -41,13 +49,17 @@ namespace fuzzylogic::interpreter {
 
         std::map<const fuzzy::FuzzyFactory<T> *, DefuzzType> factoryType;
 
-        std::map<std::string, core::ValueModel<T> *> inputsContext;
+        std::map<std::string, core::ValueModel<T> *> varContext;
 
-        void createFuzzySystem(std::vector<std::string> &arguments);
+        std::map<const core::ValueModel<T> *, VarType> varType;
 
-        fuzzy::FuzzyFactory<T> *createCogFactory(std::vector<std::string> &arguments);
+        void createFuzzySystem(std::vector<std::string> &args);
 
-        fuzzy::FuzzyFactory<T> *createSugenoFactory(std::vector<std::string> &arguments);
+        fuzzy::FuzzyFactory<T> *createCogFactory(std::vector<std::string> &args);
+
+        fuzzy::FuzzyFactory<T> *createSugenoFactory(std::vector<std::string> &args);
+
+        void createVar(std::vector<std::string> &args);
 
         static std::string buildContextKey(const std::string &context, const std::string &name);
 
@@ -69,14 +81,16 @@ namespace fuzzylogic::interpreter {
     template<typename T>
     void FuzzyInterpreter<T>::execute(const std::string &line) {
 
-        std::string instruction = AbstractInterpreter<T>::getInstructionName(line);
+        std::string instruction = AbstractInterpreter<T>::extractFirstArgument(line);
 
         std::vector<std::string> args = AbstractInterpreter<T>::lineToArgs(line);
 
         args.erase(args.begin());
 
-        if (instruction == INTERPRETER_CREATE_FUZZYSYSTEM) {
+        if (instruction == INTERPRETER_CREATE_FUZZY_SYSTEM) {
             createFuzzySystem(args);
+        } else if (instruction == INTERPRETER_VAR_DECLARATION) {
+            createVar(args);
         } else {
             throw exception::InterpreterException("Invalid command : " + instruction);
         }
@@ -98,52 +112,52 @@ namespace fuzzylogic::interpreter {
     }
 
     template<typename T>
-    void FuzzyInterpreter<T>::createFuzzySystem(std::vector<std::string> &arguments) {
+    void FuzzyInterpreter<T>::createFuzzySystem(std::vector<std::string> &args) {
 
-        if (arguments.size() < 2) {
+        if (args.size() != 2) {
             throw exception::InterpreterException("Not enough arguments");
         }
 
-        std::string defuzzType = arguments[1];
-        std::string contextName = arguments[0];
+        std::string defuzzType = args[1];
+        std::string contextName = args[0];
 
         buildFuzzyOperatorCollection(fuzzyOperatorContext, contextName);
 
-        arguments.erase(++arguments.begin());
+        args.erase(++args.begin());
 
         fuzzy::FuzzyFactory<T> *factory = nullptr;
 
-        if (defuzzType == INTERPRETEUR_TYPE_COG) {
-            factory = createCogFactory(arguments);
-        } else if (defuzzType == INTERPRETEUR_TYPE_SUGENO) {
-            factory = createSugenoFactory(arguments);
+        if (defuzzType == INTERPRETER_TYPE_COG) {
+            factory = createCogFactory(args);
+        } else if (defuzzType == INTERPRETER_TYPE_SUGENO) {
+            factory = createSugenoFactory(args);
         }
 
         factoryContext[contextName] = factory;
     }
 
     template<typename T>
-    fuzzy::FuzzyFactory<T> *FuzzyInterpreter<T>::createCogFactory(std::vector<std::string> &arguments) {
+    fuzzy::FuzzyFactory<T> *FuzzyInterpreter<T>::createCogFactory(std::vector<std::string> &args) {
 
-        if (arguments.size() < 6) {
+        if (args.size() != 6) {
             throw exception::InterpreterException("Not enough arguments");
         }
 
-        std::string context = arguments[0];
+        std::string context = args[0];
 
-        for (unsigned int i = 1; i < arguments.size(); i++) {
-            if (!operatorExistInContext(context, arguments[i])) {
-                throw exception::InterpreterException("Error : " + arguments[i] + " not exist");
+        for (unsigned int i = 1; i < args.size(); i++) {
+            if (!operatorExistInContext(context, args[i])) {
+                throw exception::InterpreterException("Error : " + args[i] + " not exist");
             }
         }
 
-        auto opNot = dynamic_cast<fuzzy::Not<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[1])]);
-        auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[2])]);
-        auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[3])]);
-        auto opThen = dynamic_cast<fuzzy::Then<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[4])]);
-        auto opAgg = dynamic_cast<fuzzy::Agg<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[5])]);
+        auto opNot = dynamic_cast<fuzzy::Not<T> *>(fuzzyOperatorContext[buildContextKey(context, args[1])]);
+        auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyOperatorContext[buildContextKey(context, args[2])]);
+        auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyOperatorContext[buildContextKey(context, args[3])]);
+        auto opThen = dynamic_cast<fuzzy::Then<T> *>(fuzzyOperatorContext[buildContextKey(context, args[4])]);
+        auto opAgg = dynamic_cast<fuzzy::Agg<T> *>(fuzzyOperatorContext[buildContextKey(context, args[5])]);
         auto opCogDefuzz = dynamic_cast<fuzzy::MamdaniDefuzz<T> *>(fuzzyOperatorContext[buildContextKey(context,
-                                                                                                        INTERPRETEUR_COG_DEFUZZ_NAME)]);
+                                                                                                        INTERPRETER_COG_DEFUZZ_NAME)]);
 
 
         auto factory = new fuzzy::FuzzyFactory<T>(opNot, opAnd, opOr, opThen, opAgg, opCogDefuzz);
@@ -154,29 +168,29 @@ namespace fuzzylogic::interpreter {
     }
 
     template<typename T>
-    fuzzy::FuzzyFactory<T> *FuzzyInterpreter<T>::createSugenoFactory(std::vector<std::string> &arguments) {
+    fuzzy::FuzzyFactory<T> *FuzzyInterpreter<T>::createSugenoFactory(std::vector<std::string> &args) {
 
-        if (arguments.size() < 4) {
+        if (args.size() != 4) {
             throw exception::InterpreterException("Not enough arguments");
         }
 
-        std::string context = arguments[0];
+        std::string context = args[0];
 
-        for (unsigned int i = 1; i < arguments.size(); i++) {
-            if (!operatorExistInContext(context, arguments[i])) {
-                throw exception::InterpreterException("Error : " + arguments[i] + " not exist");
+        for (unsigned int i = 1; i < args.size(); i++) {
+            if (!operatorExistInContext(context, args[i])) {
+                throw exception::InterpreterException("Error : " + args[i] + " not exist");
             }
         }
 
-        auto opNot = dynamic_cast<fuzzy::Not<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[1])]);
-        auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[2])]);
-        auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyOperatorContext[buildContextKey(context, arguments[3])]);
+        auto opNot = dynamic_cast<fuzzy::Not<T> *>(fuzzyOperatorContext[buildContextKey(context, args[1])]);
+        auto opAnd = dynamic_cast<fuzzy::And<T> *>(fuzzyOperatorContext[buildContextKey(context, args[2])]);
+        auto opOr = dynamic_cast<fuzzy::Or<T> *>(fuzzyOperatorContext[buildContextKey(context, args[3])]);
         auto opSugenoThen = dynamic_cast<fuzzy::SugenoThen<T> *>(fuzzyOperatorContext[buildContextKey(context,
-                                                                                                      INTERPRETEUR_SUGENO_THEN_NAME)]);
+                                                                                                      INTERPRETER_SUGENO_THEN_NAME)]);
         auto opSugenoDefuzz = dynamic_cast<fuzzy::SugenoDefuzz<T> *>(fuzzyOperatorContext[buildContextKey(context,
-                                                                                                          INTERPRETEUR_SUGENO_DEFUZZ_NAME)]);
+                                                                                                          INTERPRETER_SUGENO_DEFUZZ_NAME)]);
         auto opSugenoConclusion = dynamic_cast<fuzzy::SugenoConclusion<T> *>(fuzzyOperatorContext[buildContextKey(
-                context, INTERPRETEUR_SUGENO_CONCLUSION_NAME)]);
+                context, INTERPRETER_SUGENO_CONCLUSION_NAME)]);
 
         auto factory = new fuzzy::FuzzyFactory<T>(opNot, opAnd, opOr, opSugenoThen, opSugenoDefuzz,
                                                   opSugenoConclusion);
@@ -214,7 +228,7 @@ namespace fuzzylogic::interpreter {
     template<typename T>
     std::string FuzzyInterpreter<T>::buildContextKey(const std::string &context, const std::string &name) {
 
-        return context + INTERPRETEUR_CONTEXT_ACCESS + name;
+        return context + INTERPRETER_CONTEXT_ACCESS + name;
     }
 
     template<typename T>
@@ -222,11 +236,51 @@ namespace fuzzylogic::interpreter {
                                                            const std::string &context) {
 
         map[buildContextKey(context, INTERPRETER_OR_MAX_NAME)] = new fuzzy::OrMax<T>();
-        map[buildContextKey(context, INTERPRETEUR_AGG_MAX_NAME)] = new fuzzy::AggMax<T>();
-        map[buildContextKey(context, INTERPRETEUR_NOT_MIN_NAME)] = new fuzzy::NotMinus1<T>();
-        map[buildContextKey(context, INTERPRETEUR_AND_MIN_NAME)] = new fuzzy::AndMin<T>();
-        map[buildContextKey(context, INTERPRETEUR_THEN_MIN_NAME)] = new fuzzy::ThenMin<T>();
-        map[buildContextKey(context, INTERPRETEUR_COG_DEFUZZ_NAME)] = new fuzzy::CogDefuzz<T>();
+        map[buildContextKey(context, INTERPRETER_AGG_MAX_NAME)] = new fuzzy::AggMax<T>();
+        map[buildContextKey(context, INTERPRETER_NOT_MIN_NAME)] = new fuzzy::NotMinus1<T>();
+        map[buildContextKey(context, INTERPRETER_AND_MIN_NAME)] = new fuzzy::AndMin<T>();
+        map[buildContextKey(context, INTERPRETER_THEN_MIN_NAME)] = new fuzzy::ThenMin<T>();
+        map[buildContextKey(context, INTERPRETER_COG_DEFUZZ_NAME)] = new fuzzy::CogDefuzz<T>();
+    }
+
+    template<typename T>
+    void FuzzyInterpreter<T>::createVar(std::vector<std::string> &args) {
+
+        if (args.size() != 2) {
+            throw exception::InterpreterException("Var required two argument <Type> <name>");
+        }
+
+        std::string varTypeName = args[0];
+        std::string completeName = args[1];
+
+        std::vector<std::string> contextAndName = AbstractInterpreter<T>::lineToArgs(
+                AbstractInterpreter<T>::stringReplace(completeName,
+                                                      INTERPRETER_CONTEXT_ACCESS,
+                                                      " "));
+
+        if (contextAndName.size() != 2) {
+            throw exception::InterpreterException("Invalid var name : " + completeName);
+        }
+
+        if (!contextExist(contextAndName[0])) {
+            throw exception::InterpreterException("Context name : " + contextAndName[0]);
+        }
+
+        VarType type = Error;
+
+        if (varTypeName == INTERPRETER_INPUT_TYPE) {
+            type = Input;
+        } else if (varTypeName == INTERPRETER_OUTPUT_TYPE) {
+            type = Output;
+        } else {
+            throw exception::InterpreterException("Invalid type name " + varTypeName);
+        }
+
+        auto valueModel = new core::ValueModel<T>();
+
+        varContext[completeName] = valueModel;
+
+        varType[valueModel] = type;
     }
 }
 
