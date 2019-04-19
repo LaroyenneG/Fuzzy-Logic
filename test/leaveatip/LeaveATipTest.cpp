@@ -8,7 +8,7 @@ void LeaveATipTest::testLessonExample() {
     OPEN_FUZZY_SECURE_BLOCK {
 
         CPPUNIT_ASSERT_DOUBLES_EQUAL(16.716, computeTipWithCog(3.0, 8.0), 0.001);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(16.3, computeTipWithSugeno(3.0, 8.0), 0.001);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(10.597, computeTipWithSugeno(3.0, 8.0), 0.001);
 
     } CLOSE_FUZZY_SECURE_BLOCK
 }

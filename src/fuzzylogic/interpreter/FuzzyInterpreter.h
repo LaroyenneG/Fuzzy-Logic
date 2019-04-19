@@ -19,15 +19,15 @@
 #define INTERPRETER_SUGENO_THEN_NAME "SugenoThen"
 #define INTERPRETER_SUGENO_DEFUZZ_NAME "SugenoDefuzz"
 #define INTERPRETER_SUGENO_CONCLUSION_NAME "SugenoConclusion"
-#define INTERPRETER_CREATE_FUZZY_SYSTEM "FuzzySystem"
+#define INTERPRETER_CREATE_FUZZY_SYSTEM_COMMAND "FuzzySystem"
 #define INTERPRETER_TYPE_COG "Cog"
 #define INTERPRETER_TYPE_SUGENO "Sugeno"
 #define INTERPRETER_CONTEXT_ACCESS "->"
-#define INTERPRETER_VAR_DECLARATION "Var"
+#define INTERPRETER_VAR_DECLARATION_COMMAND "Var"
 #define INTERPRETER_INPUT_TYPE "Input"
 #define INTERPRETER_OUTPUT_TYPE "Output"
-#define INTERPRETER_COMPUTE "Compute"
-#define INTERPRETER_DEFINITION "Define"
+#define INTERPRETER_COMPUTE_COMMAND "Compute"
+#define INTERPRETER_DEFINITION_COMMAND "Define"
 
 namespace fuzzylogic::interpreter {
 
@@ -100,19 +100,19 @@ namespace fuzzylogic::interpreter {
 
         args.erase(args.begin());
 
-        if (instruction == INTERPRETER_CREATE_FUZZY_SYSTEM) {
+        if (instruction == INTERPRETER_CREATE_FUZZY_SYSTEM_COMMAND) {
 
             createFuzzySystem(args);
 
-        } else if (instruction == INTERPRETER_VAR_DECLARATION) {
+        } else if (instruction == INTERPRETER_VAR_DECLARATION_COMMAND) {
 
             createVar(args);
 
-        } else if (instruction == INTERPRETER_COMPUTE) {
+        } else if (instruction == INTERPRETER_COMPUTE_COMMAND) {
 
             compute(args);
 
-        } else if (instruction == INTERPRETER_DEFINITION) {
+        } else if (instruction == INTERPRETER_DEFINITION_COMMAND) {
 
             definition(args);
 
@@ -127,15 +127,19 @@ namespace fuzzylogic::interpreter {
     template<typename T>
     FuzzyInterpreter<T>::~FuzzyInterpreter() {
 
-        for (auto pair: fuzzyOperatorContext) {
+        for (auto pair : fuzzyOperatorContext) {
             delete pair.second;
         }
 
-        for (auto pair: factoryContext) {
+        for (auto pair : factoryContext) {
             delete pair.second;
         }
 
         for (auto pair : varContext) {
+            delete pair.second;
+        }
+
+        for (auto pair : definitionsContext) {
             delete pair.second;
         }
     }
