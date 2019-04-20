@@ -33,7 +33,7 @@
 
     \section{Construction de la bibliothèque de logique floue}
 
-    \begin{figure}
+    \begin{figure}[h!]
         \begin{center}
             \caption{UML des packages du \texttt{Framework}}
             \includegraphics[scale=0.5]{assets/Packages_(UML).jpg}
@@ -42,7 +42,7 @@
     \end{figure}
 
 
-    \begin{table}
+    \begin{table}[h!]
         \caption{Liste des opérateurs est opérandes du \textit{Framework}}
         \label{tab:listing}
 
@@ -59,7 +59,16 @@
     
     \section{Mise en place d'un interpréteur de logique floue}
 
-    \begin{figure}
+
+    \begin{figure}[h!]
+        \begin{center}
+            \caption{Schéma présentant le concept de l'interpreteur}
+            \includegraphics[scale=0.5]{assets/Interpreteur_Dessin.jpg}
+            \label{fig:interpreterDessin}
+        \end{center}
+    \end{figure}
+
+    \begin{figure}[h!]
         \begin{center}
             \caption{Exemple de code de l’interpréteur pour l’évaluation d'un pourboire}
             \lstinputlisting[language=Bash, firstline=0, lastline=9, frame=single]{assets/leaveatip_cog.fuzzy}
@@ -69,7 +78,7 @@
 
     \section{Création du simulateur naval}
 
-    \begin{figure}
+    \begin{figure}[h!]
         \begin{center}
             \caption{Schéma présentant les forces physique appliquées sur le Titanic dans le simulateur}
             \includegraphics[scale=0.5]{assets/Isaac_vs_Titanic.jpg}
@@ -81,11 +90,25 @@
 
     \subsection{Objectifs et besoins}
 
+    Le pilote automatique doit permettre au Titanic d’éviter les icebergs en toute sécurité avant même que l'équipage puisse les voir.
+    Mais pour éviter les icebergs, il est nécessaire de les détecter. Pour cela nous avons ajouté à la proue trois capteurs lasers indiquant une distance en pourcentage par rapport à sa portée.
+    Si un capteur indique 100\% alors il n'y a pas d'objet. En revanche si un capteur indique 50\% alors il y a un objet à la moitié de la potée maximal du capteur. Les trois lasers ont été placé avec un petit angle, afin de pouvoir déterminé le meilleur côté par le quel l'objet peut être évité.
+
+    \begin{figure}[h!]
+        \begin{center}
+            \caption{Schéma présentant les capteurs lasers du Titanic}
+            \includegraphics[scale=0.26]{assets/Lasers_Illustration.jpg}
+            \label{fig:titanicLasers}
+        \end{center}
+    \end{figure}
+
+    Pour déterminer la meilleur portée des lasers, il faut connaître la capacité a virer de bord du navire. Dans les meilleurs conditions, le Titanic avait un rayon de giration de 750 m. Nous avons donc réglé la portée des lasers à 800 m, ce qui devrait permettre d’anticiper l’approche des objets suffisamment tôt.
+
     \subsection{Modélisation du pilote automatique en logique floue}
 
     \subsection{Réalisation du système floue à l'aide du \textit{framework}}
 
-    \begin{figure}
+    \begin{figure}[h!]
         \begin{center}
             \caption{Code du pilote automatique pour l’interpréteur}
             \lstinputlisting[language=Bash, firstline=0, lastline=10, frame=single]{assets/automatic-pilot.fuzzy}
