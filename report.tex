@@ -10,6 +10,8 @@
 \usepackage{makecell}
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage{appendix}
+
 
 
 \newcolumntype{M}[1]{>{\raggedright}m{#1}}
@@ -35,7 +37,7 @@
 
     \begin{figure}[h!]
         \begin{center}
-            \caption{UML des packages du \texttt{Framework}}
+            \caption{UML des packages du \textit{framework} de logique floue}
             \includegraphics[scale=0.5]{assets/Packages_(UML).jpg}
             \label{fig:umlPackage}
         \end{center}
@@ -43,7 +45,7 @@
 
 
     \begin{table}[h!]
-        \caption{Liste des opérateurs est opérandes du \textit{Framework}}
+        \caption{Liste des opérateurs est opérandes du \textit{framework} de logique floue}
         \label{tab:listing}
 
         \begin{center}
@@ -78,6 +80,33 @@
 
     \section{Création du simulateur naval}
 
+    \subsection{Analyse des phénomène physique et mécanique}
+
+    Pour réaliser notre simulateur naval, nous avons du étudier les différents phénomène physique qui s'exercent sur un navire ainsi que ces différents composant technique.
+
+    \begin{table}[h!]
+        \caption{Caractéristiques technique du Titanic saisie dans le simulateur}
+        \label{tab:TitanicData}
+
+        \begin{center}
+            \begin{tabular}{|c|c||c|c|}
+                \hline
+                Longueur & 269 m & Puissance d'une machine alternative & 15000 ch \tabularnewline
+                \hline
+                Maître-bau & 28 m & Puissance de la turbine & 16000 ch \tabularnewline
+                \hline
+                Tirant d'eau & 10,5 m & Diamètre des hélices latérales & 7,2 m \tabularnewline
+                \hline
+                Vitesse Maximal & 23 / 24 nœuds & Diamètre de l'hélice centrale & 5,20 m \tabularnewline
+                \hline
+                Poids & 46000 tonnes & Surface du gouvernail (immergé) & 42 m$^{2}$ \tabularnewline
+                \hline
+                Nombre de pale des hélices latérales & 3 & Nombre de pale de l'hélice centrale & 4 \tabularnewline
+                \hline
+            \end{tabular}
+        \end{center}
+    \end{table}
+    
     \begin{figure}[h!]
         \begin{center}
             \caption{Schéma présentant les forces physique appliquées sur le Titanic dans le simulateur}
@@ -85,6 +114,17 @@
             \label{fig:titanicForces}
         \end{center}
     \end{figure}
+
+    On comprend donc que piloter précisément un navire de cette taille n'est pas simple. Avec toutes les forces physique qui s'appliquent sur lui, il fraudais réaliser beaucoup de calculs pour déterminer les bonnes manœuvres à réaliser. C'est pour cela que nous avons avons choisi d'utiliser la logique floue pour réaliser un pilote automatique, car elle permet d’abstraire tous les phénomènes physique.
+
+    \subsection{Programmation de l'interface}
+    Le simulateur naval a été réalisé en langage \textit{C++} en respectant le \textit{design pattern Model View Controller}. L'interface graphique du simulateur a été développé à l'aide du \textit{framework Qt5}.
+
+    \begin{itemize}
+        \item La section \textbf{modèle} contient l'ensemble éléments pour réaliser la gestion des phénomènes physique et mécaniques.
+        \item La section \textbf{vue} comportent le système de virtualisation (transforment le modèle en scène 2D), ainsi que les composants de l'interface.
+        \item La section \textbf{contrôleur} contient tous les actions à réaliser pour chaque composant graphique, ainsi que le pilote automatique.
+    \end{itemize} 
 
     \section{Création d'un pilote automatique pour le paquebot}
 
@@ -116,4 +156,35 @@
         \end{center}
     \end{figure}
 
+    \newpage
+    \section*{Annexes}
+
+    \begin{appendix}
+
+        \section{Coefficients de portance du navire en fonction de l'incidence}
+
+        \begin{center}
+            \includegraphics[scale=0.7, angle=90]{assets/Titanic_Cz.jpg}
+        \end{center}
+
+        \section{Coefficients de traînée du navire en fonction de l'incidence}
+
+        \begin{center}
+            \includegraphics[scale=0.7, angle=90]{assets/Titanic_Cx.jpg}
+        \end{center}
+
+        \section{Coefficients de portance du gouvernail en fonction de l'incidence}
+
+        \begin{center}
+            \includegraphics[scale=0.7, angle=90]{assets/Rudder_Cz.jpg}
+        \end{center}
+
+
+        \section{Coefficients de traînée du gouvernail en fonction de l'incidence}
+
+        \begin{center}
+            \includegraphics[scale=0.7, angle=90]{assets/Rudder_Cx.jpg}
+        \end{center}
+
+    \end{appendix}
 \end{document}
