@@ -566,7 +566,7 @@ namespace fuzzylogic::interpreter {
             }
 
             if (!rule.empty()) {
-                rules.push_back(rule);
+                rules.push_back(AbstractInterpreter<T>::stringTrim(rule));
             }
         }
 
@@ -748,78 +748,77 @@ namespace fuzzylogic::interpreter {
     FuzzyInterpreter<T>::convertStringRuleToExpression(fuzzy::FuzzyFactory<T> *factory, const std::string &stringRule,
                                                        const std::string &context) {
 
+        core::Expression<T> *expression = nullptr;
+
         if (stringRule.size() < 2 || stringRule.front() != INTERPRETER_RULE_OPEN_EXPRESSION_CHAR ||
             stringRule.back() != INTERPRETER_RULE_CLOSE_EXPRESSION_CHAR) {
 
-            throw exception::InterpreterException("Invalid rule format : " + stringRule);
-        }
-
-        std::string expressionString = stringRule;
-        expressionString.erase(expressionString.begin());
-        expressionString.pop_back();
-
-        std::string stringLeft = extractLeftMemberInStringRule(expressionString);
-        std::string stringRight = extractRightMemberInStringRule(expressionString);
-        std::string stringOperator = extractOperatorMemberInStringRule(expressionString);
-
-
-        core::Expression<T> *expression = nullptr;
-
-        if (stringOperator == INTERPRETER_RULE_THEN) {
-
-            expression = factory->newThen(convertStringRuleToExpression(factory, stringLeft, context),
-                                          convertStringRuleToExpression(factory, stringRight, context));
-
-        } else if (stringOperator == INTERPRETER_RULE_OR) {
-
-            expression = factory->newOr(convertStringRuleToExpression(factory, stringLeft, context),
-                                        convertStringRuleToExpression(factory, stringRight, context));
-
-        } else if (stringOperator == INTERPRETER_RULE_AND) {
-
-            expression = factory->newAnd(convertStringRuleToExpression(factory, stringLeft, context),
-                                         convertStringRuleToExpression(factory, stringRight, context));
-
-        } else if (stringOperator == INTERPRETER_RULE_NOT) {
-
-            if (!stringLeft.empty()) {
-                throw exception::InterpreterException(
-                        "Invalid rule : " + stringRule + " not operator haven't left operand " + stringLeft);
-            }
-
-            expression = factory->newNot(convertStringRuleToExpression(factory, stringRight, context));
-
-        } else if (stringOperator == INTERPRETER_RULE_IS) {
-
-            std::string variableKey = buildKeyWithContextAndName(context, stringLeft);
+            std::string variableKey = buildKeyWithContextAndName(context, stringRule);
 
             if (!variableExist(variableKey)) {
-                throw exception::InterpreterException("Un known variable : " + stringRight);
+                throw exception::InterpreterException("Un known variable : " + stringRule);
             }
 
-            core::ValueModel<T> *variable = variableContextAndName[variableKey];
-
-            std::string definitionKey = buildKeyWithContextAndName(context, stringRight);
-
-            if (!definitionExist(definitionKey)) {
-                throw exception::InterpreterException("Un known shape : " + stringRight);
-            }
-
-
-            fuzzy::Is<T> *shape = definitionsContextAndName[definitionKey];
-
-            expression = factory->newIs(shape, variable);
-
-            /*
-             * } else if (..) {
-             *
-             * to complete
-             *
-             */
+            expression = variableContextAndName[variableKey];
 
         } else {
-            throw exception::InterpreterException(
-                    "Invalid rule : " + stringRule + " un known operator " + stringOperator);
+
+            std::string expressionString = stringRule;
+            expressionString.erase(expressionString.begin());
+            expressionString.pop_back();
+
+            std::string stringLeft = extractLeftMemberInStringRule(expressionString);
+            std::string stringRight = extractRightMemberInStringRule(expressionString);
+            std::string stringOperator = extractOperatorMemberInStringRule(expressionString);
+
+            if (stringOperator == INTERPRETER_RULE_THEN) {
+
+                expression = factory->newThen(convertStringRuleToExpression(factory, stringLeft, context),
+                                              convertStringRuleToExpression(factory, stringRight, context));
+
+            } else if (stringOperator == INTERPRETER_RULE_OR) {
+
+                expression = factory->newOr(convertStringRuleToExpression(factory, stringLeft, context),
+                                            convertStringRuleToExpression(factory, stringRight, context));
+
+            } else if (stringOperator == INTERPRETER_RULE_AND) {
+
+                expression = factory->newAnd(convertStringRuleToExpression(factory, stringLeft, context),
+                                             convertStringRuleToExpression(factory, stringRight, context));
+
+            } else if (stringOperator == INTERPRETER_RULE_NOT) {
+
+                if (!stringLeft.empty()) {
+                    throw exception::InterpreterException(
+                            "Invalid rule : " + stringRule + " not operator haven't left operand " + stringLeft);
+                }
+
+                expression = factory->newNot(convertStringRuleToExpression(factory, stringRight, context));
+
+            } else if (stringOperator == INTERPRETER_RULE_IS) {
+
+                std::string definitionKey = buildKeyWithContextAndName(context, stringRight);
+
+                if (!definitionExist(definitionKey)) {
+                    throw exception::InterpreterException("Un known shape : " + stringRight);
+                }
+
+
+                fuzzy::Is<T> *shape = definitionsContextAndName[definitionKey];
+
+                expression = factory->newIs(shape, convertStringRuleToExpression(factory, stringLeft, context));
+
+                /*
+                 * } else if (..) {
+                 *
+                 * to complete
+                 *
+                 */
+
+            } else {
+                throw exception::InterpreterException(
+                        "Invalid rule : " + stringRule + " un known operator " + stringOperator);
+            }
         }
 
         return expression;
@@ -862,7 +861,7 @@ namespace fuzzylogic::interpreter {
             }
         }
 
-        return sLeft;
+        return AbstractInterpreter<T>::stringTrim(sLeft);
     }
 
     template<typename T>
@@ -902,7 +901,7 @@ namespace fuzzylogic::interpreter {
         }
 
 
-        return sRight;
+        return AbstractInterpreter<T>::stringTrim(sRight);
     }
 
     template<typename T>
@@ -953,7 +952,7 @@ namespace fuzzylogic::interpreter {
             }
         }
 
-        return sOperator;
+        return AbstractInterpreter<T>::stringTrim(sOperator);
     }
 }
 

@@ -47,6 +47,8 @@ namespace fuzzylogic::interpreter {
 
         void executeLine(const std::string &line);
 
+        static std::string stringTrim(const std::string &string);
+
         static std::string extractFirstArgument(const std::string &line);
 
         static std::vector<std::string> lineToArgs(const std::string &line);
@@ -236,7 +238,7 @@ namespace fuzzylogic::interpreter {
         }
 
         if (!nLine.empty()) {
-            execute(nLine);
+            execute(stringTrim(nLine));
         }
     }
 
@@ -249,6 +251,31 @@ namespace fuzzylogic::interpreter {
             std::cerr << e.what() << std::endl;
             exit(EXIT_FAILURE);
         }
+    }
+
+    template<typename T>
+    std::string AbstractInterpreter<T>::stringTrim(const std::string &string) {
+
+        std::string result;
+
+        bool b = true;
+
+        for (unsigned int i = 0; i < string.size(); i++) {
+
+            if (i + 1 >= string.size()) {
+                b = true;
+            }
+
+            char c = string[i];
+
+            if (!b || (c != INTERPRETER_CHAR_TO_SPLIT_LINE)) {
+                result += c;
+            }
+
+            b = c == INTERPRETER_CHAR_TO_SPLIT_LINE;
+        }
+
+        return result;
     }
 }
 
