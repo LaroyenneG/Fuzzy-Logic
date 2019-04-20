@@ -39,5 +39,13 @@ void LeaveATip::setMaxTip(fuzzylogic::type _maxTip) {
 }
 
 fuzzylogic::type LeaveATip::evaluateTip() {
-    return 0;
+
+    fuzzyInterpreter.writeInMemory(fuzzylogic::AbstractInterpreter::INPUT, "Tip->service", service);
+    fuzzyInterpreter.writeInMemory(fuzzylogic::AbstractInterpreter::INPUT, "Tip->food", food);
+
+    fuzzyInterpreter.executeLine(INTERPRETER_COMPUTE_COMMAND);
+
+    fuzzylogic::type scaled = fuzzyInterpreter.readInMemory(fuzzylogic::AbstractInterpreter::OUTPUT, "Tip->tip") / 100;
+
+    return (maxTip - minTip + 1.0) * scaled + minTip;
 }

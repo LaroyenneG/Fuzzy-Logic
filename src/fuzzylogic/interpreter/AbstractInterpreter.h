@@ -85,7 +85,7 @@ namespace fuzzylogic::interpreter {
         auto it = memory.find(key);
 
         if (it == memory.end()) {
-            throw std::invalid_argument("invalid variable name");
+            throw std::invalid_argument("Invalid variable name");
         }
 
         return it->second;

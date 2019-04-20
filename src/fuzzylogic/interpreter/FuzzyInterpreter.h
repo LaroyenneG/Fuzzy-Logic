@@ -42,7 +42,7 @@
 #define INTERPRETER_RULE_NOT "Not"
 #define INTERPRETER_RULE_IS "Is"
 #define INTERPRETER_RULE_OPEN_EXPRESSION_CHAR '('
-#define INTERPRETER_RULE_CLOSE_EXPRESSION_CHAR '('
+#define INTERPRETER_RULE_CLOSE_EXPRESSION_CHAR ')'
 
 
 
@@ -103,7 +103,7 @@ namespace fuzzylogic::interpreter {
 
         void compute(std::vector<std::string> args);
 
-        void definition(std::vector<std::string> args);
+        void createDefinition(std::vector<std::string> args);
 
         fuzzy::IsTriangle<T> *createTriangle(std::vector<std::string> args);
 
@@ -120,6 +120,12 @@ namespace fuzzylogic::interpreter {
         std::string findOutputInContext(const std::string &context);
 
         std::vector<std::string> findInputsInContext(const std::string &context);
+
+        bool operatorExist(const std::string &name) const;
+
+        void createRules(std::vector<std::string> args);
+
+        void buildSystem(std::vector<std::string> args);
 
         static std::string buildKeyWithContextAndName(const std::string &context, const std::string &name);
 
@@ -138,12 +144,6 @@ namespace fuzzylogic::interpreter {
         ~FuzzyInterpreter();
 
         void execute(const std::string &line) override;
-
-        bool operatorExist(const std::string &name) const;
-
-        void createRules(std::vector<std::string> args);
-
-        void buildSystem(std::vector<std::string> args);
     };
 
     template<typename T>
@@ -169,7 +169,7 @@ namespace fuzzylogic::interpreter {
 
         } else if (instruction == INTERPRETER_DEFINITION_COMMAND) {
 
-            definition(args);
+            createDefinition(args);
 
         } else if (instruction == INTERPRETER_RULES_COMMAND) {
 
@@ -388,9 +388,14 @@ namespace fuzzylogic::interpreter {
 
                 for (auto input : inputs) {
 
-                    T value(AbstractInterpreter<T>::readInMemory(AbstractInterpreter<T>::INPUT, input));
+                    try {
+                        T value(AbstractInterpreter<T>::readInMemory(AbstractInterpreter<T>::INPUT, input));
 
-                    variableContextAndName[input]->setValue(value);
+                        variableContextAndName[input]->setValue(value);
+
+                    } catch (std::invalid_argument &e) {
+                        std::cerr << "Attention, cannot read " + input + " value" << std::endl;
+                    }
                 }
 
                 const core::Expression<T> *system = systemContext[context];
@@ -414,7 +419,7 @@ namespace fuzzylogic::interpreter {
     }
 
     template<typename T>
-    void FuzzyInterpreter<T>::definition(std::vector<std::string> args) {
+    void FuzzyInterpreter<T>::createDefinition(std::vector<std::string> args) {
 
         if (args.size() < 2) {
             throw exception::InterpreterException("Definition command required more arguments");
@@ -436,7 +441,14 @@ namespace fuzzylogic::interpreter {
         args.erase(args.begin());
 
         if (typeName == INTERPRETER_DEFINITION_TRIANGLE) {
+
             is = createTriangle(args);
+
+            /*
+             * } else if(...) {
+             * to complete
+             */
+
         } else {
             throw exception::InterpreterException("Invalid definition type : " + typeName);
         }
@@ -477,10 +489,10 @@ namespace fuzzylogic::interpreter {
         std::vector<std::string> contextAndName = AbstractInterpreter<T>::lineToArgs(
                 AbstractInterpreter<T>::stringReplace(fullName,
                                                       INTERPRETER_CONTEXT_ACCESS,
-                                                      std::to_string(INTERPRETER_CHAR_TO_SPLIT_LINE)));
+                                                      std::string(1, INTERPRETER_CHAR_TO_SPLIT_LINE)));
 
         if (contextAndName.size() != 2) {
-            throw exception::InterpreterException("Invalid variable name : " + fullName + " in " + fullName);
+            throw exception::InterpreterException("Invalid variable name : " + fullName);
         }
 
         if (!contextExist(contextAndName[0])) {
@@ -492,19 +504,7 @@ namespace fuzzylogic::interpreter {
     template<typename T>
     bool FuzzyInterpreter<T>::nameIsAlreadyUsed(const std::string &name) const {
 
-        if (contextExist(name)) {
-            return true;
-        }
-
-        if (definitionExist(name)) {
-            return true;
-        }
-
-        if (variableExist(name)) {
-            return true;
-        }
-
-        return operatorExist(name);
+        return operatorExist(name) || variableExist(name) || definitionExist(name) || contextExist(name);
     }
 
     template<typename T>
@@ -647,7 +647,7 @@ namespace fuzzylogic::interpreter {
         std::string outputKey = findOutputInContext(context);
 
         if (outputKey.empty()) {
-            throw exception::InterpreterException("missing output");
+            throw exception::InterpreterException("cannot build, missing output");
         }
 
         core::ValueModel<T> *output = variableContextAndName[outputKey];
@@ -682,6 +682,8 @@ namespace fuzzylogic::interpreter {
         if (args.empty()) {
 
         }
+
+        /* to complete */
     }
 
     template<typename T>
@@ -695,7 +697,7 @@ namespace fuzzylogic::interpreter {
 
             std::vector<std::string> contextAndName = AbstractInterpreter<T>::lineToArgs(
                     AbstractInterpreter<T>::stringReplace(variableFullName, INTERPRETER_CONTEXT_ACCESS,
-                                                          std::to_string(INTERPRETER_CHAR_TO_SPLIT_LINE)));
+                                                          std::string(1, INTERPRETER_CHAR_TO_SPLIT_LINE)));
 
             if (!contextAndName.empty() && contextAndName[0] == context) {
 
@@ -754,11 +756,11 @@ namespace fuzzylogic::interpreter {
 
         std::string expressionString = stringRule;
         expressionString.erase(expressionString.begin());
-        expressionString.erase(expressionString.end());
+        expressionString.pop_back();
 
-        std::string stringLeft = extractLeftMemberInStringRule(stringRule);
-        std::string stringRight = extractRightMemberInStringRule(stringRule);
-        std::string stringOperator = extractOperatorMemberInStringRule(stringRule);
+        std::string stringLeft = extractLeftMemberInStringRule(expressionString);
+        std::string stringRight = extractRightMemberInStringRule(expressionString);
+        std::string stringOperator = extractOperatorMemberInStringRule(expressionString);
 
 
         core::Expression<T> *expression = nullptr;
@@ -767,6 +769,11 @@ namespace fuzzylogic::interpreter {
 
             expression = factory->newThen(convertStringRuleToExpression(factory, stringLeft, context),
                                           convertStringRuleToExpression(factory, stringRight, context));
+
+        } else if (stringOperator == INTERPRETER_RULE_OR) {
+
+            expression = factory->newOr(convertStringRuleToExpression(factory, stringLeft, context),
+                                        convertStringRuleToExpression(factory, stringRight, context));
 
         } else if (stringOperator == INTERPRETER_RULE_AND) {
 
@@ -844,6 +851,14 @@ namespace fuzzylogic::interpreter {
                     index++;
 
                 } while (index < stringRule.size() && cursor > 0);
+
+            } else {
+
+                std::vector<std::string> args = AbstractInterpreter<T>::lineToArgs(stringRule);
+
+                if (args.size() == 3) {
+                    sLeft = args.front();
+                }
             }
         }
 
@@ -860,22 +875,29 @@ namespace fuzzylogic::interpreter {
             int cursor = 0;
             unsigned int index = stringRule.size() - 1;
 
-            if (stringRule[index] == INTERPRETER_RULE_OPEN_EXPRESSION_CHAR) {
+            if (stringRule[index] == INTERPRETER_RULE_CLOSE_EXPRESSION_CHAR) {
 
                 do {
                     if (stringRule[index] == INTERPRETER_RULE_OPEN_EXPRESSION_CHAR) {
-                        cursor++;
-                    }
-
-                    if (stringRule[index] == INTERPRETER_RULE_CLOSE_EXPRESSION_CHAR) {
                         cursor--;
                     }
 
-                    sRight += stringRule[index];
+                    if (stringRule[index] == INTERPRETER_RULE_CLOSE_EXPRESSION_CHAR) {
+                        cursor++;
+                    }
+
+                    sRight = stringRule[index] + sRight;
 
                     index--;
 
-                } while (index < stringRule.size() && cursor > 0);
+                } while (index >= 0 && cursor > 0);
+            } else {
+
+                std::vector<std::string> args = AbstractInterpreter<T>::lineToArgs(stringRule);
+
+                if (args.size() >= 2) {
+                    sRight = args.back();
+                }
             }
         }
 
@@ -919,6 +941,15 @@ namespace fuzzylogic::interpreter {
                 sOperator += stringRule[index];
 
                 index++;
+            }
+
+            if (sOperator.find(INTERPRETER_CHAR_TO_SPLIT_LINE) != std::string::npos) {
+
+                std::vector<std::string> args = AbstractInterpreter<T>::lineToArgs(sOperator);
+
+                if (args.size() <= 3) {
+                    sOperator = args[args.size() / 2];
+                }
             }
         }
 
