@@ -4,6 +4,15 @@
 \usepackage{lmodern}
 \usepackage[francais]{babel}
 \usepackage{geometry}
+\usepackage{float}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{graphicx}
+\usepackage{listings}
+
+
+\newcolumntype{M}[1]{>{\raggedright}m{#1}}
 
 \geometry{hmargin=2.5cm,vmargin=2.5cm}
 
@@ -24,10 +33,64 @@
 
     \section{Construction de la bibliothèque de logique floue}
 
+    \begin{figure}
+        \begin{center}
+            \caption{UML des packages du \texttt{Framework}}
+            \includegraphics[scale=0.5]{assets/Packages_(UML).jpg}
+            \label{fig:umlPackage}
+        \end{center}
+    \end{figure}
+
+
+    \begin{table}
+        \caption{Liste des opérateurs est opérandes du \textit{Framework}}
+        \label{tab:listing}
+
+        \begin{center}
+            \begin{tabular}{|c|c|M{4cm}|}
+                \hline
+                Nom & Type & Description \tabularnewline
+                \hline
+                court texte & truc & Texte plus long qui sera centré dans la ligne et aligné à gauche dans la colonne  \tabularnewline
+                \hline
+            \end{tabular}
+        \end{center}
+    \end{table}
+    
     \section{Mise en place d'un interpréteur de logique floue}
+
+    \begin{figure}
+        \begin{center}
+            \caption{Exemple de code de l’interpréteur pour l’évaluation d'un pourboire}
+            \lstinputlisting[language=Bash, firstline=0, lastline=9, frame=single]{assets/leaveatip_cog.fuzzy}
+            \label{fig:codeExemple}
+        \end{center}
+    \end{figure}
 
     \section{Création du simulateur naval}
 
-    \section{Modélisation du pilote automatique en logique floue}
+    \begin{figure}
+        \begin{center}
+            \caption{Schéma présentant les forces physique appliquées sur le Titanic dans le simulateur}
+            \includegraphics[scale=0.5]{assets/Isaac_vs_Titanic.jpg}
+            \label{fig:titanicForces}
+        \end{center}
+    \end{figure}
+
+    \section{Création d'un pilote automatique pour le paquebot}
+
+    \subsection{Objectifs et besoins}
+
+    \subsection{Modélisation du pilote automatique en logique floue}
+
+    \subsection{Réalisation du système floue à l'aide du \textit{framework}}
+
+    \begin{figure}
+        \begin{center}
+            \caption{Code du pilote automatique pour l’interpréteur}
+            \lstinputlisting[language=Bash, firstline=0, lastline=10, frame=single]{assets/automatic-pilot.fuzzy}
+            \label{fig:codeAutoPilot}
+        \end{center}
+    \end{figure}
 
 \end{document}
