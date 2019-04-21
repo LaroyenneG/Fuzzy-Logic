@@ -168,7 +168,6 @@ namespace model {
             }
 
             try {
-
                 Point circleCenter = circleCenterSolver(positionArray[0], positionArray[1], positionArray[2]);
 
                 double rayon = distanceBetweenPoint(circleCenter, positionArray[0]);
@@ -180,7 +179,7 @@ namespace model {
                 direction[X_DIM_VALUE] /= directionNorm;
                 direction[Y_DIM_VALUE] /= directionNorm;
 
-                double value = weight * getSpeed() / rayon;
+                double value = weight * getSpeed() / rayon * 1.0 / pow(10, 300);
 
                 strength = {value * direction[X_DIM_VALUE], value * direction[Y_DIM_VALUE]};
 
@@ -334,7 +333,7 @@ namespace model {
 
     void PhysicObject2D::nextPosition(double time) {
 
-        static const double MIN_DISTANCE = 1.0; // m
+        static const double MIN_DISTANCE = 0.01; // m
 
         position[X_DIM_VALUE] += speed[X_DIM_VALUE] * time;
         position[Y_DIM_VALUE] += speed[Y_DIM_VALUE] * time;
