@@ -6,7 +6,7 @@
 
 #include "PhysicObject2D.h"
 
-#define ICEBERG_NB_POINTS 100
+#define ICEBERG_NB_POINTS 200
 #define ICEBERG_DEFAULT_X 0.0
 #define ICEBERG_DEFAULT_Y 0.0
 #define ICEBERG_DEFAULT_RAYON 60.0          // m
