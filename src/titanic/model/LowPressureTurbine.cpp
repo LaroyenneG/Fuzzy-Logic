@@ -29,13 +29,16 @@ namespace model {
     double
     LowPressureTurbine::powerStepFunction(double _powerStep, double time, double _power, double _desiredPower) const {
 
-        double value = _powerStep * time;
+        static const int SLEEP_NUMBER = 6;
 
-
-        if (fabs(_power) <= 0.5) {
-            value /= _desiredPower * 50.0;
+        if (_power < _desiredPower && _desiredPower < TURBINE_DEFAULT_MINIMUM_POWER_ACTIVATION) {
+            _powerStep = 0.0;
         }
 
-        return value;
+        if (_power < _desiredPower && _power < pow(10, -SLEEP_NUMBER)) {
+            _powerStep /= pow(10, SLEEP_NUMBER);
+        }
+
+        return _powerStep * time;
     }
 }

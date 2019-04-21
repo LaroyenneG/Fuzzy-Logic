@@ -18,13 +18,14 @@ namespace model {
     double
     AlternativeMachine::powerStepFunction(double _powerStep, double time, double _power, double _desiredPower) const {
 
-        double value = _powerStep * time;
+        static const int SLEEP_NUMBER = 2;
 
-
-        if (fabs(_power) <= 0.1) {
-            value /= _desiredPower * 10.0;
+        if (_power < _desiredPower && fabs(_power) < pow(10, -SLEEP_NUMBER)) {
+            _powerStep /= pow(10, SLEEP_NUMBER);
+        } else if (_power > _desiredPower && fabs(_power) < pow(10, -SLEEP_NUMBER)) {
+            _powerStep /= pow(10, SLEEP_NUMBER);
         }
 
-        return value;
+        return _powerStep * time;
     }
 }
