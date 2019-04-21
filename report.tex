@@ -11,6 +11,7 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{appendix}
+\usepackage{amsmath}
 
 
 
@@ -35,7 +36,14 @@
 
     \section{Construction de la bibliothèque de logique floue}
 
-    \begin{figure}[h!]
+    \begin{center}
+        Pour toute information sur l'arborescence, la compilation et l'utilisation de la bibliothèque, veuillez vous référer au fichier \textbf{README.md} consultable à la racine du projet à l’adresse : \texttt{https://github.com/LaroyenneG/fuzzy-logic}
+    \end{center}
+
+    Notre \textit{framework} a été développé en langage \textit{C++} et compilé avec le compilateur GNU \textit{g++} et \textit{CMake}.
+    Affin de s’assurer du bon fonctionnement de la bibliothèque, nous avons utilisé le \textit{framework} \textit{CPPUNIT} permettant de réaliser des tests unitaires en langage \textit{C++}.
+
+    \begin{figure}[H]
         \begin{center}
             \caption{UML des packages du \textit{framework} de logique floue}
             \includegraphics[scale=0.5]{assets/Packages_(UML).jpg}
@@ -44,7 +52,7 @@
     \end{figure}
 
 
-    \begin{table}[h!]
+    \begin{table}[H]
         \caption{Liste des opérateurs est opérandes du \textit{framework} de logique floue}
         \label{tab:listing}
 
@@ -70,7 +78,7 @@
         \end{center}
     \end{figure}
 
-    \begin{figure}[h!]
+    \begin{figure}[H]
         \begin{center}
             \caption{Exemple de code de l’interpréteur pour l’évaluation d'un pourboire}
             \lstinputlisting[language=Bash, firstline=0, lastline=9, frame=single]{assets/leaveatip_cog.fuzzy}
@@ -84,7 +92,7 @@
 
     Pour réaliser notre simulateur naval, nous avons du étudier les différents phénomène physique qui s'exercent sur un navire ainsi que ces différents composant technique.
 
-    \begin{table}[h!]
+    \begin{table}[H]
         \caption{Caractéristiques technique du Titanic saisie dans le simulateur}
         \label{tab:TitanicData}
 
@@ -93,7 +101,7 @@
                 \hline
                 Longueur & 269 m & Puissance d'une machine alternative & 15000 ch \tabularnewline
                 \hline
-                Maître-bau & 28 m & Puissance de la turbine & 16000 ch \tabularnewline
+                Maître-bau & 28 m & Nombre de pale des hélices latérales & 3 \tabularnewline
                 \hline
                 Tirant d'eau & 10,5 m & Diamètre des hélices latérales & 7,2 m \tabularnewline
                 \hline
@@ -101,20 +109,47 @@
                 \hline
                 Poids & 46000 tonnes & Surface du gouvernail (immergé) & 42 m$^{2}$ \tabularnewline
                 \hline
-                Nombre de pale des hélices latérales & 3 & Nombre de pale de l'hélice centrale & 4 \tabularnewline
+                Puissance de la turbine & 16000 ch & Nombre de pale de l'hélice centrale & 4 \tabularnewline
                 \hline
             \end{tabular}
         \end{center}
     \end{table}
-    
-    \begin{figure}[h!]
+
+    Tel un objet physique, dans le simulateur le Titanic possède une position, une vitesse, une orientation et une accélération. Pour qu'il puisse se déplacer, il faut donc déterminer l'accélération. Selon Newton : $\sum \overrightarrow{F_{i}} = m \times \overrightarrow{a}$, il faut donc déterminer toutes les forces qui s'exerce sur le navire pour connaître l’accélération.
+    \paragraph{}
+    La première force à identifier est la force de propulsion générée par les hélices en raison du principe d'action réaction. Elle dépend de son profile physique  (diamètre, incidence des pales, surface...) et de sa vitesse de rotation.\\
+    Lorsque le navire tourne il subit également une force centrifuge, qui peut être calculé en identifiant le centre du cercle décrit par la trajectoire.\\
+    Selon les loi de la mécanique des fluides, lorsque le navire se déplace dans l'eau, sa coque et son gouvernail subisse des forces appelées portance et traînée.
+    La combinaison de la portance et de la traînée produit une résultante hydrodynamique, qui est la force anti dérive du navire.\\
+    La portance et la traînée sont calculées à l'aide des formules suivantes :\\
+    \begin{gather*}
+        F_{z} = \frac{1}{2} \times \rho \times S \times V^{2} \times C_{z}\\
+        F_{x} = \frac{1}{2} \times \rho \times S \times V^{2} \times C_{x}\\
+        \overrightarrow{R_{h}} = \overrightarrow{F_{z}} + \overrightarrow{F_{x}}\\
+    \end{gather*}
+    Avec :
+    \begin{itemize}
+        \item $F_{z}$ la portance en $N$ (perpendiculaire à la vitesse du fluide).
+        \item $F_{x}$ la traînée en $N$ (opposée au vecteur vitesse).
+        \item $\rho$ la masse volumique du fluide en $kg/m^{3}$.
+        \item $S$ la surface de référence en $m^{2}$.
+        \item $V$ la vitesse de déplacement du fluide en $m/s$.
+        \item $C_{z}$ coefficient de portance en fonction de l'incidence (sans unité).
+        \item $C_{x}$ coefficient de traînée en fonction de l'incidence (sans unité).
+        \item $\overrightarrow{R_{h}}$ résultante hydrodynamique.
+    \end{itemize}
+    \vspace*{0.3cm}
+    La rotation du navire est provoqué par la résultante hydrodynamique du gouvernail situé à l’arrière, induisant un effet de couple.\\
+    À cette rotation s’opposera des forces de frottements, en raison des frottements avec l'eau sur la coque. Pour le calcul de cette force nous avons choisi un coefficient de traînée de 1,1.
+
+    \begin{figure}[H]
         \begin{center}
             \caption{Schéma présentant les forces physique appliquées sur le Titanic dans le simulateur}
             \includegraphics[scale=0.5]{assets/Isaac_vs_Titanic.jpg}
             \label{fig:titanicForces}
         \end{center}
     \end{figure}
-
+    \paragraph{}
     On comprend donc que piloter précisément un navire de cette taille n'est pas simple. Avec toutes les forces physique qui s'appliquent sur lui, il fraudais réaliser beaucoup de calculs pour déterminer les bonnes manœuvres à réaliser. C'est pour cela que nous avons avons choisi d'utiliser la logique floue pour réaliser un pilote automatique, car elle permet d’abstraire tous les phénomènes physique.
 
     \subsection{Programmation de l'interface}
@@ -134,7 +169,7 @@
     Mais pour éviter les icebergs, il est nécessaire de les détecter. Pour cela nous avons ajouté à la proue trois capteurs lasers indiquant une distance en pourcentage par rapport à sa portée.
     Si un capteur indique 100\% alors il n'y a pas d'objet. En revanche si un capteur indique 50\% alors il y a un objet à la moitié de la potée maximal du capteur. Les trois lasers ont été placé avec un petit angle, afin de pouvoir déterminé le meilleur côté par le quel l'objet peut être évité.
 
-    \begin{figure}[h!]
+    \begin{figure}[H]
         \begin{center}
             \caption{Schéma présentant les capteurs lasers du Titanic}
             \includegraphics[scale=0.26]{assets/Lasers_Illustration.jpg}
@@ -148,7 +183,7 @@
 
     \subsection{Réalisation du système floue à l'aide du \textit{framework}}
 
-    \begin{figure}[h!]
+    \begin{figure}[H]
         \begin{center}
             \caption{Code du pilote automatique pour l’interpréteur}
             \lstinputlisting[language=Bash, firstline=0, lastline=10, frame=single]{assets/automatic-pilot.fuzzy}
