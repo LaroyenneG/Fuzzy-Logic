@@ -11,8 +11,6 @@
 #include "InterpreterException.h"
 #include "IsTriangle.h"
 
-#include <stack>
-
 
 #define INTERPRETER_OR_MAX_NAME "OrMax"
 #define INTERPRETER_AGG_MAX_NAME "AggMax"
@@ -43,8 +41,6 @@
 #define INTERPRETER_RULE_IS "Is"
 #define INTERPRETER_RULE_OPEN_EXPRESSION_CHAR '('
 #define INTERPRETER_RULE_CLOSE_EXPRESSION_CHAR ')'
-
-
 
 
 namespace fuzzylogic::interpreter {

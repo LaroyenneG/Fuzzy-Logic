@@ -120,7 +120,6 @@ namespace fuzzylogic {
     typedef fuzzy::ThenMult<type> ThenMult;
 
 
-
     /******************************************** factory ***********************************************/
 
     typedef fuzzy::FuzzyFactory<type> FuzzyFactory;

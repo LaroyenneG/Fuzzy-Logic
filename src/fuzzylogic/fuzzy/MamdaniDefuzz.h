@@ -22,7 +22,7 @@ namespace fuzzylogic::fuzzy {
         T evaluate(fuzzylogic::core::Expression<T> *left,
                    fuzzylogic::core::Expression<T> *right) const override;
 
-        virtual T defuzz(const Shape<T> &shape) const = 0;
+        virtual T defuzz(const Shape <T> &shape) const = 0;
 
         const T &getMin() const;
 

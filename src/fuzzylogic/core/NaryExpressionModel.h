@@ -13,27 +13,27 @@ namespace fuzzylogic::core {
     class NaryExpressionModel : public NaryExpression<T>, public Expression<T> {
 
     private:
-        std::vector<Expression<T> *> operands;
-        NaryExpression<T> *nOperator;
+        std::vector<Expression < T> *> operands;
+        NaryExpression <T> *nOperator;
 
     public:
-        explicit NaryExpressionModel(NaryExpression<T> *_nOperator, const std::vector<Expression<T> *> &_operands);
+        explicit NaryExpressionModel(NaryExpression <T> *_nOperator, const std::vector<Expression < T> *> &_operands);
 
-        explicit NaryExpressionModel(NaryExpression<T> *_nOperator);
+        explicit NaryExpressionModel(NaryExpression <T> *_nOperator);
 
         explicit NaryExpressionModel();
 
         ~NaryExpressionModel();
 
-        T evaluate(const std::vector<Expression<T> *> &_operands) const override;
+        T evaluate(const std::vector<Expression < T> *> &_operands) const override;
 
         T evaluate() const override;
 
         unsigned long size() const;
 
-        const NaryExpression<T> *getOperator() const;
+        const NaryExpression <T> *getOperator() const;
 
-        NaryExpression<T> *getOperator();
+        NaryExpression <T> *getOperator();
     };
 
 
@@ -43,13 +43,17 @@ namespace fuzzylogic::core {
     }
 
     template<typename T>
-    NaryExpressionModel<T>::NaryExpressionModel(NaryExpression<T> *_nOperator,
-                                                const std::vector<Expression<T> *> &_operands)
-            : operands(_operands), nOperator(_nOperator) {
+    NaryExpressionModel<T>::NaryExpressionModel(NaryExpression <T> *_nOperator,
+                                                const std::vector<Expression < T> *
+
+    > &_operands)
+    :
+
+    operands (_operands), nOperator(_nOperator) {
     }
 
     template<typename T>
-    NaryExpressionModel<T>::NaryExpressionModel(NaryExpression<T> *_nOperator)
+    NaryExpressionModel<T>::NaryExpressionModel(NaryExpression <T> *_nOperator)
             : NaryExpressionModel(nullptr, _nOperator) {
     }
 
@@ -63,38 +67,44 @@ namespace fuzzylogic::core {
     }
 
     template<typename T>
-    T NaryExpressionModel<T>::evaluate(const std::vector<Expression<T> *> &_operands) const {
+    T NaryExpressionModel<T>::evaluate(const std::vector<Expression < T> *
 
-        if (nOperator == nullptr) {
-            throw fuzzylogic::exception::OperatorNullException();
+    > &_operands) const {
+
+    if (nOperator == nullptr) {
+    throw
+
+    fuzzylogic::exception::OperatorNullException();
+}
+
+return nOperator->
+evaluate(_operands);
+}
+
+template<typename T>
+T NaryExpressionModel<T>::evaluate() const {
+
+    for (auto operand : operands) {
+        if (operand == nullptr) {
+            throw fuzzylogic::exception::OperandNullException();
         }
-
-        return nOperator->evaluate(_operands);
     }
 
-    template<typename T>
-    T NaryExpressionModel<T>::evaluate() const {
+    return evaluate(operands);
+}
 
-        for (auto operand : operands) {
-            if (operand == nullptr) {
-                throw fuzzylogic::exception::OperandNullException();
-            }
-        }
+template<typename T>
+const NaryExpression <T> *NaryExpressionModel<T>::getOperator() const {
 
-        return evaluate(operands);
-    }
+    return nOperator;
+}
 
-    template<typename T>
-    const NaryExpression<T> *NaryExpressionModel<T>::getOperator() const {
+template<typename T>
+NaryExpression <T> *NaryExpressionModel<T>::getOperator() {
 
-        return nOperator;
-    }
+    return nOperator;
+}
 
-    template<typename T>
-    NaryExpression<T> *NaryExpressionModel<T>::getOperator() {
-
-        return nOperator;
-    }
 }
 
 

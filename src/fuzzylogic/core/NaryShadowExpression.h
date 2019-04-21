@@ -10,50 +10,56 @@ namespace fuzzylogic::core {
     class NaryShadowExpression : public NaryExpression<T> {
 
     private:
-        NaryExpression<T> *target;
+        NaryExpression <T> *target;
 
     public:
-        explicit NaryShadowExpression(NaryExpression<T> *_target);
+        explicit NaryShadowExpression(NaryExpression <T> *_target);
 
-        T evaluate(const std::vector<Expression<T> *> &operands) const override;
+        T evaluate(const std::vector<Expression < T> *> &operands) const override;
 
-        const NaryExpression<T> *getTarget() const;
+        const NaryExpression <T> *getTarget() const;
 
         NaryExpression <T> *getTarget();
 
-        void setTarget(NaryExpression<T> *_target);
+        void setTarget(NaryExpression <T> *_target);
     };
 
     template<typename T>
-    NaryShadowExpression<T>::NaryShadowExpression(NaryExpression<T> *_target) : target(_target) {
+    NaryShadowExpression<T>::NaryShadowExpression(NaryExpression <T> *_target) : target(_target) {
     }
 
     template<typename T>
-    T NaryShadowExpression<T>::evaluate(const std::vector<Expression<T> *> &operands) const {
+    T NaryShadowExpression<T>::evaluate(const std::vector<Expression < T> *
 
-        if (target == nullptr) {
-            throw fuzzylogic::exception::TargetNullException();
-        }
+    > &operands) const {
 
-        return target->evaluate(operands);
-    }
+    if (target == nullptr) {
+    throw
 
-    template<typename T>
-    const NaryExpression<T> *NaryShadowExpression<T>::getTarget() const {
+    fuzzylogic::exception::TargetNullException();
+}
 
-        return target;
-    }
+return target->
+evaluate(operands);
+}
 
-    template<typename T>
-    void NaryShadowExpression<T>::setTarget(NaryExpression<T> *_target) {
-        target = _target;
-    }
+template<typename T>
+const NaryExpression <T> *NaryShadowExpression<T>::getTarget() const {
+
+    return target;
+}
+
+template<typename T>
+void NaryShadowExpression<T>::setTarget(NaryExpression <T> *_target) {
+    target = _target;
+}
 
 template<typename T>
 NaryExpression <T> *NaryShadowExpression<T>::getTarget() {
 
     return target;
 }
+
 }
 
 
