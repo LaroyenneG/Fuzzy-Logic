@@ -10,6 +10,13 @@
 #include "AggMax.h"
 #include "InterpreterException.h"
 #include "IsTriangle.h"
+#include "IsSingleton.h"
+#include "IsSigmoid.h"
+#include "IsRampRight.h"
+#include "IsRampLeft.h"
+#include "IsGaussian.h"
+#include "IsRangeBell.h"
+#include "IsBell.h"
 
 
 #define INTERPRETER_OR_MAX_NAME "OrMax"
@@ -33,6 +40,14 @@
 #define INTERPRETER_BUILD_SYSTEM_COMMAND "Build"
 #define INTERPRETER_DEFINITION_COMMAND "Define"
 #define INTERPRETER_DEFINITION_TRIANGLE "Triangle"
+#define INTERPRETER_DEFINITION_RAMPLEFT "RampLeft"
+#define INTERPRETER_DEFINITION_RAMPRIGHT "RampRight"
+#define INTERPRETER_DEFINITION_RANGEBELL "RangeBell"
+#define INTERPRETER_DEFINITION_BELL "Bell"
+#define INTERPRETER_DEFINITION_TRAPEZOID "Trapezoid"
+#define INTERPRETER_DEFINITION_SIGMOID "Sigmoid"
+#define INTERPRETER_DEFINITION_SINGLETON "Singleton"
+#define INTERPRETER_DEFINITION_GAUSSIAN "Gaussian"
 #define INTERPRETER_RULE_IF "If"
 #define INTERPRETER_RULE_THEN "Then"
 #define INTERPRETER_RULE_AND "And"
@@ -102,6 +117,22 @@ namespace fuzzylogic::interpreter {
         void createDefinition(std::vector<std::string> args);
 
         fuzzy::IsTriangle<T> *createTriangle(std::vector<std::string> args);
+
+        fuzzy::IsRampLeft<T> *createRampLeft(std::vector<std::string> args);
+
+        fuzzy::IsRampRight<T> *createRampRight(std::vector<std::string> args);
+
+        fuzzy::IsRangeBell<T> *createRangeBell(std::vector<std::string> args);
+
+        fuzzy::IsBell<T> *createBell(std::vector<std::string> args);
+
+        fuzzy::isTrapezoid<T> *createTrapezoid(std::vector<std::string> args);
+
+        fuzzy::IsSigmoid<T> *createSigmoid(std::vector<std::string> args);
+
+        fuzzy::IsSingleton<T> *createSingleton(std::vector<std::string> args);
+
+        fuzzy::IsGaussian<T> *createGaussian(std::vector<std::string> args);
 
         bool operatorExistInContext(const std::string &context, const std::string &name) const;
 
@@ -437,14 +468,23 @@ namespace fuzzylogic::interpreter {
         args.erase(args.begin());
 
         if (typeName == INTERPRETER_DEFINITION_TRIANGLE) {
-
             is = createTriangle(args);
-
-            /*
-             * } else if(...) {
-             * to complete
-             */
-
+        } else if (typeName == INTERPRETER_DEFINITION_RAMPLEFT) {
+            is = createRampLeft(args);
+        } else if (typeName == INTERPRETER_DEFINITION_RAMPRIGHT) {
+            is = createRampRight(args);
+        } else if (typeName == INTERPRETER_DEFINITION_RANGEBELL) {
+            is = createRangeBell(args);
+        } else if (typeName == INTERPRETER_DEFINITION_BELL) {
+            is = createBell(args);
+        } else if (typeName == INTERPRETER_DEFINITION_TRAPEZOID) {
+            is = createTrapezoid(args);
+        } else if (typeName == INTERPRETER_DEFINITION_SIGMOID) {
+            is = createSigmoid(args);
+        } else if (typeName == INTERPRETER_DEFINITION_SINGLETON) {
+            is = createSingleton(args);
+        } else if (typeName == INTERPRETER_DEFINITION_GAUSSIAN) {
+            is = createGaussian(args);
         } else {
             throw exception::InterpreterException("Invalid definition type : " + typeName);
         }
@@ -949,6 +989,213 @@ namespace fuzzylogic::interpreter {
         }
 
         return AbstractInterpreter<T>::stringTrim(sOperator);
+    }
+
+    template<typename T>
+    fuzzy::IsRampLeft<T> *FuzzyInterpreter<T>::createRampLeft(std::vector<std::string> args) {
+        if (args.size() != 3) {
+            throw exception::InterpreterException("Definition command required 3 arguments (min, middle, max)");
+        }
+
+        std::stringstream stringstream;
+        for (const auto &arg : args) {
+            stringstream << arg << std::endl;
+        }
+
+        T min(INFINITY);
+        T middle(INFINITY);
+        T max(INFINITY);
+
+        stringstream >> min;
+        stringstream >> middle;
+        stringstream >> max;
+
+        if (min == INFINITY || max == INFINITY || middle == INFINITY) {
+            throw exception::InterpreterException("Invalid number format...");
+        }
+
+        return new fuzzy::IsRampLeft<T>(min, middle, max);
+    }
+
+    template<typename T>
+    fuzzy::IsRampRight<T> *FuzzyInterpreter<T>::createRampRight(std::vector<std::string> args) {
+        if (args.size() != 3) {
+            throw exception::InterpreterException("Definition command required 3 arguments (min, middle, max)");
+        }
+
+        std::stringstream stringstream;
+        for (const auto &arg : args) {
+            stringstream << arg << std::endl;
+        }
+
+        T min(INFINITY);
+        T middle(INFINITY);
+        T max(INFINITY);
+
+        stringstream >> min;
+        stringstream >> middle;
+        stringstream >> max;
+
+        if (min == INFINITY || max == INFINITY || middle == INFINITY) {
+            throw exception::InterpreterException("Invalid number format...");
+        }
+
+        return new fuzzy::IsRampRight<T>(min, middle, max);
+    }
+
+    template<typename T>
+    fuzzy::IsRangeBell<T> *FuzzyInterpreter<T>::createRangeBell(std::vector<std::string> args) {
+
+        if (args.size() != 5) {
+            throw exception::InterpreterException(
+                    "Definition command required 5 arguments (min, middle, max, rangemin, rangemax)");
+        }
+
+        std::stringstream stringstream;
+        for (const auto &arg : args) {
+            stringstream << arg << std::endl;
+        }
+
+        T min(INFINITY);
+        T middle(INFINITY);
+        T max(INFINITY);
+        T rangemin(INFINITY);
+        T rangemax(INFINITY);
+
+        stringstream >> min;
+        stringstream >> middle;
+        stringstream >> max;
+        stringstream >> rangemin;
+        stringstream >> rangemax;
+
+        if (min == INFINITY || max == INFINITY || middle == INFINITY || rangemin == INFINITY || rangemax == INFINITY) {
+            throw exception::InterpreterException("Invalid number format...");
+        }
+
+        return new fuzzy::IsRangeBell<T>(min, middle, max, rangemin, rangemax);
+    }
+
+    template<typename T>
+    fuzzy::IsBell<T> *FuzzyInterpreter<T>::createBell(std::vector<std::string> args) {
+        if (args.size() != 3) {
+            throw exception::InterpreterException("Definition command required 3 arguments (min, middle, max)");
+        }
+
+        std::stringstream stringstream;
+        for (const auto &arg : args) {
+            stringstream << arg << std::endl;
+        }
+
+        T min(INFINITY);
+        T middle(INFINITY);
+        T max(INFINITY);
+
+        stringstream >> min;
+        stringstream >> middle;
+        stringstream >> max;
+
+        if (min == INFINITY || max == INFINITY || middle == INFINITY) {
+            throw exception::InterpreterException("Invalid number format...");
+        }
+
+        return new fuzzy::IsBell<T>(min, middle, max);
+    }
+
+    template<typename T>
+    fuzzy::isTrapezoid<T> *FuzzyInterpreter<T>::createTrapezoid(std::vector<std::string> args) {
+        if (args.size() != 4) {
+            throw exception::InterpreterException(
+                    "Definition command required 4 arguments (lowleft, lowright, highleft, highright)");
+        }
+
+        std::stringstream stringstream;
+        for (const auto &arg : args) {
+            stringstream << arg << std::endl;
+        }
+
+        T lowleft(INFINITY);
+        T lowright(INFINITY);
+        T highleft(INFINITY);
+        T highright(INFINITY);
+
+        stringstream >> lowleft;
+        stringstream >> lowright;
+        stringstream >> highleft;
+        stringstream >> highright;
+
+        if (lowleft == INFINITY || lowright == INFINITY || highleft == INFINITY || highright == INFINITY) {
+            throw exception::InterpreterException("Invalid number format...");
+        }
+
+        return new fuzzy::isTrapezoid<T>(lowleft, lowright, highleft, highright);
+    }
+
+    template<typename T>
+    fuzzy::IsSigmoid<T> *FuzzyInterpreter<T>::createSigmoid(std::vector<std::string> args) {
+        if (args.size() != 1) {
+            throw exception::InterpreterException("Definition command required 1 arguments (min)");
+        }
+
+        std::stringstream stringstream;
+        for (const auto &arg : args) {
+            stringstream << arg << std::endl;
+        }
+
+        T min(INFINITY);
+
+        stringstream >> min;
+
+        if (min == INFINITY) {
+            throw exception::InterpreterException("Invalid number format...");
+        }
+
+        return new fuzzy::IsSigmoid<T>(min);
+    }
+
+    template<typename T>
+    fuzzy::IsSingleton<T> *FuzzyInterpreter<T>::createSingleton(std::vector<std::string> args) {
+        if (args.size() != 1) {
+            throw exception::InterpreterException("Definition command required 1 arguments (value)");
+        }
+
+        std::stringstream stringstream;
+        for (const auto &arg : args) {
+            stringstream << arg << std::endl;
+        }
+
+        T value(INFINITY);
+
+        stringstream >> value;
+
+        if (value == INFINITY) {
+            throw exception::InterpreterException("Invalid number format...");
+        }
+
+        return new fuzzy::IsSingleton<T>(value);
+    }
+
+    template<typename T>
+    fuzzy::IsGaussian<T> *FuzzyInterpreter<T>::createGaussian(std::vector<std::string> args) {
+        if (args.size() != 2) {
+            throw exception::InterpreterException("Definition command required 2 arguments (mean, variance)");
+        }
+
+        std::stringstream stringstream;
+        for (const auto &arg : args) {
+            stringstream << arg << std::endl;
+        }
+
+        T mean(INFINITY);
+        T variance(INFINITY);
+
+        stringstream >> mean;
+        stringstream >> variance;
+
+        if (mean == INFINITY || variance == INFINITY) {
+            throw exception::InterpreterException("Invalid number format...");
+        }
+
+        return new fuzzy::IsGaussian<T>(mean, variance);
     }
 }
 
