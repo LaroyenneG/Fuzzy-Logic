@@ -7,9 +7,9 @@ namespace model {
 
     Engine::Engine(double _rotationAcceleration, double _rotationSpeed, double _desiredPower, double _friction,
                    double _propellerRadius, double _propellerWeight, double _horsePower, double _maxRotationSpeed,
-                   double _powerStep, unsigned short _bladeNumber)
+                   double _powerStep, double _power, unsigned short _bladeNumber)
             : rotationAcceleration(_rotationAcceleration), rotationSpeed(_rotationSpeed), desiredPower(_desiredPower),
-              power(0),
+              power(_power),
               friction(_friction),
               propellerRadius(_propellerRadius), propellerWeight(_propellerWeight), horsePower(_horsePower),
               maxRotationSpeed(_maxRotationSpeed), powerStep(_powerStep), bladeNumber(_bladeNumber) {
@@ -22,7 +22,7 @@ namespace model {
                      _friction,
                      _propellerRadius,
                      _propellerWeight,
-                     _horsePower, _maxRotationSpeed, _powerStep, _bladeNumber) {
+                     _horsePower, _maxRotationSpeed, _powerStep, ENGINE_DEFAULT_POWER, _bladeNumber) {
 
     }
 
@@ -58,16 +58,15 @@ namespace model {
 
         nextPower(time);
 
-        const double momentOfInertia = 0.5 * propellerWeight * propellerRadius * propellerRadius;
-
         double torque = (fabs(rotationSpeed) >= 1) ?
                         getHorsePower() * ENGINE_CV_TO_WATT / fabs(rotationSpeed)
                                                    :
                         getHorsePower() * ENGINE_CV_TO_WATT;
 
-        double rotationFriction = -rotationSpeed * bladeNumber * propellerRadius * friction / propellerWeight;
+        const double propellerRotationFriction =
+                computeBladeRotationFriction(rotationSpeed, propellerRadius) * bladeNumber;
 
-        rotationAcceleration = torque / momentOfInertia + rotationFriction;
+        rotationAcceleration = torque / getMomentOfInercia() + propellerRotationFriction + getRotationFriction();
 
         nextRotation(time);
     }
@@ -103,27 +102,26 @@ namespace model {
 
     double Engine::computeBladeThrust(double _rotationSpeed, double _propellerRadius) const {
 
-        static const unsigned int SAMPLING = 10000;
-        static const double THRUST_COEFFICIENT = ENGINE_BLADE_THRUST_MAGIC_NUMBER;
+        static const unsigned int SAMPLING = 1000;
+        static const double RESULTANT_COEFFICIENT = ENGINE_BLADE_THRUST_MAGIC_NUMBER;
 
         const double step = _propellerRadius / SAMPLING;
-        const double width = propellerRadius * 2.0 / 3.0;
+        const double widthPropeller = getPropellerWidth();
 
         double thrust = 0.0;
 
         double a = 0.0;
         double b = step;
 
-
-        while (b < propellerRadius) {
+        while (b < _propellerRadius) {
 
             double length = (a + b) / 2.0;
 
             double waterSpeed = _rotationSpeed * length;
 
-            double surface = (b - a) / 2.0 * width;
+            double surface = (b - a) / 2.0 * widthPropeller;
 
-            double thrustValue = 0.5 * SEA_M_VOL * surface * THRUST_COEFFICIENT * waterSpeed * waterSpeed;
+            double thrustValue = 0.5 * SEA_M_VOL * surface * RESULTANT_COEFFICIENT * waterSpeed * waterSpeed;
 
             thrust += thrustValue;
 
@@ -139,5 +137,57 @@ namespace model {
         rotationSpeed = ENGINE_DEFAULT_ROTATION_SPEED;
         rotationAcceleration = ENGINE_DEFAULT_ROTATION_ACCELERATION;
         power = ENGINE_DEFAULT_POWER;
+    }
+
+    double
+    Engine::computeBladeRotationFriction(double _rotationSpeed, double _propellerRadius) const {
+
+        static const unsigned int SAMPLING = 1000;
+        static const double DRAG_COEFFICIENT = ENGINE_BLADE_DRAG_MAGIC_NUMBER;
+
+        const double moment = getMomentOfInercia();
+        const double step = _propellerRadius / SAMPLING;
+        const double widthPropeller = getPropellerWidth();
+        const double direction = (_rotationSpeed > 0) ? -1 : 1;
+
+        double rotationFriction = 0;
+
+        double a = 0.0;
+        double b = step;
+
+        while (b < _propellerRadius) {
+
+            double length = (a + b) / 2.0;
+
+            double waterSpeed = _rotationSpeed * length;
+
+            double surface = (b - a) / 2.0 * widthPropeller;
+
+            double dragValue = 0.5 * SEA_M_VOL * surface * DRAG_COEFFICIENT * waterSpeed * waterSpeed;
+
+            rotationFriction += dragValue * length / moment;
+
+            a = b;
+            b += step;
+        }
+
+        return rotationFriction * direction;
+    }
+
+    double Engine::getRotationFriction() const {
+
+        double direction = (rotationSpeed < 0) ? 1 : -1;
+
+        return rotationSpeed * friction * direction;
+    }
+
+    double Engine::getMomentOfInercia() const {
+
+        return 0.5 * propellerWeight * propellerRadius * propellerRadius;
+    }
+
+    double Engine::getPropellerWidth() const {
+
+        return propellerRadius * ENGINE_BLADE_RADIUS_TO_WIDTH;
     }
 }

@@ -13,6 +13,8 @@
 #define ENGINE_CV_TO_WATT 735.5
 
 #define ENGINE_BLADE_THRUST_MAGIC_NUMBER 1.42
+#define ENGINE_BLADE_DRAG_MAGIC_NUMBER 0.1
+#define ENGINE_BLADE_RADIUS_TO_WIDTH (2.0/3.0)
 
 #define ENGINE_VALUE_ERROR_MSG "Engine invalid engine power"
 #define ENGINE_DEFAULT_NAME "Engine"
@@ -41,18 +43,24 @@ namespace model {
 
         virtual double computeBladeThrust(double _rotationSpeed, double _propellerRadius) const;
 
+        virtual double
+        computeBladeRotationFriction(double _rotationSpeed, double _propellerRadius) const;
+
     public:
 
         explicit Engine(double _rotationAcceleration, double _rotationSpeed, double _desiredPower, double _friction,
-                        double _propellerRadius, double _propellerWeight, double _horsePower,
-                        double _maxRotationSpeed,
-                        double _powerStep, unsigned short _bladeNumber);
+                        double _propellerRadius, double _propellerWeight, double _horsePower, double _maxRotationSpeed,
+                        double _powerStep, double _power, unsigned short _bladeNumber);
 
         explicit Engine(double _propellerRadius, double _propellerWeight, double _horsePower,
                         double _maxRotationSpeed,
                         double _friction, double _powerStep, unsigned short _bladeNumber);
 
         double getRotationSpeed() const;
+
+        double getRotationFriction() const;
+
+        double getMomentOfInercia() const;
 
         double computePropulsionStrength() const; // N
 
@@ -61,6 +69,8 @@ namespace model {
         void nexTime(double time);
 
         void nextPower(double time);
+
+        virtual double getPropellerWidth() const;
 
         double getPower() const;
 
