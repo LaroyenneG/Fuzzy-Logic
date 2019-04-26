@@ -18,11 +18,14 @@ namespace controller {
 
         bool canChange = true;
 
-        for (auto rotationSpeed : machinesRotationSpeed) {
+        for (unsigned int i = 0; i < machinesRotationSpeed.size(); i++) {
 
-            if (abs(rotationSpeed) >= 0.1 && rotationSpeed * power < 0) {
-                canChange = false;
-                break;
+            if (i != TITANIC_TURBINE_MACHINE_RANK) {
+
+                if (fabs(machinesRotationSpeed[i]) >= 0.1 && machinesRotationSpeed[i] * power < 0) {
+                    canChange = false;
+                    break;
+                }
             }
         }
 

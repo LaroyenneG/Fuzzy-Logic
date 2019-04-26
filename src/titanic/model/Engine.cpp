@@ -90,9 +90,15 @@ namespace model {
 
     double Engine::powerStepFunction(double _powerStep, double time, double _power, double _desiredPower) const {
 
-        _power += _desiredPower;
+        double value = 0.0;
 
-        return _powerStep * time;
+        if (fabs(_desiredPower) < fabs(_power) && _desiredPower < _power) {
+            value = _powerStep;
+        } else {
+            value = _powerStep * time;
+        }
+
+        return value;
     }
 
     double Engine::getHorsePower() {
@@ -176,9 +182,7 @@ namespace model {
 
     double Engine::getRotationFriction() const {
 
-        double direction = (rotationSpeed < 0) ? 1 : -1;
-
-        return rotationSpeed * friction * direction;
+        return rotationSpeed * friction * -1.0;
     }
 
     double Engine::getMomentOfInercia() const {

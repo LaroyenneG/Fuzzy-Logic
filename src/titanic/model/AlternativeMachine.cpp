@@ -18,7 +18,7 @@ namespace model {
     double
     AlternativeMachine::powerStepFunction(double _powerStep, double time, double _power, double _desiredPower) const {
 
-        static const int SLEEP_NUMBER = 2;
+        static const int SLEEP_NUMBER = 3;
 
         if (_power < _desiredPower && fabs(_power) < pow(10, -SLEEP_NUMBER)) {
             _powerStep /= pow(10, SLEEP_NUMBER);
@@ -26,6 +26,6 @@ namespace model {
             _powerStep /= pow(10, SLEEP_NUMBER);
         }
 
-        return _powerStep * time;
+        return Engine::powerStepFunction(_powerStep, time, _power, _desiredPower);
     }
 }
