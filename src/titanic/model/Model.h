@@ -11,7 +11,7 @@
 #define MODEL_REAL_POSITION_X 0.0
 #define MODEL_REAL_POSITION_Y 634.0
 #define MODEL_REAL_ORIENTATION -1.57079632679
-#define MODEL_REAL_RUDDER 1.0
+
 
 #include "Titanic.h"
 #include "Iceberg.h"

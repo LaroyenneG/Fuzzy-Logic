@@ -280,6 +280,7 @@ namespace model {
 
 
     double Titanic::computeIncidence() const {
+
         return angleBetweenVector(speed, directionVector());
     }
 
@@ -299,24 +300,32 @@ namespace model {
         double a = 0.0;
         double b = STEP;
 
-        while (b < LENGTH) {
+        for (unsigned int i = 0; i < 2; i++) {
 
-            double length = (a + b) / 2.0;
+            while (b < LENGTH) {
 
-            double waterSpeed = rotationSpeed * length;
+                double length = (a + b) / 2.0;
 
-            double surface = (b - a) * DRAUGHT;
+                double waterSpeed = rotationSpeed * length;
 
-            double dragValue = 0.5 * SEA_M_VOL * surface * DRAG_COEFFICIENT * waterSpeed * waterSpeed;
+                double surface = (b - a) * DRAUGHT;
 
-            torque += dragValue * length;
+                double dragValue = 0.5 * SEA_M_VOL * surface * DRAG_COEFFICIENT * waterSpeed * waterSpeed;
 
-            a = b;
-            b += STEP;
+                torque += dragValue * length / MOMENT_OF_INERTIA;
+
+                a = b;
+                b += STEP;
+            }
         }
 
-        torque *= 2.0;
+        return torque * direction;
+    }
 
-        return torque / MOMENT_OF_INERTIA * direction;
+    void Titanic::reachMachinePower(double value) {
+
+        for (auto engine : engines) {
+            engine->reachPower(value);
+        }
     }
 }

@@ -92,6 +92,8 @@ namespace model {
 
         void setRudderValue(double value);
 
+        void reachMachinePower(double value);
+
         std::array<double, TITANIC_ENGINES_COUNTER> getMachinesRotationSpeed() const;
 
         const LasersSensors<TITANIC_LASERS_COUNTER> &getLasersSensors() const;

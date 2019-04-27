@@ -7,12 +7,14 @@
 #include "PhysicObject2D.h"
 
 #define ENGINE_DEFAULT_POWER 0.0
+#define ENGINE_MAX_POWER 1.0
+#define ENGINE_MIN_POWER -1.0
 #define ENGINE_DEFAULT_ROTATION_SPEED 0.0
 #define ENGINE_DEFAULT_ROTATION_ACCELERATION 0.0
 
 #define ENGINE_CV_TO_WATT 735.5
 
-#define ENGINE_BLADE_THRUST_MAGIC_NUMBER 1.42
+#define ENGINE_BLADE_THRUST_MAGIC_NUMBER 1.6
 #define ENGINE_BLADE_DRAG_MAGIC_NUMBER 0.1
 #define ENGINE_BLADE_RADIUS_TO_WIDTH (2.0/3.0)
 
@@ -69,6 +71,8 @@ namespace model {
         void nexTime(double time);
 
         void nextPower(double time);
+
+        void reachPower(double value);
 
         virtual double getPropellerWidth() const;
 

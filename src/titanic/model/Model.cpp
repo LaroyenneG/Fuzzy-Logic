@@ -94,14 +94,13 @@ namespace model {
         setVisibility(MODEL_REAL_VISIBILITY);
 
         titanic->resetToDefault();
-
+        titanic->reachMachinePower(ENGINE_MAX_POWER);
         titanic->setMachinePower(MODEL_REAL_MACHINE_POWER);
         titanic->setSpeedY(MODEL_REAL_SPEED_Y);
         titanic->setSpeedX(MODEL_REAL_SPEED_X);
         titanic->setPositionX(MODEL_REAL_POSITION_X);
         titanic->setPositionY(MODEL_REAL_POSITION_Y);
         titanic->setOrientation(MODEL_REAL_ORIENTATION);
-        titanic->setRudderValue(MODEL_REAL_RUDDER);
     }
 
     void Model::setVisibility(double value) {

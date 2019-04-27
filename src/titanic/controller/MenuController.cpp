@@ -46,16 +46,22 @@ namespace controller {
 
     void MenuController::realIcebergScene() {
 
+        model->getTitanic()->reachMachinePower(1.0);
+
         view->lockDashboard();
 
         view->disableAutomaticPilot();
         model->reproduceRealScene();
-        view->setMachinePower(0.0);
         view->setHelmValue(SLIDER_MINIMUM_VALUE);
+        view->setMachinePower(0);
     }
 
     void MenuController::icebergScene() {
 
         view->unlockDashboard();
+        model->reproduceRealScene();
+        view->setHelmValue(0);
+        model->getTitanic()->reachMachinePower(ENGINE_MAX_POWER);
+        view->setMachinePower(SLIDER_MAXIMUM_VALUE);
     }
 }

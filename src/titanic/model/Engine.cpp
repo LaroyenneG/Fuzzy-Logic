@@ -43,7 +43,7 @@ namespace model {
 
     void Engine::setPower(double value) {
 
-        if (value < -1.0 || value > 1.0) {
+        if (value < ENGINE_MIN_POWER || value > ENGINE_MAX_POWER) {
             throw std::out_of_range(ENGINE_VALUE_ERROR_MSG);
         }
 
@@ -193,5 +193,16 @@ namespace model {
     double Engine::getPropellerWidth() const {
 
         return propellerRadius * ENGINE_BLADE_RADIUS_TO_WIDTH;
+    }
+
+    void Engine::reachPower(double value) {
+
+        static const unsigned int NB_LOOP = 1000;
+
+        setPower(value);
+
+        for (unsigned int i = 0; i < NB_LOOP; i++) {
+            nexTime(1);
+        }
     }
 }
