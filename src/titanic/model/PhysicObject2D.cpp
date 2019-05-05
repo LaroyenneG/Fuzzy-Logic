@@ -358,12 +358,12 @@ namespace model {
 
     double PhysicObject2D::angleBetweenVector(const Vector &vector1, const Vector &vector2) {
 
-        const double denominator = normVector(vector1) * normVector(vector2);
+        long double denominator = normVector(vector1) * normVector(vector2);
 
-        const double numerator =
+        long double numerator =
                 vector1[X_DIM_VALUE] * vector2[X_DIM_VALUE] + vector1[Y_DIM_VALUE] * vector2[Y_DIM_VALUE];
 
-        double relation = (denominator != 0.0) ? numerator / denominator : M_PI / 2.0;
+        double relation = (denominator != 0.0) ? numerator / denominator : 1.0;
 
         if (relation >= 1.0) {
             relation = 1.0;

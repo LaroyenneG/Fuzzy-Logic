@@ -63,6 +63,8 @@ namespace model {
                     line.append(column.front());
                     column.pop();
                     complete = false;
+                } else {
+                    line.append(" ");
                 }
             }
 

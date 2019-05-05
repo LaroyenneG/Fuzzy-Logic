@@ -46,6 +46,8 @@ namespace controller {
 
     void MenuController::realIcebergScene() {
 
+        reset();
+
         model->getTitanic()->reachMachinePower(1.0);
 
         view->lockDashboard();
@@ -57,6 +59,8 @@ namespace controller {
     }
 
     void MenuController::icebergScene() {
+
+        reset();
 
         view->unlockDashboard();
         model->reproduceRealScene();
