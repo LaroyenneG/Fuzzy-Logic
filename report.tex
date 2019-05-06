@@ -12,7 +12,7 @@
 \usepackage{listings}
 \usepackage{appendix}
 \usepackage{amsmath}
-
+\usepackage{comment}
 
 
 \newcolumntype{M}[1]{>{\raggedright}m{#1}}
@@ -28,9 +28,9 @@
     \maketitle
 
     \begin{abstract}
-        Ce document présente une synthèse du projet de logique floue que nous avons réalisé en deuxième année.\\
-        Le cœur de ce projet est une bibliothèque de logique floue que nous avons programmé en \textit{C++}. La bibliothèque comporte les principaux opérateurs de bases de la logique floue ainsi que quelques méthodes de défuzzification.\\
-        Pour les utilisateurs puissent manipuler plus simplement cette bibliothèque, nous avons décidé d'ajouter un interpréteur permettant de modéliser des problèmes de logique floue sans avoir à la manipuler directement.\\
+        Ce document présente une synthèse du projet de logique floue que nous avons réalisé en deuxième année.
+        Le cœur de ce projet est une bibliothèque de logique floue que nous avons programmé en \textit{C++}. La bibliothèque comporte les principaux opérateurs de bases de la logique floue ainsi que quelques méthodes de défuzzification.
+        Pour les utilisateurs puissent manipuler plus simplement cette bibliothèque, nous avons décidé d'ajouter un interpréteur permettant de modéliser des problèmes de logique floue sans avoir à la manipuler directement.
         La logique floue permettant de prendre des décisions complexe à partir d'un ensemble de données. Nous avons décidé de l'utiliser afin de réaliser un pilote automatique évitant les obstacles pouvant se trouver devant un navire, tout en utilisant la bibliothèque que nous avons conçu.
     \end{abstract}
 
@@ -42,6 +42,8 @@
 
     Notre \textit{framework} a été développé en langage \textit{C++} et compilé avec le compilateur GNU \textit{g++} et \textit{CMake}.
     Affin de s’assurer du bon fonctionnement de la bibliothèque, nous avons utilisé le \textit{framework} \textit{CPPUNIT} permettant de réaliser des tests unitaires en langage \textit{C++}.
+    Toutes les opérandes et opérateurs sont vérifiés via un filet de test permettant d’identifier d’éventuel mauvais fonctionnement.
+    Cela permet d'effectuer des modifications sur la librairie en identifiant rapidement les possibles régressions.
 
     \begin{figure}[H]
         \begin{center}
@@ -66,11 +68,14 @@
             \end{tabular}
         \end{center}
     \end{table}
-    
+
     \section{Mise en place d'un interpréteur de logique floue}
 
+    Pour réaliser des systémes floue plus simplement, nous avons réalisé un interpreteur utilisant notre bibliothéque.
+    Il réalise les manipulations sur la factory en fonction des instructions d'un texte d'entrée,
+    Cela permet de se rapprocher plus du langage humain, afin de se concentrer uniquement sur la logique et non de l'acepet programmation.
 
-    \begin{figure}[h!]
+    \begin{figure}[H]
         \begin{center}
             \caption{Schéma présentant le concept de l'interpreteur}
             \includegraphics[scale=0.5]{assets/Interpreteur_Dessin.jpg}
@@ -159,7 +164,7 @@
         \item La section \textbf{modèle} contient l'ensemble éléments pour réaliser la gestion des phénomènes physique et mécaniques.
         \item La section \textbf{vue} comportent le système de virtualisation (transforment le modèle en scène 2D), ainsi que les composants de l'interface.
         \item La section \textbf{contrôleur} contient tous les actions à réaliser pour chaque composant graphique, ainsi que le pilote automatique.
-    \end{itemize} 
+    \end{itemize}
 
     \section{Création d'un pilote automatique pour le paquebot}
 
@@ -183,6 +188,8 @@
 
     \subsection{Réalisation du système floue à l'aide du \textit{framework}}
 
+    Une fois les conceptes théoriques saisie, nous avons exprimé notre pilote automatique dans le langage de l'interpreteur.
+
     \begin{figure}[H]
         \begin{center}
             \caption{Code du pilote automatique pour l’interpréteur}
@@ -191,35 +198,5 @@
         \end{center}
     \end{figure}
 
-    \newpage
-    \section*{Annexes}
 
-    \begin{appendix}
-
-        \section{Coefficients de portance du navire en fonction de l'incidence}
-
-        \begin{center}
-            \includegraphics[scale=0.7, angle=90]{assets/Titanic_Cz.jpg}
-        \end{center}
-
-        \section{Coefficients de traînée du navire en fonction de l'incidence}
-
-        \begin{center}
-            \includegraphics[scale=0.7, angle=90]{assets/Titanic_Cx.jpg}
-        \end{center}
-
-        \section{Coefficients de portance du gouvernail en fonction de l'incidence}
-
-        \begin{center}
-            \includegraphics[scale=0.7, angle=90]{assets/Rudder_Cz.jpg}
-        \end{center}
-
-
-        \section{Coefficients de traînée du gouvernail en fonction de l'incidence}
-
-        \begin{center}
-            \includegraphics[scale=0.7, angle=90]{assets/Rudder_Cx.jpg}
-        \end{center}
-
-    \end{appendix}
 \end{document}
