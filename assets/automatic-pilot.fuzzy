@@ -1,4 +1,4 @@
-FuzzySystem Helm Cog NotMin AndMin OrMax ThenMin AggMax
+FuzzySystem Helm Cog NotMin AndMin AEqual ThenMin AggMax
 Var Input Helm->laser1
 Var Input Helm->laser2
 Var Input Helm->laser3
@@ -14,7 +14,7 @@ Rules Helm {
 If ((laser1 Is laser) Then (value Is rightTri))
 If ((laser2 Is laser) Then (value Is avoidfront))
 If ((laser3 Is laser) Then (value Is left))
-If ((laser1 Is laser) AEqual (laser3 Is laser) Then (value Is rightTra))
+If ((laser1 Is laser) Or (laser3 Is laser) Then (value Is rightTra))
 If (((laser1 Is front) And (laser2 Is front) And (laser3 Is front)) Then (value Is central))
 }
 Build Helm 0 1.0 0.1

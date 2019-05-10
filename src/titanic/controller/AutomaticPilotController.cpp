@@ -36,6 +36,8 @@ namespace controller {
         double helmValue = interpreter->readInMemory(fuzzylogic::AbstractInterpreter::OUTPUT,
                                                      AUTO_PILOT_HELM_FULL_NAME);
 
+        std::cout << helmValue << '\n';
+
         helmValue = helmValue * 2.0 - 1.0;
 
         view->setHelmValue(helmValue * SLIDER_MAXIMUM_VALUE);

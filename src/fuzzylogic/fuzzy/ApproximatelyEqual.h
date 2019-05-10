@@ -16,7 +16,7 @@ namespace fuzzylogic::fuzzy {
     T ApproximatelyEqual<T>::evaluate(fuzzylogic::core::Expression<T> *left,
                                       fuzzylogic::core::Expression<T> *right) const {
 
-        static const T DELTA(1);
+        static const T DELTA(0.2);
         static const T ZERO(0);
 
         T l = left->evaluate();
