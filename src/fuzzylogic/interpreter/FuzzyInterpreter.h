@@ -21,6 +21,8 @@
 #include "IsGaussian.h"
 #include "IsRangeBell.h"
 #include "IsBell.h"
+#include "ApproximatelyEqual.h"
+#include "Equal.h"
 
 
 #define INTERPRETER_OR_MAX_NAME "OrMax"
@@ -53,6 +55,8 @@
 #define INTERPRETER_DEFINITION_SINGLETON "Singleton"
 #define INTERPRETER_DEFINITION_GAUSSIAN "Gaussian"
 #define INTERPRETER_DEFINITION_PARABLE "Parable"
+#define INTERPRETER_DEFINITION_A_EQUAL "AEqual"
+#define INTERPRETER_DEFINITION_EQUAL "Equal"
 #define INTERPRETER_RULE_IF "If"
 #define INTERPRETER_RULE_THEN "Then"
 #define INTERPRETER_RULE_AND "And"
@@ -365,6 +369,7 @@ namespace fuzzylogic::interpreter {
                                                            const std::string &context) {
 
         map[buildKeyWithContextAndName(context, INTERPRETER_OR_MAX_NAME)] = new fuzzy::OrMax<T>();
+        map[buildKeyWithContextAndName(context, INTERPRETER_DEFINITION_A_EQUAL)] = new fuzzy::ApproximatelyEqual<T>();
         map[buildKeyWithContextAndName(context, INTERPRETER_AGG_MAX_NAME)] = new fuzzy::AggMax<T>();
         map[buildKeyWithContextAndName(context, INTERPRETER_NOT_MIN_NAME)] = new fuzzy::NotMinus1<T>();
         map[buildKeyWithContextAndName(context, INTERPRETER_AND_MIN_NAME)] = new fuzzy::AndMin<T>();
