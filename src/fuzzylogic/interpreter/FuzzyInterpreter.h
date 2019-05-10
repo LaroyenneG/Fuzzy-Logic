@@ -1,6 +1,10 @@
 #ifndef LOGIQUEFLOUE_FUZZYMONITOR_H
 #define LOGIQUEFLOUE_FUZZYMONITOR_H
 
+#include  <map>
+#include <string>
+
+#include "IsParable.h"
 #include "Is.h"
 #include "ValueModel.h"
 #include "CoreObject.h"
@@ -48,6 +52,7 @@
 #define INTERPRETER_DEFINITION_SIGMOID "Sigmoid"
 #define INTERPRETER_DEFINITION_SINGLETON "Singleton"
 #define INTERPRETER_DEFINITION_GAUSSIAN "Gaussian"
+#define INTERPRETER_DEFINITION_PARABLE "Parable"
 #define INTERPRETER_RULE_IF "If"
 #define INTERPRETER_RULE_THEN "Then"
 #define INTERPRETER_RULE_AND "And"
@@ -133,6 +138,8 @@ namespace fuzzylogic::interpreter {
         fuzzy::IsSingleton<T> *createSingleton(std::vector<std::string> args);
 
         fuzzy::IsGaussian<T> *createGaussian(std::vector<std::string> args);
+
+        fuzzy::IsParable<T> *createParable(std::vector<std::string> args);
 
         bool operatorExistInContext(const std::string &context, const std::string &name) const;
 
@@ -485,6 +492,8 @@ namespace fuzzylogic::interpreter {
             is = createSingleton(args);
         } else if (typeName == INTERPRETER_DEFINITION_GAUSSIAN) {
             is = createGaussian(args);
+        } else if (typeName == INTERPRETER_DEFINITION_PARABLE) {
+            is = createParable(args);
         } else {
             throw exception::InterpreterException("Invalid definition type : " + typeName);
         }
@@ -844,13 +853,6 @@ namespace fuzzylogic::interpreter {
 
                 expression = factory->newIs(shape, convertStringRuleToExpression(factory, stringLeft, context));
 
-                /*
-                 * } else if (..) {
-                 *
-                 * to complete
-                 *
-                 */
-
             } else {
                 throw exception::InterpreterException(
                         "Invalid rule : " + stringRule + " un known operator " + stringOperator);
@@ -908,7 +910,7 @@ namespace fuzzylogic::interpreter {
         if (!stringRule.empty()) {
 
             int cursor = 0;
-            unsigned int index = stringRule.size() - 1;
+            unsigned long index = stringRule.size() - 1;
 
             if (stringRule[index] == INTERPRETER_RULE_CLOSE_EXPRESSION_CHAR) {
 
@@ -1196,6 +1198,30 @@ namespace fuzzylogic::interpreter {
         }
 
         return new fuzzy::IsGaussian<T>(mean, variance);
+    }
+
+    template<typename T>
+    fuzzy::IsParable<T> *FuzzyInterpreter<T>::createParable(std::vector<std::string> args) {
+        if (args.size() != 2) {
+            throw exception::InterpreterException("Definition command required 2 arguments (valueA, valueB)");
+        }
+
+        std::stringstream stringstream;
+        for (const auto &arg : args) {
+            stringstream << arg << std::endl;
+        }
+
+        T valueA(INFINITY);
+        T valueB(INFINITY);
+
+        stringstream >> valueA;
+        stringstream >> valueB;
+
+        if (valueA == INFINITY || valueB == INFINITY) {
+            throw exception::InterpreterException("Invalid number format...");
+        }
+
+        return new fuzzy::IsParable<T>(valueA, valueB);
     }
 }
 
