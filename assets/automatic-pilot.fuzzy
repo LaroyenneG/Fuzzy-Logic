@@ -1,0 +1,18 @@
+FuzzySystem Helm Cog NotMin AndMin OrMax ThenMin AggMax
+Var Input Helm->laser1
+Var Input Helm->laser2
+Var Input Helm->laser3
+Var Output Helm->value
+Define Parable Helm->laser -1 1
+Define Singleton Helm->front 1
+Define Trapezoid Helm->avoidfront 0.25 1 0.5 0.75
+Define Triangle Helm->left 0 0.25 0.5
+Define Triangle Helm->central 0.25 0.5 0.75
+Define Triangle Helm->right 0.5 0.75 1
+Rules Helm {
+If ((laser1 Is laser) Then (value Is right))
+If ((laser2 Is laser) Then (value Is avoidfront))
+If ((laser3 Is laser) Then (value Is left))
+If (((laser1 Is front) And (laser2 Is front) And (laser3 Is front)) Then (value Is central))
+}
+Build Helm 0 1.0 0.1

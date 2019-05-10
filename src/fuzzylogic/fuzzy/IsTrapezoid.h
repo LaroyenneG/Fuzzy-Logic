@@ -7,7 +7,7 @@
 namespace fuzzylogic::fuzzy {
 
     template<typename T>
-    class isTrapezoid : public Is<T> {
+    class IsTrapezoid : public Is<T> {
     private:
         T lowLeft;
         T lowRight;
@@ -15,7 +15,7 @@ namespace fuzzylogic::fuzzy {
         T highRight;
 
     public:
-        explicit isTrapezoid(const T &_lowLeft, const T &_lowRight, const T &_highLeft, const T &_highRight);
+        explicit IsTrapezoid(const T &_lowLeft, const T &_lowRight, const T &_highLeft, const T &_highRight);
 
         T evaluate(fuzzylogic::core::Expression<T> *expression) const override;
 
@@ -37,13 +37,13 @@ namespace fuzzylogic::fuzzy {
     };
 
     template<typename T>
-    isTrapezoid<T>::isTrapezoid(const T &_lowLeft, const T &_lowRight, const T &_highLeft, const T &_highRight)
+    IsTrapezoid<T>::IsTrapezoid(const T &_lowLeft, const T &_lowRight, const T &_highLeft, const T &_highRight)
             :lowLeft(
             _lowLeft), lowRight(_lowRight), highLeft(_highLeft), highRight(_highRight) {
     }
 
     template<typename T>
-    T isTrapezoid<T>::evaluate(fuzzylogic::core::Expression<T> *expression) const {
+    T IsTrapezoid<T>::evaluate(fuzzylogic::core::Expression<T> *expression) const {
 
         static const T ZERO(0);
         static const T ONE(1);
@@ -71,42 +71,42 @@ namespace fuzzylogic::fuzzy {
     }
 
     template<typename T>
-    const T &isTrapezoid<T>::getLowLeft() const {
+    const T &IsTrapezoid<T>::getLowLeft() const {
         return lowLeft;
     }
 
     template<typename T>
-    const T &isTrapezoid<T>::getLowRight() const {
+    const T &IsTrapezoid<T>::getLowRight() const {
         return lowRight;
     }
 
     template<typename T>
-    const T &isTrapezoid<T>::getHighLeft() const {
+    const T &IsTrapezoid<T>::getHighLeft() const {
         return highLeft;
     }
 
     template<typename T>
-    const T &isTrapezoid<T>::getHighRight() const {
+    const T &IsTrapezoid<T>::getHighRight() const {
         return highRight;
     }
 
     template<typename T>
-    void isTrapezoid<T>::setLowLeft(const T &_ll) {
+    void IsTrapezoid<T>::setLowLeft(const T &_ll) {
         lowLeft = _ll;
     }
 
     template<typename T>
-    void isTrapezoid<T>::setLowRight(const T &_lr) {
+    void IsTrapezoid<T>::setLowRight(const T &_lr) {
         lowRight = _lr;
     }
 
     template<typename T>
-    void isTrapezoid<T>::setHighLeft(const T &_hl) {
+    void IsTrapezoid<T>::setHighLeft(const T &_hl) {
         highLeft = _hl;
     }
 
     template<typename T>
-    void isTrapezoid<T>::setHighRight(const T &_hr) {
+    void IsTrapezoid<T>::setHighRight(const T &_hr) {
         highRight = _hr;
     }
 

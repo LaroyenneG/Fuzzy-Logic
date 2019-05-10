@@ -4,7 +4,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "IsTriangle.h"
-#include "isTrapezoid.h"
+#include "IsTrapezoid.h"
 #include "IsSingleton.h"
 #include "IsRampRight.h"
 #include "IsRampLeft.h"

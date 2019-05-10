@@ -20,7 +20,7 @@
 #include "IsShape.h"
 #include "IsSigmoid.h"
 #include "IsSingleton.h"
-#include "isTrapezoid.h"
+#include "IsTrapezoid.h"
 #include "Expression.h"
 #include "IsBell.h"
 #include "CogDefuzz.h"
@@ -92,7 +92,7 @@ namespace fuzzylogic {
     typedef fuzzy::IsRampRight<type> IsRampRight;
     typedef fuzzy::IsSingleton<type> IsSingleton;
     typedef fuzzy::IsSigmoid<type> IsSigmoid;
-    typedef fuzzy::isTrapezoid<type> IsTrapezoid;
+    typedef fuzzy::IsTrapezoid<type> IsTrapezoid;
 
 
     /******************************************** agg ***************************************************/

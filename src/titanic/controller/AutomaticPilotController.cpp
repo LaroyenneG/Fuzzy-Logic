@@ -20,6 +20,9 @@ namespace controller {
         mutex.lock();
 
         auto lasers = model->getTitanic()->getLasersSensors().getLasersValues(model->getElements());
+        for (auto &laser : lasers) {
+            laser *= L_VALUE;
+        }
 
         interpreter->writeInMemory(fuzzylogic::AbstractInterpreter::INPUT, AUTO_PILOT_LAZER_1_FULL_NAME,
                                    lasers[TITANIC_LASER_1_RANK]);
@@ -33,7 +36,9 @@ namespace controller {
         double helmValue = interpreter->readInMemory(fuzzylogic::AbstractInterpreter::OUTPUT,
                                                      AUTO_PILOT_HELM_FULL_NAME);
 
-        view->setHelmValue(helmValue);
+        helmValue = helmValue * 2.0 - 1.0;
+
+        view->setHelmValue(helmValue * SLIDER_MAXIMUM_VALUE);
 
         mutex.unlock();
     }

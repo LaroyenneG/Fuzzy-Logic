@@ -131,7 +131,7 @@ namespace fuzzylogic::interpreter {
 
         fuzzy::IsBell<T> *createBell(std::vector<std::string> args);
 
-        fuzzy::isTrapezoid<T> *createTrapezoid(std::vector<std::string> args);
+        fuzzy::IsTrapezoid<T> *createTrapezoid(std::vector<std::string> args);
 
         fuzzy::IsSigmoid<T> *createSigmoid(std::vector<std::string> args);
 
@@ -423,6 +423,7 @@ namespace fuzzylogic::interpreter {
                 for (auto input : inputs) {
 
                     try {
+
                         T value(AbstractInterpreter<T>::readInMemory(AbstractInterpreter<T>::INPUT, input));
 
                         variableContextAndName[input]->setValue(value);
@@ -1104,7 +1105,7 @@ namespace fuzzylogic::interpreter {
     }
 
     template<typename T>
-    fuzzy::isTrapezoid<T> *FuzzyInterpreter<T>::createTrapezoid(std::vector<std::string> args) {
+    fuzzy::IsTrapezoid<T> *FuzzyInterpreter<T>::createTrapezoid(std::vector<std::string> args) {
         if (args.size() != 4) {
             throw exception::InterpreterException(
                     "Definition command required 4 arguments (lowleft, lowright, highleft, highright)");
@@ -1129,7 +1130,7 @@ namespace fuzzylogic::interpreter {
             throw exception::InterpreterException("Invalid number format...");
         }
 
-        return new fuzzy::isTrapezoid<T>(lowleft, lowright, highleft, highright);
+        return new fuzzy::IsTrapezoid<T>(lowleft, lowright, highleft, highright);
     }
 
     template<typename T>

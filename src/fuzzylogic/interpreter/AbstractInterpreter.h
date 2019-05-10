@@ -209,7 +209,7 @@ namespace fuzzylogic::interpreter {
         if (stringBuffer.empty()) {
             nLine = line;
         } else {
-            stringBuffer += line;
+            stringBuffer += " " + line;
         }
 
         size_t openPosition = nLine.find(INTERPRETER_MULTI_LINES_OPEN_CHAR);

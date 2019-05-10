@@ -34,7 +34,7 @@ void IsTest::testIsTriangle() {
 
 void IsTest::testIsTrapezoid() {
 
-    isTrapezoid<double> isTrapezoid(0.1, 0.7, 0.5, 0.5);
+    IsTrapezoid<double> isTrapezoid(0.1, 0.7, 0.5, 0.5);
     ValueModel<double> valueModelA(0.7);
     ValueModel<double> valueModelB(1.2);
     ValueModel<double> valueModelC(0.3);
