@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 #ifdef _ACTIVE_BLACK_BOX_
     std::cout << model->getTitanic()->getBlackBox() << std::endl;
 #else
-    std::cout << "https://github.com/LaroyenneG/LogiqueFloue.git © Guillaume Laroyenne" << std::endl;
+    std::cout << "https://github.com/LaroyenneG/LogiqueFloue.git" << std::endl;
 #endif
 
     delete controlGroup;

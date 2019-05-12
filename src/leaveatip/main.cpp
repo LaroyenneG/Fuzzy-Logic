@@ -46,9 +46,6 @@ int main(int argc, char **argv) {
         std::cout << "Food mark : " << std::endl;
         std::cin >> food;
 
-
-        leaveATip.setMinTip(min);
-        leaveATip.setMaxTip(max);
         leaveATip.setFood(food);
         leaveATip.setService(service);
 
