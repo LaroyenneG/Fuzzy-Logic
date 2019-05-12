@@ -12,6 +12,7 @@
 #define INTERPRETER_MULTI_LINES_CLOSE_CHAR '}'
 #define INTERPRETER_CHAR_TO_SPLIT_LINE ' '
 #define INTERPRETER_KEY_SEPARATOR_CHAR ':'
+#define INTERPRETER_KEY_COMMENT_CHAR '#'
 
 namespace fuzzylogic::interpreter {
 
@@ -203,6 +204,13 @@ namespace fuzzylogic::interpreter {
 
     template<typename T>
     void AbstractInterpreter<T>::lineReaderExecution(const std::string &line) {
+
+        if (!line.empty()) {
+            if (line[0] == INTERPRETER_KEY_COMMENT_CHAR) {
+                return; // line start with comment
+            }
+        }
+
 
         std::string nLine;
 

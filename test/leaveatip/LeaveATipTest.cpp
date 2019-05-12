@@ -17,26 +17,19 @@ void LeaveATipTest::testInterpreter() {
 
     OPEN_FUZZY_SECURE_BLOCK {
 
-        static const std::vector<std::array<type, 2>> TEST_DATA = {{3.0, 8.0}}; // pair (service, food) to test
+        static const std::vector<std::array<type, 2>> TEST_DATA = {{3.0, 8.0},
+                                                                   {5.0, 7.0},
+                                                                   {8.0, 6.0}}; // pair (service, food) to test
 
         LeaveATip leaveATipCog(LEAVE_A_TIP_INTERPRETER_M_COG_FILE_PATH);
-        leaveATipCog.setMinTip(LEAVE_A_TIP_TEST_MIN_TIP);
-        leaveATipCog.setMaxTip(LEAVE_A_TIP_TEST_MAX_TIP);
 
         for (auto data : TEST_DATA) {
+
+            leaveATipCog.setService(data[0]);
+            leaveATipCog.setFood(data[1]);
 
             CPPUNIT_ASSERT_DOUBLES_EQUAL(computeTipWithCog(data[0], data[1]), leaveATipCog.evaluateTip(), 0.001);
         }
-
-        LeaveATip leaveATipSugeno(LEAVE_A_TIP_INTERPRETER_MSUGENO_FILE_PATH);
-        leaveATipSugeno.setMaxTip(LEAVE_A_TIP_TEST_MAX_TIP);
-        leaveATipSugeno.setMinTip(LEAVE_A_TIP_TEST_MIN_TIP);
-
-        for (auto data : TEST_DATA) {
-
-            CPPUNIT_ASSERT_DOUBLES_EQUAL(computeTipWithSugeno(data[0], data[1]), leaveATipSugeno.evaluateTip(), 0.001);
-        }
-
 
     } CLOSE_FUZZY_SECURE_BLOCK
 }

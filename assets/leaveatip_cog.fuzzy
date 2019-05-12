@@ -1,12 +1,22 @@
 FuzzySystem Tip Cog NotMin AndMin OrMax ThenMin AggMax
+# Variable zone
 Var Input Tip->service
 Var Input Tip->food
 Var Output Tip->tip
-Define Triangle Tip->generous 0.0.0 20.5 25.0
-Define Triangle Tip->cheap 0.0 5.0 25.0
-Define Triangle Tip->average 0.0 12.5 25.0
+# Define zone
+Define Triangle Tip->cheap 0.0 5.0 10.0
+Define Triangle Tip->average 10.0 15.0 20.0
+Define Triangle Tip->generous 20.0 25.0 30.0
+Define RampRight Tip->rancid 0.0 5.0 5.0
+Define RampLeft Tip->delicious 5.0 10.0 10.0
+Define RangeBell Tip->poor 1.0 1.0 0.0 0.0 5.0
+Define Bell Tip->good 1.2 3.2 5.0
+Define RangeBell Tip->excellent 1.0 1.0 10.0 5.0 10.0
+# Define rules
 Rules Tip {
-If ((food Is generous) Then (tip Is generous))
-If ((service ))
+If (((service Is poor) Or (food Is rancid)) Then (tip Is cheap))
+If ((service Is good) Then (tip Is average))
+If (((service Is excellent) Or (food Is delicious)) Then (tip Is generous))
 }
-Build Tip 0 100 1
+# Build rules and system
+Build Tip 0 25 1

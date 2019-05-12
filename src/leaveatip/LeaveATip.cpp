@@ -1,9 +1,7 @@
 #include "LeaveATip.h"
 
-LeaveATip::LeaveATip(fuzzylogic::type _service, fuzzylogic::type _food, fuzzylogic::type _minTip,
-                     fuzzylogic::type _maxTip,
-                     const std::string &filePath)
-        : service(_service), food(_food), minTip(_minTip), maxTip(_maxTip) {
+LeaveATip::LeaveATip(fuzzylogic::type _service, fuzzylogic::type _food, const std::string &filePath)
+        : service(_service), food(_food) {
 
     std::ifstream file(filePath);
 
@@ -18,8 +16,7 @@ LeaveATip::LeaveATip()
 }
 
 LeaveATip::LeaveATip(const std::string &filePath)
-        : LeaveATip(LEAVE_A_TIP_DEFAULT_VALUE, LEAVE_A_TIP_DEFAULT_VALUE, LEAVE_A_TIP_DEFAULT_VALUE,
-                    LEAVE_A_TIP_DEFAULT_VALUE, filePath) {
+        : LeaveATip(LEAVE_A_TIP_DEFAULT_VALUE, LEAVE_A_TIP_DEFAULT_VALUE, filePath) {
 }
 
 void LeaveATip::setService(fuzzylogic::type _service) {
@@ -30,22 +27,13 @@ void LeaveATip::setFood(fuzzylogic::type _food) {
     food = _food;
 }
 
-void LeaveATip::setMinTip(fuzzylogic::type _minTip) {
-    minTip = _minTip;
-}
-
-void LeaveATip::setMaxTip(fuzzylogic::type _maxTip) {
-    maxTip = _maxTip;
-}
 
 fuzzylogic::type LeaveATip::evaluateTip() {
 
-    fuzzyInterpreter.writeInMemory(fuzzylogic::AbstractInterpreter::INPUT, "Tip->service", service);
-    fuzzyInterpreter.writeInMemory(fuzzylogic::AbstractInterpreter::INPUT, "Tip->food", food);
+    fuzzyInterpreter.writeInMemory(fuzzylogic::AbstractInterpreter::INPUT, LEAVE_A_TIP_SERVICE_VARIABLE_NAME, service);
+    fuzzyInterpreter.writeInMemory(fuzzylogic::AbstractInterpreter::INPUT, LEAVE_A_TIP_FOOD_VARIABLE_NAME, food);
 
     fuzzyInterpreter.executeLine(INTERPRETER_COMPUTE_COMMAND);
 
-    fuzzylogic::type scaled = fuzzyInterpreter.readInMemory(fuzzylogic::AbstractInterpreter::OUTPUT, "Tip->tip") / 100;
-
-    return (maxTip - minTip + 1.0) * scaled + minTip;
+    return fuzzyInterpreter.readInMemory(fuzzylogic::AbstractInterpreter::OUTPUT, LEAVE_A_TIP_TIP_VARIABLE_NAME);
 }

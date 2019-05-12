@@ -1,5 +1,5 @@
-#ifndef LOGIQUEFLOUE_LEAVEATIPTEST_H
-#define LOGIQUEFLOUE_LEAVEATIPTEST_H
+#ifndef LOGIQUEFLOUE_LEAVEATIP_TEST_H
+#define LOGIQUEFLOUE_LEAVEATIP_TEST_H
 
 #include <cppunit/extensions/HelperMacros.h>
 
