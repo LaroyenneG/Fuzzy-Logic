@@ -55,7 +55,6 @@ namespace controller {
         }
 
         mutex.unlock();
-
     }
 
     AutomaticPilotController::~AutomaticPilotController() {
