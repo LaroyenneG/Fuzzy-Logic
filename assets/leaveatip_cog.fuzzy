@@ -2,8 +2,11 @@ FuzzySystem Tip Cog NotMin AndMin OrMax ThenMin AggMax
 Var Input Tip->service
 Var Input Tip->food
 Var Output Tip->tip
-Define Triangle Tip->generous 1.0 2.0 3.0
+Define Triangle Tip->generous 0.0.0 20.5 25.0
+Define Triangle Tip->cheap 0.0 5.0 25.0
+Define Triangle Tip->average 0.0 12.5 25.0
 Rules Tip {
 If ((food Is generous) Then (tip Is generous))
+If ((service ))
 }
 Build Tip 0 100 1

@@ -15,6 +15,6 @@ If ((laser1 Is laser) Then (value Is rightTri))
 If ((laser2 Is laser) Then (value Is avoidfront))
 If ((laser3 Is laser) Then (value Is left))
 If ((laser1 Is laser) Or (laser3 Is laser) Then (value Is rightTra))
-If (((laser1 Is front) And (laser2 Is front) And (laser3 Is front)) Then (value Is central))
+If ((((laser1 Is front) And (laser2 Is front)) And (laser3 Is front)) Then (value Is central))
 }
-Build Helm 0 1.0 0.1
+Build Helm 0.0 1.0 0.1

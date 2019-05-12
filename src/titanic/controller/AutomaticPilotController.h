@@ -8,7 +8,6 @@
 #define AUTO_PILOT_LAZER_3_FULL_NAME "Helm->laser3"
 #define AUTO_PILOT_HELM_FULL_NAME "Helm->value"
 
-#define L_VALUE 0.99
 
 #include "fuzzylogic.h"
 

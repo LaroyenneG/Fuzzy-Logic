@@ -712,7 +712,7 @@ namespace fuzzylogic::interpreter {
             if (rules == nullptr) {
                 rules = rule;
             } else {
-                rules = factory->newAgg(rules, rule);
+                rules = factory->newAgg(rule, rules);
             }
         }
 
