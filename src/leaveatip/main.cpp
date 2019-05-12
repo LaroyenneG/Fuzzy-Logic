@@ -26,17 +26,8 @@ int main(int argc, char **argv) {
 
         type service = 0;
         type food = 0;
-        type min = 0;
-        type max = 0;
 
-        std::cout << "Please enter your tip interval" << std::endl;
-
-        std::cout << "Minimum tip :" << std::endl;
-        std::cin >> min;
-
-        std::cout << "Maximum tip" << std::endl;
-        std::cin >> max;
-
+        std::cout << "Tip interval : [0, 25]" << std::endl;
 
         std::cout << "Please enter your marks..." << std::endl;
 
