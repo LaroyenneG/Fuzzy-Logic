@@ -110,4 +110,19 @@ namespace model {
     double Model::getVisibility() const {
         return visibility;
     }
+
+    void Model::icebergScene() {
+
+        static const double ADD_DISTANCE_Y = 200.0;
+        static const double ADD_DISTANCE_X = 15.0;
+        static const double ADD_ORIENTATION = 0.002;
+
+        reproduceRealScene();
+
+        setVisibility(INFINITY);
+
+        titanic->setPositionY(titanic->getPositionY() + ADD_DISTANCE_Y);
+        titanic->setPositionX(titanic->getPositionX() + ADD_DISTANCE_X);
+        titanic->setOrientation(MODEL_REAL_ORIENTATION + ADD_ORIENTATION);
+    }
 }

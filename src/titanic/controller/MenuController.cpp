@@ -63,9 +63,9 @@ namespace controller {
         reset();
 
         view->unlockDashboard();
-        model->reproduceRealScene();
+        model->icebergScene();
         view->setHelmValue(0);
-        model->getTitanic()->reachMachinePower(ENGINE_MAX_POWER);
         view->setMachinePower(SLIDER_MAXIMUM_VALUE);
+        view->enableAutomaticPilot();
     }
 }

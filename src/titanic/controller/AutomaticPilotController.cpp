@@ -23,17 +23,22 @@ namespace controller {
 
     void AutomaticPilotController::compute() {
 
+        static const double DANGER_VALUE = 1 - pow(10, -5);
+
         mutex.lock();
 
         bool danger = false;
 
         auto lasers = model->getTitanic()->getLasersSensors().getLasersValues(model->getElements());
-        for (auto laser : lasers) {
-            if (laser < 1.0) {
+        for (auto &laser : lasers) {
+            if (laser < DANGER_VALUE) {
                 danger = true;
-                break;
+            } else if (laser >= 1.0) {
+                laser = DANGER_VALUE;
             }
         }
+
+        double helmValue = 0.0;
 
         if (danger) {
 
@@ -46,13 +51,19 @@ namespace controller {
 
             interpreter->executeLine(INTERPRETER_COMPUTE_COMMAND);
 
-            double helmValue = interpreter->readInMemory(fuzzylogic::AbstractInterpreter::OUTPUT,
-                                                         AUTO_PILOT_HELM_FULL_NAME);
+            helmValue = interpreter->readInMemory(fuzzylogic::AbstractInterpreter::OUTPUT,
+                                                  AUTO_PILOT_HELM_FULL_NAME);
 
-            helmValue = helmValue * 2.0 - 1.0;
+            helmValue = (helmValue * 2.0 - 1.0) * SLIDER_MAXIMUM_VALUE;
 
-            view->setHelmValue(helmValue * SLIDER_MAXIMUM_VALUE);
+            view->setMachinePower(SLIDER_MINIMUM_VALUE);
+
+        } else {
+
+            view->setMachinePower(SLIDER_MAXIMUM_VALUE - 5.0);
         }
+
+        view->setHelmValue(helmValue);
 
         mutex.unlock();
     }

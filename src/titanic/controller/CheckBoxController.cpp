@@ -13,6 +13,7 @@ namespace controller {
             view->enableAutomaticPilot();
         } else {
             view->disableAutomaticPilot();
+            view->unlockDashboard();
         }
     }
 }

@@ -64,6 +64,8 @@ namespace model {
 
         void reproduceRealScene();
 
+        void icebergScene();
+
         double getVisibility() const;
     };
 }

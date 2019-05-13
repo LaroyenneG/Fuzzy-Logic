@@ -7,12 +7,13 @@ namespace fuzzylogic::fuzzy {
 
     template<typename T>
     class IsParable : public Is<T> {
+
     private:
         T valueA;
         T valueB;
 
     public:
-        explicit IsParable(const T &_A, const T &_B);
+        explicit IsParable(const T &_valueA, const T &_valueB);
 
         T evaluate(fuzzylogic::core::Expression<T> *expression) const override;
 
@@ -20,14 +21,13 @@ namespace fuzzylogic::fuzzy {
 
         const T &getValueB() const;
 
-        void setValueA(const T &_A);
+        void setValueA(const T &_valueA);
 
-        void setValueB(const T &_B);
-
+        void setValueB(const T &_valueB);
     };
 
     template<typename T>
-    IsParable<T>::IsParable(const T &_A, const T &_B) : valueA(_A), valueB(_B) {
+    IsParable<T>::IsParable(const T &_valueA, const T &_valueB) : valueA(_valueA), valueB(_valueB) {
     }
 
     template<typename T>
@@ -48,13 +48,13 @@ namespace fuzzylogic::fuzzy {
     }
 
     template<typename T>
-    void IsParable<T>::setValueA(const T &_A) {
-        valueA = _A;
+    void IsParable<T>::setValueA(const T &_valueA) {
+        valueA = _valueA;
     }
 
     template<typename T>
-    void IsParable<T>::setValueB(const T &_B) {
-        valueB = _B;
+    void IsParable<T>::setValueB(const T &_valueB) {
+        valueB = _valueB;
     }
 }
 #endif //FUZZY_LOGIC_ISPARABLE_H

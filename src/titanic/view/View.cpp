@@ -238,11 +238,15 @@ namespace view {
         }
 
         automaticPilotTimer->start();
+
+        automaticPilotCheckBox->setChecked(true);
     }
 
     void View::disableAutomaticPilot() {
 
         automaticPilotTimer->stop();
+
+        automaticPilotCheckBox->setChecked(false);
 
         setLasersValue(0.0, 0.0, 0.0);
     }
