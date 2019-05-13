@@ -1,6 +1,7 @@
 #ifndef LOGIQUEFLOUE_FUZZYLOGIC_H
 #define LOGIQUEFLOUE_FUZZYLOGIC_H
 
+#include <fuzzy/IsBornedTrapezoid.h>
 #include "SugenoThen.h"
 #include "SugenoConclusion.h"
 #include "OrPlus.h"
@@ -93,6 +94,8 @@ namespace fuzzylogic {
     typedef fuzzy::IsSingleton<type> IsSingleton;
     typedef fuzzy::IsSigmoid<type> IsSigmoid;
     typedef fuzzy::IsTrapezoid<type> IsTrapezoid;
+    typedef fuzzy::IsParable<type> IsParable;
+    typedef fuzzy::IsBornedTrapezoid<type> IsBornedTrapezoid;
 
 
     /******************************************** agg ***************************************************/
