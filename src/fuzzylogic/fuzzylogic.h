@@ -113,6 +113,8 @@ namespace fuzzylogic {
 
     typedef fuzzy::OrPlus<type> OrPlus;
     typedef fuzzy::OrMax<type> OrMax;
+    typedef fuzzy::ApproximatelyEqual<type> ApproximatelyEqual;
+    typedef fuzzy::Equal<type> Equal;
 
     /******************************************** then ***************************************************/
 
