@@ -95,9 +95,12 @@ type LeaveATipTest::computeTipWithCog(type service, type food) {
 type LeaveATipTest::computeTipWithSugeno(type service, type food) {
 
     std::vector<Expression *> rules;
-    std::vector<Expression *> conclusionServiceFood;
-    std::vector<Expression *> conlusionService;
-    std::vector<type> coeffs{{1.0, 1.0}};
+    std::vector<Expression *> conclusionServiceFoodVar;
+    std::vector<Expression *> conlusionServiceVar;
+
+    std::vector<type> coefRule1{{1.0, 1.0}};
+    std::vector<type> coefRule2{{1.0, 1.0}};
+    std::vector<type> coefRule3{{1.0, 1.0}};
 
     //operators
     NotMinus opNot;
@@ -105,11 +108,14 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
     OrMax opOr;
     SugenoThen opThen;
     SugenoDefuzz opDefuzz;
-    SugenoConclusion opConclusion(coeffs);
+
+    SugenoConclusion opConclusionRule1(coefRule1);
+    SugenoConclusion opConclusionRule2(coefRule2);
+    SugenoConclusion opConclusionRule3(coefRule3);
 
 
     //fuzzy factory expression
-    FuzzyFactory f(&opNot, &opAnd, &opOr, &opThen, &opDefuzz, &opConclusion);
+    FuzzyFactory f(&opNot, &opAnd, &opOr, &opThen, &opDefuzz, &opConclusionRule1);
 
     //membership function
     IsRampRight rancid(0, 5, 5);
@@ -127,10 +133,10 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
     ValueModel vService(service);
     ValueModel vFoods(food);
 
-    conclusionServiceFood.push_back(&vService);
-    conclusionServiceFood.push_back(&vFoods);
+    conclusionServiceFoodVar.push_back(&vService);
+    conclusionServiceFoodVar.push_back(&vFoods);
 
-    conlusionService.push_back(&vService);
+    conlusionServiceVar.push_back(&vService);
 
     Expression *r1 =
             f.newThen(
@@ -138,18 +144,22 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
                             f.newIs(&excellent, &vService),
                             f.newIs(&rancid, &vFoods)
                     ),
-                    f.newSugenoConclusion(conclusionServiceFood)
+                    f.newSugenoConclusion(conclusionServiceFoodVar)
             );
 
     rules.push_back(r1);
 
+    f.changeSugenoConclusion(&opConclusionRule2);
+
     Expression *r2 =
             f.newThen(
                     f.newIs(&good, &vService),
-                    f.newSugenoConclusion(conlusionService)
+                    f.newSugenoConclusion(conlusionServiceVar)
             );
 
     rules.push_back(r2);
+
+    f.changeSugenoConclusion(&opConclusionRule3);
 
     Expression *r3 =
             f.newThen(
@@ -157,7 +167,7 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
                             f.newIs(&excellent, &vService),
                             f.newIs(&delicious, &vFoods)
                     ),
-                    f.newSugenoConclusion(conclusionServiceFood)
+                    f.newSugenoConclusion(conclusionServiceFoodVar)
             );
 
     rules.push_back(r3);
