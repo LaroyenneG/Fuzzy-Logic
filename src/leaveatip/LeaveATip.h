@@ -30,6 +30,7 @@ public:
     void setService(fuzzylogic::type _service);
 
     void setFood(fuzzylogic::type _food);
+
     fuzzylogic::type evaluateTip();
 };
 

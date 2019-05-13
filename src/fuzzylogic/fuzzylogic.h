@@ -1,6 +1,7 @@
 #ifndef LOGIQUEFLOUE_FUZZYLOGIC_H
 #define LOGIQUEFLOUE_FUZZYLOGIC_H
 
+#include <fuzzy/IsBornedTrapezoid.h>
 #include "SugenoThen.h"
 #include "SugenoConclusion.h"
 #include "OrPlus.h"
@@ -46,20 +47,15 @@ namespace fuzzylogic {
     /* Model */
 
     typedef core::ValueModel<type> ValueModel;
-
     typedef core::UnaryExpressionModel<type> UnaryExpressionModel;
-
     typedef core::BinaryExpressionModel<type> BinaryExpressionModel;
-
     typedef core::NaryExpressionModel<type> NaryExpressionModel;
 
 
     /* Shadow */
 
     typedef core::UnaryShadowExpression<type> UnaryShadowExpression;
-
     typedef core::BinaryShadowExpression<type> BinaryShadowExpression;
-
     typedef core::NaryShadowExpression<type> NaryShadowExpression;
 
     /* Expression */
@@ -72,13 +68,9 @@ namespace fuzzylogic {
     /* Defuzz */
 
     typedef fuzzy::SugenoDefuzz<type> SugenoDefuzz;
-
     typedef fuzzy::CogDefuzz<type> CogDefuzz;
-
     typedef fuzzy::SugenoConclusion<type> SugenoConclusion;
-
     typedef fuzzy::SugenoThen<type> SugenoThen;
-
     typedef fuzzy::Shape<type> Shape;
 
 
@@ -93,6 +85,8 @@ namespace fuzzylogic {
     typedef fuzzy::IsSingleton<type> IsSingleton;
     typedef fuzzy::IsSigmoid<type> IsSigmoid;
     typedef fuzzy::IsTrapezoid<type> IsTrapezoid;
+    typedef fuzzy::IsParable<type> IsParable;
+    typedef fuzzy::IsBornedTrapezoid<type> IsBornedTrapezoid;
 
 
     /******************************************** agg ***************************************************/

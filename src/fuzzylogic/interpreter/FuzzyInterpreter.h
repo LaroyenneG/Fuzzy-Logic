@@ -64,7 +64,6 @@
 #define INTERPRETER_RULE_OPEN_EXPRESSION_CHAR '('
 #define INTERPRETER_RULE_CLOSE_EXPRESSION_CHAR ')'
 
-
 namespace fuzzylogic::interpreter {
 
     template<typename T>

@@ -261,6 +261,7 @@ namespace fuzzylogic::interpreter {
         }
     }
 
+
     template<typename T>
     std::string AbstractInterpreter<T>::stringTrim(const std::string &string) {
 

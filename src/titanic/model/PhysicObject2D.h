@@ -49,11 +49,11 @@ namespace model {
     class PhysicObject2D {
 
 #ifdef _ACTIVE_BLACK_BOX_
-    protected:
-        BlackBox blackBox;
+        protected:
+            BlackBox blackBox;
 
-    public:
-        const BlackBox &getBlackBox() const;
+        public:
+            const BlackBox &getBlackBox() const;
 
 #endif
 

@@ -11,7 +11,6 @@ set(LIB_PATH "${CMAKE_SOURCE_DIR}/lib")
 
 if (LINUX OR UNIX AND NOT APPLE)
     set(CPPUNIT "${LIB_PATH}/libcppunit-unix-64.a")
-    set(CPPUNIT cppunit) # mascote
 endif ()
 
 if (APPLE)
