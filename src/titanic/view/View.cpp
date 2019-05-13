@@ -10,7 +10,7 @@
 
 
 #define COLLISIONS_TITLE "Titanic sank"
-#define COLLISIONS_MESSAGE "The ship touching the iceberg :-("
+#define COLLISIONS_MESSAGE "The titanic hit the iceberg :-("
 
 namespace view {
 

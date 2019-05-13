@@ -242,6 +242,8 @@ namespace model {
 
     void Titanic::nextTimeRotation() {
 
+        static const double ACCELERATION_CORRECTION = 2.3;
+
         Vector direction = directionVector();
 
         Vector rudderStrength = computeRudder();
@@ -254,7 +256,7 @@ namespace model {
         const double angleAcceleration = (angleVectorDirection(rudderStrength, direction) *
                                           torque / TITANIC_MOMENT_OF_INERTIA) + rotationFriction; // radian / s²
 
-        setRotationAcceleration(angleAcceleration);
+        setRotationAcceleration(angleAcceleration / ACCELERATION_CORRECTION);
     }
 
     void Titanic::nextTimeLinear() {
