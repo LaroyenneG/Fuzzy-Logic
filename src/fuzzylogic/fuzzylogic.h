@@ -1,7 +1,7 @@
 #ifndef LOGIQUEFLOUE_FUZZYLOGIC_H
 #define LOGIQUEFLOUE_FUZZYLOGIC_H
 
-#include <fuzzy/IsBornedTrapezoid.h>
+#include "IsBornedTrapezoid.h"
 #include "SugenoThen.h"
 #include "SugenoConclusion.h"
 #include "OrPlus.h"
@@ -124,7 +124,6 @@ namespace fuzzylogic {
     /***************************************** interpreter ********************************************/
 
     typedef interpreter::FuzzyInterpreter<type> FuzzyInterpreter;
-
     typedef interpreter::AbstractInterpreter<type> AbstractInterpreter;
 }
 
