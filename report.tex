@@ -48,10 +48,10 @@
         Pour toute information sur l'arborescence, la compilation et l'utilisation de la bibliothèque, veuillez vous référer au fichier \textbf{README.md} consultable à la racine du projet à l’adresse : \texttt{https://github.com/LaroyenneG/fuzzy-logic}
     \end{center}
 
-    Notre \textit{framework} a été développé en langage \textit{C++} et compilé avec le compilateur GNU \textit{g++} et \textit{CMake}.
+    Notre \textit{framework} a été développé en langage \textit{C++}, compilé avec le compilateur GNU \textit{g++} et \textit{CMake}.
     Afin de s’assurer du bon fonctionnement de la bibliothèque, nous avons utilisé le \textit{framework} \textit{CPPUNIT} permettant de réaliser des tests unitaires en langage \textit{C++}.
-    Toutes les opérandes et opérateurs sont vérifiés via un filet de test permettant d’identifier d’éventuel mauvais fonctionnement.
-    Cela permet d'effectuer des modifications sur la librairie en identifiant rapidement les possibles régressions.
+    Toutes les opérandes et opérateurs sont vérifiés via un filet de test permettant d’identifier d’éventuels mauvais fonctionnements.
+    Cela permet d'effectuer des modifications sur la bibliothèque et d'identifier rapidement les possibles régressions.
 
     \subsection{Organisation logiciel du projet}
 
@@ -84,7 +84,7 @@
                 \hline
                 ApproximatelyEqual & Or & Retourne la valeur de l'évaluation si les évaluations des valeurs d'entrées sont égales à 0,2 près sinon retourne 0\tabularnewline
                 \hline
-                Equal & Or & Retourne la valeur de l'évaluation si les évaluations des valeurs d'entrées sont égales sinon renvoi 0\tabularnewline
+                Equal & Or & Retourne la valeur de l'évaluation si les évaluations des valeurs d'entrées sont égales sinon renvoie 0\tabularnewline
                 \hline
                 NotMinus1 & Not & Retourne la valeur de l'évaluation la résultat de 1 moins l'évaluation de l'opérateur\tabularnewline
                 \hline
@@ -126,8 +126,8 @@
     \section{Mise en place d'un interpréteur de logique floue}
 
     Pour réaliser des systèmes floue plus simplement, nous avons réalisé un interpréteur utilisant notre bibliothèque.
-    Il réalise les manipulations sur la \textit{factory} en fonction des instructions d'un texte d'entrée,
-    Cela permet de se rapprocher plus du langage humain, afin de se concentrer uniquement sur la logique et non de l'aspect programmation.
+    Il réalise les manipulations sur la \textit{factory} en fonction des instructions d'un texte d'entrée.
+    Cela permet de se rapprocher du langage humain, afin de se concentrer uniquement sur la logique et non de l'aspect programmation.
 
     \begin{figure}[H]
         \begin{center}
@@ -153,7 +153,7 @@
     Pour réaliser notre simulateur naval, nous avons du étudier les différents phénomènes physiques qui s'exercent sur un navire ainsi que ces différents composants techniques.
 
     \begin{table}[H]
-        \caption{Caractéristiques technique du Titanic saisie dans le simulateur}
+        \caption{Caractéristiques techniques du Titanic saisies dans le simulateur}
         \label{tab:TitanicData}
 
         \begin{center}
@@ -209,7 +209,7 @@
         \end{center}
     \end{figure}
     \paragraph{}
-    On comprend donc que piloter précisément un navire de cette taille n'est pas simple. Avec toutes les forces physique qui s'appliquent sur lui, il fraudais réaliser beaucoup de calculs pour déterminer les bonnes manœuvres à réaliser. C'est pour cela que nous avons avons choisi d'utiliser la logique floue pour réaliser un pilote automatique, car elle permet d’abstraire tous les phénomènes physique.
+    On comprend donc que piloter précisément un navire de cette taille n'est pas simple. Avec toutes les forces physique qui s'appliquent sur lui, il fraudais réaliser beaucoup de calculs pour déterminer les bonnes manœuvres à réaliser. C'est pour cela que nous avons avons choisi d'utiliser la logique floue pour réaliser un pilote automatique; car elle permet d’abstraire tous les phénomènes physique.
 
     \subsection{Programmation de l'interface}
     Le simulateur naval a été réalisé en langage \textit{C++} en respectant le \textit{design pattern Model View Controller}. L'interface graphique du simulateur a été développé à l'aide du \textit{framework Qt5}.
@@ -237,7 +237,7 @@
         \end{center}
     \end{figure}
 
-    Pour déterminer la meilleur portée des lasers, il faut connaître la capacité a virer de bord du navire. Dans les meilleurs conditions, le Titanic avait un rayon de giration de 750 m. Nous avons donc réglé la portée des lasers à 800 m, ce qui devrait permettre d’anticiper l’approche des objets suffisamment tôt.
+    Pour déterminer la meilleur portée des lasers, il faut connaître la capacité à virer de bord du navire. Dans les meilleurs conditions, le Titanic avait un rayon de giration de 750 m. Nous avons donc réglé la portée des lasers à 800 m, ce qui devrait permettre d’anticiper l’approche des objets suffisamment tôt.
 
     \subsection{Modélisation du pilote automatique en logique floue}
 
@@ -260,7 +260,7 @@
 
     \begin{figure}[H]
         \begin{center}
-            \caption{Explication du système floue}
+            \caption{Explication du système floue du pilote automatique}
             \includegraphics[scale=0.4, angle=90]{assets/Fuzzy_System_Titanic_Helm.jpg}
             \label{fig:systemFuzzy}
         \end{center}
@@ -268,7 +268,7 @@
 
     \subsection{Réalisation du système floue à l'aide du \textit{framework}}
 
-    Une fois les concepts théoriques saisie, nous avons exprimé notre pilote automatique dans le langage de l’interpréteur.
+    Une fois les concepts théoriques saisis, nous avons exprimé notre pilote automatique dans le langage de l’interpréteur.
 
     \begin{figure}[H]
         \begin{center}
