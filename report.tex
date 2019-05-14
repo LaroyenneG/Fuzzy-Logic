@@ -19,7 +19,7 @@
 
 \geometry{hmargin=2.0cm,vmargin=1.5cm}
 
-\title{Logique floue\\\texttt{Sauvons le RMS Titanic}}
+\title{\vspace*{3cm}Logique floue\\\texttt{Sauvons le RMS Titanic}}
 
 \author{Alexis \textsc{Decker-Wurtz}, Erwan  \textsc{Duroux}, Guillaume  \textsc{Laroyenne}}
 
@@ -28,11 +28,16 @@
     \maketitle
 
     \begin{abstract}
+
+        \vspace*{2cm}
+
         Ce document présente une synthèse du projet de logique floue que nous avons réalisé en deuxième année.
         Le cœur de ce projet est une bibliothèque de logique floue que nous avons programmé en \textit{C++}. La bibliothèque comporte les principaux opérateurs de bases de la logique floue ainsi que quelques méthodes de défuzzification.
         Pour les utilisateurs puissent manipuler plus simplement cette bibliothèque, nous avons décidé d'ajouter un interpréteur permettant de modéliser des problèmes de logique floue sans avoir à la manipuler directement.
         La logique floue permettant de prendre des décisions complexe à partir d'un ensemble de données. Nous avons décidé de l'utiliser afin de réaliser un pilote automatique évitant les obstacles pouvant se trouver devant un navire, tout en utilisant la bibliothèque que nous avons conçu.
     \end{abstract}
+
+    \newpage
 
     \section{Construction de la bibliothèque de logique floue}
 
@@ -41,7 +46,7 @@
     \end{center}
 
     Notre \textit{framework} a été développé en langage \textit{C++} et compilé avec le compilateur GNU \textit{g++} et \textit{CMake}.
-    Affin de s’assurer du bon fonctionnement de la bibliothèque, nous avons utilisé le \textit{framework} \textit{CPPUNIT} permettant de réaliser des tests unitaires en langage \textit{C++}.
+    Afin de s’assurer du bon fonctionnement de la bibliothèque, nous avons utilisé le \textit{framework} \textit{CPPUNIT} permettant de réaliser des tests unitaires en langage \textit{C++}.
     Toutes les opérandes et opérateurs sont vérifiés via un filet de test permettant d’identifier d’éventuel mauvais fonctionnement.
     Cela permet d'effectuer des modifications sur la librairie en identifiant rapidement les possibles régressions.
 
