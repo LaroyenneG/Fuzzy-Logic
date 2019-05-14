@@ -21,7 +21,7 @@
 
 \title{Logique floue\\\texttt{Sauvons le RMS Titanic}}
 
-\author{Alexis \textsc{Decker-Wurst}, Erwan  \textsc{Duroux}, Guillaume  \textsc{Laroyenne}}
+\author{Alexis \textsc{Decker-Wurtz}, Erwan  \textsc{Duroux}, Guillaume  \textsc{Laroyenne}}
 
 \begin{document}
 
@@ -63,7 +63,27 @@
                 \hline
                 Nom & Type & Description \tabularnewline
                 \hline
-                court texte & truc & Texte plus long qui sera centré dans la ligne et aligné à gauche dans la colonne  \tabularnewline
+                AggPlus & Agg & Retourne l'addition des évaluations des valeurs d'entrées entre 0 et 1\tabularnewline
+                \hline
+                AggMax & Agg & Retourne la valeur maximale des évaluations des valeurs d'entrées\tabularnewline
+                \hline
+                AndMin & And & Retourne la valeur minimale des évaluations des valeurs d'entrées\tabularnewline
+                \hline
+                AndMult & And & Retourne la multiplication des évaluations des valeurs d'entrées\tabularnewline
+                \hline
+                ApproximatelyEqual & Or & Retourne la valeur de l'évaluation si les évaluations des valeurs d'entrées sont égales à 0,2 près sinon retourne zero\tabularnewline
+                \hline
+                Equal & Or & Retourne la valeur de l'évaluation si les évaluations des valeurs d'entrées sont égales sinon renvoi zero\tabularnewline
+                \hline
+                NotMinus1 & Not & Retourne la valeur de l'évaluation la résultat de 1 moins l'évaluation de l'opérateur\tabularnewline
+                \hline
+                OrMax & Or & Retourne la valeur maximale des évaluations des valeurs d'entrées\tabularnewline
+                \hline
+                OrPlus & Or & Retourne l'addition des évaluations des valeurs d'entrées entre 0 et 1\tabularnewline
+                \hline
+                ThenMin & Then & Retourne la valeur minimale des évaluations des valeurs d'entrées\tabularnewline
+                \hline
+                ThenMult & Then & Retourne la multiplication des évaluations des valeurs d'entrées\tabularnewline
                 \hline
             \end{tabular}
         \end{center}
