@@ -32,7 +32,7 @@
         \vspace*{2cm}
 
         Ce document présente une synthèse du projet de logique floue que nous avons réalisé en deuxième année.
-        Le cœur de ce projet est une bibliothèque de logique floue que nous avons programmé en \textit{C++}. La bibliothèque comporte les principaux opérateurs de bases de la logique floue ainsi que quelques méthodes de défuzzification.
+        Le cœur de ce projet est une bibliothèque de logique floue que nous avons programmée en \textit{C++}. La bibliothèque comporte les principaux opérateurs de bases de la logique floue ainsi que quelques méthodes de défuzzification.
         Pour les utilisateurs puissent manipuler plus simplement cette bibliothèque, nous avons décidé d'ajouter un interpréteur permettant de modéliser des problèmes de logique floue sans avoir à la manipuler directement.
         La logique floue permettant de prendre des décisions complexe à partir d'un ensemble de données. Nous avons décidé de l'utiliser afin de réaliser un pilote automatique évitant les obstacles pouvant se trouver devant un navire, tout en utilisant la bibliothèque que nous avons conçu.
     \end{abstract}
@@ -64,7 +64,7 @@
         \label{tab:listing}
 
         \begin{center}
-            \begin{tabular}{|c|c|M{10cm}|}
+            \begin{tabular}{|c|c|M{12cm}|}
                 \hline
                 Nom & Type & Description \tabularnewline
                 \hline
@@ -90,15 +90,37 @@
                 \hline
                 ThenMult & Then & Retourne la multiplication des évaluations des valeurs d'entrées\tabularnewline
                 \hline
+                IsBell & Is & Retourne la valeur de l'évaluation de l'opérande suivant une cloche \tabularnewline
+                \hline
+                IsBornedTrapezoid & Is & Retourne la valeur de l'évaluation de l'opérande suivant un trapèze bornée en abscisse \tabularnewline
+                \hline
+                IsGaussian & Is & Retourne la valeur de l'évaluation de l'opérande suivant une courbe de Gauss \tabularnewline
+                \hline
+                IsParable & Is & Retourne la valeur de l'évaluation de l'opérande suivant une parabole \tabularnewline
+                \hline
+                IsRampLeft & Is & Retourne la valeur de l'évaluation de l'opérande suivant une rampe commancant par la gauche \tabularnewline
+                \hline
+                IsRampRight & Is & Retourne la valeur de l'évaluation de l'opérande suivant une rampe commancant par la droite \tabularnewline
+                \hline
+                IsRangeBell & Is & Retourne la valeur de l'évaluation de l'opérande suivant une cloche bornée en abscisse \tabularnewline
+                \hline
+                IsSingleton & Is & Retourne la valeur de l'évaluation de l'opérande suivant une valeur unique \tabularnewline
+                \hline
+                IsSigmoid & Is & Retourne la valeur de l'évaluation de l'opérande suivant une sigmoid \tabularnewline
+                \hline
+                IsTrapezoid & Is & Retourne la valeur de l'évaluation de l'opérande suivant un trapèze \tabularnewline
+                \hline
+                IsTriangle & Is & Retourne la valeur de l'évaluation de l'opérande suivant un triangle \tabularnewline
+                \hline
             \end{tabular}
         \end{center}
     \end{table}
 
     \section{Mise en place d'un interpréteur de logique floue}
 
-    Pour réaliser des systémes floue plus simplement, nous avons réalisé un interpreteur utilisant notre bibliothéque.
+    Pour réaliser des systèmes floue plus simplement, nous avons réalisé un interpreteur utilisant notre bibliothèque.
     Il réalise les manipulations sur la factory en fonction des instructions d'un texte d'entrée,
-    Cela permet de se rapprocher plus du langage humain, afin de se concentrer uniquement sur la logique et non de l'acepet programmation.
+    Cela permet de se rapprocher plus du langage humain, afin de se concentrer uniquement sur la logique et non de l'aspect programmation.
 
     \begin{figure}[H]
         \begin{center}
@@ -120,7 +142,7 @@
 
     \subsection{Analyse des phénomène physique et mécanique}
 
-    Pour réaliser notre simulateur naval, nous avons du étudier les différents phénomène physique qui s'exercent sur un navire ainsi que ces différents composant technique.
+    Pour réaliser notre simulateur naval, nous avons du étudier les différents phénomènes physiques qui s'exercent sur un navire ainsi que ces différents composants techniques.
 
     \begin{table}[H]
         \caption{Caractéristiques technique du Titanic saisie dans le simulateur}
@@ -145,13 +167,12 @@
         \end{center}
     \end{table}
 
-    Tel un objet physique, dans le simulateur le Titanic possède une position, une vitesse, une orientation et une accélération. Pour qu'il puisse se déplacer, il faut donc déterminer l'accélération. Selon Newton : $\sum \overrightarrow{F_{i}} = m \times \overrightarrow{a}$, il faut donc déterminer toutes les forces qui s'exerce sur le navire pour connaître l’accélération.
+    Tel un objet physique, dans le simulateur le Titanic possède une position, une vitesse, une orientation et une accélération. Pour qu'il puisse se déplacer, il faut donc déterminer l'accélération. Selon Newton : $\sum \overrightarrow{F_{i}} = m \times \overrightarrow{a}$, il faut donc déterminer toutes les forces qui s'exercent sur le navire pour connaître l’accélération.
     \paragraph{}
-    La première force à identifier est la force de propulsion générée par les hélices en raison du principe d'action réaction. Elle dépend de son profile physique  (diamètre, incidence des pales, surface...) et de sa vitesse de rotation.\\
-    Lorsque le navire tourne il subit également une force centrifuge, qui peut être calculé en identifiant le centre du cercle décrit par la trajectoire.\\
-    Selon les loi de la mécanique des fluides, lorsque le navire se déplace dans l'eau, sa coque et son gouvernail subisse des forces appelées portance et traînée.
-    La combinaison de la portance et de la traînée produit une résultante hydrodynamique, qui est la force anti dérive du navire.\\
-    La portance et la traînée sont calculées à l'aide des formules suivantes :\\
+    La première force à identifier est la force de propulsion générée par les hélices en raison du principe d'action réaction. Elle dépend de son profil physique  (diamètre, incidence des pales, surface...) et de sa vitesse de rotation.\\
+    Lorsque le navire tourne il subit également une force centrifuge, qui peut être calculée en identifiant le centre du cercle décrit par la trajectoire.
+    Selon les lois de la mécanique des fluides, lorsque le navire se déplace dans l’eau, sa coque et son gouvernail subissent des forces appelées portances et traînée. La combinaison de la portance et de la traînée produit une résultante hydrodynamique, qui est la force antidérive du navire.
+    La portance et la traînée sont calculées à l’aide des formules suivantes :\\
     \begin{gather*}
         F_{z} = \frac{1}{2} \times \rho \times S \times V^{2} \times C_{z}\\
         F_{x} = \frac{1}{2} \times \rho \times S \times V^{2} \times C_{x}\\
@@ -169,12 +190,12 @@
         \item $\overrightarrow{R_{h}}$ résultante hydrodynamique.
     \end{itemize}
     \vspace*{0.3cm}
-    La rotation du navire est provoqué par la résultante hydrodynamique du gouvernail situé à l’arrière, induisant un effet de couple.\\
-    À cette rotation s’opposera des forces de frottements, en raison des frottements avec l'eau sur la coque. Pour le calcul de cette force nous avons choisi un coefficient de traînée de 1,1.
+    La rotation du navire est provoquée par la résultante hydrodynamique du gouvernail situé à l’arrière, induisant un effet de couple.\\
+    À cette rotation s'opposeront des forces de frottements, en raison des frottements avec l'eau sur la coque. Pour le calcul de cette force nous avons choisi un coefficient de traînée de 1,1.
 
     \begin{figure}[H]
         \begin{center}
-            \caption{Schéma présentant les forces physique appliquées sur le Titanic dans le simulateur}
+            \caption{Schéma présentant les forces physiques appliquées sur le Titanic dans le simulateur}
             \includegraphics[scale=0.56]{assets/Isaac_vs_Titanic.jpg}
             \label{fig:titanicForces}
         \end{center}
@@ -216,8 +237,8 @@
 
     \begin{itemize}
         \item Lorsque la barre aligne le gouvernaille avec l’axe du bateau, elle est a une valeur de 50\%.
-        \item Pour une manœuvre à tribord (“droite”), il faut que la barre se situe dans la zone 0\% - 49\%.
-        \item Pour une manœuvre à bâbord (“gauche”), il faut que la barre se situe dans la zone 51\% - 100\%.
+        \item Pour une manœuvre à bâbord (“gauche”), il faut que la barre se situe dans la zone 0\% - 49\%.
+        \item Pour une manœuvre à tribord (“droite”), il faut que la barre se situe dans la zone 51\% - 100\%.
     \end{itemize}
 
     \begin{figure}[H]
