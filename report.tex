@@ -13,6 +13,7 @@
 \usepackage{appendix}
 \usepackage{amsmath}
 \usepackage{comment}
+\usepackage{setspace}
 
 
 \newcolumntype{M}[1]{>{\raggedright}m{#1}}
@@ -29,11 +30,13 @@
 
     \begin{abstract}
 
-        \vspace*{2cm}
+        \setstretch{1,4}
 
+        \vspace*{2cm}
+        
         Ce document présente une synthèse du projet de logique floue que nous avons réalisé en deuxième année.
         Le cœur de ce projet est une bibliothèque de logique floue que nous avons programmée en \textit{C++}. La bibliothèque comporte les principaux opérateurs de bases de la logique floue ainsi que quelques méthodes de défuzzification.
-        Pour les utilisateurs puissent manipuler plus simplement cette bibliothèque, nous avons décidé d'ajouter un interpréteur permettant de modéliser des problèmes de logique floue sans avoir à la manipuler directement.
+        Pour que les utilisateurs puissent manipuler plus simplement cette bibliothèque, nous avons décidé d'ajouter un interpréteur permettant de modéliser des problèmes de logique floue sans avoir à la manipuler directement.
         La logique floue permettant de prendre des décisions complexe à partir d'un ensemble de données. Nous avons décidé de l'utiliser afin de réaliser un pilote automatique évitant les obstacles pouvant se trouver devant un navire, tout en utilisant la bibliothèque que nous avons conçu.
     \end{abstract}
 
@@ -50,6 +53,8 @@
     Toutes les opérandes et opérateurs sont vérifiés via un filet de test permettant d’identifier d’éventuel mauvais fonctionnement.
     Cela permet d'effectuer des modifications sur la librairie en identifiant rapidement les possibles régressions.
 
+    \subsection{Organisation logiciel du projet}
+
     \begin{figure}[H]
         \begin{center}
             \caption{UML des packages du \textit{framework} de logique floue}
@@ -58,15 +63,16 @@
         \end{center}
     \end{figure}
 
-
+    \subsection{Contenu du projet}    
+    
     \begin{table}[H]
-        \caption{Liste des opérateurs est opérandes du \textit{framework} de logique floue}
+        \caption{Liste des opérateurs et opérandes du \textit{framework} de logique floue}
         \label{tab:listing}
 
         \begin{center}
-            \begin{tabular}{|c|c|M{12cm}|}
+            \begin{tabular}{|c|c|M{9cm}|}
                 \hline
-                Nom & Type & Description \tabularnewline
+                \textbf{Nom} & \textbf{Type} & \textbf{Description} \tabularnewline
                 \hline
                 AggPlus & Agg & Retourne l'addition des évaluations des valeurs d'entrées entre 0 et 1\tabularnewline
                 \hline
@@ -76,9 +82,9 @@
                 \hline
                 AndMult & And & Retourne la multiplication des évaluations des valeurs d'entrées\tabularnewline
                 \hline
-                ApproximatelyEqual & Or & Retourne la valeur de l'évaluation si les évaluations des valeurs d'entrées sont égales à 0,2 près sinon retourne zero\tabularnewline
+                ApproximatelyEqual & Or & Retourne la valeur de l'évaluation si les évaluations des valeurs d'entrées sont égales à 0,2 près sinon retourne 0\tabularnewline
                 \hline
-                Equal & Or & Retourne la valeur de l'évaluation si les évaluations des valeurs d'entrées sont égales sinon renvoi zero\tabularnewline
+                Equal & Or & Retourne la valeur de l'évaluation si les évaluations des valeurs d'entrées sont égales sinon renvoi 0\tabularnewline
                 \hline
                 NotMinus1 & Not & Retourne la valeur de l'évaluation la résultat de 1 moins l'évaluation de l'opérateur\tabularnewline
                 \hline
@@ -98,15 +104,15 @@
                 \hline
                 IsParable & Is & Retourne la valeur de l'évaluation de l'opérande suivant une parabole \tabularnewline
                 \hline
-                IsRampLeft & Is & Retourne la valeur de l'évaluation de l'opérande suivant une rampe commancant par la gauche \tabularnewline
+                IsRampLeft & Is & Retourne la valeur de l'évaluation de l'opérande suivant une rampe commencent par la gauche \tabularnewline
                 \hline
-                IsRampRight & Is & Retourne la valeur de l'évaluation de l'opérande suivant une rampe commancant par la droite \tabularnewline
+                IsRampRight & Is & Retourne la valeur de l'évaluation de l'opérande suivant une rampe commencent par la droite \tabularnewline
                 \hline
                 IsRangeBell & Is & Retourne la valeur de l'évaluation de l'opérande suivant une cloche bornée en abscisse \tabularnewline
                 \hline
                 IsSingleton & Is & Retourne la valeur de l'évaluation de l'opérande suivant une valeur unique \tabularnewline
                 \hline
-                IsSigmoid & Is & Retourne la valeur de l'évaluation de l'opérande suivant une sigmoid \tabularnewline
+                IsSigmoid & Is & Retourne la valeur de l'évaluation de l'opérande suivant une sigmoïde \tabularnewline
                 \hline
                 IsTrapezoid & Is & Retourne la valeur de l'évaluation de l'opérande suivant un trapèze \tabularnewline
                 \hline
@@ -116,10 +122,11 @@
         \end{center}
     \end{table}
 
+    \newpage
     \section{Mise en place d'un interpréteur de logique floue}
 
-    Pour réaliser des systèmes floue plus simplement, nous avons réalisé un interpreteur utilisant notre bibliothèque.
-    Il réalise les manipulations sur la factory en fonction des instructions d'un texte d'entrée,
+    Pour réaliser des systèmes floue plus simplement, nous avons réalisé un interpréteur utilisant notre bibliothèque.
+    Il réalise les manipulations sur la \textit{factory} en fonction des instructions d'un texte d'entrée,
     Cela permet de se rapprocher plus du langage humain, afin de se concentrer uniquement sur la logique et non de l'aspect programmation.
 
     \begin{figure}[H]
@@ -138,6 +145,7 @@
         \end{center}
     \end{figure}
 
+    \newpage
     \section{Création du simulateur naval}
 
     \subsection{Analyse des phénomène physique et mécanique}
@@ -171,7 +179,7 @@
     \paragraph{}
     La première force à identifier est la force de propulsion générée par les hélices en raison du principe d'action réaction. Elle dépend de son profil physique  (diamètre, incidence des pales, surface...) et de sa vitesse de rotation.\\
     Lorsque le navire tourne il subit également une force centrifuge, qui peut être calculée en identifiant le centre du cercle décrit par la trajectoire.
-    Selon les lois de la mécanique des fluides, lorsque le navire se déplace dans l’eau, sa coque et son gouvernail subissent des forces appelées portances et traînée. La combinaison de la portance et de la traînée produit une résultante hydrodynamique, qui est la force antidérive du navire.
+    Selon les lois de la mécanique des fluides, lorsque le navire se déplace dans l’eau, sa coque et son gouvernail subissent des forces appelées portances et traînée. La combinaison de la portance et de la traînée produit une résultante hydrodynamique, qui est la force anti-dérive du navire.
     La portance et la traînée sont calculées à l’aide des formules suivantes :\\
     \begin{gather*}
         F_{z} = \frac{1}{2} \times \rho \times S \times V^{2} \times C_{z}\\
@@ -212,6 +220,7 @@
         \item La section \textbf{contrôleur} contient tous les actions à réaliser pour chaque composant graphique, ainsi que le pilote automatique.
     \end{itemize}
 
+    \newpage
     \section{Création d'un pilote automatique pour le paquebot}
 
     \subsection{Objectifs et besoins}
@@ -236,7 +245,7 @@
     Le résultat de ce système est un pourcentage. Il correspond à l’angle de la barre pour laquelle le paquebot ne heurtera pas l’iceberg.
 
     \begin{itemize}
-        \item Lorsque la barre aligne le gouvernaille avec l’axe du bateau, elle est a une valeur de 50\%.
+        \item Lorsque la barre aligne le gouvernail avec l’axe du bateau, elle est a une valeur de 50\%.
         \item Pour une manœuvre à bâbord (“gauche”), il faut que la barre se situe dans la zone 0\% - 49\%.
         \item Pour une manœuvre à tribord (“droite”), il faut que la barre se situe dans la zone 51\% - 100\%.
     \end{itemize}
@@ -259,7 +268,7 @@
 
     \subsection{Réalisation du système floue à l'aide du \textit{framework}}
 
-    Une fois les conceptes théoriques saisie, nous avons exprimé notre pilote automatique dans le langage de l'interpreteur.
+    Une fois les concepts théoriques saisie, nous avons exprimé notre pilote automatique dans le langage de l’interpréteur.
 
     \begin{figure}[H]
         \begin{center}
