@@ -109,13 +109,12 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
     SugenoThen opThen;
     SugenoDefuzz opDefuzz;
 
-    SugenoConclusion opConclusionRule1(coefRule1);
-    SugenoConclusion opConclusionRule2(coefRule2);
-    SugenoConclusion opConclusionRule3(coefRule3);
+    SugenoConclusion opConclusionRule(coefRule1);
+
 
 
     //fuzzy factory expression
-    FuzzyFactory f(&opNot, &opAnd, &opOr, &opThen, &opDefuzz, &opConclusionRule1);
+    FuzzyFactory f(&opNot, &opAnd, &opOr, &opThen, &opDefuzz, &opConclusionRule);
 
     //membership function
     IsRampRight rancid(0, 5, 5);
@@ -149,8 +148,6 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
 
     rules.push_back(r1);
 
-    f.changeSugenoConclusion(&opConclusionRule2);
-
     Expression *r2 =
             f.newThen(
                     f.newIs(&good, &vService),
@@ -159,7 +156,6 @@ type LeaveATipTest::computeTipWithSugeno(type service, type food) {
 
     rules.push_back(r2);
 
-    f.changeSugenoConclusion(&opConclusionRule3);
 
     Expression *r3 =
             f.newThen(
