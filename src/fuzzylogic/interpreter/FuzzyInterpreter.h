@@ -331,11 +331,8 @@ namespace fuzzylogic::interpreter {
         auto opSugenoDefuzz = dynamic_cast<fuzzy::SugenoDefuzz<T> *>(fuzzyOperatorContext[buildKeyWithContextAndName(
                 context,
                 INTERPRETER_SUGENO_DEFUZZ_NAME)]);
-        auto opSugenoConclusion = dynamic_cast<fuzzy::SugenoConclusion<T> *>(fuzzyOperatorContext[buildKeyWithContextAndName(
-                context, INTERPRETER_SUGENO_CONCLUSION_NAME)]);
 
-        auto factory = new fuzzy::FuzzyFactory<T>(opNot, opAnd, opOr, opSugenoThen, opSugenoDefuzz,
-                                                  opSugenoConclusion);
+        auto factory = new fuzzy::FuzzyFactory<T>(opNot, opAnd, opOr, opSugenoThen, opSugenoDefuzz);
         factoryType[factory] = SUGENO;
 
         return factory;
