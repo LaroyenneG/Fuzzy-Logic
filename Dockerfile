@@ -12,7 +12,7 @@ RUN make
 
 RUN mkdir bin
 
-RUN cp titanic ./bin
+RUN mv titanic ./bin
 
 WORKDIR /opt/fuzzy-logic/bin/
 
