@@ -4,16 +4,16 @@ RUN apt-get update
 RUN apt-get install -y cmake
 RUN apt-get install -y qt5-default
 
-ADD . /tmp/fuzzy-logic/
-WORKDIR /tmp/fuzzy-logic/
+ADD . /opt/fuzzy-logic/
+WORKDIR /opt/fuzzy-logic/
 
 RUN cmake CMakeLists.txt
 RUN make
 
-RUN cp ./titanic /bin/
+RUN mkdir bin
 
-WORKDIR /
+RUN cp titanic ./bin
 
-RUN rm -rf /tmp/fuzzy-logic/
+WORKDIR /opt/fuzzy-logic/bin/
 
-CMD ["titanic"]
+CMD ["./titanic"]
